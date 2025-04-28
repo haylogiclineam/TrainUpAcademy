@@ -1,0 +1,173 @@
+:root {
+    --font-montserrat: 'Montserrat', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+
+    --home-header: linear-gradient(202.47deg, rgba(0, 16, 40, 0) -3.66%, rgba(0, 16, 40, 0.671573) 13.74%, rgba(0, 16, 40, 0.8) 59.5%);
+    --about-header: linear-gradient(202.47deg, rgba(0, 16, 40, 0) -3.66%, rgba(0, 16, 40, 0.671573) 13.74%, rgba(0, 16, 40, 0.8) 59.5%);
+    --contact-header: linear-gradient(202.47deg, rgba(0, 16, 40, 0) -3.66%, rgba(0, 16, 40, 0.671573) 13.74%, rgba(0, 16, 40, 0.8) 59.5%);
+    --courses-header: linear-gradient(202.47deg, rgba(0, 16, 40, 0) -3.66%, rgba(0, 16, 40, 0.671573) 13.74%, rgba(0, 16, 40, 0.8) 59.5%);
+    --courses-item-bg: linear-gradient(147.06deg, rgba(0, 16, 40, 0) 4.21%, rgba(0, 16, 40, 0.140938) 6.92%, rgba(0, 16, 40, 0.48) 74.31%, rgba(0, 16, 40, 0.536) 112.99%, rgba(0, 16, 40, 0.36) 112.99%);
+    --blog-header: linear-gradient(202.47deg, rgba(0, 16, 40, 0) -3.66%, rgba(0, 16, 40, 0.671573) 13.74%, rgba(0, 16, 40, 0.8) 59.5%);
+    --why-choose-us-header: linear-gradient(202.47deg, rgba(0, 16, 40, 0) -3.66%, rgba(0, 16, 40, 0.671573) 13.74%, rgba(0, 16, 40, 0.8) 59.5%);
+    --auth-header: linear-gradient(251.74deg, rgba(0, 16, 40, 0) -17.54%, rgba(0, 16, 40, 0.8) 64%);
+    --about-faq-item: linear-gradient(237.85deg, rgba(0, 16, 40, 0) 4.28%, rgba(0, 16, 40, 0.671573) 23.52%, rgba(0, 16, 40, 0.8) 74.13%);
+    --about-team-bg: linear-gradient(261.83deg, rgba(0, 16, 40, 0) -17.3%, rgba(0, 16, 40, 0.734041) 17.5%, rgba(0, 16, 40, 0.8) 88.81%);
+    --form-focus-bg: #B3B7BF66;
+    --general-btn: linear-gradient(94.91deg, #4BBBE4 -29%, #45B0D8 -0.85%, #114D6D 114%, #002C4A 141.18%);
+    --general-btn-light: linear-gradient(95.33deg, #4BBBE4 -7.74%, #45B0D8 21.46%, #257296 94.98%, #2B7EA2 98.02%, #114D6D 140.58%, #002C4A 168.78%);
+    --online-learning: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(255.04deg, rgba(0, 16, 40, 0) 3.65%, rgba(0, 16, 40, 0.8) 109.6%);
+    --online-course: linear-gradient(251.74deg, rgba(0, 16, 40, 0) -17.54%, rgba(0, 16, 40, 0.8) 64%);
+    --single-course-item: linear-gradient(255.96deg, rgba(0, 16, 40, 0) -4.34%, rgba(0, 16, 40, 0.7) 98.14%);
+    --single-course-question: linear-gradient(237.85deg, rgba(0, 16, 40, 0) 4.28%, rgba(0, 16, 40, 0.671573) 23.52%, rgba(0, 16, 40, 0.8) 74.13%);
+
+    --why-choose-us-item: linear-gradient(138.14deg, #001028 1.04%, #001739 14.77%, #001A40 45.96%, #001C47 69.43%, #001F4E 85.57%, #002356 103.11%, #00398E 123.37%);
+    --why-choose-us-item-rgb: linear-gradient(138.14deg, rgba(0, 16, 40, 0.8) 1.04%, rgba(0, 23, 57, 0.8) 14.77%, rgba(0, 26, 64, 0.8) 45.96%, rgba(0, 28, 71, 0.8) 69.43%, rgba(0, 31, 78, 0.8) 85.57%, rgba(0, 35, 86, 0.8) 103.11%, rgba(0, 57, 142, 0.8) 123.37%);
+    --star-rating: rgba(240, 173, 78, 1);
+
+    --view-more-testimonial: linear-gradient(138.14deg, rgba(0, 16, 40, 0.7) 1.04%, rgba(0, 23, 57, 0.7) 14.77%, rgba(0, 26, 64, 0.7) 45.96%, rgba(0, 28, 71, 0.7) 69.43%, rgba(0, 31, 78, 0.7) 85.57%, rgba(0, 35, 86, 0.7) 103.11%, rgba(0, 57, 142, 0.7) 123.37%);
+    --view-more-testimonial-hover: linear-gradient(138.14deg, rgba(0, 16, 40, 0.8) 1.04%, rgba(0, 23, 57, 0.8) 14.77%, rgba(0, 26, 64, 0.8) 45.96%, rgba(0, 28, 71, 0.8) 69.43%, rgba(0, 31, 78, 0.8) 85.57%, rgba(0, 35, 86, 0.8) 103.11%, rgba(0, 57, 142, 0.8) 123.37%), linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+
+    --book-call-bg: linear-gradient(251.74deg, rgba(0, 16, 40, 0) -17.54%, rgba(0, 16, 40, 0.8) 64%);
+    --send-us-mgs-bg: linear-gradient(251.74deg, rgba(0, 16, 40, 0) -17.54%, rgba(0, 16, 40, 0.8) 64%);
+    --book-cal-btn-hover: linear-gradient(96.45deg, #4BBBE4 -56.36%, #45B0D8 -18.31%, #2B7EA2 4.54%, #114D6D 113.99%, #002C4A 146.37%);
+    --submit-newsletter-btn-hover: linear-gradient(96.45deg, #4BBBE4 -56.36%, #45B0D8 -18.31%, #2B7EA2 4.54%, #114D6D 113.99%, #002C4A 146.37%);
+
+    --faq-bg: linear-gradient(346.13deg, #002C4A -3.13%, #001028 160.88%);
+    --bootcamp-bg: linear-gradient(268.08deg, rgba(0, 16, 40, 0) -28.16%, rgba(0, 16, 40, 0.8) 106.46%);
+    --bootcamp-item-bg: linear-gradient(94.7deg, #1A415C -30.21%, #1F4E6F 34.15%, #3789C2 121.73%);
+    --pricing-bg: linear-gradient(251.74deg, rgba(0, 16, 40, 0) -17.54%, rgba(0, 16, 40, 0.8) 64%);
+
+    --pricing-slider-border: linear-gradient(308.37deg, #001028 -39.02%, #4BBBE4 143.53%, #4BBBE4 152.56%, #4BBBE4 183.38%);
+    --blog-article-item-bg: linear-gradient(142.68deg, #001028 -43.52%, #001739 -25.52%, #001A40 15.39%, #001C47 46.18%, #001F4E 67.35%, #002356 90.36%, #00398E 116.93%);
+
+    --footer-bg: linear-gradient(251.74deg, rgba(0, 16, 40, 0) -17.54%, rgba(0, 16, 40, 0.8) 64%);
+    --navbar-open: linear-gradient(346.13deg, #002C4A -3.13%, #002744 95.86%, #001028 160.88%);
+    --contact-info-detail-bg: #1A283ECC;
+
+    --required: #ED4337;
+
+    --primary-100: rgba(0, 16, 40, 1);
+    --primary-90: rgba(26, 40, 62, 1);
+    --primary-80: rgba(51, 64, 83, 1);
+    --primary-70: rgba(77, 88, 105, 1);
+    --primary-60: rgba(102, 112, 126, 1);
+    --primary-50: rgba(128, 135, 147, 1);
+    --primary-40: rgba(153, 159, 169, 1);
+    --primary-30: rgba(179, 183, 191, 1);
+    --primary-20: rgba(204, 207, 212, 1);
+    --primary-10: rgba(229, 231, 233, 1);
+
+
+    --secondary-1-100: rgba(75, 187, 228, 1);
+    --secondary-2-80: rgba(51, 86, 110, 1);
+    --secondary-2-90: rgba(26, 65, 92, 1);
+    --secondary-2-10: rgba(229, 234, 237, 1);
+
+
+    --white-245: rgba(245, 245, 245, 1);
+    --white-255: rgba(255, 255, 255, 1);
+    --white-229: rgba(229, 231, 233, 1);
+    --white-217: rgba(217, 217, 217, 0.1);
+    --white-179: rgba(179, 183, 191, 0.4);
+
+
+}
+
+body {
+    font-family: var(--font-montserrat);
+}
+
+
+.container {
+    max-width: 1224px !important;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.no-scroll {
+    overflow: hidden;
+    height: 100vh;
+}
+
+.required-field {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: normal;
+    letter-spacing: 2%;
+    color: var(--required);
+    margin: 0;
+}
+
+/* Extra Small Devices (Phones, < 576px) */
+@media (max-width: 575px) {
+    .container {
+        width: 90% !important;
+        max-width: none !important;
+        padding: 0 !important;
+    }
+
+    .required-field {
+        font-size: 14px;
+    }
+}
+
+/*!* Small Devices (Phones, >= 576px and < 768px) *!*/
+@media (min-width: 576px) and (max-width: 767px) {
+    .container {
+        width: 90% !important;
+        max-width: none !important;
+    }
+
+    .required-field {
+        font-size: 14px;
+    }
+}
+
+/*!* Medium Devices *!*/
+@media (min-width: 768px) and (max-width: 991px) {
+    .container {
+        width: 90% !important;
+    }
+
+    .required-field {
+        font-size: 16px;
+    }
+}
+
+/* Large Devices */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .container {
+        width: 90% !important;
+    }
+
+    .required-field {
+        font-size: 16px;
+    }
+}
+
+/* Extra Large Devices (>= 1200px) */
+@media (min-width: 1200px) {
+    .container {
+        width: 95% !important;
+    }
+}
+
+/* Ultra Wide Screens (>= 1600px) */
+@media (min-width: 1600px) {
+    .container {
+        width: 90% !important;
+        max-width: 1800px !important;
+    }
+}
+
+/*@media (hover: none) and (pointer: coarse) {*/
+/*    .learn-more-btn:hover {*/
+/*        width: initial !important;*/
+/*        height: initial !important;*/
+/*        font-size: initial !important;*/
+/*    }*/
+
+/*    .book-call-btn:hover{*/
+/*        background: initial !important;*/
+/*    }*/
+/*}*/
