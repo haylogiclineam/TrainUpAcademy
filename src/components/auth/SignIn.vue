@@ -1,38 +1,134 @@
 <script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '../../stores/auth.js';
+import api from '../../services/api.js';
 
+const router = useRouter();
+const auth = useAuthStore();
+
+const form = ref({
+    email: '',
+    password: '',
+});
+
+const errors = ref({
+    email: '',
+    password: '',
+});
+
+const successMessage = ref('');
+const generalErrorMessage = ref('');
+
+const handleSubmit = async () => {
+    errors.value = {
+        email: '',
+        password: '',
+    };
+
+    successMessage.value = '';
+    generalErrorMessage.value = '';
+
+    try {
+        const response = await api.post('/api/login', form.value);
+
+        const { token, user } = response.data;
+
+        // auth.login(token, user);
+        await auth.login(token, user);
+
+        successMessage.value = 'auth.login_success';
+
+        form.value = {
+            email: '',
+            password: '',
+        };
+
+        // await router.push({ name: 'home' });
+        if (auth.user.role === 'instructor') {
+            await router.replace('/instructor/my-courses');
+        } else if (auth.user.role === 'learner') {
+            await router.replace('/learner/my-learning');
+        } else {
+            await router.replace('/');
+        }
+
+    } catch (error) {
+        if (error.response && error.response.data) {
+            const backendErrors = error.response.data.errors;
+            const backendMessageKey = error.response.data.message_key;
+
+            for (const field in backendErrors) {
+                if (backendErrors.hasOwnProperty(field)) {
+                    errors.value[field] = backendErrors[field][0];
+                }
+            }
+
+            if (backendMessageKey === 'auth.email_not_verified') {
+                await router.push({
+                    path: '/verify',
+                    query: {
+                        message: 'auth.email_not_verified',
+                        email: form.value.email
+                    }
+                });
+                return;
+            }
+
+            if (backendMessageKey) {
+                if (backendMessageKey === 'auth.invalid_credentials') {
+                    errors.value.email = backendMessageKey;
+                    errors.value.password = backendMessageKey;
+                } else if (backendMessageKey.includes('email')) {
+                    errors.value.email = backendMessageKey;
+                } else if (backendMessageKey.includes('password')) {
+                    errors.value.password = backendMessageKey;
+                }
+            }
+        }
+    }
+};
 </script>
-
 <template>
     <div class="auth-form">
-        <h3 class="h3 text-capitalize">Sign in</h3>
+        <h3 class="h3 text-capitalize">{{ $t('sign_in') }}</h3>
         <div class="form d-flex flex-column">
-            <div class="d-flex flex-column form-input-block align-items-center">
+            <div class="d-flex flex-column form-input-block">
                 <div class="w-100">
-                    <label for="email">Email*</label>
+                    <label for="email">{{ $t('email') }}*</label>
                 </div>
-                <input id="email" name="email" class="form-input" type="text" placeholder="Your email">
+                <input id="email" name="email" class="form-input" type="text"
+                       v-model="form.email" :placeholder="$t('your_email')">
+                <p v-if="errors.email" class="required-field">{{ $t(errors.email) }}</p>
             </div>
-<!--            <p class="required-field">Անվան դաշտը պարտադիր է:</p>-->
-            <div class="d-flex flex-column form-input-block align-items-center">
+
+            <div class="d-flex flex-column form-input-block">
                 <div class="w-100">
-                    <label for="password">Password*</label>
+                    <label for="password">{{ $t('password') }}*</label>
                 </div>
-                <input id="password" name="password" class="form-input" type="text" placeholder="Your password">
+                <input id="password" name="password" class="form-input" type="password"
+                       v-model="form.password" :placeholder="$t('your_password')">
+                <p v-if="errors.password" class="required-field">{{ $t(errors.password) }}</p>
             </div>
-            <div class="d-flex form-input-block align-items-center">
+
+            <div class="d-flex form-input-block">
                 <p class="auth-dont-have-account">
-                    Don’t have an account?
-                    <router-link to="/sign-up">Sign up</router-link>
+                    {{ $t('dont_have_an_account') }}
+                    <router-link to="/sign-up">{{ $t('sign_up') }}</router-link>
                 </p>
             </div>
-            <div class="auth-btn-div d-flex justify-content-center align-items-center">
-                <button class="auth-btn text-capitalize">
-                    Sign in
+            <div v-if="successMessage" class="text-success text-center mt-2">
+                {{ $t(successMessage) }}
+            </div>
+            <div class="auth-btn-div d-flex justify-content-center">
+                <button class="auth-btn text-capitalize" @click="handleSubmit">
+                    {{ $t('sign_in') }}
                 </button>
             </div>
+
             <div class="d-flex form-input-block align-items-center">
                 <p class="auth-dont-have-account">
-                    <router-link to="/forgot-password" class="text-decoration-none">Forgot password?</router-link>
+                    <router-link to="/forgot-password" class="text-decoration-none">{{ $t('forgot_password') }}</router-link>
                 </p>
             </div>
         </div>

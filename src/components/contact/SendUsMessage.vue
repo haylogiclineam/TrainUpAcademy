@@ -1,5 +1,86 @@
 <script setup>
+import {ref} from 'vue';
+import api from "../../services/api.js";
 
+const name = ref('');
+const email = ref('');
+const message = ref('');
+
+const errors = ref({
+    name: '',
+    email: '',
+    message: '',
+    general: ''
+});
+
+const successMessage = ref('');
+
+const contact = async () => {
+    errors.value = {
+        name: '',
+        email: '',
+        message: '',
+        general: ''
+    };
+    successMessage.value = '';
+
+    let isValid = true;
+
+    if (!name.value.trim()) {
+        errors.value.name = 'messages.name_required';
+        isValid = false;
+    } else if (name.value.length > 100) {
+        errors.value.name = 'messages.name_max';
+        isValid = false;
+    } else if (!/^[\p{L}\s]+$/u.test(name.value)) {
+        errors.value.name = 'messages.name_string';
+        isValid = false;
+    }
+
+    if (!email.value.trim()) {
+        errors.value.email = 'messages.email_required';
+        isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email.value)) {
+        errors.value.email = 'messages.email_invalid';
+        isValid = false;
+    } else if (email.value.length > 255) {
+        errors.value.email = 'messages.email_max';
+        isValid = false;
+    }
+
+    if (!message.value.trim()) {
+        errors.value.message = 'messages.message_required';
+        isValid = false;
+    } else if (message.value.length > 1000) {
+        errors.value.message = 'messages.message_max';
+        isValid = false;
+    } else if (!/^[\p{L}\s]+$/u.test(message.value)) {
+        errors.value.message = 'messages.message_string';
+        isValid = false;
+    }
+
+    if (!isValid) return;
+
+    try {
+        const contactData = {
+            name: name.value,
+            email: email.value,
+            message: message.value,
+        };
+
+        const response = await api.post('/api/contact/send-contact', contactData);
+
+        if (response.status === 201) {
+            successMessage.value = 'messages.contact_created';
+            name.value = '';
+            email.value = '';
+            message.value = '';
+        }
+    } catch (error) {
+        console.error('Error sending the contact:', error);
+        errors.value.general = 'messages.contact_creation_failed';
+    }
+};
 </script>
 
 <template>
@@ -8,31 +89,68 @@
             <div class="msg-form">
                 <h3 class="h3 text-capitalize">Send Us a Message</h3>
                 <div class="form d-flex flex-column">
-                    <div class="d-flex flex-column form-input-block align-items-center">
+
+                    <div class="d-flex flex-column form-input-block">
                         <div class="w-100">
-                            <label for="email">Email*</label>
+                            <label for="email">{{ $t('email') }}*</label>
                         </div>
-                        <input id="email" name="email" class="form-input" type="text" placeholder="Your email">
-                    </div>
-<!--                                <p class="required-field">Անվան դաշտը պարտադիր է:</p>-->
-                    <div class="d-flex flex-column form-input-block align-items-center">
-                        <div class="w-100">
-                            <label for="name">Name</label>
-                        </div>
-                        <input id="name" name="name" class="form-input" type="text" placeholder="Your name">
-                    </div>
-                    <div class="d-flex flex-column form-input-block align-items-center">
-                        <div class="w-100">
-                            <label for="name">Message*</label>
-                        </div>
-                        <textarea rows="4" cols="50" class="form-input" type="text" placeholder="Your message"></textarea>
+                        <input
+                                id="email"
+                                name="email"
+                                class="form-input"
+                                type="text"
+                                :placeholder="$t('your_email')"
+                                v-model="email"
+                        />
+                        <p v-if="errors.email" class="required-field mt-1">{{ $t(errors.email) }}</p>
                     </div>
 
+                    <div class="d-flex flex-column form-input-block">
+                        <div class="w-100">
+                            <label for="name">{{ $t('name') }}*</label>
+                        </div>
+                        <input
+                                id="name"
+                                name="name"
+                                class="form-input"
+                                type="text"
+                                :placeholder="$t('your_name')"
+                                v-model="name"
+                        />
+                        <p v-if="errors.name" class="required-field mt-1">{{ $t(errors.name) }}</p>
+                    </div>
+
+                    <div class="d-flex flex-column form-input-block">
+                        <div class="w-100">
+                            <label for="message">{{ $t('message') }}*</label>
+                        </div>
+                        <textarea
+                                id="message"
+                                name="message"
+                                rows="4"
+                                cols="50"
+                                class="form-input"
+                                type="text"
+                                :placeholder="$t('your_message')"
+                                v-model="message"
+                        ></textarea>
+                        <p v-if="errors.message" class="required-field mt-1">{{ $t(errors.message) }}</p>
+                    </div>
+
+                    <p v-if="errors.general" class="required-field mt-1 text-start">
+                        {{ $t(errors.general) }}
+                    </p>
+
+                    <p v-if="successMessage" class="success-message mb-0 text-center">
+                        {{ $t(successMessage) }}
+                    </p>
+
                     <div class="send-msg-btn-div d-flex justify-content-center align-items-center">
-                        <button class="send-msg-btn text-capitalize">
-                            Submit
+                        <button @click="contact" class="send-msg-btn text-capitalize">
+                            {{ $t('submit') }}
                         </button>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -42,7 +160,7 @@
 <style scoped>
 .send-us-message-section {
     position: relative;
-    background-image: url("/assets/images/home/online-course.png");
+    background-image: url("/assets/images/repeting-image.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -92,11 +210,11 @@
     width: 60%;
     border-radius: 16px;
     gap: 10px;
-    padding:  4%;
+    padding: 4%;
 }
 
 .form-input,
-textarea{
+textarea {
     width: 100%;
     border-radius: 16px;
     background: var(--white-179);
@@ -108,7 +226,7 @@ textarea{
 }
 
 .form-input::placeholder,
-textarea{
+textarea {
     font-family: var(--font-inter);
     font-weight: 300;
     font-size: 18px;
@@ -120,12 +238,12 @@ textarea{
 }
 
 .form-input:focus,
-textarea:focus{
+textarea:focus {
     color: var(--primary-20);
 }
 
 .form-input:focus::placeholder,
-textarea:focus::placeholder{
+textarea:focus::placeholder {
     color: var(--primary-20);
 }
 
@@ -168,7 +286,7 @@ textarea:focus::placeholder{
     line-height: normal;
     letter-spacing: 2%;
     color: var(--white-255);
-    margin:10px 0;
+    margin: 10px 0;
     text-transform: capitalize;
 }
 
@@ -199,7 +317,7 @@ textarea:focus::placeholder{
     }
 
     .form-input::placeholder,
-    textarea::placeholder{
+    textarea::placeholder {
         font-size: 14px;
     }
 
@@ -214,8 +332,12 @@ textarea:focus::placeholder{
     }
 
 
-    .form-input-block label{
+    .form-input-block label {
         font-size: 16px !important;
+    }
+
+    .send-msg-btn:hover {
+        background: var(--general-btn-light);
     }
 }
 
@@ -257,6 +379,10 @@ textarea:focus::placeholder{
         font-size: 18px;
         height: 47px;
     }
+
+    .send-msg-btn:hover {
+        background: var(--general-btn-light);
+    }
 }
 
 /* Medium Devices */
@@ -296,6 +422,10 @@ textarea:focus::placeholder{
         width: 100%;
         font-size: 18px;
         height: 47px;
+    }
+
+    .send-msg-btn:hover {
+        background: var(--general-btn-light);
     }
 }
 

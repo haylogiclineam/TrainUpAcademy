@@ -1,30 +1,98 @@
 <script setup>
+import {ref, onMounted} from 'vue'
+import {useRoute, useRouter} from 'vue-router'
+import api from "../../services/api.js";
 
+const route = useRoute()
+const router = useRouter()
+
+const password = ref('')
+const password_confirmation = ref('')
+const token = ref('')
+const email = ref('')
+const errors = ref({})
+const successMessage = ref('')
+
+onMounted(() => {
+    token.value = route.query.token || ''
+    email.value = route.query.email || ''
+})
+
+const submitResetPassword = async () => {
+    errors.value = {}
+    successMessage.value = ''
+
+    try {
+        const response = await api.post('/api/reset-password', {
+            token: token.value,
+            email: email.value,
+            password: password.value,
+            password_confirmation: password_confirmation.value
+        })
+
+        successMessage.value = response.message_key
+
+        setTimeout(() => {
+            router.push('/sign-in')
+        }, 2000)
+    } catch (error) {
+        if (error.response?.status === 422) {
+            const responseErrors = error.response.data.errors;
+            if (error.response.data.message_key === 'auth.token_invalid_or_expired') {
+                // You can show a custom message or redirect
+                errors.value.token = ['auth.token_invalid_or_expired'];
+            } else {
+                errors.value = responseErrors;
+            }
+        }
+    }
+}
 </script>
 
 <template>
     <div class="auth-form">
-        <h3 class="h3 text-capitalize">Change password</h3>
+        <h3 class="h3 text-capitalize">{{ $t('change_password') }}</h3>
         <div class="form d-flex flex-column">
-            <div class="d-flex flex-column form-input-block align-items-center">
+            <div class="d-flex flex-column form-input-block">
                 <div class="w-100">
-                    <label for="password">Create new password*</label>
+                    <label for="password">{{ $t('create_new_password') }}*</label>
                 </div>
-                <input id="password" name="password" class="form-input" type="text" placeholder="New password">
+                <input
+                        id="password"
+                        name="password"
+                        class="form-input"
+                        type="text"
+                        :placeholder="$t('new_password')"
+                        v-model="password"
+                />
+                <p class="required-field" v-if="errors.password">{{ $t(errors.password[0]) }}</p>
             </div>
-            <!--            <p class="required-field">Անվան դաշտը պարտադիր է:</p>-->
-            <div class="d-flex flex-column form-input-block align-items-center">
+
+            <div class="d-flex flex-column form-input-block">
                 <div class="w-100">
-                    <label for="password">Confirm your password*</label>
+                    <label for="password_confirmation">{{ $t('confirm_your_password') }}*</label>
                 </div>
-                <input id="password" name="password" class="form-input" type="text" placeholder="Your password">
+                <input
+                        id="password_confirmation"
+                        name="password_confirmation"
+                        class="form-input"
+                        type="text"
+                        :placeholder="$t('your_password')"
+                        v-model="password_confirmation"
+                />
+                <p class="required-field mt-2" v-if="errors.password_confirmation">{{
+                    $t(errors.password_confirmation[0])
+                    }}</p>
+                <p class="required-field mt-2 text-center" v-if="errors.token">{{ $t(errors.token[0]) }}</p>
             </div>
-            <!--            <p class="required-field">Անվան դաշտը պարտադիր է:</p>-->
+            <p class="success-message text-center" v-if="successMessage">{{ $t(successMessage) }}</p>
+
             <div class="auth-btn-div d-flex justify-content-center align-items-center">
-                <button class="auth-btn text-capitalize">
-                    Change
+                <button class="auth-btn text-capitalize" @click.prevent="submitResetPassword">
+                    {{ $t('change') }}
                 </button>
             </div>
+
         </div>
     </div>
 </template>
@@ -181,9 +249,11 @@
         font-size: 22px;
         font-weight: 300;
     }
-    .auth-form{
-        gap:10px;
+
+    .auth-form {
+        gap: 10px;
     }
+
     .form {
         width: 100%;
         min-height: 285px !important;
@@ -212,6 +282,7 @@
     .form-input-block label {
         font-size: 16px !important;
     }
+
     .auth-dont-have-account,
     .auth-dont-have-account a {
         font-size: 14px;
@@ -254,8 +325,8 @@
         font-size: 14px;
     }
 
-    .auth-form{
-        gap:10px;
+    .auth-form {
+        gap: 10px;
     }
 }
 

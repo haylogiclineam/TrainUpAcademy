@@ -1,4 +1,31 @@
 <script setup>
+import {useRoute} from "vue-router";
+import {ref, computed, onMounted} from "vue";
+import {useI18n} from 'vue-i18n';
+import api from '/src/services/api.js';
+
+const {locale} = useI18n();
+const route = useRoute();
+
+const teamItems = ref([])
+const fetchError = ref(false)
+const loading = ref(false);
+
+
+onMounted(async () => {
+    loading.value = true;
+    try {
+        const response = await api.get('/api/teams')
+        teamItems.value = response.data
+    } catch (error) {
+        console.error('Failed to fetch Team:', error)
+        fetchError.value = true
+    } finally {
+        loading.value = false;
+    }
+})
+
+const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}`;
 
 </script>
 
@@ -11,90 +38,31 @@
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper
                         mattis, pulvinar</p>
                 </div>
-                <div class="team-block d-flex justify-content-center align-items-center flex-wrap">
-                    <div class="team-item">
-                        <div class="team-member">
-                            <img src="/assets/images/team/team-member-1.png" alt="team-member-1.png">
-                        </div>
-                        <div class="team-member-info">
-                            <p class="text-capitalize">Lorem Ipsum</p>
-                            <span class="text-capitalize">QA Engineer</span>
-                        </div>
+                <div v-if="loading" class="d-flex justify-content-center align-items-center" style="min-height: 300px">
+                    <div class="spinner-border text-secondary" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
-                    <div class="team-item">
+                </div>
+                <div v-else class="team-block d-flex justify-content-center align-items-center flex-wrap">
+                    <div v-for="(item, index) in teamItems" class="team-item" :key="index">
                         <div class="team-member">
-                            <img src="/assets/images/team/team-member-2.png" alt="team-member-2.png">
+                            <img :src="imageUrl(item.image)" :alt="item.image"/>
                         </div>
                         <div class="team-member-info">
-                            <p class="text-capitalize">Lorem Ipsum</p>
-                            <span class="text-capitalize">QA Engineer</span>
-                        </div>
-                    </div>
-                    <div class="team-item">
-                        <div class="team-member">
-                            <img src="/assets/images/team/team-member-3.png" alt="team-member-3.png">
-                        </div>
-                        <div class="team-member-info">
-                            <p class="text-capitalize">Lorem Ipsum</p>
-                            <span class="text-capitalize">QA Engineer</span>
-                        </div>
-                    </div>
-                    <div class="team-item">
-                        <div class="team-member">
-                            <img src="/assets/images/team/team-member-4.png" alt="team-member-4.png">
-                        </div>
-                        <div class="team-member-info">
-                            <p class="text-capitalize">Lorem Ipsum</p>
-                            <span class="text-capitalize">QA Engineer</span>
-                        </div>
-                    </div>
-                    <div class="team-item">
-                        <div class="team-member">
-                            <img src="/assets/images/team/team-member-4.png" alt="team-member-4.png">
-                        </div>
-                        <div class="team-member-info">
-                            <p class="text-capitalize">Lorem Ipsum</p>
-                            <span class="text-capitalize">QA Engineer</span>
-                        </div>
-                    </div>
-                    <div class="team-item">
-                        <div class="team-member">
-                            <img src="/assets/images/team/team-member-5.png" alt="team-member-5.png">
-                        </div>
-                        <div class="team-member-info">
-                            <p class="text-capitalize">Lorem Ipsum</p>
-                            <span class="text-capitalize">QA Engineer</span>
-                        </div>
-                    </div>
-                    <div class="team-item">
-                        <div class="team-member">
-                            <img src="/assets/images/team/team-member-6.png" alt="team-member-6.png">
-                        </div>
-                        <div class="team-member-info">
-                            <p class="text-capitalize">Lorem Ipsum</p>
-                            <span class="text-capitalize">QA Engineer</span>
-                        </div>
-                    </div>
-                    <div class="team-item">
-                        <div class="team-member">
-                            <img src="/assets/images/team/team-member-7.png" alt="team-member-7.png">
-                        </div>
-                        <div class="team-member-info">
-                            <p class="text-capitalize">Lorem Ipsum</p>
-                            <span class="text-capitalize">QA Engineer</span>
+                            <p class="text-capitalize mb-1">{{ item[`full_name_${locale}`] }}</p>
+                            <span class="text-capitalize">{{ item[`profession_${locale}`] }}</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
 <style scoped>
 .team-section {
     padding: 8% 0;
-    background-image: url("/assets/images/home/online-course.png");
+    background-image: url("/assets/images/repeting-image.jpg");
     background-size: cover;
     position: relative;
 }
@@ -165,6 +133,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top;
 }
 
 .team-member-info {
@@ -216,11 +185,11 @@
         font-size: 14px;
     }
 
-    .team-block{
-        gap:30px;
+    .team-block {
+        gap: 30px;
     }
 
-    .team-item{
+    .team-item {
         width: 147px;
         min-height: 146px;
     }
@@ -230,7 +199,7 @@
         height: 80px;
     }
 
-    .team-member-info{
+    .team-member-info {
         border-radius: 8px;
     }
 
@@ -268,11 +237,11 @@
         font-size: 14px;
     }
 
-    .team-block{
-        gap:30px;
+    .team-block {
+        gap: 30px;
     }
 
-    .team-item{
+    .team-item {
         width: 147px;
         min-height: 146px;
     }
@@ -282,7 +251,7 @@
         height: 80px;
     }
 
-    .team-member-info{
+    .team-member-info {
         border-radius: 8px;
     }
 
@@ -321,11 +290,11 @@
         font-size: 16px;
     }
 
-    .team-block{
-        gap:30px;
+    .team-block {
+        gap: 30px;
     }
 
-    .team-item{
+    .team-item {
         width: 147px;
         min-height: 146px;
     }
@@ -335,7 +304,7 @@
         height: 80px;
     }
 
-    .team-member-info{
+    .team-member-info {
         border-radius: 8px;
     }
 
@@ -355,9 +324,9 @@
 
 /* Large Devices */
 @media (min-width: 992px) and (max-width: 1199px) {
-   .team-title{
-       width: 80%;
-   }
+    .team-title {
+        width: 80%;
+    }
 }
 
 

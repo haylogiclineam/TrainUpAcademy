@@ -1,28 +1,140 @@
 <script setup>
+import {computed, ref} from 'vue';
+import api from "../services/api.js";
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
+
+const fullName = ref('');
+const phoneNumber = ref('');
+// const email = ref('');
+
+const errors = ref({
+    fullName: '',
+    phoneNumber: '',
+    // email: '',
+    general: ''
+});
+
+const successMessage = ref('');
+
+const bookCall = async () => {
+    errors.value = {
+        fullName: '',
+        phoneNumber: '',
+        // email: '',
+        general: ''
+    };
+    successMessage.value = '';
+
+    let isValid = true;
+
+    if (!fullName.value.trim()) {
+        errors.value.fullName = 'messages.full_name_required';
+        isValid = false;
+    } else if (fullName.value.length > 100) {
+        errors.value.fullName = 'messages.full_name_max';
+        isValid = false;
+    } else if (!/^[\p{L}\s]+$/u.test(fullName.value)) {
+        errors.value.fullName = 'messages.full_name_string';
+        isValid = false;
+    }
+
+    if (!phoneNumber.value.trim()) {
+        errors.value.phoneNumber = 'messages.phone_number_required';
+        isValid = false;
+    } else if (!/^\+?[0-9\s\-]{7,20}$/.test(phoneNumber.value)) {
+        errors.value.phoneNumber = 'messages.phone_number_invalid';
+        isValid = false;
+    }
+
+    // if (!email.value.trim()) {
+    //     errors.value.email = 'messages.email_required';
+    //     isValid = false;
+    // } else if (!/\S+@\S+\.\S+/.test(email.value)) {
+    //     errors.value.email = 'messages.email_invalid';
+    //     isValid = false;
+    // } else if (email.value.length > 255) {
+    //     errors.value.email = 'messages.email_max';
+    //     isValid = false;
+    // }
+
+    if (!isValid) return;
+
+    try {
+        const bookCallData = {
+            full_name: fullName.value,
+            phone_number: phoneNumber.value,
+            // email: email.value,
+        };
+
+        const response = await api.post('/api/calls/book-call', bookCallData);
+
+        if (response.status === 201) {
+            successMessage.value = 'messages.book_call_created';
+            fullName.value = '';
+            phoneNumber.value = '';
+            // email.value = '';
+        }
+    } catch (error) {
+        console.error('Error booking the call:', error);
+        errors.value.general = 'messages.book_call_creation_failed';
+    }
+};
+
+const isHomePage = computed(() => route.path === '/');
 </script>
 
 <template>
-    <div class="book-call-section">
+    <div :class="['book-call-section', { 'home-page-margin': isHomePage }]">>
         <div class="container">
             <div class="call-form">
                 <h3 class="h3 text-capitalize">Book a Call & Join the Experience!</h3>
                 <div class="form d-flex flex-column justify-content-center align-items-center">
                     <div class="w-100 d-flex flex-column align-items-center">
-                        <input class="form-input" type="text" placeholder="Full Name*">
-<!--                        <p class="required-field mt-1">Անվան դաշտը պարտադիր է:</p>-->
+                        <input
+                            class="form-input"
+                            v-model="fullName"
+                            name="fullName"
+                            type="text"
+                            :placeholder="$t('full_name') + '*'"
+                        />
+                        <p v-if="errors.fullName" class="required-field mt-1">{{ $t(errors.fullName) }}</p>
                     </div>
+
                     <div class="w-100 d-flex flex-column align-items-center">
-                        <input class="form-input" type="text" placeholder="Phone Number*">
-<!--                        <p class="required-field mt-1">Անվան դաշտը պարտադիր է:</p>-->
+                        <input
+                            class="form-input"
+                            v-model="phoneNumber"
+                            type="text"
+                            :placeholder="$t('phone') + '*'"
+                            name="phone"
+                        />
+                        <p v-if="errors.phoneNumber" class="required-field mt-1">{{ $t(errors.phoneNumber) }}</p>
                     </div>
+
 <!--                    <div class="w-100 d-flex flex-column align-items-center">-->
-<!--                        <input class="form-input" type="text" placeholder="Email*">-->
-<!--                        &lt;!&ndash;                        <p class="required-field mt-1">Անվան դաշտը պարտադիր է:</p>&ndash;&gt;-->
+<!--                        <input-->
+<!--                            class="form-input"-->
+<!--                            v-model="email"-->
+<!--                            type="text"-->
+<!--                            name="email"-->
+<!--                            :placeholder="$t('email') + '*'"-->
+<!--                        />-->
+<!--                        <p v-if="errors.email" class="required-field mt-1">{{ $t(errors.email) }}</p>-->
 <!--                    </div>-->
+
+                    <p v-if="errors.general" class="required-field mt-1 text-start">
+                        {{ $t(errors.general) }}
+                    </p>
+
+                    <p v-if="successMessage" class="success-message mb-0 text-start">
+                        {{ $t(successMessage) }}
+                    </p>
+
                     <div class="book-call-btn-div d-flex justify-content-center align-items-center">
-                        <button class="book-call-btn text-capitalize">
-                            Book a call
+                        <button @click="bookCall" class="book-call-btn text-capitalize">
+                           {{$t('book_call')}}
                         </button>
                     </div>
                 </div>
@@ -31,10 +143,11 @@
     </div>
 </template>
 
+
 <style scoped>
 .book-call-section {
     position: relative;
-    background-image: url("/assets/images/home/header-background.jpeg");
+    background-image: url("/assets/images/home/header-background.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -144,10 +257,18 @@
     background: var(--book-cal-btn-hover);
 }
 
+.home-page-margin {
+    margin-bottom: 8%;
+}
+
 /* Extra Small Devices */
 @media (max-width: 575px) {
     .book-call-section {
         padding: 18% 0 13%;
+    }
+
+    .home-page-margin {
+        margin-bottom: 18%;
     }
 
     .call-form .h3 {
@@ -157,7 +278,7 @@
 
     .form {
         width: 100%;
-        min-height: 285px !important;
+        min-height: 286px !important;
     }
 
     .call-form {
@@ -167,6 +288,7 @@
     .form-input {
         width: 90%;
         border-radius: 6px;
+        padding: 14px 23px;
     }
 
     .required-field{
@@ -186,6 +308,10 @@
         width: 90%;
         font-size: 18px;
         height: 47px;
+    }
+
+    .book-call-btn:hover {
+        background: var(--general-btn-light);
     }
 }
 
@@ -196,6 +322,10 @@
         padding: 10% 0 8%;
     }
 
+    .home-page-margin {
+        margin-bottom: 10%;
+    }
+
     .call-form .h3 {
         font-size: 22px;
         font-weight: 300;
@@ -203,7 +333,7 @@
 
     .form {
         width: 100%;
-        min-height: 285px !important;
+        min-height: 286px !important;
     }
 
     .call-form {
@@ -213,6 +343,7 @@
     .form-input {
         width: 90%;
         border-radius: 6px;
+        padding: 14px 23px;
     }
 
     .required-field{
@@ -232,6 +363,9 @@
         width: 90%;
         font-size: 18px;
         height: 47px;
+    }
+    .book-call-btn:hover {
+        background: var(--general-btn-light);
     }
 }
 
@@ -248,7 +382,7 @@
 
     .form {
         width: 100%;
-        min-height: 285px !important;
+        min-height: 286px !important;
     }
 
     .call-form {
@@ -258,6 +392,7 @@
     .form-input {
         width: 90%;
         border-radius: 6px;
+        padding: 14px 23px;
     }
 
     .required-field{
@@ -277,6 +412,13 @@
         width: 90%;
         font-size: 18px;
         height: 47px;
+    }
+    .book-call-btn:hover {
+        background: var(--general-btn-light);
+    }
+
+    .home-page-margin {
+        margin-bottom: 10%;
     }
 }
 

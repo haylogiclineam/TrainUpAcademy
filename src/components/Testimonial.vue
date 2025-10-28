@@ -1,11 +1,31 @@
 <script setup>
-import {ref} from "vue";
+import { ref, onMounted } from 'vue';
+import api from '../services/api.js';
 
 const rating = ref(5);
+const comments = ref([]);
+const loading = ref(false);
 
 const setRating = (star) => {
     rating.value = star;
 };
+
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
+const fetchComments = async () => {
+    loading.value = true;
+    try {
+        const response = await api.get('/api/latest-learner-comments');
+        comments.value = response.data;
+        console.log( response.data)
+    } catch (error) {
+        console.error('Error fetching comments', error);
+    }finally {
+        loading.value = false;
+    }
+};
+
+onMounted(fetchComments);
 </script>
 
 <template>
@@ -48,159 +68,67 @@ const setRating = (star) => {
                             <span class="text-capitalize ms-2">Enjoy 24/7 World Class Support</span>
                         </div>
                     </div>
-                    <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
-                        <button class="learn-more-btn">
-                            Learn more
-                        </button>
+                </div>
+                <div v-if="loading" class="d-flex justify-content-center align-items-center my-5">
+                    <div class="spinner-border text-secondary" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
-                <div class="testimonial-comments d-flex flex-wrap wrap">
-                    <div class="client-comment">
+                <div v-else class="testimonial-comments d-flex flex-wrap wrap justify-content-end">
+                    <div
+                        class="client-comment"
+                        v-for="(comment, index) in comments"
+                        :key="comment.id"
+                    >
                         <div class="content">
                             <div class="rating">
                                 <svg
-                                        v-for="star in 5"
-                                        :key="star"
-                                        :class="{ filled: star <= rating }"
-                                        @click="setRating(star)"
-                                        width="22"
-                                        height="22"
-                                        viewBox="0 0 20 21"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
+                                    v-for="star in 5"
+                                    :key="star"
+                                    width="22"
+                                    height="22"
+                                    viewBox="0 0 20 21"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <g clip-path="url(#clip0)">
                                         <path
-                                                d="M16.2225 19.93L10 15.3567L3.77751 19.93L6.16668 12.5442L-0.0524902 8.00002H7.62584L10 0.601685L12.3742 8.00002H20.0517L13.8333 12.5442L16.2225 19.93Z"
-                                                :fill="star <= rating ? 'rgba(75, 187, 228, 1)' : '#D3D3D3'"
+                                            d="M16.2225 19.93L10 15.3567L3.77751 19.93L6.16668 12.5442L-0.0524902 8.00002H7.62584L10 0.601685L12.3742 8.00002H20.0517L13.8333 12.5442L16.2225 19.93Z"
+                                            :fill="star <= comment.user_rating ? '#F0AD4E' : '#D3D3D3'"
                                         />
                                     </g>
                                     <defs>
                                         <clipPath id="clip0">
-                                            <rect width="20" height="20" fill="white" transform="translate(0 0.5)"/>
+                                            <rect width="20" height="20" fill="white" transform="translate(0 0.5)" />
                                         </clipPath>
                                     </defs>
                                 </svg>
-
                             </div>
-                            <p class="p">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus
-                                nec
-                                ullamcorper mattis pulvinar.</p>
+
+                            <span class="text-capitalize course-name">{{ comment.course?.title_en ?? 'Course Title' }}</span>
+                            <p class="p">{{ comment.comment_text }}</p>
+
                             <div class="client-info d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center justify-content-between name-img-block">
                                     <div class="img">
-                                        <img src="/assets/images/home/testimonials/client-1.png" alt="client-1">
+                                        <img :src="`${baseUrl}/storage/auth/${comment.user.image}`"
+                                             alt="userImage"/>
                                     </div>
                                     <div class="name-block">
-                                        <p class="text-capitalize">Armen</p>
-                                        <span class="text-capitalize">Client</span>
+                                        <p class="text-capitalize">{{ comment.user.first_name }}</p>
+                                        <span class="text-capitalize">{{
+                                                $t(`auth.roles.${comment.user.roles[0]?.name}`)
+                                            }} </span>
                                     </div>
                                 </div>
                                 <div>
-                                    <img src="/assets/icons/testimonials/client-testimonial.svg"
-                                         alt="client-testimonial">
+                                    <img
+                                        src="/assets/icons/testimonials/client-testimonial.svg"
+                                        alt="client-testimonial"
+                                    />
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="client-comment">
-                        <div class="content">
-                            <div class="rating">
-                                <svg
-                                        v-for="star in 5"
-                                        :key="star"
-                                        :class="{ filled: star <= rating }"
-                                        @click="setRating(star)"
-                                        width="22"
-                                        height="22"
-                                        viewBox="0 0 20 21"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <g clip-path="url(#clip0)">
-                                        <path
-                                                d="M16.2225 19.93L10 15.3567L3.77751 19.93L6.16668 12.5442L-0.0524902 8.00002H7.62584L10 0.601685L12.3742 8.00002H20.0517L13.8333 12.5442L16.2225 19.93Z"
-                                                :fill="star <= rating ? 'rgba(75, 187, 228, 1)' : '#D3D3D3'"
-                                        />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0">
-                                            <rect width="20" height="20" fill="white" transform="translate(0 0.5)"/>
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-
-                            </div>
-                            <p class="p">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus
-                                nec
-                                ullamcorper mattis pulvinar.</p>
-                            <div class="client-info d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center justify-content-between name-img-block">
-                                    <div class="img">
-                                        <img src="/assets/images/home/testimonials/client-1.png" alt="client-1">
-                                    </div>
-                                    <div class="name-block">
-                                        <p class="text-capitalize">Armen</p>
-                                        <span class="text-capitalize">Client</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <img src="/assets/icons/testimonials/client-testimonial.svg"
-                                         alt="client-testimonial">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="client-comment">
-                        <div class="content">
-                            <div class="rating">
-                                <svg
-                                        v-for="star in 5"
-                                        :key="star"
-                                        :class="{ filled: star <= rating }"
-                                        @click="setRating(star)"
-                                        width="22"
-                                        height="22"
-                                        viewBox="0 0 20 21"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <g clip-path="url(#clip0)">
-                                        <path
-                                                d="M16.2225 19.93L10 15.3567L3.77751 19.93L6.16668 12.5442L-0.0524902 8.00002H7.62584L10 0.601685L12.3742 8.00002H20.0517L13.8333 12.5442L16.2225 19.93Z"
-                                                :fill="star <= rating ? 'rgba(75, 187, 228, 1)' : '#D3D3D3'"
-                                        />
-                                    </g>
-                                    <defs>
-                                        <clipPath id="clip0">
-                                            <rect width="20" height="20" fill="white" transform="translate(0 0.5)"/>
-                                        </clipPath>
-                                    </defs>
-                                </svg>
-
-                            </div>
-                            <p class="p">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus
-                                nec
-                                ullamcorper mattis pulvinar.</p>
-                            <div class="client-info d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center justify-content-between name-img-block">
-                                    <div class="img">
-                                        <img src="/assets/images/home/testimonials/client-1.png" alt="client-1">
-                                    </div>
-                                    <div class="name-block">
-                                        <p class="text-capitalize">Armen</p>
-                                        <span class="text-capitalize">Client</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <img src="/assets/icons/testimonials/client-testimonial.svg"
-                                         alt="client-testimonial">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="view-more-testimonials">
-                        <a class="text-capitalize view-more-a" href="">View More Testimonials</a>
                     </div>
                 </div>
             </div>
@@ -329,7 +257,6 @@ const setRating = (star) => {
 .rating {
     display: flex;
     gap: 5px;
-    cursor: pointer;
 }
 
 svg {
@@ -406,6 +333,18 @@ polygon {
     line-height: normal;
     letter-spacing: 0%;
     color: var(--primary-60);
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.course-name{
+    font-family: var(--font-inter);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: normal;
+    letter-spacing: 0%;
+    color: var(--primary-90);
     white-space: normal;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -542,7 +481,7 @@ polygon {
 
     .client-comment {
         width: 100%;
-        padding: 10% 0;
+        padding: 5% 0;
     }
 }
 
@@ -628,7 +567,7 @@ polygon {
 
     .client-comment {
         width: 100%;
-        padding: 0;
+        padding: 5% 0;
     }
 
     .name-img-block {
@@ -719,7 +658,7 @@ polygon {
 
     .client-comment {
         width: 100%;
-        padding: 0;
+        padding: 5% 0;
     }
 
     .name-img-block {

@@ -1,21 +1,53 @@
 <script setup>
+import { ref } from 'vue'
+import api from "../../services/api.js";
 
+const email = ref('')
+const errors = ref({})
+const successMessage = ref('')
+
+const submitForgotPassword = async () => {
+    errors.value = {}
+    successMessage.value = ''
+
+    try {
+        const response = await api.post('/api/forgot-password', {
+            email: email.value
+        })
+
+        successMessage.value = response.data.message_key
+        email.value = ''
+    } catch (error) {
+        if (error.response?.status === 422) {
+            errors.value = error.response.data.errors
+        }
+    }
+}
 </script>
 
 <template>
     <div class="auth-form">
-        <h3 class="h3 text-capitalize">Forgot password</h3>
+        <h3 class="h3 text-capitalize">{{$t('forgot_password')}}</h3>
         <div class="form d-flex flex-column">
-            <div class="d-flex flex-column form-input-block align-items-center">
+            <div class="d-flex flex-column form-input-block">
                 <div class="w-100">
-                    <label for="email">Email*</label>
+                    <label for="email">{{$t('email')}}*</label>
                 </div>
-                <input id="email" name="email" class="form-input" type="text" placeholder="Your email">
+                <input
+                    id="email"
+                    name="email"
+                    class="form-input"
+                    type="text"
+                    :placeholder="$t('your_email')"
+                    v-model="email"
+                />
+                <p class="required-field" v-if="errors.email">{{$t(errors.email[0])  }}</p>
             </div>
-            <!--            <p class="required-field">Անվան դաշտը պարտադիր է:</p>-->
+            <p class="success-message text-center" v-if="successMessage">{{ $t(successMessage) }}</p>
+
             <div class="auth-btn-div d-flex justify-content-center align-items-center">
-                <button class="auth-btn text-capitalize">
-                   Continue
+                <button class="auth-btn text-capitalize" @click.prevent="submitForgotPassword">
+                    {{$t('submit')}}
                 </button>
             </div>
         </div>

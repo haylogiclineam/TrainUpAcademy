@@ -1,6 +1,55 @@
 <script setup>
 const currentYear = new Date().getFullYear()
+import {ref} from 'vue';
+import api from "../services/api.js";
 
+const email = ref('');
+
+const errors = ref({
+    email: '',
+    general: ''
+});
+
+const successMessage = ref('');
+
+const newsletter = async () => {
+    errors.value = {
+        email: '',
+        general: ''
+    };
+    successMessage.value = '';
+
+    let isValid = true;
+
+    if (!email.value.trim()) {
+        errors.value.email = 'messages.email_required';
+        isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email.value)) {
+        errors.value.email = 'messages.email_invalid';
+        isValid = false;
+    } else if (email.value.length > 255) {
+        errors.value.email = 'messages.email_max';
+        isValid = false;
+    }
+
+    if (!isValid) return;
+
+    try {
+        const newsletterData = {
+            email: email.value,
+        };
+
+        const response = await api.post('api/newsletter/send-newsletter', newsletterData);
+
+        if (response.status === 201) {
+            successMessage.value = 'messages.newsletter_created';
+            email.value = '';
+        }
+    } catch (error) {
+        console.error('Error sending newsletter:', error);
+        errors.value.general = 'messages.newsletter_creation_failed';
+    }
+};
 </script>
 
 <template>
@@ -28,22 +77,24 @@ const currentYear = new Date().getFullYear()
                         <h5 class="item-title">Company</h5>
                         <ul class="p-0 list-unstyled">
                             <li class="footer-item">
-                                <router-link to="/" class="footer-menu-link text-capitalize">Home</router-link>
+                                <router-link to="/" class="footer-menu-link text-capitalize">{{$t('home')}}</router-link>
                             </li>
                             <li class="footer-item">
-                                <router-link to="/about" class="footer-menu-link text-capitalize">About Us</router-link>
+                                <router-link to="/about" class="footer-menu-link text-capitalize">{{$t('about_us')}}</router-link>
                             </li>
                             <li class="footer-item">
-                                <router-link to="/courses" class="footer-menu-link text-capitalize">Courses</router-link>
+                                <router-link to="/courses" class="footer-menu-link text-capitalize">{{$t('courses')}}
+                                </router-link>
                             </li>
                             <li class="footer-item">
-                                <router-link to="/blog" class="footer-menu-link text-capitalize">Blog</router-link>
+                                <router-link to="/blog" class="footer-menu-link text-capitalize">{{$t('blog')}}</router-link>
                             </li>
                             <li class="footer-item">
-                                <router-link to="/why-choose-us" class="footer-menu-link text-capitalize">Why Choose Us</router-link>
+                                <router-link to="/why-choose-us" class="footer-menu-link text-capitalize">{{$t('why_choose_us')}}
+                                </router-link>
                             </li>
                             <li class="footer-item">
-                                <router-link to="/" class="footer-menu-link text-capitalize">Contact Us</router-link>
+                                <router-link to="/" class="footer-menu-link text-capitalize">{{$t('contact_us')}}</router-link>
                             </li>
                         </ul>
                     </div>
@@ -76,15 +127,35 @@ const currentYear = new Date().getFullYear()
                     <div class="form-bg-parent">
                         <div class="form-bg">
                             <p>Newsletter</p>
-                            <input type="text" placeholder="Your Email" class="form-input">
-                            <div class="submit-newsletter-div d-flex justify-content-center align-items-center">
-                                <button class="submit-newsletter-btn text-capitalize">
-                                    Submit
+
+                            <input
+                                    type="text"
+                                    :placeholder="$t('email') + '*'"
+                                    class="form-input input-email"
+                                    v-model="email"
+                                    name="email"
+                            />
+                            <span v-if="errors.email" class="required-field d-block mt-1">
+                                {{ $t(errors.email) }}
+                            </span>
+                            <p v-if="errors.general" class="required-field mt-1 text-start">
+                                {{ $t(errors.general) }}
+                            </p>
+
+                            <p v-if="successMessage" class="success-message mb-0 text-center">
+                                {{ $t(successMessage) }}
+                            </p>
+
+
+                            <div class="submit-newsletter-div d-flex justify-content-center align-items-center mt-2">
+                                <button class="submit-newsletter-btn text-capitalize" @click="newsletter">
+                                    {{$t('submit')}}
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
         <div class="line w-100"></div>
@@ -123,7 +194,8 @@ const currentYear = new Date().getFullYear()
 <style scoped>
 .footer-section {
     background-size: cover;
-    background-image: url("/assets/images/home/online-course.png");
+    background-image: url("/assets/images/repeting-image.jpg");
+    background-position: center;
     width: 100%;
     position: relative;
     padding-top: 15px !important;
@@ -197,6 +269,7 @@ const currentYear = new Date().getFullYear()
     flex-direction: column;
     gap: 20px;
 }
+
 .form-input {
     width: 100%;
     height: 53px;
@@ -207,6 +280,7 @@ const currentYear = new Date().getFullYear()
     padding-left: 22px;
     box-sizing: border-box;
     position: relative;
+    color: var(--white-245);
 }
 
 .form-input::after {
@@ -224,20 +298,23 @@ const currentYear = new Date().getFullYear()
 
 .form-input::placeholder {
     font-family: var(--font-inter);
-    color: var(--white-245);
+    color: var(--white-245) !important;
     font-weight: 300;
     font-size: 16px;
     line-height: normal;
     letter-spacing: 0%;
+    text-transform: capitalize;
 }
 
 .form-input:focus,
 .form-input:focus::placeholder {
     color: var(--primary-20) !important;
 }
+
 .form-input:focus::-webkit-input-placeholder {
     color: var(--primary-20) !important;
 }
+
 
 .submit-newsletter-div {
     width: 100%;
@@ -281,36 +358,38 @@ const currentYear = new Date().getFullYear()
     font-weight: 400;
 }
 
-.privacy-policy-ul{
+.privacy-policy-ul {
     margin-top: -13px;
 }
 
 /* Extra Small Devices */
 @media (max-width: 575px) {
-    .footer-section{
+    .footer-section {
         background-position: center;
         height: auto;
     }
-    .footer-main{
+
+    .footer-main {
         flex-direction: column;
     }
 
-    .social-icons{
+    .social-icons {
         width: 100%;
         justify-content: end;
         margin-top: 5%;
     }
 
-    .footer-menu{
+    .footer-menu {
         width: 100%;
         flex-direction: column;
         align-items: center;
     }
-    .footer-main-menu{
+
+    .footer-main-menu {
         flex-direction: column;
     }
 
-    .footer-menu ul{
+    .footer-menu ul {
         align-items: center;
         margin-top: unset !important;
         gap: unset !important;
@@ -322,29 +401,29 @@ const currentYear = new Date().getFullYear()
         width: 100%;
     }
 
-    .footer-menu h5{
+    .footer-menu h5 {
         text-align: center;
         font-size: 18px;
     }
 
     .footer-menu a,
     .form-bg p,
-    .submit-newsletter-btn{
+    .submit-newsletter-btn {
         font-size: 16px;
     }
 
-    .form-bg{
+    .form-bg {
         width: 100%;
-        gap:13px;
+        gap: 13px;
     }
 
-    .line{
+    .line {
         margin: 7% 0;
         width: 100%;
     }
 
     .form-input,
-    .submit-newsletter-btn{
+    .submit-newsletter-btn {
         height: 44px;
     }
 
@@ -352,55 +431,61 @@ const currentYear = new Date().getFullYear()
         font-size: 14px;
     }
 
-    .privacy-policy-ul{
+    .privacy-policy-ul {
         display: none !important;
     }
 
-    .privacy-policy-ul-mobile{
+    .privacy-policy-ul-mobile {
         display: block !important;
     }
 
-    .privacy-policy-ul-mobile ul{
+    .privacy-policy-ul-mobile ul {
         display: flex;
         justify-content: space-around;
         padding: 7% 0;
     }
 
-    .privacy-policy-ul-mobile li{
+    .privacy-policy-ul-mobile li {
         text-align: center;
     }
 
-    .privacy-policy-ul-mobile li .footer-a{
+    .privacy-policy-ul-mobile li .footer-a {
         font-size: 14px !important;
+    }
+
+    .submit-newsletter-btn:hover {
+        background: var(--general-btn-light);
     }
 }
 
 /* Small Devices */
 @media (min-width: 576px) and (max-width: 767px) {
-    .footer-section{
+    .footer-section {
         background-position: center;
         height: auto;
     }
-    .footer-main{
+
+    .footer-main {
         flex-direction: column;
     }
 
-    .social-icons{
+    .social-icons {
         width: 100%;
         justify-content: end;
         margin-top: 5%;
     }
 
-    .footer-menu{
+    .footer-menu {
         width: 100%;
         flex-direction: column;
         align-items: center;
     }
-    .footer-main-menu{
+
+    .footer-main-menu {
         flex-direction: column;
     }
 
-    .footer-menu ul{
+    .footer-menu ul {
         align-items: center;
         margin-top: unset !important;
         gap: unset !important;
@@ -412,29 +497,29 @@ const currentYear = new Date().getFullYear()
         width: 100%;
     }
 
-    .footer-menu h5{
+    .footer-menu h5 {
         text-align: center;
         font-size: 18px;
     }
 
     .footer-menu a,
     .form-bg p,
-    .submit-newsletter-btn{
+    .submit-newsletter-btn {
         font-size: 16px;
     }
 
-    .form-bg{
+    .form-bg {
         width: 100%;
-        gap:13px;
+        gap: 13px;
     }
 
-    .line{
+    .line {
         margin: 5% 0;
         width: 100%;
     }
 
     .form-input,
-    .submit-newsletter-btn{
+    .submit-newsletter-btn {
         height: 44px;
     }
 
@@ -442,49 +527,55 @@ const currentYear = new Date().getFullYear()
         font-size: 14px;
     }
 
-    .privacy-policy-ul{
+    .privacy-policy-ul {
         display: none !important;
     }
 
-    .privacy-policy-ul-mobile{
+    .privacy-policy-ul-mobile {
         display: block !important;
     }
 
-    .privacy-policy-ul-mobile ul{
+    .privacy-policy-ul-mobile ul {
         display: flex;
         justify-content: space-around;
         padding: 4% 0;
     }
 
-    .privacy-policy-ul-mobile li{
+    .privacy-policy-ul-mobile li {
         text-align: center;
     }
 
-    .privacy-policy-ul-mobile li .footer-a{
+    .privacy-policy-ul-mobile li .footer-a {
         font-size: 14px !important;
+    }
+
+    .submit-newsletter-btn:hover {
+        background: var(--general-btn-light);
     }
 }
 
 /* Medium Devices */
 @media (min-width: 768px) and (max-width: 991px) {
-    .footer-section{
+    .footer-section {
         background-position: center;
         height: auto;
     }
-    .social-icons{
+
+    .social-icons {
         width: 100%;
         justify-content: end;
     }
 
-    .footer-menu{
+    .footer-menu {
         width: 100%;
     }
-    .footer-main-menu{
+
+    .footer-main-menu {
         flex-direction: column;
-        gap:35px;
+        gap: 35px;
     }
 
-    .footer-menu ul{
+    .footer-menu ul {
         align-items: center;
         margin-top: unset !important;
         gap: unset !important;
@@ -496,31 +587,32 @@ const currentYear = new Date().getFullYear()
         width: 100%;
     }
 
-    .footer-menu h5{
+    .footer-menu h5 {
         text-align: center;
         font-size: 18px;
     }
 
     .form-bg p,
-    .submit-newsletter-btn{
+    .submit-newsletter-btn {
         font-size: 18px;
     }
-    .footer-menu a{
+
+    .footer-menu a {
         font-size: 16px;
     }
 
-    .form-bg{
+    .form-bg {
         width: 80%;
-        gap:13px;
+        gap: 13px;
     }
 
-    .line{
+    .line {
         margin: 2% 0;
         width: 100%;
     }
 
     .form-input,
-    .submit-newsletter-btn{
+    .submit-newsletter-btn {
         height: 44px;
     }
 
@@ -528,45 +620,49 @@ const currentYear = new Date().getFullYear()
         font-size: 16px;
     }
 
-    .privacy-policy-ul{
+    .privacy-policy-ul {
         display: none !important;
     }
 
-    .privacy-policy-ul-mobile{
+    .privacy-policy-ul-mobile {
         display: block !important;
     }
 
-    .privacy-policy-ul-mobile ul{
+    .privacy-policy-ul-mobile ul {
         display: flex;
         justify-content: space-around;
         padding: 1% 0;
     }
 
-    .privacy-policy-ul-mobile li{
+    .privacy-policy-ul-mobile li {
         text-align: center;
     }
 
-    .privacy-policy-ul-mobile li .footer-a{
+    .privacy-policy-ul-mobile li .footer-a {
         font-size: 16px !important;
     }
 
-    .form-bg-parent{
+    .form-bg-parent {
         display: flex;
         justify-content: center;
+    }
+
+    .submit-newsletter-btn:hover {
+        background: var(--general-btn-light);
     }
 }
 
 /* Large Devices */
 @media (min-width: 992px) and (max-width: 1199px) {
-    .form-bg{
+    .form-bg {
         width: 369px;
     }
 
-    .privacy-policy-web{
+    .privacy-policy-web {
         padding: 10px;
     }
 
-    .privacy-policy-ul{
+    .privacy-policy-ul {
         margin-top: 0 !important;
     }
 

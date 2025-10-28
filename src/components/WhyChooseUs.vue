@@ -141,6 +141,7 @@ const whyChooseUsItemsClass = computed(() => {
     background: var(--general-btn);
     outline: none;
     border: none;
+    text-transform: capitalize;
 }
 
 
@@ -212,7 +213,7 @@ const whyChooseUsItemsClass = computed(() => {
 .why-choose-us-items .item-2::before,
 .why-choose-us-items-full-w .item-2:before {
     content: '';
-    background-image: url("/assets/images/home/header-background.jpeg");
+    background-image: url("/assets/images/home/header-background.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -313,9 +314,9 @@ const whyChooseUsItemsClass = computed(() => {
     }
 
     .learn-more-btn:hover {
-        width: 190px;
-        height: 50px;
-        font-size: 20px;
+        width: 179px;
+        height: 47px;
+        font-size: 18px;
     }
 
     .learn-more-btn {
@@ -369,6 +370,12 @@ const whyChooseUsItemsClass = computed(() => {
         width: 100%;
         border-radius: 8px;
     }
+
+    .item-1 a:hover,
+    .item-2 a:hover,
+    .item-3 a:hover {
+        font-weight: 300;
+    }
 }
 
 /* Small Devices */
@@ -406,9 +413,9 @@ const whyChooseUsItemsClass = computed(() => {
     }
 
     .learn-more-btn:hover {
-        width: 190px;
-        height: 50px;
-        font-size: 20px;
+        width: 179px;
+        height: 47px;
+        font-size: 18px;
     }
 
     .learn-more-btn {
@@ -462,6 +469,12 @@ const whyChooseUsItemsClass = computed(() => {
         width: 100%;
         border-radius: 8px;
     }
+
+    .item-1 a:hover,
+    .item-2 a:hover,
+    .item-3 a:hover {
+        font-weight: 300;
+    }
 }
 
 /* Medium Devices */
@@ -499,9 +512,9 @@ const whyChooseUsItemsClass = computed(() => {
     }
 
     .learn-more-btn:hover {
-        width: 190px;
-        height: 50px;
-        font-size: 20px;
+        width: 179px;
+        height: 47px;
+        font-size: 18px;
     }
 
     .learn-more-btn {
@@ -554,6 +567,12 @@ const whyChooseUsItemsClass = computed(() => {
         padding: 34px 12px;
         width: 100%;
         border-radius: 8px;
+    }
+
+    .item-1 a:hover,
+    .item-2 a:hover,
+    .item-3 a:hover {
+        font-weight: 300;
     }
 }
 

@@ -14,17 +14,14 @@ import Footer from "../components/Footer.vue";
 </script>
 
 <template>
-  <Header></Header>
-  <OnlineLearning></OnlineLearning>
-  <OnlineCourse></OnlineCourse>
-  <WhyChooseUs></WhyChooseUs>
-  <Testimonial></Testimonial>
-  <BookCall></BookCall>
-  <FAQ></FAQ>
-  <Bootcamp></Bootcamp>
-  <Pricing></Pricing>
-  <BlogArticle></BlogArticle>
-  <Footer></Footer>
+    <Header></Header>
+    <OnlineCourse></OnlineCourse>
+    <Bootcamp></Bootcamp>
+    <Pricing></Pricing>
+    <Testimonial></Testimonial>
+    <BlogArticle></BlogArticle>
+    <BookCall></BookCall>
+    <Footer></Footer>
 </template>
 
 <style scoped>

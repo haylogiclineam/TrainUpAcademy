@@ -1,70 +1,166 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import api from "../../services/api.js";
+import { useRouter, useRoute } from 'vue-router';
 
+const router = useRouter();
+const route = useRoute();
+
+const form = ref({
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+    role: '',
+});
+
+const errors = ref({
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+    role: '',
+});
+
+const successMessage = ref('');
+const hideLearner = ref(false);
+
+onMounted(() => {
+    if (route.query.hideLearner) {
+        hideLearner.value = true;
+        form.value.role = 'instructor';
+    }
+});
+
+const handleSubmit = async () => {
+    errors.value = {
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+        role: '',
+    };
+
+    successMessage.value = '';
+
+    try {
+        const response = await api.post('/api/register', form.value);
+
+        successMessage.value = 'auth.register_success';
+
+        await router.push({
+            path: '/verify',
+            query: { message: 'auth.check_email_for_verification',
+                email: form.value.email},
+        });
+        form.value = {
+            first_name: '',
+            last_name: '',
+            email: '',
+            password: '',
+            password_confirmation: '',
+            role: '',
+        };
+    } catch (error) {
+        if (error.response && error.response.data) {
+            const backendErrors = error.response.data;
+
+            for (const field in backendErrors) {
+                if (backendErrors.hasOwnProperty(field)) {
+                    errors.value[field] = backendErrors[field][0];
+                }
+            }
+        }
+    }
+};
 </script>
 
 <template>
     <div class="auth-form">
-        <h3 class="h3 text-capitalize">Sign Up</h3>
+        <h3 class="h3 text-capitalize">{{ $t('sign_up') }}</h3>
         <div class="form d-flex flex-column">
-            <div class="d-flex flex-column form-input-block align-items-center">
-                <div class="w-100">
-                    <label for="first-name">First name*</label>
+            <form @submit.prevent="handleSubmit">
+                <div class="d-flex flex-column form-input-block">
+                    <div class="w-100">
+                        <label for="first-name">{{ $t('first_name') }}*</label>
+                    </div>
+                    <input id="first-name" name="first-name" class="form-input" type="text"
+                           v-model="form.first_name" :placeholder="$t('your_first_name')">
+                    <p v-if="errors.first_name" class="required-field">{{ $t(errors.first_name) }}</p>
                 </div>
-                <input id="first-name" name="first-name" class="form-input" type="text" placeholder="Your First Name">
-            </div>
-<!--            <p class="required-field">Անվան դաշտը պարտադիր է:</p>-->
-            <div class="d-flex flex-column form-input-block align-items-center">
-                <div class="w-100">
-                    <label for="last-name">Last name*</label>
-                </div>
-                <input id="last-name" name="last-name" class="form-input" type="text" placeholder="Your Last Name">
-            </div>
-            <div class="d-flex flex-column form-input-block align-items-center">
-                <div class="w-100">
-                    <label for="email">Email*</label>
-                </div>
-                <input id="email" name="email" class="form-input" type="text" placeholder="Your email">
-            </div>
-            <div class="d-flex flex-column form-input-block align-items-center">
-                <div class="w-100">
-                    <label for="password">Password*</label>
-                </div>
-                <input id="password" name="password" class="form-input" type="text" placeholder="Your password">
-            </div>
-            <div class="d-flex flex-column form-input-block align-items-center">
-                <div class="w-100">
-                    <label for="repeat-password">Repeat Password*</label>
-                </div>
-                <input id="repeat-password" name="repeat-password" class="form-input" type="text"
-                       placeholder="Repeat password">
-            </div>
-            <div class="d-flex align-items-center form-input-block form-input-radio-block align-items-center">
-                <div class="form-check-custom d-flex align-items-center">
-                    <input class="form-check-input-custom" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label-custom" for="flexRadioDefault1">
-                        Continue As Student
-                    </label>
-                </div>
-                <div class="form-check-custom d-flex align-items-center">
-                    <input class="form-check-input-custom" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
-                           checked>
-                    <label class="form-check-label-custom" for="flexRadioDefault2">
-                        Continue As Lecturer
-                    </label>
-                </div>
-            </div>
-            <div class="d-flex form-input-block align-items-center">
-                <p class="auth-already-have-account">
-                    You already have an account?
-                    <router-link to="/sign-in">Sign in</router-link>
-                </p>
 
-            </div>
-            <div class="auth-btn-div d-flex justify-content-center align-items-center">
-                <button class="auth-btn text-capitalize">
-                    Sign up
-                </button>
-            </div>
+                <div class="d-flex flex-column form-input-block">
+                    <div class="w-100">
+                        <label for="last-name">{{ $t('last_name') }}*</label>
+                    </div>
+                    <input id="last-name" name="last-name" class="form-input" type="text"
+                           v-model="form.last_name" :placeholder="$t('your_last_name')">
+                    <p v-if="errors.last_name" class="required-field">{{ $t(errors.last_name) }}</p>
+                </div>
+
+                <div class="d-flex flex-column form-input-block">
+                    <div class="w-100">
+                        <label for="email">{{ $t('email') }}*</label>
+                    </div>
+                    <input id="email" name="email" class="form-input" type="text"
+                           v-model="form.email" :placeholder="$t('your_email')">
+                    <p v-if="errors.email" class="required-field">{{ $t(errors.email) }}</p>
+                </div>
+
+                <div class="d-flex flex-column form-input-block">
+                    <div class="w-100">
+                        <label for="password">{{ $t('password') }}*</label>
+                    </div>
+                    <input id="password" name="password" class="form-input" type="password"
+                           v-model="form.password" :placeholder="$t('your_password')">
+                    <p v-if="errors.password" class="required-field">{{ $t(errors.password) }}</p>
+                </div>
+
+                <div class="d-flex flex-column form-input-block">
+                    <div class="w-100">
+                        <label for="repeat-password">{{ $t('repeat_password') }}*</label>
+                    </div>
+                    <input id="repeat-password" name="repeat-password" class="form-input" type="password"
+                           v-model="form.password_confirmation" :placeholder="$t('repeat_password')">
+                    <p v-if="errors.password_confirmation" class="required-field">{{ $t(errors.password_confirmation) }}</p>
+                </div>
+
+                <div class="d-flex align-items-center form-input-block form-input-radio-block align-items-center">
+                    <div v-if="!hideLearner" class="form-check-custom d-flex align-items-center">
+                        <input class="form-check-input-custom" type="radio" name="role" id="flexRadioDefault1"
+                               value="learner" v-model="form.role">
+                        <label class="form-check-label-custom" for="flexRadioDefault1">
+                            {{ $t('continue_as_learner') }}
+                        </label>
+                    </div>
+                    <div class="form-check-custom d-flex align-items-center">
+                        <input class="form-check-input-custom" type="radio" name="role" id="flexRadioDefault2"
+                               value="instructor" v-model="form.role">
+                        <label class="form-check-label-custom" for="flexRadioDefault2">
+                            {{ $t('continue_as_instructor') }}
+                        </label>
+                    </div>
+                </div>
+                <p v-if="errors.role" class="required-field">{{ $t(errors.role) }}</p>
+
+                <div class="d-flex form-input-block align-items-center">
+                    <p class="auth-already-have-account">
+                        {{ $t('already_have_an_account') }}
+                        <router-link to="/sign-in">{{ $t('sign_in') }}</router-link>
+                    </p>
+                </div>
+                <div v-if="successMessage" class="text-success text-center mt-2">
+                    {{ $t(successMessage) }}
+                </div>
+                <div class="auth-btn-div d-flex justify-content-center align-items-center">
+                    <button class="auth-btn text-capitalize" type="submit">
+                        {{ $t('sign_up') }}
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </template>
@@ -188,7 +284,7 @@
 }
 
 .form-check-input-custom {
-    width: 24px;
+    min-width: 24px;
     height: 24px;
     background-color: var(--white-245);
     margin-right: 17px;

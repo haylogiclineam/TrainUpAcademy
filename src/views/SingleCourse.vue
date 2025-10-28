@@ -1,5 +1,4 @@
 <script setup>
-
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 import SingleCourse from "../components/course/SingleCourse.vue";

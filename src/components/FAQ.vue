@@ -1,9 +1,11 @@
 <script setup>
-import {computed, ref} from 'vue'
+import {computed, ref, onMounted} from 'vue'
 import {useRoute} from "vue-router";
+import api from '/src/services/api.js';
+import {useI18n} from "vue-i18n";
+const openIndex = ref(0);
 
-// track which item is open (by index)
-const openIndex = ref(0)
+const { locale } = useI18n();
 
 const toggle = (index) => {
     openIndex.value = openIndex.value === index ? null : index
@@ -13,6 +15,7 @@ const route = useRoute();
 const isHomePage = computed(() => route.path === '/');
 const isAboutPage = computed(() => route.path === '/about');
 const isContactPage = computed(() => route.path === '/contact');
+const loading = ref(false);
 
 const faqSectionClass = computed(() => {
     const classes = {
@@ -48,6 +51,23 @@ const questionClass = (index) => {
     }
     return 'question';
 };
+
+
+const faqItems = ref([])
+const fetchError = ref(false)
+
+onMounted(async () => {
+    loading.value = true;
+    try {
+        const response = await api.get('/api/faqs')
+        faqItems.value = response.data
+    } catch (error) {
+        console.error('Failed to fetch FAQs:', error)
+        fetchError.value = true
+    }finally {
+        loading.value = false;
+    }
+})
 </script>
 
 <template>
@@ -60,35 +80,38 @@ const questionClass = (index) => {
                         ullamcorper mattis, pulvinar</p>
 
                 </div>
+
                 <div v-if="isAboutPage || isContactPage" class="about-faq-content">
                     <h3 class="text-capitalize h3">Answers to Your Most Common Questions</h3>
                 </div>
-                <div :class="faqQuestionsClass">
-                    <div v-for="(item, index) in 3" :key="index">
+                <div v-if="loading" class="d-flex justify-content-center align-items-center my-5">
+                    <div class="spinner-border text-secondary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <div v-else :class="faqQuestionsClass">
+                    <div v-for="(item, index) in faqItems" :key="index">
                         <div :class="questionClass(index)" @click="toggle(index)">
                             <div class="question-content d-flex align-items-center"
                                  :class="{'question-icon-active': (isAboutPage || isContactPage) && openIndex === index}">
-                <span v-if="openIndex === index">
-                    <!-- Close Icon (Minus) -->
-                    <svg width="12" height="2" viewBox="0 0 12 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 0H1C0.447715 0 0 0.447715 0 1C0 1.55228 0.447715 2 1 2H11C11.5523 2 12 1.55228 12 1C12 0.447715 11.5523 0 11 0Z"
-                              fill="#F5F5F5"/>
-                    </svg>
-                </span>
-                                <span v-else>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 5H7V1C7 0.734784 6.89464 0.48043 6.70711 0.292893C6.51957 0.105357 6.26522 0 6 0C5.73478 0 5.48043 0.105357 5.29289 0.292893C5.10536 0.48043 5 0.734784 5 1V5H1C0.734784 5 0.48043 5.10536 0.292893 5.29289C0.105357 5.48043 0 5.73478 0 6C0 6.26522 0.105357 6.51957 0.292893 6.70711C0.48043 6.89464 0.734784 7 1 7H5V11C5 11.2652 5.10536 11.5196 5.29289 11.7071C5.48043 11.8946 5.73478 12 6 12C6.26522 12 6.51957 11.8946 6.70711 11.7071C6.89464 11.5196 7 11.2652 7 11V7H11C11.2652 7 11.5196 6.89464 11.7071 6.70711C11.8946 6.51957 12 6.26522 12 6C12 5.73478 11.8946 5.48043 11.7071 5.29289C11.5196 5.10536 11.2652 5 11 5Z"
-                              fill="#F5F5F5"/>
-                    </svg>
-                </span>
-                                <span class="span">How to change my photo from admin dashboard?</span>
+                                <span v-if="openIndex === index">
+                                    <svg width="12" height="2" viewBox="0 0 12 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 0H1C0.447715 0 0 0.447715 0 1C0 1.55228 0.447715 2 1 2H11C11.5523 2 12 1.55228 12 1C12 0.447715 11.5523 0 11 0Z"
+                                              fill="#F5F5F5"/>
+                                    </svg>
+                                </span>
+                                                <span v-else>
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 5H7V1C7 0.734784 6.89464 0.48043 6.70711 0.292893C6.51957 0.105357 6.26522 0 6 0C5.73478 0 5.48043 0.105357 5.29289 0.292893C5.10536 0.48043 5 0.734784 5 1V5H1C0.734784 5 0.48043 5.10536 0.292893 5.29289C0.105357 5.48043 0 5.73478 0 6C0 6.26522 0.105357 6.51957 0.292893 6.70711C0.48043 6.89464 0.734784 7 1 7H5V11C5 11.2652 5.10536 11.5196 5.29289 11.7071C5.48043 11.8946 5.73478 12 6 12C6.26522 12 6.51957 11.8946 6.70711 11.7071C6.89464 11.5196 7 11.2652 7 11V7H11C11.2652 7 11.5196 6.89464 11.7071 6.70711C11.8946 6.51957 12 6.26522 12 6C12 5.73478 11.8946 5.48043 11.7071 5.29289C11.5196 5.10536 11.2652 5 11 5Z"
+                                              fill="#F5F5F5"/>
+                                    </svg>
+                                </span>
+                                <span class="span">{{ item[`question_${locale}`] }}</span>
                             </div>
                         </div>
                         <div :class="faqAnswerClass" v-show="openIndex === index">
-                            <div class="answer">
-                                <p class="answer-p">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit
-                                    tellus,
-                                    luctus nec ullamcorper mattis, pulvinar</p>
+                            <div v-for="(answer, aIndex) in item.answers" :key="aIndex" class="mb-2 answer">
+                                <p class="answer-p">{{ answer[`answer_${locale}`] }}</p>
                             </div>
                         </div>
                     </div>
@@ -150,6 +173,7 @@ const questionClass = (index) => {
 .question {
     display: flex;
     align-items: center;
+    cursor: pointer !important;
 }
 
 .faq-questions {
@@ -229,7 +253,7 @@ const questionClass = (index) => {
 }
 
 .question-bg-active {
-    background-image: url("/assets/images/home/online-course.png");
+    background-image: url("/assets/images/repeting-image.jpg");
 }
 
 .about-faq-questions .question-bg-active:before {

@@ -1,236 +1,221 @@
 <script setup>
-import {useRoute} from "vue-router";
-import {computed} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {ref, computed, onMounted, watch} from "vue";
+import {useI18n} from 'vue-i18n';
+import api from '/src/services/api.js';
 
+const {locale} = useI18n();
 const route = useRoute();
+const router = useRouter();
+
 const isHomePage = computed(() => route.path === '/');
 const isBlogPage = computed(() => route.path === '/blog');
-const isSingleBlogPage = computed(() => route.path === '/single-blog');
+const isSingleBlogPage = computed(() => route.name === 'SingleBlog');
+const loading = ref(false);
 
 const blogArticleTitleClass = computed(() => {
     const classes = {
         '/': 'blog-article-title',
         '/blog': 'blog-article-title-d-none',
-        '/single-blog': 'blog-article-title-d-none',
+        '/single-blog/:id': 'blog-article-title-d-none',
     };
     return classes[route.path] || 'blog-article-title';
 });
 
-const blogArticleSectionPaddingClass = computed(() => {
-    const classes = {
-        '/single-blog': 'blog-article-section-p',
-    };
-    return classes[route.path] || 'blog-article-section';
+const blogArticleSectionPaddingClass = computed(() =>
+    isSingleBlogPage.value ? 'blog-article-section-p' : 'blog-article-section'
+);
+
+const blogItems = ref([]);
+const currentPage = ref(1);
+const lastPage = ref(1);
+
+const fetchBlogs = async (page = 1) => {
+    loading.value = true;
+    try {
+        const response = await api.get(`/api/blogs?page=${page}`);
+        blogItems.value = response.data.data;
+        currentPage.value = response.data.current_page;
+        lastPage.value = response.data.last_page;
+
+        sessionStorage.setItem('currentPage', currentPage.value);
+    } catch (error) {
+        console.error("Error fetching blogs", error);
+    } finally {
+        loading.value = false;
+    }
+};
+
+const firstThreeBlogs = ref([]);
+
+const fetchFirstThreeBlogs = async () => {
+    loading.value = true;
+    try {
+        const response = await api.get('/api/blogs?page=1');
+        firstThreeBlogs.value = response.data.data.slice(0, 3);
+    } catch (error) {
+        console.error("Error fetching first three blogs", error);
+    } finally {
+        loading.value = false;
+    }
+};
+
+onMounted(() => {
+    if (isBlogPage.value) {
+        const pageFromUrl = parseInt(route.query.page) || parseInt(sessionStorage.getItem('currentPage')) || 1;
+        currentPage.value = pageFromUrl;
+        fetchBlogs(pageFromUrl);
+    } else {
+        fetchFirstThreeBlogs();
+    }
 });
 
+watch(currentPage, (newPage) => {
+    if (isBlogPage.value) {
+        router.replace({query: {...route.query, page: newPage}});
+    }
+});
+
+const localeMap = {
+    en: 'en-US',
+    ru: 'ru-RU',
+    arm: 'hy-AM'
+};
+
+function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    const currentLocale = locale?.value || 'en';
+    const lang = localeMap[currentLocale] || 'en-US';
+
+    if (lang === 'hy-AM') {
+        const months = [
+            'Հունվար', 'Փետրվար', 'Մարտ', 'Ապրիլ', 'Մայիս', 'Հունիս',
+            'Հուլիս', 'Օգոստոս', 'Սեպտեմբեր', 'Հոկտեմբեր', 'Նոյեմբեր', 'Դեկտեմբեր'
+        ];
+        const month = months[date.getMonth()];
+        const day = date.getDate();
+        const year = date.getFullYear();
+
+        return `${month} ${day}, ${year}`;
+    }
+
+    if (lang === 'ru-RU') {
+        const months = [
+            'Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня',
+            'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'
+        ];
+        const day = date.getDate();
+        const month = months[date.getMonth()];
+        const year = date.getFullYear();
+
+        return `${day} ${month} ${year}`;
+    }
+
+    return date.toLocaleDateString(lang, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+}
+
+const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}`;
+
+const truncateDescription = (description) => {
+    const maxLength = 60;
+    return description.length > maxLength ? description.slice(0, maxLength) + '...' : description;
+};
+
+const visibleBlogItems = computed(() => {
+    if (isBlogPage.value) {
+        return blogItems.value;
+    } else if (isHomePage.value || isSingleBlogPage.value) {
+        return firstThreeBlogs.value;
+    }
+    return [];
+});
 </script>
 
+
 <template>
-    <div class="blog-article-section" :class="blogArticleSectionPaddingClass">
+    <div :class="blogArticleSectionPaddingClass">
         <div class="container">
             <div class="d-flex flex-column justify-content-center align-items-center blog-article-main w-100">
-                <div :class="blogArticleTitleClass">
+                <div v-if="isBlogPage || isHomePage" :class="blogArticleTitleClass">
                     <h3 class="text-capitalize">Blog And Article</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper
                         mattis, pulvinar</p>
                 </div>
-                <div v-if="isHomePage || isSingleBlogPage" class="blog-article-items flex-wrap d-flex align-items-center">
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="/assets/images/home/blog-article/blog-1.png" alt="blog-1">
-                        </div>
-                        <div class="item-date d-flex align-items-center">
-                            <img src="/assets/icons/blog-article/calendar.svg" alt="calendar">
-                            <span>March 13, 2025</span>
-                        </div>
-                        <div class="item-content d-flex flex-column">
-                            <h5 class="text-capitalize">Classroom To Computer</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec </p>
-                            <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
-                                <RouterLink to="/single-blog" custom v-slot="{ navigate }">
-                                    <button @click="navigate" class="learn-more-btn">
-                                        Learn more
-                                    </button>
-                                </RouterLink>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="/assets/images/home/blog-article/blog-2.png" alt="blog-2">
-                        </div>
-                        <div class="item-date d-flex align-items-center">
-                            <img src="/assets/icons/blog-article/calendar.svg" alt="calendar">
-                            <span>March 13, 2025</span>
-                        </div>
-                        <div class="item-content d-flex flex-column">
-                            <h5 class="text-capitalize">Classroom To Computer</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec </p>
-                            <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
-                                <RouterLink to="/single-blog" custom v-slot="{ navigate }">
-                                    <button @click="navigate" class="learn-more-btn">
-                                        Learn more
-                                    </button>
-                                </RouterLink>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="/assets/images/home/blog-article/blog-3.png" alt="blog-3">
-                        </div>
-                        <div class="item-date d-flex align-items-center">
-                            <img src="/assets/icons/blog-article/calendar.svg" alt="calendar">
-                            <span>March 13, 2025</span>
-                        </div>
-                        <div class="item-content d-flex flex-column">
-                            <h5 class="text-capitalize">Classroom To Computer</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec </p>
-                            <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
-                                <RouterLink to="/single-blog" custom v-slot="{ navigate }">
-                                    <button @click="navigate" class="learn-more-btn">
-                                        Learn more
-                                    </button>
-                                </RouterLink>
-                            </div>
-                        </div>
-
+                <div v-if="loading" class="d-flex justify-content-center align-items-center my-5">
+                    <div class="spinner-border text-secondary" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
-                <div v-if="isBlogPage" class="blog-article-items d-flex flex-wrap  align-items-center">
-                    <div class="item">
+                <div v-else class="blog-article-items flex-wrap d-flex">
+                    <div v-for="(item, index) in visibleBlogItems"
+                         :key="index" class="item">
                         <div class="item-img">
-                            <img src="/assets/images/home/blog-article/blog-1.png" alt="blog-1">
+                            <img :src="imageUrl(item.image)" :alt="item.image"/>
                         </div>
                         <div class="item-date d-flex align-items-center">
                             <img src="/assets/icons/blog-article/calendar.svg" alt="calendar">
-                            <span>March 13, 2025</span>
+                            <span class="text-capitalize">{{ formatDate(item.created_at) }}</span>
                         </div>
                         <div class="item-content d-flex flex-column">
-                            <h5 class="text-capitalize">Classroom To Computer</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec </p>
+                            <h5 class="text-capitalize">{{ item[`title_${locale}`] }}</h5>
+                            <p>{{ truncateDescription(item[`description_${locale}`]) }}</p>
                             <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
-                                <RouterLink to="/single-blog" custom v-slot="{ navigate }">
-                                    <button @click="navigate" class="learn-more-btn">
-                                        Learn more
+                                <RouterLink :to="`/single-blog/${item.id}`">
+                                    <button class="learn-more-btn text-capitalize">
+                                        {{ $t('learn_more') }}
                                     </button>
                                 </RouterLink>
                             </div>
                         </div>
-
-                    </div>
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="/assets/images/home/blog-article/blog-2.png" alt="blog-2">
-                        </div>
-                        <div class="item-date d-flex align-items-center">
-                            <img src="/assets/icons/blog-article/calendar.svg" alt="calendar">
-                            <span>March 13, 2025</span>
-                        </div>
-                        <div class="item-content d-flex flex-column">
-                            <h5 class="text-capitalize">Classroom To Computer</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec </p>
-                            <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
-                                <RouterLink to="/single-blog" custom v-slot="{ navigate }">
-                                    <button @click="navigate" class="learn-more-btn">
-                                        Learn more
-                                    </button>
-                                </RouterLink>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="/assets/images/home/blog-article/blog-3.png" alt="blog-3">
-                        </div>
-                        <div class="item-date d-flex align-items-center">
-                            <img src="/assets/icons/blog-article/calendar.svg" alt="calendar">
-                            <span>March 13, 2025</span>
-                        </div>
-                        <div class="item-content d-flex flex-column">
-                            <h5 class="text-capitalize">Classroom To Computer</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec </p>
-                            <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
-                                <RouterLink to="/single-blog" custom v-slot="{ navigate }">
-                                    <button @click="navigate" class="learn-more-btn">
-                                        Learn more
-                                    </button>
-                                </RouterLink>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="/assets/images/home/blog-article/blog-3.png" alt="blog-3">
-                        </div>
-                        <div class="item-date d-flex align-items-center">
-                            <img src="/assets/icons/blog-article/calendar.svg" alt="calendar">
-                            <span>March 13, 2025</span>
-                        </div>
-                        <div class="item-content d-flex flex-column">
-                            <h5 class="text-capitalize">Classroom To Computer</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec </p>
-                            <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
-                                <RouterLink to="/single-blog" custom v-slot="{ navigate }">
-                                    <button @click="navigate" class="learn-more-btn">
-                                        Learn more
-                                    </button>
-                                </RouterLink>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="/assets/images/home/blog-article/blog-3.png" alt="blog-3">
-                        </div>
-                        <div class="item-date d-flex align-items-center">
-                            <img src="/assets/icons/blog-article/calendar.svg" alt="calendar">
-                            <span>March 13, 2025</span>
-                        </div>
-                        <div class="item-content d-flex flex-column">
-                            <h5 class="text-capitalize">Classroom To Computer</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec </p>
-                            <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
-                                <RouterLink to="/single-blog" custom v-slot="{ navigate }">
-                                    <button @click="navigate" class="learn-more-btn">
-                                        Learn more
-                                    </button>
-                                </RouterLink>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="item">
-                        <div class="item-img">
-                            <img src="/assets/images/home/blog-article/blog-3.png" alt="blog-3">
-                        </div>
-                        <div class="item-date d-flex align-items-center">
-                            <img src="/assets/icons/blog-article/calendar.svg" alt="calendar">
-                            <span>March 13, 2025</span>
-                        </div>
-                        <div class="item-content d-flex flex-column">
-                            <h5 class="text-capitalize">Classroom To Computer</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec </p>
-                            <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
-                                <RouterLink to="/single-blog" custom v-slot="{ navigate }">
-                                    <button @click="navigate" class="learn-more-btn">
-                                        Learn more
-                                    </button>
-                                </RouterLink>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
+            <nav v-if="isBlogPage && lastPage > 1">
+                <ul class="pagination d-flex justify-content-center">
+                    <li class="page-item prev-pagination-btn page-item-btn"
+                        :class="{ 'page-link-disabled': currentPage === 1 }">
+                        <a class="page-link" href="#" tabindex="-1" :aria-disabled="currentPage === 1"
+                           @click.prevent="currentPage !== 1 && fetchBlogs(currentPage - 1)"
+                           :style="{ borderColor: currentPage === 1 ? '#C2C2C2' : '#AEAEAE' }">
+                            <svg width="9" height="19" viewBox="0 0 9 19" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path :fill="currentPage === 1 ? '#C2C2C2' : '#AEAEAE'"
+                                      d="M8.62887 0.394604C8.74647 0.520754 8.83981 0.670837 8.90351 0.836199C8.96721 1.00156 9 1.17893 9 1.35807C9 1.5372 8.96721 1.71457 8.90351 1.87993C8.83981 2.04529 8.74647 2.19538 8.62887 2.32153L2.88245 8.53654C2.76485 8.66269 2.67151 8.81277 2.60781 8.97813C2.54411 9.1435 2.51131 9.32086 2.51131 9.5C2.51131 9.67914 2.54411 9.85651 2.60781 10.0219C2.67151 10.1872 2.76485 10.3373 2.88245 10.4635L8.62887 16.6785C8.74647 16.8046 8.83981 16.9547 8.90351 17.1201C8.96721 17.2854 9 17.4628 9 17.6419C9 17.8211 8.96721 17.9984 8.90351 18.1638C8.83981 18.3292 8.74647 18.4792 8.62887 18.6054C8.39379 18.8581 8.07579 19 7.74432 19C7.41285 19 7.09485 18.8581 6.85977 18.6054L1.1008 12.3768C0.395924 11.6135 0 10.5788 0 9.5C0 8.42119 0.395924 7.38649 1.1008 6.62318L6.85977 0.394604C7.09485 0.141865 7.41285 0 7.74432 0C8.07579 0 8.39379 0.141865 8.62887 0.394604Z"/>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <li>
+                        <ul class="list-unstyled d-flex pagination-numbers">
+                            <li v-for="page in lastPage" :key="page" class="page-item"
+                                :class="{ active: page === currentPage, 'page-link-active': page === currentPage }">
+                                <a class="page-link" href="#" @click.prevent="fetchBlogs(page)">
+                                    {{ page }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="page-item next-pagination-btn page-item-btn"
+                        :class="{ 'page-link-disabled': currentPage === lastPage }">
+                        <a class="page-link" href="#" :aria-disabled="currentPage === lastPage"
+                           @click.prevent="currentPage !== lastPage && fetchBlogs(currentPage + 1)"
+                           :style="{ borderColor: currentPage === lastPage ? '#C2C2C2' : '#AEAEAE' }">
+                            <svg width="9" height="19" viewBox="0 0 9 19" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path :fill="currentPage === lastPage ? '#C2C2C2' : '#AEAEAE'"
+                                      d="M0.371131 0.394604C0.253532 0.520754 0.160191 0.670837 0.0964931 0.836199C0.0327948 1.00156 0 1.17893 0 1.35807C0 1.5372 0.0327948 1.71457 0.0964931 1.87993C0.160191 2.04529 0.253532 2.19538 0.371131 2.32153L6.11755 8.53654C6.23515 8.66269 6.32849 8.81277 6.39219 8.97813C6.45589 9.1435 6.48869 9.32086 6.48869 9.5C6.48869 9.67914 6.45589 9.85651 6.39219 10.0219C6.32849 10.1872 6.23515 10.3373 6.11755 10.4635L0.371131 16.6785C0.253532 16.8046 0.160191 16.9547 0.0964931 17.1201C0.0327948 17.2854 0 17.4628 0 17.6419C0 17.8211 0.0327948 17.9984 0.0964931 18.1638C0.160191 18.3292 0.253532 18.4792 0.371131 18.6054C0.606211 18.8581 0.924211 19 1.25568 19C1.58715 19 1.90515 18.8581 2.14023 18.6054L7.8992 12.3768C8.60408 11.6135 9 10.5788 9 9.5C9 8.42119 8.60408 7.38649 7.8992 6.62318L2.14023 0.394604C1.90515 0.141865 1.58715 0 1.25568 0C0.924211 0 0.606211 0.141865 0.371131 0.394604Z"/>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
-
 </template>
 
 <style scoped>
@@ -238,7 +223,7 @@ const blogArticleSectionPaddingClass = computed(() => {
     padding: 8% 0;
 }
 
-.blog-article-section-p{
+.blog-article-section-p {
     padding: 2% 0 0 0;
 }
 
@@ -246,7 +231,7 @@ const blogArticleSectionPaddingClass = computed(() => {
     gap: 60px;
 }
 
-.blog-article-title-d-none{
+.blog-article-title-d-none {
     display: none !important;
 }
 
@@ -281,7 +266,7 @@ const blogArticleSectionPaddingClass = computed(() => {
 
 .blog-article-items {
     width: 100%;
-    gap:20px;
+    gap: 20px;
 }
 
 .blog-article-items .item {
@@ -444,17 +429,17 @@ const blogArticleSectionPaddingClass = computed(() => {
     }
 
     .learn-more-btn:hover {
-        width: 140px;
-        height: 44px;
-        font-size: 16px;
+        width: 131px;
+        height: 41px;
+        font-size: 14px;
     }
 
-    .learn-more-btn-div{
+    .learn-more-btn-div {
         width: 140px;
         height: 44px;
     }
 
-    .blog-article-items .item-img{
+    .blog-article-items .item-img {
         width: 100%;
         height: auto;
     }
@@ -526,17 +511,17 @@ const blogArticleSectionPaddingClass = computed(() => {
     }
 
     .learn-more-btn:hover {
-        width: 140px;
-        height: 44px;
-        font-size: 16px;
+        width: 131px;
+        height: 41px;
+        font-size: 14px;
     }
 
-    .learn-more-btn-div{
+    .learn-more-btn-div {
         width: 140px;
         height: 44px;
     }
 
-    .blog-article-items .item-img{
+    .blog-article-items .item-img {
         width: 100%;
         height: auto;
     }
@@ -608,17 +593,17 @@ const blogArticleSectionPaddingClass = computed(() => {
     }
 
     .learn-more-btn:hover {
-        width: 160px;
-        height: 48px;
-        font-size: 18px;
+        width: 141px;
+        height: 41px;
+        font-size: 16px;
     }
 
-    .learn-more-btn-div{
+    .learn-more-btn-div {
         width: 160px;
         height: 48px;
     }
 
-    .blog-article-items .item-img{
+    .blog-article-items .item-img {
         width: 100%;
         height: auto;
     }
@@ -626,19 +611,19 @@ const blogArticleSectionPaddingClass = computed(() => {
 
 /* Large Devices */
 @media (min-width: 992px) and (max-width: 1199px) {
-    .blog-article-items{
+    .blog-article-items {
         flex-wrap: wrap;
-        gap:20px;
+        gap: 20px;
         justify-content: center !important;
     }
 
-    .blog-article-items .item{
+    .blog-article-items .item {
         width: 48%;
     }
 }
 
 @media (min-width: 1200px) {
-    .blog-article-items .item{
+    .blog-article-items .item {
         width: 32%;
     }
 }
@@ -646,9 +631,9 @@ const blogArticleSectionPaddingClass = computed(() => {
 
 /* Extra Large Devices */
 @media (min-width: 1600px) {
-    .blog-article-items .item{
-       width: 32%;
-   }
+    .blog-article-items .item {
+        width: 32%;
+    }
 }
 
 

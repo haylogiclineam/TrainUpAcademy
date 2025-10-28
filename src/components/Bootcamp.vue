@@ -100,7 +100,7 @@
 .bootcamp-section {
     width: 100%;
     position: relative;
-    padding: 2% 0;
+    padding-bottom: 8%;
 }
 
 .img-section {
@@ -131,7 +131,7 @@
 
 .img-items {
     width: 700px;
-    min-height: 630px;
+    min-height: 572px;
     position: absolute;
     z-index: 3;
     top: 14% !important;
@@ -261,7 +261,7 @@
 @media (max-width: 575px) {
     .bootcamp-section {
         flex-direction: column;
-        padding: 18% 0 13%;
+        padding: 18% 0 18% 0;
     }
 
     .img-section,
@@ -294,9 +294,9 @@
     }
 
     .learn-more-btn:hover {
-        width: 190px;
-        height: 50px;
-        font-size: 20px;
+        width: 179px;
+        height: 47px;
+        font-size: 18px;
     }
 
     .learn-more-btn-div{
@@ -309,7 +309,7 @@
 @media (min-width: 576px) and (max-width: 767px) {
     .bootcamp-section {
         flex-direction: column;
-        padding: 10% 0 8%;
+        padding: 10% 0 10% 0;
     }
 
     .img-section,
@@ -342,9 +342,9 @@
     }
 
     .learn-more-btn:hover {
-        width: 190px;
-        height: 50px;
-        font-size: 20px;
+        width: 179px;
+        height: 47px;
+        font-size: 18px;
     }
 
     .learn-more-btn-div{
@@ -357,7 +357,7 @@
 @media (min-width: 768px) and (max-width: 991px) {
     .bootcamp-section {
         flex-direction: column;
-        padding: 10% 0 8%;
+        padding: 10% 0 10% 0;
     }
 
     .img-section,
@@ -390,9 +390,9 @@
     }
 
     .learn-more-btn:hover {
-        width: 190px;
-        height: 50px;
-        font-size: 20px;
+        width: 179px;
+        height: 47px;
+        font-size: 18px;
     }
 
     .learn-more-btn-div{
