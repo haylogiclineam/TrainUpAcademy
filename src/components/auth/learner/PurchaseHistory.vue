@@ -219,7 +219,7 @@ function capitalize(str) {
                         </p>
                     </div>
                     <div class="my-course-btn-div d-flex justify-content-center align-items-center">
-                        <router-link>
+                        <router-link to="/courses">
                             <button class="my-course-btn">
                                 Courses
                             </button>
