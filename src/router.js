@@ -27,9 +27,14 @@ import HowWeCanHelpLearner from "./views/auth/learner/HowWeCanHelp.vue";
 import WishList from "./views/auth/learner/WishList.vue";
 import ShoppingCart from "./views/auth/learner/ShoppingCart.vue";
 import ProfilePage from "./views/auth/learner/ProfilePage.vue";
-import PurchaseHistory from "./views/auth/learner/PurchaseHistory.vue";
+import PurchaseHistoryLearner from "./views/auth/learner/PurchaseHistory.vue";
+import PurchaseHistoryInstructor from "./views/auth/instructor/PurchaseHistory.vue";
 import Checkout from "./views/auth/learner/Checkout.vue";
 import TeachOnTrainUp from "./views/TeachOnTrainUp.vue";
+import TermsConditions from "./views/TermsConditions.vue";
+import PrivacyPolicy from "./views/PrivacyPolicy.vue";
+import WalletInstructor from "./views/auth/instructor/Wallet.vue";
+import WalletLearner from "./views/auth/learner/Wallet.vue";
 
 
 const routes = [
@@ -52,6 +57,8 @@ const routes = [
     { path: '/forgot-password', component: ForgotPassword },
     { path: '/change-password', component: ChangePassword },
     { path: '/teach-on-trainUp', component: TeachOnTrainUp },
+    { path: '/terms-conditions', component: TermsConditions },
+    { path: '/privacy-policy', component: PrivacyPolicy },
     {
         path: '/course-comments/:id',
         name: 'course-comments',
@@ -89,6 +96,12 @@ const routes = [
             //     props: true
             // },
             {
+                path: 'purchase-history',
+                name: 'instructor-purchase-history',
+                component: PurchaseHistoryInstructor,
+                props: true
+            },
+            {
                 path: 'settings',
                 name: 'instructor-settings',
                 component: SettingsTabsInstructor,
@@ -98,6 +111,12 @@ const routes = [
                 path: 'how-we-can-help',
                 name: 'instructor-how-we-can-help',
                 component: HowWeCanHelpInstructor,
+                props: true
+            },
+            {
+                path: 'wallet',
+                name: 'instructor-wallet',
+                component: WalletInstructor,
                 props: true
             },
         ]
@@ -145,8 +164,8 @@ const routes = [
             },
             {
                 path: 'purchase-history',
-                name: 'purchase-history',
-                component: PurchaseHistory,
+                name: 'learner-purchase-history',
+                component: PurchaseHistoryLearner,
                 props: true
             },
             {
@@ -155,7 +174,12 @@ const routes = [
                 component: Checkout,
                 props: true
             },
-
+            {
+                path: 'wallet',
+                name: 'learner-wallet',
+                component: WalletLearner,
+                props: true
+            },
         ]
     }
 ];

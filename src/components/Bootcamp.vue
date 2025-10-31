@@ -1,40 +1,86 @@
 <script setup>
+import { ref, onMounted, computed } from "vue";
+import { useI18n } from "vue-i18n";
+import api from '/src/services/api.js';
 
+const { locale } = useI18n();
+const loading = ref(false);
+
+const bootcamp = ref({
+    title_en: "",
+    title_ru: "",
+    title_arm: "",
+    description_en: "",
+    description_ru: "",
+    description_arm: "",
+    lists: [],
+});
+
+const localizedTitle = computed(() => {
+    if (locale.value === 'ru') return bootcamp.value.title_ru;
+    if (locale.value === 'arm') return bootcamp.value.title_arm;
+    return bootcamp.value.title_en;
+});
+
+const localizedDescription = computed(() => {
+    if (locale.value === 'ru') return bootcamp.value.description_ru;
+    if (locale.value === 'arm') return bootcamp.value.description_arm;
+    return bootcamp.value.description_en;
+});
+
+const localizedItemText = (item) => {
+    if (locale.value === 'ru') return item.list_ru;
+    if (locale.value === 'arm') return item.list_arm;
+    return item.list_en;
+};
+
+const fetchBootcamp = async () => {
+    loading.value = true;
+    try {
+        const response = await api.get('/api/bootcamps');
+        if (response.data.length > 0) {
+            const data = response.data[0];
+            bootcamp.value = data;
+        }
+    } catch (error) {
+        console.error("Error fetching bootcamp data:", error);
+    } finally {
+        loading.value = false;
+    }
+};
+
+onMounted(() => {
+    fetchBootcamp();
+});
 </script>
 
 <template>
     <div class="bootcamp-section d-flex justify-content-between align-items-center">
         <div class="img-section"></div>
         <div class="container">
-            <div class="bootcamp-content">
-                <h3 class="text-capitalize h3">Our Bootcamp Programs</h3>
-                <p class="p">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec
-                    ullamcorper mattis, pulvinar dapibus leo. labore et dolore magna aliqua</p>
-                <div class="checkmark-section">
-                    <div class="checkmark d-flex align-items-center">
-                        <div class="checkmark-icon">
-                            <img src="/assets/icons/bootcamp/checkmark.svg" alt="checkmark">
-                        </div>
-                        <span class="text-capitalize ms-4 span">100+ qualified teachers from all over the world</span>
-                    </div>
-                    <div class="checkmark d-flex align-items-center">
-                        <div class="checkmark-icon">
-                            <img src="/assets/icons/bootcamp/checkmark.svg" alt="checkmark">
-                        </div>
-                        <span class="text-capitalize ms-4 span">100+ qualified teachers from all over the world</span>
-                    </div>
-                    <div class="checkmark d-flex align-items-center">
-                        <div class="checkmark-icon">
-                            <img src="/assets/icons/bootcamp/checkmark.svg" alt="checkmark">
-                        </div>
-                        <span class="text-capitalize ms-4 span">100+ qualified teachers from all over the world</span>
-                    </div>
-
+            <div v-if="loading" class="loading-state d-flex justify-content-center align-items-center">
+                <div class="spinner-border text-secondary" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
+            </div>
+
+            <div class="bootcamp-content" v-else>
+                <h3 class="text-capitalize h3">{{ localizedTitle }}</h3>
+                <p class="p">{{ localizedDescription }}</p>
+
+                <div class="checkmark-section">
+                    <div v-for="(item, index) in bootcamp.lists" :key="index" class="checkmark d-flex align-items-center">
+                        <div class="checkmark-icon">
+                            <img src="/assets/icons/bootcamp/checkmark.svg" alt="checkmark">
+                        </div>
+                        <span class="text-capitalize ms-4 span">{{ localizedItemText(item) }}</span>
+                    </div>
+                </div>
+
                 <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
-                    <button class="learn-more-btn">
+                    <a href="/assets/files/Our%20Bootcamp.pdf" download class="learn-more-btn text-center text-decoration-none d-flex align-items-center justify-content-center">
                         Learn more
-                    </button>
+                    </a>
                 </div>
             </div>
 

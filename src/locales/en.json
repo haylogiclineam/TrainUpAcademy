@@ -414,5 +414,114 @@
     "rating_max": "Rating cannot exceed 5",
     "comment_text_string": "Comment must be text"
   },
-  "rating_success": "Thank you for your rating!"
+  "rating_success": "Thank you for your rating!",
+  "terms_conditions": {
+    "title": "TERMS AND CONDITIONS",
+    "lastUpdated": "Last updated: November 12, 2025",
+    "welcome": "Welcome to TrainUp Online Academy (\"TrainUp\", \"we\", \"our\", or \"us\"). By accessing or using our website www.trainup.academy (the \"Website\"), you agree to comply with and be bound by these Terms and Conditions (\"Terms\"). If you do not agree, please do not use our services.",
+    "sections": [
+      {
+        "heading": "1. Acceptance of Terms",
+        "body": "By registering or using TrainUp Online Academy, you confirm that you have read, understood, and accepted these Terms and our Privacy Policy.These Terms form a legally binding agreement under the laws of the Republic of Armenia."
+      },
+      {
+        "heading": "2. Eligibility",
+        "body": "You must be at least 16 years old to use the platform. If you are under 18, you may only use it with parental or guardian consent."
+      },
+      {
+        "heading": "3. Account Registration",
+        "body": "You agree to:\n• Provide accurate and complete information.\n• Keep your login credentials secure.\n• Not share your account with others.\n\nTrainUp reserves the right to suspend or terminate accounts violating these Terms."
+      },
+      {
+        "heading": "4. Courses and Content",
+        "body": "All courses, materials, and videos are owned by TrainUp Online Academy or independent instructors. All intellectual property rights belong to TrainUp or content authors. You may use the materials only for personal learning purposes."
+      },
+      {
+        "heading": "5. Payments and Refunds",
+        "body": "• All prices are shown in Armenian Drams (AMD).\n• Access is granted only after full payment.\n• All sales are final and non-refundable, except for technical errors (e.g., duplicate payments or course access failures).\n\nRefund requests must be sent within 7 business days to <a href='mailto:support&#64;trainup&#46;academy'>support&#64;trainup&#46;academy</a>."
+      },
+      {
+        "heading": "6. Certificates",
+        "body": "Some courses may provide digital certificates. TrainUp defines completion and certificate rules. Certificates are personal and cannot be resold or altered."
+      },
+      {
+        "heading": "7. User Conduct",
+        "body": "You agree not to:\n•Resell or share course access; \n• Post illegal or harmful content; \n• Attempt to damage or disrupt the website.\n\n Violations may result in suspension or permanent account removal."
+      },
+      {
+        "heading": "8. Intellectual Property",
+        "body": "All site design, visuals, and course materials belong to TrainUp Online Academy. Unauthorized use, copying, or distribution is prohibited and may result in legal action."
+      },
+      {
+        "heading": "9. Limitation of Liability",
+        "body": "TrainUp is not liable for any indirect or consequential damages due to: \n• Technical issues or data loss, \n• Course content errors,\n• Misuse by the user. \n\nAll services are provided “as is”."
+      },
+      {
+        "heading": "10. Modifications",
+        "body": "TrainUp may update these Terms at any time. Changes become effective once posted on the website."
+      },
+      {
+        "heading": "11. Governing Law",
+        "body": "These Terms are governed by the laws of the Republic of Armenia. Any disputes will be resolved in the courts of Yerevan, Armenia."
+      },
+      {
+        "heading": "12. Contact Us",
+        "body": "Yerevan, Republic of Armenia"
+      }
+    ]
+},
+  "privacy_policy": {
+    "title": "PRIVACY POLICY",
+    "lastUpdated": "Last Updated: November 12, 2025",
+    "website_title": "Website:",
+    "website": "www.trainup.academy",
+    "email_title": "Email: ",
+    "jurisdiction": "Jurisdiction: Republic of Armenia",
+    "sections": [
+      {
+        "heading": "1. Introduction",
+        "body": "TrainUp Online Academy (“TrainUp”, “we”, “our”, “us”) respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, and protect data when you use our website, services, or enroll in our online courses. By using www.trainup.academy, you agree to this Privacy Policy."
+      },
+      {
+        "heading": "2. Information We Collect",
+        "body": "• Name and surname\n• Email address\n• Phone number\n• Payment details (processed securely via gateways)\n• Technical data (IP, device, cookies)"
+      },
+      {
+        "heading": "3. Purpose of Data Collection",
+        "body": "We use your data to:\n• Manage accounts and enrollments\n• Process payments\n• Communicate with you\n• Improve our services\n• Comply with Armenian law"
+      },
+      {
+        "heading": "4. Cookies",
+        "body": "Cookies help us improve functionality, store preferences, and analyze site performance. You can disable cookies in your browser, but some features may not function properly."
+      },
+      {
+        "heading": "5. Data Retention",
+        "body": "We retain your data only as long as necessary or as required by law."
+      },
+      {
+        "heading": "6. Data Protection",
+        "body": "We use SSL encryption, limited access, and secure third-party services to protect your data. Payment data is not stored on our servers."
+      },
+      {
+        "heading": "7. Sharing Information",
+        "body": "We do not sell or rent data. We may share information only with:\n• Trusted service providers\n• Legal authorities if required by law"
+      },
+      {
+        "heading": "8. Your Rights",
+        "body": "You may:\n• Access your data\n• Request correction or deletion\n• Withdraw consent\n• Request data copy\nContact: <a href='mailto:support&#64;trainup&#46;academy'>support&#64;trainup&#46;academy</a>."
+      },
+      {
+        "heading": "9. Third-Party Links",
+        "body": "We are not responsible for the privacy practices of external websites linked from our platform."
+      },
+      {
+        "heading": "10. Changes to This Policy",
+        "body": "We may update this Privacy Policy. Updates take effect once published on our website."
+      },
+      {
+        "heading": "11. Contact",
+        "body": "Yerevan, Republic of Armenia"
+      }
+    ]
+  }
 }

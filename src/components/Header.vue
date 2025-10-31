@@ -119,6 +119,8 @@ const isVerifyPage = computed(() => route.path === '/verify');
 const isForgotPasswordPage = computed(() => route.path === '/forgot-password');
 const isChangePasswordPage = computed(() => route.path === '/change-password');
 const isTeachOnTrainUpPage = computed(() => route.path === '/teach-on-trainUp');
+const isPrivacyPolicyPage = computed(() => route.path === '/privacy-policy');
+const isTermsConditionsPage = computed(() => route.path === '/terms-conditions');
 
 const isInstructorMyCoursesPage = computed(() => route.path === '/instructor/my-courses');
 const isInstructorAddCoursesPage = computed(() => route.path === '/instructor/add-courses');
@@ -126,6 +128,8 @@ const isInstructorChangeCoursesPage = computed(() => route.name === 'instructor-
 const isInstructorSettingsPage = computed(() => route.path === '/instructor/settings');
 const isInstructorHowWeCanHelpPage = computed(() => route.path === '/instructor/how-we-can-help');
 const isInstructorHowWeCanHelpDetailsPage = computed(() => route.name === 'instructor-help-details');
+const isInstructorPurchaseHistoryPage = computed(() => route.path === '/instructor/purchase-history');
+const isInstructorWalletPage = computed(() => route.path === '/instructor/wallet');
 
 const isLearnerMyLearningPage = computed(() => route.path === '/learner/my-learning');
 const isLearnerHowWeCanHelpPage = computed(() => route.path === '/learner/how-we-can-help');
@@ -135,6 +139,7 @@ const isLearnerShoppingCartPage = computed(() => route.path === '/learner/shoppi
 const isLearnerProfilePage = computed(() => route.path === '/learner/shopping-cart');
 const isLearnerPurchaseHistoryPage = computed(() => route.path === '/learner/purchase-history');
 const isLearnerCheckoutPage = computed(() => route.path === '/learner/checkout');
+const isLearnerWalletPage = computed(() => route.path === '/learner/wallet');
 
 const headerClass = computed(() => {
     if (route.name === 'SingleBlog') {
@@ -157,12 +162,22 @@ const headerClass = computed(() => {
         return 'navbar-primary'
     }
 
+    if (route.name === 'instructor-wallet') {
+        return 'navbar-primary'
+    }
+
+    if (route.name === 'learner-wallet') {
+        return 'navbar-primary'
+    }
+
     const classes = {
         '/': 'header',
         '/about': 'about-header',
         '/contact': 'contact-header',
         '/courses': 'courses-header',
         '/teach-on-trainUp': 'train-up-header',
+        '/terms-conditions': 'header',
+        '/privacy-policy': 'header',
 
         '/blog': 'blog-header',
         '/why-choose-us': 'why-choose-us-header',
@@ -173,10 +188,11 @@ const headerClass = computed(() => {
         '/change-password': 'auth-header',
         '/instructor/my-courses': 'navbar-primary',
         '/instructor/add-courses': 'navbar-primary',
-
+        '/instructor/wallet': 'navbar-primary',
 
         '/instructor/settings': 'navbar-primary',
         '/instructor/how-we-can-help': 'how-we-can-help-header',
+        '/instructor/purchase-history': 'navbar-primary',
         '/learner/my-learning': 'navbar-primary',
         '/learner/settings': 'navbar-primary',
         '/learner/how-we-can-help': 'how-we-can-help-header',
@@ -185,7 +201,7 @@ const headerClass = computed(() => {
         '/learner/profile-page': 'navbar-primary',
         '/learner/purchase-history': 'navbar-primary',
         '/learner/checkout': 'navbar-primary',
-
+        '/learner/wallet': 'navbar-primary',
 
     };
 
@@ -295,6 +311,7 @@ const changeCourse = (newCourseId) => {
 
 
 const notificationsStore = useNotificationsStore();
+
 
 onMounted(() => {
     auth.checkAuth();
@@ -482,6 +499,18 @@ const {cartCount, loadCartCount} = useCartCount();
                             <router-link to="/instructor/settings"
                                          :class="{ active: $route.path === '/instructor/settings' }"
                                          class="text-capitalize auth-user-nav-li-item">Account Settings
+                            </router-link>
+                        </li>
+                        <li class="auth-user-nav-li  ps-0">
+                            <router-link to="/instructor/wallet"
+                                         :class="{ active: $route.path === '/instructor/wallet' }"
+                                         class="text-capitalize auth-user-nav-li-item">Wallet
+                            </router-link>
+                        </li>
+                        <li class="auth-user-nav-li ps-0">
+                            <router-link to="/instructor/purchase-history"
+                                         :class="{ active: $route.path === '/instructor/purchase-history' }"
+                                         class="text-capitalize auth-user-nav-li-item">Purchase History
                             </router-link>
                         </li>
                     </ul>
@@ -704,6 +733,12 @@ const {cartCount, loadCartCount} = useCartCount();
                                          class="text-capitalize auth-user-nav-li-item">Account Settings
                             </router-link>
                         </li>
+                        <li class="auth-user-nav-li ps-0">
+                            <router-link to="/learner/wallet"
+                                         :class="{ active: $route.path === '/learner/wallet' }"
+                                         class="text-capitalize auth-user-nav-li-item">Wallet
+                            </router-link>
+                        </li>
 
                         <li class="auth-user-nav-li ps-0">
                             <router-link to="/learner/purchase-history"
@@ -880,7 +915,7 @@ const {cartCount, loadCartCount} = useCartCount();
     </div>
 
     <div :class="headerClass">
-        <div v-if="isHomePage" class="home-girl-img position-absolute">
+        <div v-if="isHomePage || isPrivacyPolicyPage || isTermsConditionsPage" class="home-girl-img position-absolute">
             <img src="/assets/images/home/header-girl.svg" alt="girl">
         </div>
         <div class="container">
@@ -1053,6 +1088,18 @@ const {cartCount, loadCartCount} = useCartCount();
                                     <router-link to="/instructor/settings"
                                                  :class="{ active: $route.path === '/instructor/settings' }"
                                                  class="text-capitalize auth-user-nav-li-item">Account Settings
+                                    </router-link>
+                                </li>
+                                <li class="auth-user-nav-li">
+                                    <router-link to="/instructor/wallet"
+                                                 :class="{ active: $route.path === '/instructor/wallet' }"
+                                                 class="text-capitalize auth-user-nav-li-item">Wallet
+                                    </router-link>
+                                </li>
+                                <li class="auth-user-nav-li">
+                                    <router-link to="/instructor/purchase-history"
+                                                 :class="{ active: $route.path === '/instructor/purchase-history' }"
+                                                 class="text-capitalize auth-user-nav-li-item">Purchase History
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
@@ -1557,6 +1604,18 @@ const {cartCount, loadCartCount} = useCartCount();
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
+                                    <router-link to="/instructor/wallet"
+                                                 :class="{ active: $route.path === '/instructor/wallet' }"
+                                                 class="text-capitalize auth-user-nav-li-item">Wallet
+                                    </router-link>
+                                </li>
+                                <li class="auth-user-nav-li">
+                                    <router-link to="/instructor/purchase-history"
+                                                 :class="{ active: $route.path === '/instructor/purchase-history' }"
+                                                 class="text-capitalize auth-user-nav-li-item">Purchase History
+                                    </router-link>
+                                </li>
+                                <li class="auth-user-nav-li">
                                     <router-link to="/instructor/how-we-can-help"
                                                  :class="{ active: $route.path === '/instructor/how-we-can-help' }"
                                                  class="text-capitalize auth-user-nav-li-item">Help & Support
@@ -1621,6 +1680,12 @@ const {cartCount, loadCartCount} = useCartCount();
                                                  class="text-capitalize auth-user-nav-li-item">Account Settings
                                     </router-link>
                                 </li>
+                                <li class="auth-user-nav-li">
+                                    <router-link to="/learner/wallet"
+                                                 :class="{ active: $route.path === '/learner/wallet' }"
+                                                 class="text-capitalize auth-user-nav-li-item">Wallet
+                                    </router-link>
+                                </li>
 
                                 <li class="auth-user-nav-li">
                                     <router-link to="/learner/purchase-history"
@@ -1649,7 +1714,7 @@ const {cartCount, loadCartCount} = useCartCount();
                     </ul>
                 </div>
             </nav>
-            <div v-if="isHomePage" class="header-home-content-section d-flex position-relative">
+            <div v-if="isHomePage || isPrivacyPolicyPage || isTermsConditionsPage" class="header-home-content-section d-flex position-relative">
                 <div class="home-content">
                     <div class="content">
                         <h1 class="text-capitalize"><span class="text-capitalize">empowering</span> the Future with IT
@@ -2302,6 +2367,7 @@ html[lang="arm"] .nav-link {
     font-size: 14px;
     color: var(--primary-90);
     word-break: break-all;
+    text-decoration: none !important;
 }
 
 .navbar-line {

@@ -1185,6 +1185,8 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
     box-sizing: border-box;
     padding: 15px;
     color: var(--primary-50);
+    transform: scale(1);
+    outline: none;
 }
 
 .form-control::placeholder {
@@ -1204,6 +1206,8 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
     border-color: var(--primary-50);
     -webkit-appearance: none;
     color: var(--primary-40);
+    box-sizing: border-box;
+    transform: scale(1);
 }
 
 .form-control:focus::placeholder {
@@ -1234,6 +1238,10 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
     line-height: normal;
     letter-spacing: 2%;
     color: var(--secondary-1-100);
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    transform: scale(1);
+    outline: none;
 }
 
 .add-btn:hover {
@@ -1347,6 +1355,8 @@ textarea {
     font-family: var(--font-montserrat);
     font-weight: 300;
     height: 100%;
+    transform: scale(1);
+    outline: none;
 }
 
 .required-field{

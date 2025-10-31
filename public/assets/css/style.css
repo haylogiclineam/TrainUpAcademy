@@ -103,6 +103,8 @@
     --card-master-bg: rgba(253, 234, 206, 1);
     --google-pay-bg: rgba(228, 229, 231, 1);
     --apple-pay-bg:  rgba(230, 230, 230, 1);
+    --box-shadow-0000001A:#0000001A;
+    --pending-wallet: rgba(240, 173, 78, 1);
 }
 
 * {

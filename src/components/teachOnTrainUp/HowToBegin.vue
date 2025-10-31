@@ -601,8 +601,6 @@ onMounted(() => {
     }
 }
 
-@media (min-width: 992px) and (max-width: 1199px) {
-}
 
 /* Extra Large Devices */
 @media (min-width: 1200px) {

@@ -166,10 +166,10 @@ const newsletter = async () => {
                         <a class="footer-a" href="">Copyright © {{ currentYear }} HayLogic Line LLC</a>
                     </li>
                     <li>
-                        <a class="footer-a" href="">Privacy Policy</a>
+                        <router-link to="/privacy-policy" class="footer-a">Privacy Policy</router-link>
                     </li>
                     <li>
-                        <a class="footer-a" href="">Terms Of Services</a>
+                        <router-link to="/terms-conditions" class="footer-a">Terms Of Services</router-link>
                     </li>
                 </ul>
                 <ul class="d-none list-unstyled d-flex justify-content-between align-items-center w-100 privacy-policy-ul-mobile">
@@ -178,10 +178,10 @@ const newsletter = async () => {
                     </li>
                     <ul class="list-unstyled">
                         <li>
-                            <a class="footer-a" href="">Privacy Policy</a>
+                            <router-link to="/privacy-policy" class="footer-a">Privacy Policy</router-link>
                         </li>
                         <li>
-                            <a class="footer-a" href="">Terms Of Services</a>
+                            <router-link to="/terms-conditions" class="footer-a">Terms Of Services</router-link>
                         </li>
                     </ul>
 
