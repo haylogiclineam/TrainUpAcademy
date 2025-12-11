@@ -361,7 +361,7 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                 </div>
                 <div v-if="isDataLoading" class="text-center my-5">
                     <div class="spinner-border text-secondary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="visually-hidden">{{ $t('loading') }}...</span>
                     </div>
                 </div>
                 <div v-else class="add-course-block d-flex">

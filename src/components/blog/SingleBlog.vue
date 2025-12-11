@@ -40,7 +40,7 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
     <div class="container">
         <div v-if="isLoading" class="d-flex justify-content-center align-items-center" style="min-height: 300px">
             <div class="spinner-border text-secondary" role="status">
-                <span class="visually-hidden">Loading...</span>
+                <span class="visually-hidden">{{ $t('loading') }}...</span>
             </div>
         </div>
 

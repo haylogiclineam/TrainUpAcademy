@@ -245,9 +245,9 @@ onMounted(async () => {
             <div :style="onlineCourseContentStyle" class="online-course-content position-relative">
                 <div class="d-flex justify-content-between align-items-center content-title-block">
                     <div class="course-content" :class="courseTextClass">
-                        <h3 class="text-capitalize">Featured Online Course</h3>
-                        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus
-                            nec ullamcorper mattis, pulvinar</p>
+                        <h3 class="text-capitalize">{{ $t('featured_courses.title') }}</h3>
+                        <p class="mb-0">{{ $t('featured_courses.description_short') }}</p>
+                        <p class="mb-0">{{ $t('featured_courses.description_long') }}</p>
                     </div>
                     <div v-if="isHomePage" class="learn-more-btn-div d-flex justify-content-center align-items-center">
                         <router-link to="/courses" class="learn-more-btn text-capitalize text-decoration-none text-center d-flex justify-content-center align-items-center">{{$t('learn_more')}}</router-link>
@@ -277,7 +277,7 @@ onMounted(async () => {
                 </div>
                 <div v-if="loading" class="d-flex justify-content-center align-items-center my-5">
                     <div class="spinner-border text-secondary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="visually-hidden">{{ $t('loading') }}...</span>
                     </div>
                 </div>
                 <Carousel

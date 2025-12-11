@@ -257,7 +257,7 @@ function getLocalizedField(obj, fieldBase) {
                 </div>
                 <div v-if="isLoading" class="loading-spinner d-flex justify-content-center">
                     <div class="spinner-border text-secondary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="visually-hidden">{{ $t('loading') }}...</span>
                     </div>
                 </div>
 

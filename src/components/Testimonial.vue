@@ -33,9 +33,8 @@ onMounted(fetchComments);
         <div class="container">
             <div class="d-flex justify-content-between align-items-center testimonial-main">
                 <div class="testimonial-content">
-                    <h3 class="text-capitalize">What Client Say Testimonials</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper
-                        mattis,</p>
+                    <h3 class="text-capitalize">{{ $t('testimonials.title') }}</h3>
+                    <p>{{ $t('testimonials.description') }}</p>
                     <div class="arrow-section">
                         <div class="arrow d-flex align-items-center">
                             <div class="arrow-icon">
@@ -45,7 +44,7 @@ onMounted(fetchComments);
                                           fill="#F5F5F5"/>
                                 </svg>
                             </div>
-                            <span class="text-capitalize ms-2">Best Conference</span>
+                            <span class="text-capitalize ms-2">{{ $t('testimonials.best_conference') }}</span>
                         </div>
                         <div class="arrow d-flex align-items-center">
                             <div class="arrow-icon">
@@ -55,7 +54,7 @@ onMounted(fetchComments);
                                           fill="#F5F5F5"/>
                                 </svg>
                             </div>
-                            <span class="text-capitalize ms-2">100% Certified & Trusted</span>
+                            <span class="text-capitalize ms-2">{{ $t('testimonials.certified_trusted') }}</span>
                         </div>
                         <div class="arrow d-flex  align-items-center">
                             <div class="arrow-icon">
@@ -65,13 +64,13 @@ onMounted(fetchComments);
                                           fill="#F5F5F5"/>
                                 </svg>
                             </div>
-                            <span class="text-capitalize ms-2">Enjoy 24/7 World Class Support</span>
+                            <span class="text-capitalize ms-2">{{ $t('testimonials.world_class_support') }}</span>
                         </div>
                     </div>
                 </div>
                 <div v-if="loading" class="d-flex justify-content-center align-items-center my-5">
                     <div class="spinner-border text-secondary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="visually-hidden">{{ $t('loading') }}...</span>
                     </div>
                 </div>
                 <div v-else class="testimonial-comments d-flex flex-wrap wrap justify-content-end">

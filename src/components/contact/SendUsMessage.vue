@@ -87,7 +87,7 @@ const contact = async () => {
     <div class="send-us-message-section">
         <div class="container">
             <div class="msg-form">
-                <h3 class="h3 text-capitalize">Send Us a Message</h3>
+                <h3 class="h3 text-capitalize">{{ $t('contact.send_message') }}</h3>
                 <div class="form d-flex flex-column">
 
                     <div class="d-flex flex-column form-input-block">

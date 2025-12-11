@@ -13,6 +13,7 @@ const form = ref({
     password: '',
     password_confirmation: '',
     role: '',
+    accept_terms: false,
 });
 
 const errors = ref({
@@ -22,6 +23,7 @@ const errors = ref({
     password: '',
     password_confirmation: '',
     role: '',
+    accept_terms: '',
 });
 
 const successMessage = ref('');
@@ -42,7 +44,13 @@ const handleSubmit = async () => {
         password: '',
         password_confirmation: '',
         role: '',
+        accept_terms: '',
     };
+
+    if (!form.value.accept_terms) {
+        errors.value.accept_terms = 'auth.accept_terms_required';
+        return;
+    }
 
     successMessage.value = '';
 
@@ -63,6 +71,7 @@ const handleSubmit = async () => {
             password: '',
             password_confirmation: '',
             role: '',
+            accept_terms: false,
         };
     } catch (error) {
         if (error.response && error.response.data) {
@@ -127,6 +136,21 @@ const handleSubmit = async () => {
                            v-model="form.password_confirmation" :placeholder="$t('repeat_password')">
                     <p v-if="errors.password_confirmation" class="required-field">{{ $t(errors.password_confirmation) }}</p>
                 </div>
+
+                <div class="terms-checkbox-wrapper d-flex align-items-center">
+                    <div class="terms-checkbox" :class="{ checked: form.accept_terms }" @click="form.accept_terms = !form.accept_terms">
+                        <svg v-if="form.accept_terms" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 4.5L6.75 12.75L3 9" stroke="#4BBBE4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <label class="terms-label">
+                        {{ $t('auth.by_creating_account') }}
+                        <router-link to="/terms-conditions">{{ $t('auth.terms') }}</router-link>
+                        {{ $t('auth.and') }}
+                        <router-link to="/privacy-policy">{{ $t('auth.privacy_policy') }}</router-link>
+                    </label>
+                </div>
+                <p v-if="errors.accept_terms" class="required-field">{{ $t(errors.accept_terms) }}</p>
 
                 <div class="d-flex align-items-center form-input-block form-input-radio-block align-items-center">
                     <div v-if="!hideLearner" class="form-check-custom d-flex align-items-center">
@@ -310,6 +334,56 @@ const handleSubmit = async () => {
     border-radius: 50%;
 }
 
+.terms-checkbox-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.terms-checkbox {
+    box-sizing: border-box;
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    border: 1.5px solid #4BBBE4;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.terms-checkbox:hover {
+    background: rgba(75, 187, 228, 0.1);
+}
+
+.terms-checkbox.checked {
+    background: rgba(75, 187, 228, 0.1);
+}
+
+.terms-label {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    color: #F5F5F5;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin: 0 !important;
+}
+
+.terms-label a {
+    color: #F5F5F5;
+    text-decoration: underline;
+}
+
+.terms-label a:hover {
+    color: #4BBBE4;
+}
 
 /* Extra Small Devices */
 @media (max-width: 575px) {

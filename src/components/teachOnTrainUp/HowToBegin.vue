@@ -1,28 +1,31 @@
 <script setup>
 import {ref, computed, onMounted, nextTick} from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const activeStep = ref(0);
 
-const steps = [
+const steps = computed(() => [
     {
-        title: "Plan Your Curriculum",
-        text1: "You begin with your own passion and knowledge, turning your expertise into something learners everywhere can benefit from. With the support of our Marketplace Insights tool, you can easily discover promising topics that match both your skills and what students are searching for. From there, the way you teach and the unique value you bring to your course is entirely up to you.",
-        text2: "To guide you along the way, we provide all the resources you need to succeed — from step-by-step tips on creating your very first course, to best practices on engaging students and building high-quality content. Plus, our instructor dashboard and curriculum pages are designed to keep you organized, making it simple to track your progress and manage your teaching journey with confidence.",
+        title: t('begin.step1.title'),
+        text1: t('begin.step1.text1'),
+        text2: t('begin.step1.text2'),
         image: "/assets/images/trainUp/howToBegin/step-1.png",
     },
     {
-        title: "Record Your Video",
-        text1: "You begin with your own passion and knowledge, turning your expertise into something learners everywhere can benefit from. With the support of our Marketplace Insights tool, you can easily discover promising topics that match both your skills and what students are searching for. From there, the way you teach and the unique value you bring to your course is entirely up to you.",
-        text2: "To guide you along the way, we provide all the resources you need to succeed — from step-by-step tips on creating your very first course, to best practices on engaging students and building high-quality content. Plus, our instructor dashboard and curriculum pages are designed to keep you organized, making it simple to track your progress and manage your teaching journey with confidence.",
+        title: t('begin.step2.title'),
+        text1: t('begin.step2.text1'),
+        text2: t('begin.step2.text2'),
         image: "/assets/images/trainUp/howToBegin/step-2.png",
     },
     {
-        title: "Launch Your Course",
-        text1: "You begin with your own passion and knowledge, turning your expertise into something learners everywhere can benefit from. With the support of our Marketplace Insights tool, you can easily discover promising topics that match both your skills and what students are searching for. From there, the way you teach and the unique value you bring to your course is entirely up to you.",
-        text2: "To guide you along the way, we provide all the resources you need to succeed — from step-by-step tips on creating your very first course, to best practices on engaging students and building high-quality content. Plus, our instructor dashboard and curriculum pages are designed to keep you organized, making it simple to track your progress and manage your teaching journey with confidence.",
+        title: t('begin.step3.title'),
+        text1: t('begin.step3.text1'),
+        text2: t('begin.step3.text2'),
         image: "/assets/images/trainUp/howToBegin/step-3.png",
     },
-];
+]);
 
 const tabTitles = ref([]);
 
@@ -43,7 +46,7 @@ const activeTabStyle = computed(() => {
 
 onMounted(() => {
     nextTick(() => {
-        tabTitles.value = tabTitles.value.slice(0, steps.length);
+        tabTitles.value = tabTitles.value.slice(0, steps.value.length);
     });
 });
 
@@ -54,12 +57,11 @@ onMounted(() => {
         <div class="container">
             <div class="train-up-main">
                 <div class="d-flex justify-content-between align-items-center train-up-content">
-                    <h3 class="text-capitalize">So Many Reasons to Start</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper
-                        mattis, pulvinar dapibus leo. labore et dolore magna aliqua</p>
+                    <h3 class="text-capitalize">{{ $t('teach_whit_us.why_teach') }}</h3>
+                    <p>{{ $t('teach_whit_us.why_text') }}</p>
                     <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
                         <a href="/assets/files/Teach%20On%20Train%20Up.pdf" download class="learn-more-btn text-center text-decoration-none d-flex align-items-center justify-content-center">
-                            Learn more
+                            {{ $t('learn_more') }}
                         </a>
                     </div>
                 </div>
@@ -107,9 +109,8 @@ onMounted(() => {
                                     </linearGradient>
                                 </defs>
                             </svg>
-                            <h6 class="item-title mb-0">Teach Smarter with Tech</h6>
-                            <p class="item-p mb-0">Use modern tools and interactive features to deliver engaging
-                                lessons.</p>
+                            <h6 class="item-title mb-0">{{ $t('teach_whit_us.feature1') }}</h6>
+                            <p class="item-p mb-0">{{ $t('teach_whit_us.feature1_text') }}</p>
                         </div>
                         <div class="item d-flex flex-column align-items-center justify-content-center">
                             <svg width="85" height="74" viewBox="0 0 85 74" fill="none"
@@ -195,9 +196,8 @@ onMounted(() => {
                                     </linearGradient>
                                 </defs>
                             </svg>
-                            <h6 class="item-title mb-0">Empower Lifelong Learners</h6>
-                            <p class="item-p mb-0">Help students build digital skills and grow through continuous
-                                learning.</p>
+                            <h6 class="item-title mb-0">{{ $t('teach_whit_us.feature2') }}</h6>
+                            <p class="item-p mb-0">{{ $t('teach_whit_us.feature2_text') }}</p>
                         </div>
                         <div class="item d-flex flex-column align-items-center justify-content-center">
                             <svg width="85" height="85" viewBox="0 0 85 85" fill="none"
@@ -225,14 +225,14 @@ onMounted(() => {
                                     </linearGradient>
                                 </defs>
                             </svg>
-                            <h6 class="item-title mb-0">Connect Globally</h6>
-                            <p class="item-p mb-0">Share your expertise with students from all around the world.</p>
+                            <h6 class="item-title mb-0">{{ $t('teach_whit_us.feature3') }}</h6>
+                            <p class="item-p mb-0">{{ $t('teach_whit_us.feature3_text') }}</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="how-to-begin">
-                <h2 class="title">How to begin</h2>
+                <h2 class="title">{{ $t('begin.title') }}</h2>
                 <div class="w-90 tabs-web">
                     <div class="tabs-wrapper">
                         <div class="tabs" style="position: relative;">

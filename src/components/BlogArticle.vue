@@ -141,13 +141,12 @@ const visibleBlogItems = computed(() => {
         <div class="container">
             <div class="d-flex flex-column justify-content-center align-items-center blog-article-main w-100">
                 <div v-if="isBlogPage || isHomePage" :class="blogArticleTitleClass">
-                    <h3 class="text-capitalize">Blog And Article</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper
-                        mattis, pulvinar</p>
+                    <h3 class="text-capitalize">{{ $t('blog') }}</h3>
+                    <p>{{ $t('blog_description') }}</p>
                 </div>
                 <div v-if="loading" class="d-flex justify-content-center align-items-center my-5">
                     <div class="spinner-border text-secondary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="visually-hidden">{{ $t('loading') }}...</span>
                     </div>
                 </div>
                 <div v-else class="blog-article-items flex-wrap d-flex">

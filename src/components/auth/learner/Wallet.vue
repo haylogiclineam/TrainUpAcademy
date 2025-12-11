@@ -98,7 +98,9 @@ onMounted(() => {
                             </div>
 
                             <div v-if="activeStep !== null && activeStep === 0" class="mt-3 withdraw-btn-div">
-                                <button class="withdraw-btn text-capitalize">Add Funds</button>
+                                <router-link to="/learner/add-funds">
+                                    <button class="withdraw-btn text-capitalize">Add Funds</button>
+                                </router-link>
                             </div>
                         </div>
                     </div>
@@ -139,7 +141,9 @@ onMounted(() => {
                                 </div>
 
                                 <div v-if="activeStep === 0" class="mt-3 withdraw-btn-div">
-                                    <button class="withdraw-btn text-capitalize">Add Funds</button>
+                                    <router-link to="/learner/add-funds">
+                                        <button class="withdraw-btn text-capitalize">Add Funds</button>
+                                    </router-link>
                                 </div>
 
                             </div>

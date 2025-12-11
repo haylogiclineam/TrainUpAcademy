@@ -26,59 +26,60 @@ const whyChooseUsItemsClass = computed(() => {
         <div class="container">
             <div class="why-choose-us-main">
                 <div :class="whyChooseContentClass" class="d-flex justify-content-between align-items-center">
-                    <h3 class="text-capitalize">Why you should choose us?</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper
-                        mattis, pulvinar dapibus leo. labore et dolore magna aliqua</p>
+                    <h3 class="text-capitalize">{{ $t('about.why_choose_us') }}</h3>
+                    <p>{{ $t('about.why_choose_us_text') }}</p>
                     <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
                         <button class="learn-more-btn">
-                            Learn more
+                            {{ $t('learn_more') }}
                         </button>
                     </div>
                 </div>
                 <div :class="whyChooseUsItemsClass" class="d-flex justify-content-between align-items-center">
                     <div class="item-1">
                         <div class="w-90">
-                            <h5 class="text-capitalize">Flexible Learning</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec
-                                ullamcorper mattis pulvinar.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                                elit
-                                tellus, luctus nec ullamcorper mattis pulvinar.Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis pulvinar.Lorem ipsum
-                                dolor
-                                sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis
-                                pulvinar.
-                            </p>
-                            <a class="text-decoration-none" href="">Learn more</a>
+                            <h5 class="text-capitalize">{{ $t('why_choose_us_text.blok_1.title') }}</h5>
+                            <p>{{ $t('why_choose_us_text.blok_1.text') }}</p>
+                            <a class="text-decoration-none" href="">{{ $t('learn_more') }}</a>
                         </div>
                     </div>
+
                     <div class="item-2">
                         <div class="w-90">
-                            <h5 class="text-capitalize">Flexible Learning</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec
-                                ullamcorper mattis pulvinar.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                                elit
-                                tellus, luctus nec ullamcorper mattis pulvinar.Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis pulvinar.Lorem ipsum
-                                dolor
-                                sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis
-                                pulvinar.
-                            </p>
-                            <a class="text-decoration-none" href="">Learn more</a>
+                            <h5 class="text-capitalize">{{ $t('why_choose_us_text.blok_2.title') }}</h5>
+                            <p>{{ $t('why_choose_us_text.blok_2.text') }}</p>
+                            <a class="text-decoration-none" href="">{{ $t('learn_more') }}</a>
                         </div>
                     </div>
-                    <div class="item-3">
+
+                    <div class="item-1">
                         <div class="w-90">
-                            <h5 class="text-capitalize">Flexible Learning</h5>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec
-                                ullamcorper mattis pulvinar.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                                elit
-                                tellus, luctus nec ullamcorper mattis pulvinar.Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis pulvinar.Lorem ipsum
-                                dolor
-                                sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis
-                                pulvinar.
-                            </p>
-                            <a class="text-decoration-none" href="">Learn more</a>
+                            <h5 class="text-capitalize">{{ $t('why_choose_us_text.blok_3.title') }}</h5>
+                            <p>{{ $t('why_choose_us_text.blok_3.text') }}</p>
+                            <a class="text-decoration-none" href="">{{ $t('learn_more') }}</a>
+                        </div>
+                    </div>
+
+                    <div class="item-2">
+                        <div class="w-90">
+                            <h5 class="text-capitalize">{{ $t('why_choose_us_text.blok_4.title') }}</h5>
+                            <p>{{ $t('why_choose_us_text.blok_4.text') }}</p>
+                            <a class="text-decoration-none" href="">{{ $t('learn_more') }}</a>
+                        </div>
+                    </div>
+
+                    <div class="item-1">
+                        <div class="w-90">
+                            <h5 class="text-capitalize">{{ $t('why_choose_us_text.blok_5.title') }}</h5>
+                            <p>{{ $t('why_choose_us_text.blok_5.text') }}</p>
+                            <a class="text-decoration-none" href="">{{ $t('learn_more') }}</a>
+                        </div>
+                    </div>
+
+                    <div class="item-2">
+                        <div class="w-90">
+                            <h5 class="text-capitalize">{{ $t('why_choose_us_text.blok_6.title') }}</h5>
+                            <p>{{ $t('why_choose_us_text.blok_6.text') }}</p>
+                            <a class="text-decoration-none" href="">{{ $t('learn_more') }}</a>
                         </div>
                     </div>
                 </div>

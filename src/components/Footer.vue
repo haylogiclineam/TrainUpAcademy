@@ -106,7 +106,7 @@ const newsletter = async () => {
                             </li>
                             <li class="footer-item">
                                 <a class="footer-contact-link"
-                                   href="mailto:info@haylogic.am">info@haylogic.am</a>
+                                   href="mailto:info@trainup.academy">info@trainup.academy</a>
                             </li>
                             <li class="footer-item">
                                 <a class="footer-contact-link" href="https://haylogic.am/"

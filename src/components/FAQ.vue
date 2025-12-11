@@ -82,11 +82,11 @@ onMounted(async () => {
                 </div>
 
                 <div v-if="isAboutPage || isContactPage" class="about-faq-content">
-                    <h3 class="text-capitalize h3">Answers to Your Most Common Questions</h3>
+                    <h3 class="text-capitalize h3">{{ $t('about.faq') }}</h3>
                 </div>
                 <div v-if="loading" class="d-flex justify-content-center align-items-center my-5">
                     <div class="spinner-border text-secondary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="visually-hidden">{{ $t('loading') }}...</span>
                     </div>
                 </div>
                 <div v-else :class="faqQuestionsClass">
