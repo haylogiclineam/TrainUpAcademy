@@ -170,6 +170,14 @@ const headerClass = computed(() => {
         return 'navbar-primary'
     }
 
+    if (route.name === 'instructor-withdraw-funds') {
+        return 'navbar-primary'
+    }
+
+    if (route.name === 'learner-add-funds') {
+        return 'navbar-primary'
+    }
+
     const classes = {
         '/': 'header',
         '/about': 'about-header',
@@ -218,10 +226,15 @@ const firstWord = computed(() => fullTitle.value.split(' ')[0] || '')
 const rest = computed(() => fullTitle.value.split(' ').slice(1).join(' ') || '')
 
 const userImage = computed(() => {
-    return auth.user?.image
-        ? `${import.meta.env.VITE_API_BASE_URL}/storage/auth/${auth.user.image}`
-        : null;
+    if (auth.user?.image) {
+        return `${import.meta.env.VITE_API_BASE_URL}/storage/auth/${auth.user.image}`;
+    }
+    return '/assets/images/auth/default-avatar.png';
 });
+
+const handleImageError = (event) => {
+    event.target.src = '/assets/images/auth/default-avatar.png';
+};
 
 const userName = computed(() => {
     return auth.user ? `${auth.user.first_name} ${auth.user.last_name}` : '';
@@ -464,7 +477,7 @@ const {cartCount, loadCartCount} = useCartCount();
                         </svg>
                     </div>
                     <div class="auth-user-img">
-                        <img :src="userImage" alt="User image"/>
+                        <img :src="userImage" alt="User image" @error="handleImageError"/>
                     </div>
                     <div class="auth-user-detail d-flex flex-column justify-content-center">
                         <span class="auth-user-name">{{ userName }}</span>
@@ -692,7 +705,7 @@ const {cartCount, loadCartCount} = useCartCount();
                         </svg>
                     </div>
                     <div class="auth-user-img">
-                        <img :src="userImage" alt="User image"/>
+                        <img :src="userImage" alt="User image" @error="handleImageError"/>
                     </div>
                     <div class="auth-user-detail d-flex flex-column justify-content-center">
                         <span class="auth-user-name">{{ userName }}</span>
@@ -1052,14 +1065,14 @@ const {cartCount, loadCartCount} = useCartCount();
                                data-bs-toggle="dropdown" aria-expanded="false"
                             >
                                 <div class="auth-user-img">
-                                    <img :src="userImage" alt="User image"/>
+                                    <img :src="userImage" alt="User image" @error="handleImageError"/>
                                 </div>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end user-info-dropdown mt-3"
                                 aria-labelledby="navbarDropdownUserInfo">
                                 <li class="d-flex w-100 gap-2 auth-user-nav-li align-items-center">
                                     <div class="auth-user-img">
-                                        <img :src="userImage" alt="User image"/>
+                                        <img :src="userImage" alt="User image" @error="handleImageError"/>
                                     </div>
                                     <div class="auth-user-detail d-flex flex-column justify-content-center">
                                         <span class="auth-user-name">{{ userName }}</span>
@@ -1158,7 +1171,7 @@ const {cartCount, loadCartCount} = useCartCount();
                     >
                         <li v-if="loading" class="d-flex align-items-center justify-content-center p-3">
                             <div class="spinner-border text-secondary" role="status">
-                                <span class="visually-hidden">Loading...</span>
+                                <span class="visually-hidden">{{ $t('loading') }}...</span>
                             </div>
                         </li>
 
@@ -1206,7 +1219,7 @@ const {cartCount, loadCartCount} = useCartCount();
                     >
                         <li v-if="loading" class="d-flex align-items-center justify-content-center p-3">
                             <div class="spinner-border text-secondary" role="status">
-                                <span class="visually-hidden">Loading...</span>
+                                <span class="visually-hidden">{{ $t('loading') }}...</span>
                             </div>
                         </li>
 
@@ -1460,7 +1473,7 @@ const {cartCount, loadCartCount} = useCartCount();
 
                                 <li v-if="loading" class="d-flex align-items-center justify-content-center p-3">
                                     <div class="spinner-border text-secondary" role="status">
-                                        <span class="visually-hidden">Loading...</span>
+                                        <span class="visually-hidden">{{ $t('loading') }}...</span>
                                     </div>
                                 </li>
 
@@ -1502,7 +1515,7 @@ const {cartCount, loadCartCount} = useCartCount();
 
                                 <li v-if="loading" class="d-flex align-items-center justify-content-center p-3">
                                     <div class="spinner-border text-secondary" role="status">
-                                        <span class="visually-hidden">Loading...</span>
+                                        <span class="visually-hidden">{{ $t('loading') }}...</span>
                                     </div>
                                 </li>
 
@@ -1565,14 +1578,14 @@ const {cartCount, loadCartCount} = useCartCount();
                                data-bs-toggle="dropdown" aria-expanded="false"
                             >
                                 <div class="auth-user-img">
-                                    <img :src="userImage" alt="User image"/>
+                                    <img :src="userImage" alt="User image" @error="handleImageError"/>
                                 </div>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end user-info-dropdown mt-3"
                                 aria-labelledby="navbarDropdownUserInfo">
                                 <li class="d-flex w-100 gap-2 auth-user-nav-li align-items-center">
                                     <div class="auth-user-img">
-                                        <img :src="userImage" alt="User image"/>
+                                        <img :src="userImage" alt="User image" @error="handleImageError"/>
                                     </div>
                                     <div class="auth-user-detail d-flex flex-column justify-content-center">
                                         <span class="auth-user-name">{{ userName }}</span>
@@ -1636,14 +1649,14 @@ const {cartCount, loadCartCount} = useCartCount();
                                data-bs-toggle="dropdown" aria-expanded="false"
                             >
                                 <div class="auth-user-img">
-                                    <img :src="userImage" alt="User image"/>
+                                    <img :src="userImage" alt="User image" @error="handleImageError"/>
                                 </div>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end user-info-dropdown mt-3"
                                 aria-labelledby="navbarDropdownUserInfo">
                                 <li class="d-flex w-100 gap-2 auth-user-nav-li align-items-center">
                                     <div class="auth-user-img">
-                                        <img :src="userImage" alt="User image"/>
+                                        <img :src="userImage" alt="User image" @error="handleImageError"/>
                                     </div>
                                     <div class="auth-user-detail d-flex flex-column justify-content-center">
                                         <span class="auth-user-name">{{ userName }}</span>
@@ -1717,14 +1730,12 @@ const {cartCount, loadCartCount} = useCartCount();
             <div v-if="isHomePage || isPrivacyPolicyPage || isTermsConditionsPage" class="header-home-content-section d-flex position-relative">
                 <div class="home-content">
                     <div class="content">
-                        <h1 class="text-capitalize"><span class="text-capitalize">empowering</span> the Future with IT
-                            Knowledge</h1>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the</p>
+                        <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('header.title') }}</span> {{ $t('header.subtitle') }}</h1>
+                        <p>{{ $t('hero.learn_anywhere_anytime') }} {{ $t('hero.choose_course_fits_level') }}</p>
                     </div>
                     <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
                         <button class="learn-more-btn">
-                            Learn more
+                            {{ $t('hero.free_registration') }}
                         </button>
                     </div>
                 </div>
@@ -1732,18 +1743,16 @@ const {cartCount, loadCartCount} = useCartCount();
             <div v-if="isAboutPage" class="header-about-content-section d-flex position-relative">
                 <div class="about-content">
                     <div class="content">
-                        <h1 class="text-capitalize"><span class="text-capitalize">about</span> us</h1>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the</p>
+                        <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('about.about') }}</span> {{ $t('about.us') }}</h1>
+                        <p>{{ $t('about.description') }}</p>
                     </div>
                 </div>
             </div>
             <div v-if="isContactPage" class="header-contact-content-section d-flex flex-column position-relative">
                 <div class="contact-content">
                     <div class="content">
-                        <h1 class="text-capitalize"><span class="text-capitalize">contact</span> us</h1>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the</p>
+                        <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('contact.contact') }}</span>{{ $t('contact.us') }}</h1>
+                        <p>{{ $t('contact.description') }}</p>
                     </div>
                 </div>
                 <div class="contact-info d-flex flex-wrap justify-content-center">
@@ -1755,8 +1764,8 @@ const {cartCount, loadCartCount} = useCartCount();
                                       fill="#ffff"/>
                             </svg>
                         </a>
-                        <span class="mt-3 web-phone-span d-block">Phone Number</span>
-                        <span class="mt-3 mobile-span mobile-phone-span d-none">Phone</span>
+                        <span class="mt-3 web-phone-span d-block">{{ $t('contact.phone') }}</span>
+                        <span class="mt-3 mobile-span mobile-phone-span d-none">{{ $t('contact.phone') }}</span>
                         <a class="mt-2 d-block a-web" href="tel:+37477198238"> +374 77 198238 </a>
                     </div>
                     <div class="info-detail  d-flex flex-column align-items-center justify-content-center">
@@ -1774,24 +1783,23 @@ const {cartCount, loadCartCount} = useCartCount();
                     </div>
 
                     <div class="info-detail d-flex flex-column align-items-center justify-content-center">
-                        <a href="mailto:info@haylogic.am">
+                        <a href="mailto:info@trainup.academy">
                             <svg width="30" height="28" viewBox="0 0 30 28" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path d="M23.75 0.25H6.25C4.59301 0.251985 3.00445 0.911103 1.83277 2.08277C0.661102 3.25445 0.00198482 4.84301 0 6.5L0 21.5C0.00198482 23.157 0.661102 24.7456 1.83277 25.9172C3.00445 27.0889 4.59301 27.748 6.25 27.75H23.75C25.407 27.748 26.9956 27.0889 28.1672 25.9172C29.3389 24.7456 29.998 23.157 30 21.5V6.5C29.998 4.84301 29.3389 3.25445 28.1672 2.08277C26.9956 0.911103 25.407 0.251985 23.75 0.25ZM6.25 2.75H23.75C24.4985 2.75147 25.2294 2.97689 25.8487 3.39726C26.468 3.81762 26.9473 4.41368 27.225 5.10875L17.6525 14.6825C16.948 15.3841 15.9943 15.7781 15 15.7781C14.0057 15.7781 13.052 15.3841 12.3475 14.6825L2.775 5.10875C3.05269 4.41368 3.53202 3.81762 4.15131 3.39726C4.7706 2.97689 5.50152 2.75147 6.25 2.75ZM23.75 25.25H6.25C5.25544 25.25 4.30161 24.8549 3.59835 24.1517C2.89509 23.4484 2.5 22.4946 2.5 21.5V8.375L10.58 16.45C11.7533 17.6203 13.3428 18.2775 15 18.2775C16.6572 18.2775 18.2467 17.6203 19.42 16.45L27.5 8.375V21.5C27.5 22.4946 27.1049 23.4484 26.4017 24.1517C25.6984 24.8549 24.7446 25.25 23.75 25.25Z"
                                       fill="#ffff"/>
                             </svg>
                         </a>
-                        <span class="mt-3 mobile-span">Email</span>
-                        <a class="mt-2 d-block a-web" href="mailto:info@haylogic.am">info@haylogic.am</a>
+                        <span class="mt-3 mobile-span">{{ $t('contact.email') }}</span>
+                        <a class="mt-2 d-block a-web" href="mailto:info@trainup.academy">info@trainup.academy</a>
                     </div>
                 </div>
             </div>
             <div v-if="isCoursesPage" class="header-courses-content-section d-flex position-relative">
                 <div class="courses-content">
                     <div class="content">
-                        <h1 class="text-capitalize"><span class="text-capitalize">HayLogic Academy</span> Courses </h1>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the</p>
+                        <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('courses_page.header_title') }}</span> {{ $t('courses_page.header_title_2') }}</h1>
+                        <p>{{ $t('courses_page.header_description') }}</p>
                     </div>
                 </div>
             </div>
@@ -1799,7 +1807,7 @@ const {cartCount, loadCartCount} = useCartCount();
                 <div v-if="isLoading" class="d-flex justify-content-center align-items-center w-100"
                      style="min-height: 300px">
                     <div class="spinner-border text-secondary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="visually-hidden">{{ $t('loading') }}...</span>
                     </div>
                 </div>
                 <div v-else class="single-course-content">
@@ -1824,7 +1832,7 @@ const {cartCount, loadCartCount} = useCartCount();
                 <div v-if="isLoading" class="d-flex justify-content-center align-items-center w-100"
                      style="min-height: 300px">
                     <div class="spinner-border text-secondary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="visually-hidden">{{ $t('loading') }}...</span>
                     </div>
                 </div>
                 <div v-else class="single-blog-content">
@@ -1839,9 +1847,8 @@ const {cartCount, loadCartCount} = useCartCount();
             <div v-if="isWhyChooseUsPage" class="header-why-choose-content-section d-flex position-relative">
                 <div class="why-choose-content">
                     <div class="content">
-                        <h1 class="text-capitalize"><span class="text-capitalize">Why You </span> Should Choose Us </h1>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the</p>
+                        <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('why_choose_us_text.title_1') }}</span> {{ $t('why_choose_us_text.title_2') }}</h1>
+                        <p>{{ $t('about.why_choose_us_text') }}</p>
                     </div>
                 </div>
             </div>
@@ -1849,14 +1856,14 @@ const {cartCount, loadCartCount} = useCartCount();
             <div v-if="isTeachOnTrainUpPage" class="header-train-up-content-section d-flex position-relative">
                 <div class="train-up-content">
                     <div class="content">
-                        <h1 class="text-capitalize"><span class="text-capitalize">Come </span> Teach with us </h1>
-                        <p>Become an instructor and change lives — including your own</p>
+                        <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('teach_whit_us.come') }} </span> {{ $t('teach_whit_us.title') }} </h1>
+                        <p>{{ $t('teach_whit_us.text') }}</p>
                     </div>
                     <div v-if="!auth.isAuthenticated" class="learn-more-btn-div d-flex justify-content-center align-items-center">
                         <router-link
                                 :to="{ path: '/sign-up', query: { hideLearner: true } }"
                                 class="learn-more-btn text-decoration-none align-items-center justify-content-center d-flex">
-                            Get started
+                            {{ $t('teach_whit_us.register') }}
                         </router-link>
                     </div>
                 </div>
@@ -2296,11 +2303,11 @@ html[lang="arm"] .nav-link {
 
 .navbar-auth-btn-block {
     display: flex;
-//gap: 10px;
+    /* gap: 10px; */
 }
 
 .menu-list {
-//gap: 5px;
+/* gap: 5px; */
 }
 
 .lang-change-block {

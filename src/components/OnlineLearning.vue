@@ -8,14 +8,17 @@
             <div class="online-learning-content d-flex align-items-center justify-content-between">
                 <div class="content-img">
                     <div class="content-img-footer">
-                        <h6 class="text-capitalize">Empowering Grow Through</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet,
-                            consectetur adipiscing elit.
-                        </p>
+                        <h6 class="text-capitalize">{{ $t('about.goals_title') }}</h6>
+                        <ul>
+                            <li>{{ $t('about.goal_1') }}</li>
+                            <li>{{ $t('about.goal_2') }}</li>
+                            <li>{{ $t('about.goal_3') }}</li>
+                            <li>{{ $t('about.goal_4') }}</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="content">
-                    <h4 class="text-capitalize">Empowering Growth Through Online Learning</h4>
+                    <h4 class="text-capitalize">{{ $t('about.empowering_growth') }}</h4>
                     <div class="mission-vision-block">
                         <div class="vision vision-mission-div">
                             <div class="vision-mission-content d-flex align-items-center justify-content-between">
@@ -27,9 +30,8 @@
 <!--                                    </svg>-->
 <!--                                </div>-->
                                 <div class="vision-text">
-                                    <h3 class="text-capitalize">HayLogic Academy Vision</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Ut elit tellus, luctus nec ullamcorpe.</p>
+                                    <h3 class="text-capitalize">{{ $t('about.vision') }}</h3>
+                                    <p>{{ $t('about.vision_text') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -43,16 +45,15 @@
 <!--                                    </svg>-->
 <!--                                </div>-->
                                 <div class="mission-text">
-                                    <h3 class="text-capitalize">HayLogic Academy Mission</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Ut elit tellus, luctus nec ullamcorpe.</p>
+                                    <h3 class="text-capitalize">{{ $t('about.mission') }}</h3>
+                                    <p>{{ $t('about.mission_text') }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="line"></div>
                     <div class="social-media-block d-flex justify-content-between align-items-center">
-                        <p class="text-capitalize">Social media:</p>
+                        <p class="text-capitalize">{{ $t('about.social_media') }}</p>
                         <div class="social-media-icons d-flex">
                             <img src="/assets/icons/social-media/facebook.svg" alt="facebook">
                             <img src="/assets/icons/social-media/instagram.svg" alt="instagram">
@@ -98,14 +99,14 @@
 
 .content-img-footer {
     width: 100%;
-    height: 138px;
+    height: auto;
     background-color: var(--secondary-2-10);
     border-radius: 26px;
     position: absolute;
-    bottom: -28%;
+    bottom: -32%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    padding: 25px;
 }
 
 .content-img-footer h6 {
@@ -115,10 +116,26 @@
     line-height: normal;
     letter-spacing: 0%;
     color: var(--primary-100);
-    margin: 25px 0 12px 11px;
+    margin: 0 0 12px 11px;
+}
+
+.content-img-footer ul {
+    list-style-type: disc;
+    padding-left: 30px;
+    margin: 0;
+}
+
+.content-img-footer li {
+    font-family: var(--font-inter);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--primary-60);
+    margin-bottom: 5px;
 }
 
 .content-img-footer p {
+    /* Kept for compatibility if p is used elsewhere, but removed from usage in footer */
     width: 77%;
     margin: 0 0 12px 11px;
     font-family: var(--font-inter);
@@ -151,7 +168,7 @@
 
 .vision-mission-div {
     width: 100%;
-    height: 127px;
+    height: 170px;
     gap: 10px;
     border-radius: 16px;
     background: var(--secondary-2-10);

@@ -34,7 +34,9 @@ import TeachOnTrainUp from "./views/TeachOnTrainUp.vue";
 import TermsConditions from "./views/TermsConditions.vue";
 import PrivacyPolicy from "./views/PrivacyPolicy.vue";
 import WalletInstructor from "./views/auth/instructor/Wallet.vue";
+import WithdrawFundsInstructor from "./views/auth/instructor/WithdrawFunds.vue";
 import WalletLearner from "./views/auth/learner/Wallet.vue";
+import AddFundsLearner from "./views/auth/learner/AddFunds.vue";
 
 
 const routes = [
@@ -119,6 +121,12 @@ const routes = [
                 component: WalletInstructor,
                 props: true
             },
+            {
+                path: 'withdraw-funds',
+                name: 'instructor-withdraw-funds',
+                component: WithdrawFundsInstructor,
+                props: true
+            },
         ]
     },
 
@@ -178,6 +186,12 @@ const routes = [
                 path: 'wallet',
                 name: 'learner-wallet',
                 component: WalletLearner,
+                props: true
+            },
+            {
+                path: 'add-funds',
+                name: 'learner-add-funds',
+                component: AddFundsLearner,
                 props: true
             },
         ]

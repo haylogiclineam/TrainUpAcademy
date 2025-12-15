@@ -37,6 +37,30 @@
   "confirm_your_password": "Confirm your password",
   "change": "Change",
   "change_password": "Change password",
+  "loading": "Loading",
+  "header": {
+    "title": "TrainUp Online Academy",
+    "subtitle": "The Most Convenient Place to Develop Your Skills"
+  },
+  "hero": {
+    "learn_anywhere_anytime": "Learn anywhere, anytime.",
+    "choose_course_fits_level": "Choose a course that fits your skill level—from beginner to advanced.",
+    "free_registration": "Free Registration"
+  },
+  "featured_courses": {
+    "title": "Featured Online Courses",
+    "description_short": "Boost your knowledge. Build a sustainable career.",
+    "description_long": "At TrainUp Online Academy, you can learn the most in-demand skills on the market with the support of experienced professionals. Select your online course and start acquiring new skills today."
+  },
+  "testimonials": {
+    "title": "What Our Students Say",
+    "description": "See what our students say about TrainUp.academy and our courses. Their success stories are proof that the right knowledge can transform a career. Read their real opinions about our instructors, course quality, and learning experience.",
+    "best_conference": "Best Conference",
+    "certified_trusted": "100% Certified & Trusted",
+    "world_class_support": "Enjoy 24/7 World Class Support"
+  },
+  "blog_description": "In the TrainUp Academy blog, you’ll find the latest articles on professional skills, personal growth, technology, and career development. Learn new ideas, discover practical tips, and always stay one step ahead.",
+  "book_call_title": "Call us and discover new opportunities.",
   "messages": {
     "email_required": "Email is required",
     "email_invalid": "Email must be valid",
@@ -58,6 +82,105 @@
     "newsletter_creation_failed": "There was an error sending your newsletter. Please try again.",
     "contact_created": "Your contact has been sent successfully!",
     "contact_creation_failed": "There was an error sending your contact. Please try again."
+  },
+  "about": {
+    "about": "About",
+    "us": "Us",
+    "description": "TrainUp Online Academy is a next-generation learning platform aimed at developing professional skills through accessible, flexible, and practical courses.We bring together the best Armenian-speaking and internationally experienced professionals to provide you with learning that delivers real results.",
+    "vision": "Our Vision",
+    "vision_text": "At TrainUp Online Academy, our vision is simple:To create an educational platform where everyone can develop their skills, discover new opportunities, and build a successful future—regardless of age, location, or prior knowledge.",
+    "mission": "Our Mission",
+    "mission_text": "The mission of TrainUp Online Academy is to provide accessible, practical, and modern education for everyone. We believe that everyone can develop skills, enter new fields, increase their salary, or start their own business if they have the right knowledge and guidance.",
+    "social_media": "Social Media",
+    "why_choose_us": "Why choose us",
+    "why_choose_us_text": "TrainUp Online Academy is an online platform where you can develop your skills at any level, from beginner to advanced. We offer modern courses, practical assignments, and support from experienced professionals.",
+    "our_team": "Our Expert Team",
+    "our_team_text": "Our team consists of experienced professionals with years of real project experience. They not only teach theory but also guide students throughout the process of acquiring practical skills.",
+    "faq": "FAQ",
+    "empowering_growth": "Empowering Growth Through Online Learning",
+    "goals_title": "Our goals",
+    "goal_1": "Provide students with in-demand practical skills,",
+    "goal_2": "Ensure high-quality instructors with real-world experience,",
+    "goal_3": "Create a supportive community where everyone can grow and develop,",
+    "goal_4": "Offer a learning environment that motivates to learn, try, and move forward."
+  },
+  "contact": {
+    "contact": "Contact",
+    "us": "Us",
+    "description": "Contact us for any questions, support, or guidance. Our team is always ready to assist you quickly and efficiently at every step.",
+    "phone": "Phone Number",
+    "email": "Email",
+    "send_message": "Send Us a Message"
+  },
+  "why_choose_us_text": {
+    "title_1": "Why",
+    "title_2": "Choose Us",
+    "blok_1": {
+      "title": "Modern and In-Demand Professions",
+      "text": "We offer courses that match the latest global market demands. Our programs are constantly updated so you can learn real, practical skills—UI/UX, web development, AI tools, social media, and many other directions. This is the kind of knowledge that helps you progress quickly and become a competitive professional, whether you’re a beginner or already experienced."
+    },
+    "blok_2": {
+      "title": "Experienced Instructors with Real Industry Practice",
+      "text": "The instructors at TrainUp Academy are professionals with years of experience working on real projects, businesses, and international clients. They teach not only theory but real working approaches—sharing practical techniques, methods, and insights to avoid common mistakes. You learn what is actually used in the market and what brings real results."
+    },
+    "blok_3": {
+      "title": "Learn Anytime and Anywhere",
+      "text": "All our training is fully online and available 24/7. This means you can study at your own pace—after work, on weekends, or even while traveling. No strict schedules, no limitations—you organize your learning process in the way that works best for you. This flexibility makes education more effective for everyone."
+    },
+    "blok_4": {
+      "title": "Practice with Real Examples",
+      "text": "Our courses are built on hands-on learning. You’ll get not only theoretical material but also real assignments, mini-projects, and case studies that help strengthen your skills through practice. Every student builds a personal portfolio that can be presented to employers and used when entering a new profession."
+    },
+    "blok_5": {
+      "title": "Continuous Support and Mentorship",
+      "text": "At TrainUp Academy, you never study alone. Throughout the entire learning process, we provide support—from mentors, instructors, and the community. You can write anytime to get answers, help, corrections, or advice. We believe that proper guidance is essential for success, and we support you until the final result."
+    },
+    "blok_6": {
+      "title": "Affordable Prices and Free Enrollment",
+      "text": "Our mission is to make quality education accessible, so we offer affordable prices, a flexible payment system, and free enrollment. This allows you to start learning easily without a heavy financial burden. We want everyone to have the opportunity to study, grow, and build a stable career."
+    }
+  },
+  "teach_whit_us": {
+    "come": "Come",
+    "title": "Teach with us",
+    "text": "Share your professional expertise with thousands of learners. Become an instructor on our platform, gain recognition, share your knowledge and experience, and help develop the next generation of professionals.",
+    "register": "Register for Free",
+    "why_teach": "Why Teach With Us",
+    "why_text": "Share your expertise, provide learners with new knowledge and skills, and grow as a professional instructor.",
+    "feature1": "In-Demand Skills",
+    "feature1_text": "Your courses help learners acquire modern, practical skills that are highly sought after in the real world.",
+    "feature2": "Professional Community & Recognition",
+    "feature2_text": "Gain recognition on our platform, collaborate with experienced instructors, and expand your professional network.",
+    "feature3": "Support & Growth",
+    "feature3_text": "Receive full support, access new teaching methods, and develop your instructional skills."
+  },
+  "become_instructor": {
+    "title": "Become an instructor today",
+    "text": "Join our online learning marketplace.",
+    "btn_text": "Register for free"
+  },
+  "begin": {
+    "title": "Become an Instructor: Step by Step",
+    "step1": {
+      "title": "Plan Your Curriculum",
+      "text1": "Start by carefully planning your course topics and structure. Determine what your students need to learn and how to present it to provide maximum value. Creating a smart and logical course plan not only helps students but also strengthens your expertise and teaching confidence.",
+      "text2": "Register on our platform to access all the tools for structuring lessons, adding materials, and tracking student progress. By dedicating time to planning your course, you ensure a professional and engaging learning experience for every student."
+    },
+    "step2": {
+      "title": "Record Your Video",
+      "text1": "Next, create high-quality, engaging videos that showcase your knowledge and teaching style. Be ready to guide, mentor, and support your students throughout the course.",
+      "text2": "Include practical examples, real-world projects, and actionable exercises that allow students to immediately apply their skills. Videos are the core of your course — clear, interesting, and dynamic content keeps students’ attention and boosts motivation. The more effort you put into creating professional videos, the more your students will benefit from your expertise and the more visibility your course will gain."
+    },
+    "step3": {
+      "title": "Publish Your Course",
+      "text1": "Finally, publish your course by adding it to your profile. Fill in all required fields, upload your prepared videos, course materials, and description.",
+      "text2": "Submit it for approval by our team. Once approved, your course becomes available to thousands of learners. By publishing your course, you join a community of experienced instructors who are shaping the next generation of professionals."
+    }
+  },
+  "courses_page": {
+    "header_title": "TrainUp Academy",
+    "header_title_2": "Courses",
+    "header_description": "Explore a wide range of professional courses designed to help you develop new skills and advance your career. Each program is created by industry experts and includes practical lessons, real-world examples, and hands-on exercises. Start learning today and unlock opportunities for your personal and professional growth."
   },
   "auth": {
     "register_success": "User registered successfully. Please check your email for the verification code.",
@@ -106,6 +229,11 @@
     "phone_number_unique": "This phone number is already in use.",
     "notification_state_updated": "Notification config successfully updated.",
     "notification_state_update_failed": "Failed to update notification config",
+    "by_creating_account": "By creating an account, you accept our",
+    "terms": "Terms",
+    "privacy_policy": "Privacy Policy",
+    "accept_terms_required": "You must accept the Terms & Privacy Policy to register",
+    "and": "and",
     "settingsTabs": {
       "view_public_profile": "View Public Profile",
       "view_profile": "View  Profile",
@@ -384,6 +512,48 @@
     "add_to_card_btn": "Add to card"
   },
   "no_notification": "No notifications",
+  "withdraw_funds": {
+    "title": "Withdraw Funds",
+    "available_balance": "Available Balance",
+    "amount_to_withdraw": "Amount to Withdraw",
+    "amount_placeholder": "$ 0.00",
+    "minimum": "Minimum $20",
+    "maximum": "Maximum $2,000",
+    "platform_fee": "Platform Fee (10%)",
+    "net_amount": "Net Amount You'll Receive",
+    "bank_transfer": "Bank Transfer",
+    "paypal": "PayPal",
+    "bank_name": "Bank Name",
+    "account_holder_name": "Account Holder Name",
+    "account_number": "Account Number",
+    "swift_iban": "SWIFT / IBAN",
+    "info_processing": "Withdraw processed in 24-48 hours",
+    "info_fee": "Platform takes 10% fee",
+    "info_minimum": "Minimum withdrawal $20",
+    "cancel": "Cancel",
+    "request_withdrawal": "Request Withdrawal"
+  },
+  "add_funds": {
+    "title": "Add funds to student balance",
+    "available_balance": "Available balance",
+    "amount_to_add": "Amount to add",
+    "amount_placeholder": "$ 0.00",
+    "minimum": "Minimum $20",
+    "maximum": "Maximum $2,000",
+    "platform_fee": "Platform fee (10%)",
+    "net_amount": "Net amount to be credited",
+    "credit_debit_card": "Credit / debit card",
+    "cardholder_name": "Cardholder name",
+    "card_number": "Card number",
+    "expiration_date": "Expiration date (MM/YY)",
+    "cvv": "CVV",
+    "paypal": "PayPal",
+    "info_processing": "Top-ups are usually processed instantly",
+    "info_fee": "The platform charges a 10% fee",
+    "info_minimum": "Minimum top-up amount is $20",
+    "cancel": "Cancel",
+    "add_funds_btn": "Add funds"
+  },
   "wishlist_page": {
     "title": "Wishlist",
     "instructor": "Instructor",
@@ -469,7 +639,7 @@
         "body": "Yerevan, Republic of Armenia"
       }
     ]
-},
+  },
   "privacy_policy": {
     "title": "PRIVACY POLICY",
     "lastUpdated": "Last Updated: November 1, 2025",

@@ -10,15 +10,15 @@ auth.checkAuth()
         <div class="container">
             <div class="become-instructor-main d-flex flex-column justify-content-center align-items-center position-relative">
                 <div class="become-instructor-title d-flex flex-column align-items-center justify-content-center">
-                    <h3>Become an instructor today</h3>
-                    <p>Join one of the world’s largest online learning marketplaces.
+                    <h3>{{ $t('become_instructor.title') }}</h3>
+                    <p>{{ $t('become_instructor.text') }}
                     </p>
                     <div v-if="!auth.isAuthenticated" class="get-started-btn-div">
                         <router-link
                                 :to="{ path: '/sign-up', query: { hideLearner: true } }"
                                 class="get-started-btn text-decoration-none align-items-center justify-content-center d-flex"
                         >
-                            Get started
+                            {{ $t('become_instructor.btn_text') }}
                         </router-link>
                     </div>
                 </div>

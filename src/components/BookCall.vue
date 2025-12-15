@@ -89,7 +89,7 @@ const isHomePage = computed(() => route.path === '/');
     <div :class="['book-call-section', { 'home-page-margin': isHomePage }]">>
         <div class="container">
             <div class="call-form">
-                <h3 class="h3 text-capitalize">Book a Call & Join the Experience!</h3>
+                <h3 class="h3 text-capitalize">{{ $t('book_call_title') }}</h3>
                 <div class="form d-flex flex-column justify-content-center align-items-center">
                     <div class="w-100 d-flex flex-column align-items-center">
                         <input

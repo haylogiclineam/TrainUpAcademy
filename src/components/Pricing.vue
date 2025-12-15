@@ -55,7 +55,7 @@ const getCurrencySymbol = (code) => {
                 </div>
                 <div v-if="loading" class="d-flex justify-content-center align-items-center my-5">
                     <div class="spinner-border text-secondary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="visually-hidden">{{ $t('loading') }}...</span>
                     </div>
                 </div>
                 <Carousel v-else

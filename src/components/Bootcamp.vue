@@ -60,7 +60,7 @@ onMounted(() => {
         <div class="container">
             <div v-if="loading" class="loading-state d-flex justify-content-center align-items-center">
                 <div class="spinner-border text-secondary" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                    <span class="visually-hidden">{{ $t('loading') }}...</span>
                 </div>
             </div>
 

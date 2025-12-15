@@ -134,7 +134,7 @@ function formatBody(text) {
             </div>
         </div>
     </div>
-    <div v-else>Loading...</div>
+    <div v-else>{{ $t('loading') }}...</div>
 </template>
 
 <style scoped>

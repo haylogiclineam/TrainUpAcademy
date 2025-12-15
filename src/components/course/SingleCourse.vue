@@ -337,7 +337,7 @@ watch(() => course.value?.id, (newId, oldId) => {
         <div class="container">
             <div v-if="isLoading" class="d-flex justify-content-center align-items-center" style="min-height: 300px">
                 <div class="spinner-border text-secondary" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                    <span class="visually-hidden">{{ $t('loading') }}...</span>
                 </div>
             </div>
             <div v-else class="single-course-block flex-wrap d-flex justify-content-between">

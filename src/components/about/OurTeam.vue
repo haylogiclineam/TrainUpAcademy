@@ -34,13 +34,12 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
         <div class="container">
             <div class="d-flex flex-column justify-content-center align-items-center position-relative team-main">
                 <div class="team-title">
-                    <h3 class="text-capitalize">Our Expert Team</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper
-                        mattis, pulvinar</p>
+                    <h3 class="text-capitalize">{{ $t('about.our_team') }}</h3>
+                    <p>{{ $t('about.our_team_text') }}</p>
                 </div>
                 <div v-if="loading" class="d-flex justify-content-center align-items-center" style="min-height: 300px">
                     <div class="spinner-border text-secondary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="visually-hidden">{{ $t('loading') }}...</span>
                     </div>
                 </div>
                 <div v-else class="team-block d-flex justify-content-center align-items-center flex-wrap">
