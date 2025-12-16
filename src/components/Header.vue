@@ -1751,7 +1751,7 @@ const {cartCount, loadCartCount} = useCartCount();
             <div v-if="isContactPage" class="header-contact-content-section d-flex flex-column position-relative">
                 <div class="contact-content">
                     <div class="content">
-                        <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('contact.contact') }}</span>{{ $t('contact.us') }}</h1>
+                        <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('contact.contact') }}</span> {{ $t('contact.us') }}</h1>
                         <p>{{ $t('contact.description') }}</p>
                     </div>
                 </div>

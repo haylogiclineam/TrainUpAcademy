@@ -15,6 +15,7 @@ const whyChooseContentClass = computed(() => {
 const whyChooseUsItemsClass = computed(() => {
     const classes = {
         '/why-choose-us': 'why-choose-us-items-full-w',
+        '/about': 'why-choose-us-items-full-w',
     };
     return classes[route.path] || 'why-choose-us-items';
 });
