@@ -206,22 +206,22 @@ const getCurrencySymbol = (code) => {
     letter-spacing: 1px;
     color: var(--white-229);
     cursor: pointer;
-    width: 163px;
+    padding: 0 30px;
     height: 47px;
     background: var(--general-btn);
     border: none;
     outline: none;
+    white-space: nowrap;
 }
 
 .enroll-more-btn:hover {
     height: 50px;
-    width: 173px;
     font-size: 18px;
+    text-decoration: none;
 }
-
+ 
 .enroll-more-btn-div {
     height: 50px;
-    width: 173px;
 }
 
 .package-detail {

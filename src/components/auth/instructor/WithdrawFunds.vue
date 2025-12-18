@@ -68,7 +68,7 @@ const handleWithdraw = () => {
             <div class="withdraw-funds-main">
                 <h1 class="withdraw-title">{{ t('withdraw_funds.title') }}</h1>
                 
-                <p class="available-balance">{{ t('withdraw_funds.available_balance') }}: ${{ availableBalance.toLocaleString() }}</p>
+                <p class="available-balance">{{ t('withdraw_funds.available_balance') }}: {{ availableBalance.toLocaleString() }} ֏</p>
                 
                 <div class="form-section">
                     <label class="section-label">{{ t('withdraw_funds.amount_to_withdraw') }}</label>
@@ -89,12 +89,12 @@ const handleWithdraw = () => {
                     
                     <div class="fee-row">
                         <span>{{ t('withdraw_funds.platform_fee') }}:</span>
-                        <span>-${{ platformFee }}</span>
+                        <span>{{ platformFee }} ֏</span>
                     </div>
                     
                     <div class="fee-row net-amount">
                         <span>{{ t('withdraw_funds.net_amount') }}:</span>
-                        <span>${{ netAmount }}</span>
+                        <span>{{ netAmount }} ֏</span>
                     </div>
                     
                     <!-- Payment Method Selection -->
@@ -140,13 +140,6 @@ const handleWithdraw = () => {
                                     :placeholder="t('withdraw_funds.swift_iban')"
                                 />
                             </div>
-                        </div>
-                        
-                        <div class="payment-option" @click="paymentMethod = 'paypal'">
-                            <div class="radio-circle" :class="{ active: paymentMethod === 'paypal' }">
-                                <div class="radio-inner" v-if="paymentMethod === 'paypal'"></div>
-                            </div>
-                            <span class="payment-label">{{ t('withdraw_funds.paypal') }}</span>
                         </div>
                     </div>
                     

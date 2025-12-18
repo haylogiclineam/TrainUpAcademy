@@ -141,6 +141,7 @@ body {
     line-height: normal;
     letter-spacing: 2%;
     margin: 0;
+    margin-top: 10px;
 }
 
 .pagination {
@@ -278,6 +279,7 @@ body {
     .required-field,
     .success-message {
         font-size: 14px;
+        margin-top: 5px;
     }
 
     .pagination {
@@ -305,6 +307,10 @@ body {
     .settings-tab-p {
         font-size: 14px;
     }
+    
+    div.blog-article-section ul.pagination{
+        margin-top: 60px !important;
+    }
 }
 
 /*!* Small Devices (Phones, >= 576px and < 768px) *!*/
@@ -317,6 +323,7 @@ body {
     .required-field,
     .success-message {
         font-size: 14px;
+        margin-top: 5px;
     }
 
     .pagination {
@@ -355,6 +362,7 @@ body {
     .required-field,
     .success-message {
         font-size: 16px;
+        margin-top: 6px;
     }
 
     .settings-tab-header{
@@ -383,6 +391,7 @@ body {
     .required-field,
     .success-message {
         font-size: 16px;
+        margin-top: 8px;
     }
 }
 

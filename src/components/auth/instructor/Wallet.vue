@@ -11,24 +11,25 @@ const steps = [
         ],
     },
     {
-        title: "Total Earning",
-        items: [
-            { text: "Your Total Earning:", price: "$ 1500" },
-        ],
-    },
-    {
-        title: "Pending Earning",
-        items: [
-            { text: "Your Pending Earning: ", price: "$ 1500" },
-            { text: "Your Pending Earning: ", price: "$ 1500" },
-        ],
-    },
-    {
         title: "Available for Withdrawal",
         items: [
             { text: "Available for Withdrawal:", price: "$ 1500" },
         ],
     },
+    {
+        title: "Earning Status",
+        items: [
+            { text: "Earnings are pending: ", price: "$ 1500", status: "pending" },
+            { text: "Earnings were canceled: ", price: "$ 1500", status: "canceled" },
+            { text: "Earnings received: ", price: "$ 1500", status: "received" },
+        ],
+    },
+    {
+        title: "Total Earning",
+        items: [
+            { text: "Your Total Earning:", price: "$ 1500" },
+        ],
+    }
 ];
 
 
@@ -96,6 +97,7 @@ onMounted(() => {
                                     v-for="(item, index) in steps[activeStep]?.items ?? []"
                                     :key="index"
                                     class="wallet-box"
+                                    :class="{ 'status-box': activeStep === 2 }"
                             >
                                 <p class="wallet-text mb-0">
                                     {{ item.text }}
@@ -104,7 +106,9 @@ onMounted(() => {
                                             :class="{
                                   'wallet-balance': activeStep === 0,
                                   'total-earning': activeStep === 1,
-                                  'pending-earning': activeStep === 2,
+                                  'pending-earning': activeStep === 2 && item.status === 'pending',
+                                  'canceled-earning': activeStep === 2 && item.status === 'canceled',
+                                  'received-earning': activeStep === 2 && item.status === 'received',
                                   'available-withdrawal': activeStep === 3
                                 }" >
                                 {{ item.price }}
@@ -141,7 +145,8 @@ onMounted(() => {
                                 <div
                                         v-for="(item, itemIndex) in step.items"
                                         :key="itemIndex"
-                                        class="wallet-box mb-2">
+                                        class="wallet-box mb-2"
+                                        :class="{ 'status-box': index === 2 }">
                                     <p class="wallet-text mb-0">
                                         {{ item.text }}
                                         <span
@@ -149,7 +154,9 @@ onMounted(() => {
                                                 :class="{
                                         'wallet-balance': index === 0,
                                         'total-earning': index === 1,
-                                        'pending-earning': index === 2,
+                                        'pending-earning': index === 2 && item.status === 'pending',
+                                        'canceled-earning': index === 2 && item.status === 'canceled',
+                                        'received-earning': index === 2 && item.status === 'received',
                                         'available-withdrawal': index === 3
                                       }">
                                       {{ item.price }}
@@ -322,11 +329,35 @@ onMounted(() => {
 }
 
 .wallet-amount.pending-earning {
-    color: var(--pending-wallet);
+    color: #EBB364;
+}
+
+.wallet-amount.canceled-earning {
+    color: #F06260;
+}
+
+.wallet-amount.received-earning {
+    color: #59BF86;
 }
 
 .wallet-amount.available-withdrawal {
     color: var(--primary-90);
+}
+
+.wallet-box.status-box {
+    background: #F5F5F5;
+    border: 1px solid #F5F5F5;
+    height: 62px;
+    padding: 0 27px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.status-box .wallet-text {
+    color: #1A283E;
+    font-weight: 500;
+    line-height: 150%;
 }
 
 @media (max-width: 575px) {

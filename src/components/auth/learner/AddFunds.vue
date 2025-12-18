@@ -68,7 +68,7 @@ const handleAddFunds = () => {
             <div class="add-funds-main">
                 <h1 class="add-funds-title">{{ t('add_funds.title') }}</h1>
                 
-                <p class="available-balance">{{ t('add_funds.available_balance') }}: ${{ availableBalance.toLocaleString() }}</p>
+                <p class="available-balance">{{ t('add_funds.available_balance') }}: {{ availableBalance.toLocaleString() }} ֏</p>
                 
                 <div class="form-section">
                     <label class="section-label">{{ t('add_funds.amount_to_add') }}</label>
@@ -89,12 +89,12 @@ const handleAddFunds = () => {
                     
                     <div class="fee-row">
                         <span>{{ t('add_funds.platform_fee') }}:</span>
-                        <span>-${{ platformFee }}</span>
+                        <span>{{ platformFee }} ֏</span>
                     </div>
                     
                     <div class="fee-row net-amount">
                         <span>{{ t('add_funds.net_amount') }}:</span>
-                        <span>-${{ netAmount }}</span>
+                        <span>{{ netAmount }} ֏</span>
                     </div>
                     
                     <!-- Payment Method Selection -->
@@ -140,13 +140,6 @@ const handleAddFunds = () => {
                                     :placeholder="t('add_funds.cvv')"
                                 />
                             </div>
-                        </div>
-                        
-                        <div class="payment-option" @click="paymentMethod = 'paypal'">
-                            <div class="radio-circle" :class="{ active: paymentMethod === 'paypal' }">
-                                <div class="radio-inner" v-if="paymentMethod === 'paypal'"></div>
-                            </div>
-                            <span class="payment-label">{{ t('add_funds.paypal') }}</span>
                         </div>
                     </div>
                     

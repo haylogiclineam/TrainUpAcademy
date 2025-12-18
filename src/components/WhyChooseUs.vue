@@ -16,6 +16,7 @@ const whyChooseUsItemsClass = computed(() => {
     const classes = {
         '/why-choose-us': 'why-choose-us-items-full-w',
         '/about': 'why-choose-us-items-full-w',
+        '/courses': 'why-choose-us-items-full-w',
     };
     return classes[route.path] || 'why-choose-us-items';
 });
@@ -29,7 +30,7 @@ const whyChooseUsItemsClass = computed(() => {
                 <div :class="whyChooseContentClass" class="d-flex justify-content-between align-items-center">
                     <h3 class="text-capitalize">{{ $t('about.why_choose_us') }}</h3>
                     <p>{{ $t('about.why_choose_us_text') }}</p>
-                    <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
+                    <div class="learn-more-btn-div d-flex align-items-center">
                         <button class="learn-more-btn">
                             {{ $t('learn_more') }}
                         </button>
@@ -129,33 +130,38 @@ const whyChooseUsItemsClass = computed(() => {
 }
 
 .learn-more-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 13px 28px;
     gap: 10px;
-    border-radius: 70px;
+    border-radius: 25px;
     font-family: var(--font-montserrat);
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
-    line-height: normal;
-    letter-spacing: 1px;
-    color: var(--white-229);
+    line-height: 20px;
+    color: var(--white-245);
     cursor: pointer;
-    width: 176px;
-    height: 53px;
     background: var(--general-btn);
     outline: none;
     border: none;
     text-transform: capitalize;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-
 .learn-more-btn:hover {
-    height: 56px;
-    width: 186px;
-    font-size: 18px;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(75, 187, 228, 0.3);
 }
 
 .learn-more-btn-div {
-    height: 56px;
-    width: 186px;
+    display: flex;
+}
+
+.learn-more-btn-div a {
+    text-decoration: none;
 }
 
 .why-choose-us-items,
@@ -310,21 +316,13 @@ const whyChooseUsItemsClass = computed(() => {
         text-align: center;
     }
 
-    .learn-more-btn-div {
-        width: 190px;
-        height: 50px;
+    .learn-more-btn {
+        padding: 10px 22px;
+        font-size: 14px;
     }
 
     .learn-more-btn:hover {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
-    }
-
-    .learn-more-btn {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
+        transform: scale(1.03);
     }
 
     .why-choose-us-items {
@@ -409,21 +407,13 @@ const whyChooseUsItemsClass = computed(() => {
         text-align: center;
     }
 
-    .learn-more-btn-div {
-        width: 190px;
-        height: 50px;
+    .learn-more-btn {
+        padding: 10px 22px;
+        font-size: 14px;
     }
 
     .learn-more-btn:hover {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
-    }
-
-    .learn-more-btn {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
+        transform: scale(1.03);
     }
 
     .why-choose-us-items {
@@ -508,21 +498,13 @@ const whyChooseUsItemsClass = computed(() => {
         text-align: center;
     }
 
-    .learn-more-btn-div {
-        width: 190px;
-        height: 50px;
+    .learn-more-btn {
+        padding: 11px 24px;
+        font-size: 15px;
     }
 
     .learn-more-btn:hover {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
-    }
-
-    .learn-more-btn {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
+        transform: scale(1.04);
     }
 
     .why-choose-us-items {

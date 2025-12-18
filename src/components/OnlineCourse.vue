@@ -247,7 +247,7 @@ onMounted(async () => {
                     <div class="course-content" :class="courseTextClass">
                         <h3 class="text-capitalize">{{ $t('featured_courses.title') }}</h3>
                         <p class="mb-0">{{ $t('featured_courses.description_short') }}</p>
-                        <p class="mb-0">{{ $t('featured_courses.description_long') }}</p>
+                        <p class="mb-0 featured-description-long">{{ $t('featured_courses.description_long') }}</p>
                     </div>
                     <div v-if="isHomePage" class="learn-more-btn-div d-flex justify-content-center align-items-center">
                         <router-link to="/courses" class="learn-more-btn text-capitalize text-decoration-none text-center d-flex justify-content-center align-items-center">{{$t('learn_more')}}</router-link>
@@ -544,7 +544,7 @@ onMounted(async () => {
     line-height: normal;
     letter-spacing: 0%;
     color: var(--white-245);
-    width: 55%;
+    width: 70%;
 }
 
 .course-text-primary h3,
@@ -556,54 +556,57 @@ onMounted(async () => {
 .learn-more-btn,
 .course-learn-more-btn,
 .buy-btn{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 13px 28px;
     gap: 10px;
-    border-radius: 70px;
+    border-radius: 25px;
     font-family: var(--font-montserrat);
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
-    line-height: normal;
-    letter-spacing: 1px;
-    color: var(--white-229);
+    line-height: 20px;
+    color: var(--white-245);
     cursor: pointer;
     outline: none;
     border: none;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .learn-more-btn {
     background: var(--general-btn);
-    width: 176px;
-    height: 53px;
 }
 
 .learn-more-btn:hover {
-    height: 56px;
-    width: 186px;
-    font-size: 18px;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(75, 187, 228, 0.3);
 }
 
 .learn-more-btn-div {
-    height: 56px;
-    width: 186px;
+    display: flex;
+}
+
+.learn-more-btn-div a {
+    text-decoration: none;
 }
 
 .course-learn-more-btn,
 .buy-btn{
-    width: 160px;
-    height: 48px;
+    padding: 11px 24px;
     background: var(--general-btn-light);
 }
 
 .course-learn-more-btn-div,
 .buy-btn-div{
-    height: 51px;
-    width: 162px;
+    display: flex;
 }
 
 .course-learn-more-btn:hover,
 .buy-btn:hover {
-    width: 162px;
-    height: 51px;
-    font-size: 18px;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(75, 187, 228, 0.3);
 }
 
 .course-item,
@@ -703,6 +706,7 @@ polygon {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    flex: 1;
 }
 
 .item-content .content h1 {
@@ -712,6 +716,9 @@ polygon {
     line-height: 100%;
     letter-spacing: 2%;
     color: var(--white-245);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
@@ -719,9 +726,10 @@ polygon {
     font-family: var(--font-inter);
     font-weight: 300;
     font-size: 16px;
-    line-height: normal;
+    line-height: 24px;
     letter-spacing: 0%;
     color: var(--white-245);
+    margin-bottom: 0 !important;
 }
 
 .search-block {
@@ -801,6 +809,16 @@ polygon {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-height: 48px; /* Approx 2 lines */
+}
+
+.featured-description-long {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
@@ -857,21 +875,13 @@ polygon {
         padding: 0 10px;
     }
 
-    .learn-more-btn-div {
-        width: 190px;
-        height: 50px;
+    .learn-more-btn {
+        padding: 10px 22px;
+        font-size: 14px;
     }
 
     .learn-more-btn:hover {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
-    }
-
-    .learn-more-btn {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
+        transform: scale(1.03);
     }
 
     .courses {
@@ -940,20 +950,16 @@ polygon {
         display: flex;
         align-items: center;
         width: 100% !important;
-        height: 44px;
     }
 
     .course-learn-more-btn:hover,
     .buy-btn:hover{
-        width: 131px;
-        height: 41px;
-        font-size: 14px;
+        transform: scale(1.03);
     }
 
     .course-learn-more-btn,
     .buy-btn{
-        width: 131px;
-        height: 41px;
+        padding: 10px 20px;
         font-size: 14px;
     }
 
@@ -1010,21 +1016,13 @@ polygon {
         padding: 0 10px;
     }
 
-    .learn-more-btn-div {
-        width: 190px;
-        height: 50px;
+    .learn-more-btn {
+        padding: 10px 22px;
+        font-size: 14px;
     }
 
     .learn-more-btn:hover {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
-    }
-
-    .learn-more-btn {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
+        transform: scale(1.03);
     }
 
     .courses {
@@ -1092,20 +1090,16 @@ polygon {
         display: flex;
         align-items: center;
         width: 100% !important;
-        height: 44px;
     }
 
     .course-learn-more-btn:hover,
     .buy-btn:hover{
-        height: 41px;
-        width: 141px;
-        font-size: 14px;
+        transform: scale(1.03);
     }
 
     .course-learn-more-btn,
     .buy-btn{
-        width: 141px;
-        height: 41px;
+        padding: 10px 20px;
         font-size: 14px;
     }
 
@@ -1162,21 +1156,13 @@ polygon {
         padding: 0 10px;
     }
 
-    .learn-more-btn-div {
-        width: 190px;
-        height: 50px;
+    .learn-more-btn {
+        padding: 11px 24px;
+        font-size: 15px;
     }
 
     .learn-more-btn:hover {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
-    }
-
-    .learn-more-btn {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
+        transform: scale(1.04);
     }
 
     .courses {
@@ -1249,17 +1235,15 @@ polygon {
 
     .course-learn-more-btn:hover,
     .buy-btn:hover{
-        height: 41px;
-        width: 200px;
-        font-size: 16px;
+        transform: scale(1.04);
     }
 
     .course-learn-more-btn,
     .buy-btn{
-        width: 200px;
-        height: 41px;
-        font-size: 16px;
+        padding: 11px 24px;
+        font-size: 15px;
     }
+
 
     .course-item {
         flex: 1 1 calc(100% - 20px);

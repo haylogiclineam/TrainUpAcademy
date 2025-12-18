@@ -1733,7 +1733,7 @@ const {cartCount, loadCartCount} = useCartCount();
                         <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('header.title') }}</span> {{ $t('header.subtitle') }}</h1>
                         <p>{{ $t('hero.learn_anywhere_anytime') }} {{ $t('hero.choose_course_fits_level') }}</p>
                     </div>
-                    <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
+                    <div class="learn-more-btn-div d-flex align-items-center">
                         <button class="learn-more-btn">
                             {{ $t('hero.free_registration') }}
                         </button>
@@ -1859,7 +1859,7 @@ const {cartCount, loadCartCount} = useCartCount();
                         <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('teach_whit_us.come') }} </span> {{ $t('teach_whit_us.title') }} </h1>
                         <p>{{ $t('teach_whit_us.text') }}</p>
                     </div>
-                    <div v-if="!auth.isAuthenticated" class="learn-more-btn-div d-flex justify-content-center align-items-center">
+                    <div v-if="!auth.isAuthenticated" class="learn-more-btn-div d-flex align-items-center">
                         <router-link
                                 :to="{ path: '/sign-up', query: { hideLearner: true } }"
                                 class="learn-more-btn text-decoration-none align-items-center justify-content-center d-flex">
@@ -2052,7 +2052,11 @@ const {cartCount, loadCartCount} = useCartCount();
 
 
 .train-up-content {
-    width: 60%;
+    width: 75%;
+}
+
+.train-up-content p {
+    margin-bottom: 2rem;
 }
 
 .auth-header {
@@ -2114,7 +2118,7 @@ html[lang="arm"] .nav-link {
 
 .header-home-content-section {
     width: 100% !important;
-    padding: 11% 0;
+    padding: 7% 0;
 }
 
 .header-blog-content-section,
@@ -2213,33 +2217,36 @@ html[lang="arm"] .nav-link {
 }
 
 .learn-more-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
     border-radius: 70px;
     font-family: var(--font-montserrat);
-    font-weight: 400;
+    font-weight: 500;
     font-size: 24px;
     line-height: normal;
     letter-spacing: 1px;
     color: var(--white-229);
     cursor: pointer;
-    width: 272px;
-    height: 69px;
+    padding: 18px 40px;
     background: var(--general-btn-light);
     outline: none;
     border: none;
     text-transform: capitalize;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 
 .learn-more-btn-div {
-    width: 283px;
-    height: 72px;
+    display: flex;
 }
 
 .learn-more-btn:hover {
-    width: 283px;
-    height: 72px;
-    font-size: 26px;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(75, 187, 228, 0.3);
 }
 
 .home-girl-img {
@@ -2454,7 +2461,7 @@ html[lang="arm"] .nav-link {
     }
 
     .contact-header {
-        min-height: 500px !important;
+        min-height: 850px !important;
     }
 
     .header,
@@ -2559,9 +2566,7 @@ html[lang="arm"] .nav-link {
         height: 100%;
     }
 
-    .header-home-content-section {
-        padding: 21% 0;
-    }
+
 
     .header-home-content-section,
     .header-about-content-section,
@@ -2610,41 +2615,79 @@ html[lang="arm"] .nav-link {
     }
 
     .learn-more-btn-div {
-        width: 201px !important;
-        height: 53px !important;
+        width: auto !important;
+        height: auto !important;
     }
 
     .learn-more-btn:hover {
-        width: 190px !important;
-        height: 50px !important;
+        transform: scale(1.03);
     }
 
     .learn-more-btn {
         font-size: 18px !important;
-        width: 190px !important;
-        height: 50px !important;
+        padding: 12px 24px !important;
     }
 
     .info-detail {
-        width: 95px;
-        height: 86px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 24px;
+        gap: 10px;
+
+        background: rgba(0, 16, 40, 0.8);
+        backdrop-filter: blur(5px);
+        border-radius: 6px;
+
+        width: 100%;
+        height: 112px;
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+        justify-content: center;
     }
 
     .contact-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
         gap: 10px;
+
+        position: absolute;
+        width: 90%;
+        height: auto;
+        top: 339px;
+        left: 5%;
+
+        background: transparent;
     }
 
     .info-detail .a-web {
-        display: none !important;
+        display: block !important;
+        text-decoration: none;
+        margin-top: 0;
     }
 
-    .contact-info span {
+    .contact-info span,
+    .info-detail a {
+        font-family: 'Montserrat', sans-serif;
+        font-style: normal;
+        font-weight: 400;
         font-size: 14px;
+        line-height: 150%;
+        color: #F5F5F5;
+        text-align: center;
     }
 
     .info-detail svg {
         width: 20px;
         height: 20px;
+    }
+    
+    .info-detail svg path {
+        fill: #F5F5F5;
     }
 
     .web-phone-span {
@@ -2656,7 +2699,7 @@ html[lang="arm"] .nav-link {
     }
 
     .mobile-span {
-        margin-top: 6px !important;
+        margin-top: 0 !important;
     }
 
     .info-detail:hover {
@@ -2832,10 +2875,6 @@ html[lang="arm"] .nav-link {
         position: relative !important;
     }
 
-    .header-home-content-section {
-        padding: 21% 0;
-    }
-
     .home-content,
     .about-content,
     .contact-content,
@@ -2869,19 +2908,17 @@ html[lang="arm"] .nav-link {
     }
 
     .learn-more-btn-div {
-        width: 201px !important;
-        height: 53px !important;
+        width: auto !important;
+        height: auto !important;
     }
 
     .learn-more-btn:hover {
-        width: 190px !important;
-        height: 50px !important;
+        transform: scale(1.03);
     }
 
     .learn-more-btn {
         font-size: 18px !important;
-        width: 190px !important;
-        height: 50px !important;
+        padding: 12px 24px !important;
     }
 
     .info-detail {
@@ -2891,6 +2928,7 @@ html[lang="arm"] .nav-link {
 
     .contact-info {
         gap: 10px;
+        flex-direction: column;
     }
 
     .info-detail:hover {

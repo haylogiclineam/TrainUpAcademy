@@ -59,7 +59,7 @@ onMounted(() => {
                 <div class="d-flex justify-content-between align-items-center train-up-content">
                     <h3 class="text-capitalize">{{ $t('teach_whit_us.why_teach') }}</h3>
                     <p>{{ $t('teach_whit_us.why_text') }}</p>
-                    <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
+                    <div class="learn-more-btn-div d-flex align-items-center">
                         <a href="/assets/files/Teach%20On%20Train%20Up.pdf" download class="learn-more-btn text-center text-decoration-none d-flex align-items-center justify-content-center">
                             {{ $t('learn_more') }}
                         </a>
@@ -333,21 +333,31 @@ onMounted(() => {
 }
 
 .learn-more-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 13px 28px;
     gap: 10px;
-    border-radius: 70px;
+    border-radius: 25px;
     font-family: var(--font-montserrat);
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
-    line-height: normal;
-    letter-spacing: 1px;
-    color: var(--white-229);
+    line-height: 20px;
+    color: var(--white-245);
     cursor: pointer;
-    width: 176px;
-    height: 53px;
     background: var(--general-btn);
     outline: none;
     border: none;
     text-transform: capitalize;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+}
+
+.learn-more-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(75, 187, 228, 0.3);
 }
 
 .train-up-list .items {
@@ -360,6 +370,7 @@ onMounted(() => {
     flex: 0 0 calc((100% - (30px * 2)) / 3);
     max-width: calc((100% - (30px * 2)) / 3);
     gap: 20px;
+    justify-content: flex-start !important;
 }
 
 .item-title {
@@ -369,6 +380,10 @@ onMounted(() => {
     line-height: normal;
     color: var(--primary-100);
     text-align: center;
+    min-height: 48px; /* Added to handle potential 2-line titles */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .item-p {
@@ -377,7 +392,8 @@ onMounted(() => {
     font-size: 18px;
     line-height: normal;
     text-align: center;
-    color: var(--primary-60)
+    color: var(--primary-60);
+    min-height: 110px; /* Fixed height for text to align blocks */
 }
 
 .how-to-begin {
@@ -502,9 +518,12 @@ onMounted(() => {
     }
 
     .learn-more-btn {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
+        padding: 10px 22px;
+        font-size: 15px;
+    }
+
+    .learn-more-btn:hover {
+        transform: scale(1.03);
     }
 
     .train-up-list .items {
@@ -522,10 +541,12 @@ onMounted(() => {
 
     .item-title {
         font-size: 18px;
+        min-height: auto;
     }
 
     .item-p {
         font-size: 16px;
+        min-height: auto;
     }
 
     .how-to-begin {
@@ -603,17 +624,6 @@ onMounted(() => {
 
 
 /* Extra Large Devices */
-@media (min-width: 1200px) {
-    .learn-more-btn:hover {
-        height: 56px;
-        width: 186px;
-        font-size: 18px;
-    }
 
-    .learn-more-btn-div {
-        height: 56px;
-        width: 186px;
-    }
-}
 
 </style>

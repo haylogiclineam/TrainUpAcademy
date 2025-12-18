@@ -618,7 +618,14 @@ function getLocalizedField(obj, fieldBase) {
 .add-course-btn,
 .change-course-btn,
 .view-more-btn {
+    padding: 0 30px;
+    height: 53px;
+    border-radius: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 10px;
+    white-space: nowrap;
     border-radius: 70px;
     font-family: var(--font-montserrat);
     font-weight: 400;
@@ -627,8 +634,6 @@ function getLocalizedField(obj, fieldBase) {
     letter-spacing: 1px;
     color: var(--white-229);
     cursor: pointer;
-    width: 176px;
-    height: 53px;
     background: var(--general-btn);
     outline: none;
     border: none;
@@ -640,15 +645,18 @@ function getLocalizedField(obj, fieldBase) {
 .change-course-btn:hover,
 .view-more-btn:hover {
     height: 56px;
-    width: 186px;
     font-size: 18px;
+    text-decoration: none;
 }
 
 .add-course-btn-div,
 .change-course-btn-div,
 .view-more-btn-div {
     height: 56px;
-    width: 186px;
+}
+
+.add-course-btn-div a {
+    text-decoration: none !important;
 }
 
 .course-video-div {

@@ -197,32 +197,32 @@ onMounted(fetchComments);
 }
 
 .learn-more-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 13px 28px;
     gap: 10px;
-    border-radius: 70px;
+    border-radius: 25px;
     font-family: var(--font-montserrat);
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
-    line-height: normal;
-    letter-spacing: 1px;
-    color: var(--white-229);
+    line-height: 20px;
+    color: var(--white-245);
     cursor: pointer;
-    width: 176px;
-    height: 53px;
     background: var(--general-btn);
     border: none;
     outline: none;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .learn-more-btn:hover {
-    height: 56px;
-    width: 186px;
-    font-size: 18px;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(75, 187, 228, 0.3);
 }
 
-.learn-more-btn-div {
-    height: 56px;
-    width: 186px;
-}
+
 
 .testimonial-comments {
     flex-wrap: wrap !important;
@@ -432,21 +432,13 @@ polygon {
         align-items: center;
     }
 
-    .learn-more-btn-div {
-        width: 190px;
-        height: 50px;
+    .learn-more-btn {
+        padding: 10px 22px;
+        font-size: 15px;
     }
 
     .learn-more-btn:hover {
-        width: 190px;
-        height: 50px;
-        font-size: 20px;
-    }
-
-    .learn-more-btn {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
+        transform: scale(1.03);
     }
 
     .testimonial-comments {
@@ -518,21 +510,13 @@ polygon {
         align-items: center;
     }
 
-    .learn-more-btn-div {
-        width: 190px;
-        height: 50px;
+    .learn-more-btn {
+        padding: 10px 22px;
+        font-size: 15px;
     }
 
     .learn-more-btn:hover {
-        width: 190px;
-        height: 50px;
-        font-size: 20px;
-    }
-
-    .learn-more-btn {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
+        transform: scale(1.03);
     }
 
     .testimonial-comments {
@@ -609,21 +593,13 @@ polygon {
         align-items: center;
     }
 
-    .learn-more-btn-div {
-        width: 190px;
-        height: 50px;
+    .learn-more-btn {
+        padding: 11px 24px;
+        font-size: 15px;
     }
 
     .learn-more-btn:hover {
-        width: 190px;
-        height: 50px;
-        font-size: 20px;
-    }
-
-    .learn-more-btn {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
+        transform: scale(1.04);
     }
 
     .testimonial-comments {

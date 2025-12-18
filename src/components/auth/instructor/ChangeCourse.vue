@@ -41,7 +41,7 @@ const form = ref({
     price_ru: '',
     currency_ru: '',
     price_en: '',
-    currency_en: '',
+    currency_en: 'AMD',
     description_arm: '',
     description_ru: '',
     description_en: '',
@@ -59,11 +59,11 @@ const resetForm = () => {
         title_ru: '',
         title_en: '',
         price_arm: '',
-        currency_arm: '',
+        currency_arm: 'AMD',
         price_ru: '',
-        currency_ru: '',
+        currency_ru: 'AMD',
         price_en: '',
-        currency_en: '',
+        currency_en: 'AMD',
         description_arm: '',
         description_ru: '',
         description_en: '',
@@ -491,12 +491,11 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
 
                                             <div class="dropdown">
                                                 <button
-                                                        class="btn dropdown-toggle currency-btn"
+                                                        class="btn currency-btn"
                                                         type="button"
-                                                        data-bs-toggle="dropdown"
-                                                        aria-expanded="false"
+                                                        disabled
                                                 >
-                                                    {{ form.currency_en || 'USD' }}
+                                                    {{ form.currency_en || 'AMD' }}
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li>
@@ -683,12 +682,11 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                                    :placeholder="$t('auth.add_course.course_price_placeholder')">
                                             <div class="dropdown">
                                                 <button
-                                                        class="btn dropdown-toggle currency-btn"
+                                                        class="btn currency-btn"
                                                         type="button"
-                                                        data-bs-toggle="dropdown"
-                                                        aria-expanded="false"
+                                                        disabled
                                                 >
-                                                    {{ form.currency_ru || 'USD' }}
+                                                    {{ form.currency_ru || 'AMD' }}
                                                 </button>
 
                                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -854,12 +852,11 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                                    :placeholder="$t('auth.add_course.course_price_placeholder')">
                                             <div class="dropdown">
                                                 <button
-                                                        class="btn dropdown-toggle currency-btn"
+                                                        class="btn currency-btn"
                                                         type="button"
-                                                        data-bs-toggle="dropdown"
-                                                        aria-expanded="false"
+                                                        disabled
                                                 >
-                                                    {{ form.currency_arm || 'USD' }}
+                                                    {{ form.currency_arm || 'AMD' }}
                                                 </button>
 
                                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -1225,13 +1222,14 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
     border-style: solid;
     border-color: var(--secondary-1-100);
     background: transparent;
-    width: 175px;
+    padding: 0 30px;
     height: 50px;
     border-radius: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
+    white-space: nowrap;
     font-family: var(--font-inter);
     font-weight: 300;
     font-size: 18px;
@@ -1266,7 +1264,14 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
 }
 
 .add-course-btn {
+    padding: 0 30px;
+    height: 53px;
+    border-radius: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 10px;
+    white-space: nowrap;
     border-radius: 70px;
     font-family: var(--font-montserrat);
     font-weight: 400;
@@ -1275,8 +1280,6 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
     letter-spacing: 1px;
     color: var(--white-229);
     cursor: pointer;
-    width: 321px;
-    height: 53px;
     background: var(--general-btn);
     outline: none;
     border: none;
@@ -1285,13 +1288,16 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
 
 .add-course-btn:hover {
     height: 55px;
-    width: 333px;
     font-size: 18px;
+    text-decoration: none;
 }
 
 .add-course-btn-div {
     height: 55px;
-    width: 333px;
+}
+
+.add-course-btn-div a {
+    text-decoration: none !important;
 }
 
 textarea {
