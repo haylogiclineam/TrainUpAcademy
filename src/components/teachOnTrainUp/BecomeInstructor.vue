@@ -58,21 +58,29 @@ auth.checkAuth()
 }
 
 .get-started-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 13px 28px;
     gap: 10px;
     border-radius: 70px;
     font-family: var(--font-montserrat);
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
-    line-height: normal;
-    letter-spacing: 1px;
+    line-height: 20px;
     color: var(--white-229);
     cursor: pointer;
-    width: 254px;
-    height: 53px;
     background: var(--general-btn);
-    outline: none;
     border: none;
+    outline: none;
+    white-space: nowrap;
     text-transform: capitalize;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.get-started-btn:hover {
+    transform: scale(1.05);
 }
 
 .become-instructor-title {
@@ -113,8 +121,6 @@ auth.checkAuth()
     }
 
     .get-started-btn {
-        width: 179px;
-        height: 47px;
         font-size: 18px;
     }
 
@@ -125,15 +131,10 @@ auth.checkAuth()
 
 /* Extra Large Devices */
 @media (min-width: 1200px) {
-    .get-started-btn:hover {
-        height: 56px;
-        width: 264px;
-        font-size: 18px;
-    }
-
     .get-started-btn-div {
-        height: 56px;
-        width: 264px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 

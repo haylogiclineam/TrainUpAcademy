@@ -13,7 +13,7 @@ const steps = [
     {
         title: "Available for Withdrawal",
         items: [
-            { text: "Available for Withdrawal:", price: "$ 1500" },
+            { text: "Available for Withdrawal:", price: "$ 1000" },
         ],
     },
     {
@@ -105,18 +105,18 @@ onMounted(() => {
                                             class="wallet-amount"
                                             :class="{
                                   'wallet-balance': activeStep === 0,
-                                  'total-earning': activeStep === 1,
+                                  'available-withdrawal': activeStep === 1,
                                   'pending-earning': activeStep === 2 && item.status === 'pending',
                                   'canceled-earning': activeStep === 2 && item.status === 'canceled',
                                   'received-earning': activeStep === 2 && item.status === 'received',
-                                  'available-withdrawal': activeStep === 3
+                                  'total-earning': activeStep === 3
                                 }" >
                                 {{ item.price }}
                               </span>
                                 </p>
                             </div>
 
-                            <div v-if="activeStep !== null && activeStep === steps.length - 1" class="mt-3 withdraw-btn-div">
+                            <div v-if="activeStep === 1" class="mt-3 withdraw-btn-div">
                                 <router-link to="/instructor/withdraw-funds">
                                     <button class="withdraw-btn text-capitalize">Withdraw</button>
                                 </router-link>
@@ -153,18 +153,18 @@ onMounted(() => {
                                                 class="wallet-amount"
                                                 :class="{
                                         'wallet-balance': index === 0,
-                                        'total-earning': index === 1,
+                                        'available-withdrawal': index === 1,
                                         'pending-earning': index === 2 && item.status === 'pending',
                                         'canceled-earning': index === 2 && item.status === 'canceled',
                                         'received-earning': index === 2 && item.status === 'received',
-                                        'available-withdrawal': index === 3
+                                        'total-earning': index === 3
                                       }">
                                       {{ item.price }}
                                     </span>
                                     </p>
                                 </div>
 
-                                <div v-if="index === steps.length - 1" class="mt-3 withdraw-btn-div">
+                                <div v-if="index === 1" class="mt-3 withdraw-btn-div">
                                     <router-link to="/instructor/withdraw-funds">
                                         <button class="withdraw-btn text-capitalize">Withdraw</button>
                                     </router-link>

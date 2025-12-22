@@ -70,7 +70,7 @@ const submitResetPassword = async () => {
                             v-model="password"
                     />
                     <img
-                        :src="showPassword ? '/assets/icons/eye-close.svg' : '/assets/icons/eye-open.svg'"
+                        :src="showPassword ? '/assets/icons/eye-open.svg' : '/assets/icons/eye-close.svg'"
                         class="eye-icon"
                         @click="showPassword = !showPassword"
                         alt="toggle password visibility"
@@ -93,7 +93,7 @@ const submitResetPassword = async () => {
                             v-model="password_confirmation"
                     />
                     <img
-                        :src="showConfirmPassword ? '/assets/icons/eye-close.svg' : '/assets/icons/eye-open.svg'"
+                        :src="showConfirmPassword ? '/assets/icons/eye-open.svg' : '/assets/icons/eye-close.svg'"
                         class="eye-icon"
                         @click="showConfirmPassword = !showConfirmPassword"
                         alt="toggle password visibility"

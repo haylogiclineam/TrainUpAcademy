@@ -928,9 +928,6 @@ const {cartCount, loadCartCount} = useCartCount();
     </div>
 
     <div :class="headerClass">
-        <div v-if="isHomePage || isPrivacyPolicyPage || isTermsConditionsPage" class="home-girl-img position-absolute">
-            <img src="/assets/images/home/header-girl.svg" alt="girl">
-        </div>
         <div class="container">
             <nav v-if="!auth.isAuthenticated" class="navbar d-flex justify-content-between">
                 <div class="logo-section d-flex align-items-center">
@@ -1905,6 +1902,9 @@ const {cartCount, loadCartCount} = useCartCount();
                 </div>
             </div>
         </div>
+        <div v-if="isHomePage || isPrivacyPolicyPage || isTermsConditionsPage" class="home-girl-img position-absolute">
+            <img src="/assets/images/home/header-girl.svg" alt="girl">
+        </div>
     </div>
 </template>
 
@@ -1954,13 +1954,20 @@ const {cartCount, loadCartCount} = useCartCount();
 
 .train-up-header,
 .about-header,
-.courses-header,
 .blog-header,
 .why-choose-us-header,
 .single-blog-header,
 .single-course-header,
 .how-we-can-help-header {
     min-height: 500px !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    background-position: center;
+}
+
+.courses-header {
+    min-height: 420px !important;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
@@ -2039,11 +2046,14 @@ const {cartCount, loadCartCount} = useCartCount();
 .header-about-content-section,
 .header-blog-content-section,
 .header-why-choose-content-section,
-.header-courses-content-section,
 .header-single-blog-content-section,
 .header-single-course-content-section,
 .header-how-we-can-help-content-section {
     padding: 118px 0;
+}
+
+.header-courses-content-section {
+    padding: 70px 0 118px 0;
 }
 
 .header-contact-content-section {
@@ -2158,6 +2168,10 @@ html[lang="arm"] .nav-link {
 
 }
 
+.home-content{
+    width: 75%;
+}
+
 .home-content,
 .about-content,
 .contact-content,
@@ -2174,14 +2188,14 @@ html[lang="arm"] .nav-link {
 .why-choose-content,
 .single-course-content,
 .how-we-can-help-content {
-    width: 80%;
+    width: 90%;
 }
 
 .courses-content .content p,
 .why-choose-content .content p,
 .single-course-content .content p,
 .how-we-can-help-content .content p {
-    width: 84% !important;
+    width: 90% !important;
 }
 
 .single-blog-content .content p {
@@ -2201,6 +2215,12 @@ html[lang="arm"] .nav-link {
     letter-spacing: 1px;
 }
 
+html[lang="arm"] .content h1,
+html[lang="arm"] .content span,
+html[lang="arm"] .content p {
+    line-height: 1.1 !important;
+}
+
 .content h1 {
     color: var(--white-245);
     font-size: 60px;
@@ -2212,7 +2232,7 @@ html[lang="arm"] .nav-link {
 }
 
 .content p {
-    font-size: 22px;
+    font-size: 20px;
     color: var(--white-245);
 }
 
@@ -2559,10 +2579,16 @@ html[lang="arm"] .nav-link {
 
     .home-girl-img {
         height: 306px;
+        position: relative !important;
+        right: auto !important;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: auto !important;
     }
 
     .home-girl-img img {
-        width: 100%;
+        width: auto;
         height: 100%;
     }
 
@@ -2856,10 +2882,16 @@ html[lang="arm"] .nav-link {
 
     .home-girl-img {
         height: 443px;
+        position: relative !important;
+        right: auto !important;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: auto !important;
     }
 
     .home-girl-img img {
-        width: 100%;
+        width: auto;
         height: 100%;
     }
 
@@ -3149,7 +3181,7 @@ html[lang="arm"] .nav-link {
 
     .courses-content .content p,
     .why-choose-content .content p {
-        width: 60% !important;
+        width: 85% !important;
     }
 
     .single-blog-content .content p,

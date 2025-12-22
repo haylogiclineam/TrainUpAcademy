@@ -130,7 +130,7 @@ const handleSubmit = async () => {
                         <input id="password" name="password" class="form-input" :type="showPassword ? 'text' : 'password'"
                                v-model="form.password" :placeholder="$t('your_password')">
                         <img
-                            :src="showPassword ? '/assets/icons/eye-close.svg' : '/assets/icons/eye-open.svg'"
+                            :src="showPassword ? '/assets/icons/eye-open.svg' : '/assets/icons/eye-close.svg'"
                             class="eye-icon"
                             @click="showPassword = !showPassword"
                             alt="toggle password visibility"
@@ -147,7 +147,7 @@ const handleSubmit = async () => {
                         <input id="repeat-password" name="repeat-password" class="form-input" :type="showConfirmPassword ? 'text' : 'password'"
                                v-model="form.password_confirmation" :placeholder="$t('repeat_password')">
                         <img
-                            :src="showConfirmPassword ? '/assets/icons/eye-close.svg' : '/assets/icons/eye-open.svg'"
+                            :src="showConfirmPassword ? '/assets/icons/eye-open.svg' : '/assets/icons/eye-close.svg'"
                             class="eye-icon"
                             @click="showConfirmPassword = !showConfirmPassword"
                             alt="toggle password visibility"

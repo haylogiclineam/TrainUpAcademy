@@ -175,10 +175,15 @@ const whyChooseUsItemsClass = computed(() => {
 }
 
 .why-choose-us-items .item-1,
-.why-choose-us-items .item-3,
-.why-choose-us-items-full-w .item-1,
-.why-choose-us-items-full-w .item-3 {
+.why-choose-us-items .item-3 {
     background: var(--why-choose-us-item);
+}
+
+.why-choose-us-items-full-w .item-1,
+.why-choose-us-items-full-w .item-2,
+.why-choose-us-items-full-w .item-3 {
+    background: transparent;
+    border: 1.5px solid #001028;
 }
 
 .why-choose-us-items .item-1,
@@ -196,12 +201,12 @@ const whyChooseUsItemsClass = computed(() => {
 .why-choose-us-items-full-w .item-2,
 .why-choose-us-items-full-w .item-3 {
     width: 100%;
-    min-height: 150px;
+    min-height: 196px;
     border-radius: 16px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 30px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 40px;
 }
 
 .why-choose-us-items-full-w .item-1 a,
@@ -210,16 +215,35 @@ const whyChooseUsItemsClass = computed(() => {
    display: none !important;
 }
 
-.why-choose-us-items .item-2,
-.why-choose-us-items-full-w .item-2 {
+.why-choose-us-items-full-w .item-1 h5,
+.why-choose-us-items-full-w .item-2 h5,
+.why-choose-us-items-full-w .item-3 h5 {
+    font-family: var(--font-montserrat);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 27px;
+    letter-spacing: 0.02em;
+    color: #001028;
+}
+
+.why-choose-us-items-full-w .item-1 p,
+.why-choose-us-items-full-w .item-2 p,
+.why-choose-us-items-full-w .item-3 p {
+    font-family: var(--font-inter);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #001028;
+}
+
+.why-choose-us-items .item-2 {
     position: relative;
     background: var(--why-choose-us-item-rgb);
     overflow: hidden;
 }
 
 
-.why-choose-us-items .item-2::before,
-.why-choose-us-items-full-w .item-2:before {
+.why-choose-us-items .item-2::before {
     content: '';
     background-image: url("/assets/images/home/header-background.jpg");
     background-size: cover;
@@ -231,6 +255,13 @@ const whyChooseUsItemsClass = computed(() => {
     top: 0;
     left: 0;
     z-index: -1;
+}
+
+.why-choose-us-items-full-w .w-90 {
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .item-1 h5,

@@ -295,6 +295,21 @@ onMounted(async () => {
                     <Slide v-for="(course, index) in courses" :key="index">
                         <div class="course-item-slider d-flex" :class="courseItemClass">
                             <div :class="itemImgClass">
+                                <svg v-if="wishlistLoaded && authStore.isAuthenticated && authStore.userRole === 'learner'"
+                                     :key="wishlistLoaded + '-' + course.id"
+                                     @click="toggleLike(course.id)"
+                                     class="heart-icon"
+                                     width="27"
+                                     height="25"
+                                     viewBox="0 0 27 25"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     style="cursor: pointer;"
+                                >
+                                    <path
+                                            d="M18.9636 0C17.7437 0.0189745 16.5504 0.359508 15.5042 0.987211C14.4581 1.61491 13.5961 2.50756 13.0052 3.575C12.4144 2.50756 11.5524 1.61491 10.5063 0.987211C9.46008 0.359508 8.2668 0.0189745 7.04691 0C5.10226 0.0844899 3.27009 0.935192 1.95068 2.36625C0.631259 3.79731 -0.0681519 5.6924 0.00524453 7.6375C0.00524453 14.9771 11.8742 23.4542 12.3791 23.8138L13.0052 24.2569L13.6314 23.8138C14.1362 23.4563 26.0052 14.9771 26.0052 7.6375C26.0786 5.6924 25.3792 3.79731 24.0598 2.36625C22.7404 0.935192 20.9082 0.0844899 18.9636 0Z"
+                                            :fill="isCourseLiked(course.id) ? 'rgba(75, 187, 228, 1)' : '#F5F5F5'"
+                                    />
+                                </svg>
                                 <img :src="`${baseUrl}/storage/${course.thumbnail}`" alt="Course Thumbnail" class="course-thumbnail" />
                             </div>
                             <div :class="itemContentClass">

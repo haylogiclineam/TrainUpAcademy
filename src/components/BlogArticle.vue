@@ -601,8 +601,8 @@ const visibleBlogItems = computed(() => {
     }
 }
 
-/* Large Devices */
-@media (min-width: 992px) and (max-width: 1199px) {
+/* Large Devices (Laptops) */
+@media (min-width: 992px) {
     .blog-article-items {
         flex-wrap: wrap;
         gap: 30px;
@@ -610,8 +610,9 @@ const visibleBlogItems = computed(() => {
     }
 
     .blog-article-items .item {
-        width: calc(50% - 15px);
+        width: calc(33.33% - 20px);
         max-width: 370px;
+        min-width: 300px;
     }
 }
 
@@ -621,8 +622,9 @@ const visibleBlogItems = computed(() => {
     }
     
     .blog-article-items .item {
-        width: 370px;
+        width: calc(33.33% - 38px);
         max-width: 370px;
+        min-width: 340px;
     }
 }
 

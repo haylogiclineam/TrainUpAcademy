@@ -112,7 +112,7 @@ const handleSubmit = async () => {
                     <input id="password" name="password" class="form-input" :type="showPassword ? 'text' : 'password'"
                            v-model="form.password" :placeholder="$t('your_password')">
                     <img
-                        :src="showPassword ? '/assets/icons/eye-close.svg' : '/assets/icons/eye-open.svg'"
+                        :src="showPassword ? '/assets/icons/eye-open.svg' : '/assets/icons/eye-close.svg'"
                         class="eye-icon"
                         @click="showPassword = !showPassword"
                         alt="toggle password visibility"
