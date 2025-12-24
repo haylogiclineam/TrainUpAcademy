@@ -2218,7 +2218,12 @@ html[lang="arm"] .nav-link {
 html[lang="arm"] .content h1,
 html[lang="arm"] .content span,
 html[lang="arm"] .content p {
+    font-family: var(--font-noto-armenian) !important;
     line-height: 1.1 !important;
+}
+
+html[lang="arm"] .learn-more-btn {
+    font-family: var(--font-noto-armenian) !important;
 }
 
 .content h1 {
@@ -2245,12 +2250,12 @@ html[lang="arm"] .content p {
     border-radius: 70px;
     font-family: var(--font-montserrat);
     font-weight: 500;
-    font-size: 24px;
+    font-size: 22px;
     line-height: normal;
     letter-spacing: 1px;
     color: var(--white-229);
     cursor: pointer;
-    padding: 18px 40px;
+    padding: 20px 55px;
     background: var(--general-btn-light);
     outline: none;
     border: none;

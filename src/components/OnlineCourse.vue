@@ -1,22 +1,30 @@
 <script setup>
-import { computed, ref, onMounted, watch } from "vue";
+import { computed, ref, onMounted, watch, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import api from "/src/services/api.js";
 import { useI18n } from "vue-i18n";
 import { useAuthStore } from "../stores/auth.js";
 import { useWishlistCount } from '../composables/useWishlistCount.js';
-import 'vue3-carousel/carousel.css'
-import { Carousel, Slide, Navigation } from 'vue3-carousel'
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation, Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
-const carouselRef = ref(null)
-const currentSlide = ref(0)
-const itemsToShow = ref(2)
+const swiperRef = ref(null)
+const swiperModules = [Navigation, Autoplay]
+const prevEl = ref(null)
+const nextEl = ref(null)
 
-function updateItemsToShow() {
-    const width = window.innerWidth
-    if (width < 576) itemsToShow.value = 1
-    else if (width < 992) itemsToShow.value = 1
-    else itemsToShow.value = 2
+const onSwiper = (swiper) => {
+    swiperRef.value = swiper
+}
+
+const goToPrev = () => {
+    if (swiperRef.value) swiperRef.value.slidePrev()
+}
+
+const goToNext = () => {
+    if (swiperRef.value) swiperRef.value.slideNext()
 }
 
 const authStore = useAuthStore();
@@ -214,9 +222,6 @@ const fetchAllCoursesForSlider = async () => {
 const wishlistLoaded = ref(false);
 
 onMounted(async () => {
-    updateItemsToShow()
-    window.addEventListener('resize', updateItemsToShow)
-
     if (isHomePage.value) {
         await fetchAllCoursesForSlider()
     } else {
@@ -280,91 +285,122 @@ onMounted(async () => {
                         <span class="visually-hidden">{{ $t('loading') }}...</span>
                     </div>
                 </div>
-                <Carousel
-                        v-if="isHomePage && courses.length"
-                        :key="courses.length"
-                        ref="carouselRef"
-                        v-model:currentSlide="currentSlide"
-                        :wrapAround="true"
-                        :autoplay="6000"
-                        :itemsToShow="itemsToShow"
-                        :transition="700"
-                        :snapAlign="'start'"
-                        class="slider-block w-100"
-                >
-                    <Slide v-for="(course, index) in courses" :key="index">
-                        <div class="course-item-slider d-flex" :class="courseItemClass">
-                            <div :class="itemImgClass">
-                                <svg v-if="wishlistLoaded && authStore.isAuthenticated && authStore.userRole === 'learner'"
-                                     :key="wishlistLoaded + '-' + course.id"
-                                     @click="toggleLike(course.id)"
-                                     class="heart-icon"
-                                     width="27"
-                                     height="25"
-                                     viewBox="0 0 27 25"
-                                     xmlns="http://www.w3.org/2000/svg"
-                                     style="cursor: pointer;"
-                                >
-                                    <path
-                                            d="M18.9636 0C17.7437 0.0189745 16.5504 0.359508 15.5042 0.987211C14.4581 1.61491 13.5961 2.50756 13.0052 3.575C12.4144 2.50756 11.5524 1.61491 10.5063 0.987211C9.46008 0.359508 8.2668 0.0189745 7.04691 0C5.10226 0.0844899 3.27009 0.935192 1.95068 2.36625C0.631259 3.79731 -0.0681519 5.6924 0.00524453 7.6375C0.00524453 14.9771 11.8742 23.4542 12.3791 23.8138L13.0052 24.2569L13.6314 23.8138C14.1362 23.4563 26.0052 14.9771 26.0052 7.6375C26.0786 5.6924 25.3792 3.79731 24.0598 2.36625C22.7404 0.935192 20.9082 0.0844899 18.9636 0Z"
-                                            :fill="isCourseLiked(course.id) ? 'rgba(75, 187, 228, 1)' : '#F5F5F5'"
-                                    />
-                                </svg>
-                                <img :src="`${baseUrl}/storage/${course.thumbnail}`" alt="Course Thumbnail" class="course-thumbnail" />
+                <div v-if="isHomePage && courses.length" class="swiper-container-wrapper">
+                    <Swiper
+                        :modules="swiperModules"
+                        :slides-per-view="2"
+                        :space-between="30"
+                        :centered-slides="false"
+                        :loop="true"
+                        :autoplay="{
+                            delay: 6000,
+                            disableOnInteraction: false
+                        }"
+                        :speed="700"
+                        :breakpoints="{
+                            0: {
+                                slidesPerView: 1,
+                                spaceBetween: 10,
+                                centeredSlides: false
+                            },
+                            576: {
+                                slidesPerView: 1.2,
+                                spaceBetween: 15,
+                                centeredSlides: true
+                            },
+                            1200: {
+                                slidesPerView: 2,
+                                spaceBetween: 30,
+                                centeredSlides: false
+                            }
+                        }"
+                        @swiper="onSwiper"
+                        class="courses-swiper"
+                    >
+                        <SwiperSlide v-for="(course, index) in courses" :key="index">
+                            <div class="course-item-slider d-flex" :class="courseItemClass">
+                                <div :class="itemImgClass">
+                                    <svg v-if="wishlistLoaded && authStore.isAuthenticated && authStore.userRole === 'learner'"
+                                         :key="wishlistLoaded + '-' + course.id"
+                                         @click="toggleLike(course.id)"
+                                         class="heart-icon"
+                                         width="27"
+                                         height="25"
+                                         viewBox="0 0 27 25"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         style="cursor: pointer;"
+                                    >
+                                        <path
+                                                d="M18.9636 0C17.7437 0.0189745 16.5504 0.359508 15.5042 0.987211C14.4581 1.61491 13.5961 2.50756 13.0052 3.575C12.4144 2.50756 11.5524 1.61491 10.5063 0.987211C9.46008 0.359508 8.2668 0.0189745 7.04691 0C5.10226 0.0844899 3.27009 0.935192 1.95068 2.36625C0.631259 3.79731 -0.0681519 5.6924 0.00524453 7.6375C0.00524453 14.9771 11.8742 23.4542 12.3791 23.8138L13.0052 24.2569L13.6314 23.8138C14.1362 23.4563 26.0052 14.9771 26.0052 7.6375C26.0786 5.6924 25.3792 3.79731 24.0598 2.36625C22.7404 0.935192 20.9082 0.0844899 18.9636 0Z"
+                                                :fill="isCourseLiked(course.id) ? 'rgba(75, 187, 228, 1)' : '#F5F5F5'"
+                                        />
+                                    </svg>
+                                    <img :src="`${baseUrl}/storage/${course.thumbnail}`" alt="Course Thumbnail" class="course-thumbnail" />
+                                </div>
+                                <div :class="itemContentClass">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="price">{{ getCoursePrice(course) }}</h6>
+                                        <div class="rating">
+                                            <svg
+                                                v-for="star in 5"
+                                                :key="star"
+                                                :class="{ filled: star <= Number(course.average_rating) }"
+                                                width="20"
+                                                height="21"
+                                                viewBox="0 0 20 21"
+                                                fill="none"
+                                            >
+                                                <path
+                                                    d="M16.2225 19.93L10 15.3567L3.77751 19.93L6.16668 12.5442L-0.0524902 8.00002H7.62584L10 0.601685L12.3742 8.00002H20.0517L13.8333 12.5442L16.2225 19.93Z"
+                                                    :fill="star <= Number(course.average_rating) ? '#F0AD4E' : '#D3D3D3'"
+                                                />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <h1 class="text-capitalize">{{ getLocalizedField(course, 'title') }}</h1>
+                                        <p class="clamped-description">{{ getLocalizedField(course, 'description') }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between gap-3 all-btn-block">
+                                        <div class="course-learn-more-btn-div d-flex justify-content-center align-items-center">
+                                            <RouterLink :to="`/single-course/${course.id}`" custom v-slot="{ navigate }">
+                                                <button @click="navigate" class="course-learn-more-btn text-capitalize">
+                                                    {{ $t('learn_more') }}
+                                                </button>
+                                            </RouterLink>
+                                        </div>
+                                        <div v-if="authStore.userRole === 'learner'" class="buy-btn-div d-flex justify-content-center align-items-center">
+                                            <router-link to="/learner/checkout"
+                                                         class="buy-btn text-capitalize text-decoration-none text-center d-flex align-items-center justify-content-center">
+                                                {{ $t('single_course.buy_now_btn') }}
+                                            </router-link>
+                                        </div>
+                                        <div v-if="!authStore.isAuthenticated" class="buy-btn-div d-flex justify-content-center align-items-center">
+                                            <router-link to="/sign-in"
+                                                         class="buy-btn text-capitalize text-decoration-none text-center d-flex align-items-center justify-content-center">
+                                                {{ $t('single_course.buy_now_btn') }}
+                                            </router-link>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div :class="itemContentClass">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h6 class="price">{{ getCoursePrice(course) }}</h6>
-                                    <div class="rating">
-                                        <svg
-                                            v-for="star in 5"
-                                            :key="star"
-                                            :class="{ filled: star <= Number(course.average_rating) }"
-                                            width="20"
-                                            height="21"
-                                            viewBox="0 0 20 21"
-                                            fill="none"
-                                        >
-                                            <path
-                                                d="M16.2225 19.93L10 15.3567L3.77751 19.93L6.16668 12.5442L-0.0524902 8.00002H7.62584L10 0.601685L12.3742 8.00002H20.0517L13.8333 12.5442L16.2225 19.93Z"
-                                                :fill="star <= Number(course.average_rating) ? '#F0AD4E' : '#D3D3D3'"
-                                            />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="content">
-                                    <h1 class="text-capitalize">{{ getLocalizedField(course, 'title') }}</h1>
-                                    <p class="clamped-description">{{ getLocalizedField(course, 'description') }}</p>
-                                </div>
-                                <div class="d-flex justify-content-between gap-3 all-btn-block">
-                                    <div class="course-learn-more-btn-div d-flex justify-content-center align-items-center">
-                                        <RouterLink :to="`/single-course/${course.id}`" custom v-slot="{ navigate }">
-                                            <button @click="navigate" class="course-learn-more-btn text-capitalize">
-                                                {{ $t('learn_more') }}
-                                            </button>
-                                        </RouterLink>
-                                    </div>
-                                    <div v-if="authStore.userRole === 'learner'" class="buy-btn-div d-flex justify-content-center align-items-center">
-                                        <router-link to="/learner/checkout"
-                                                     class="buy-btn text-capitalize text-decoration-none text-center d-flex align-items-center justify-content-center">
-                                            {{ $t('single_course.buy_now_btn') }}
-                                        </router-link>
-                                    </div>
-                                    <div v-if="!authStore.isAuthenticated" class="buy-btn-div d-flex justify-content-center align-items-center">
-                                        <router-link to="/sign-in"
-                                                     class="buy-btn text-capitalize text-decoration-none text-center d-flex align-items-center justify-content-center">
-                                            {{ $t('single_course.buy_now_btn') }}
-                                        </router-link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </Slide>
-
-                    <template #addons>
-                        <Navigation />
-                    </template>
-                </Carousel>
+                        </SwiperSlide>
+                    </Swiper>
+                    
+                    <!-- Custom Navigation Buttons -->
+                    <div class="swiper-custom-nav">
+                        <button class="swiper-nav-btn swiper-prev-btn" @click="goToPrev" aria-label="Previous slide">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 1L3 6L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <button class="swiper-nav-btn swiper-next-btn" @click="goToNext" aria-label="Next slide">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 1L9 6L4 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
 
                 <div v-else-if="isCoursesPage"  class="courses flex-wrap d-flex justify-content-between align-items-center">
                     <div v-for="(course, index) in visibleCourses" :key="index" class="course-item d-flex"
@@ -837,26 +873,67 @@ polygon {
 }
 
 
-:deep(.carousel__slide) {
-    align-items: unset !important;
+/* Swiper Carousel Styles */
+.swiper-container-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 60px;
 }
 
-:deep(.carousel__icon) {
-    fill: #dee2e6 !important;
+.courses-swiper {
+    width: 100%;
 }
 
-:deep(.carousel__next),
-:deep(.carousel__prev){
-    background-color: var(--primary-60);
+@media (min-width: 1200px) {
+    .courses-swiper {
+        /* 8.33% padding on each side creates space for exactly 20% peek 
+           of prev/next slides when slidesPerView is set to 2 */
+        padding: 0 8.33%;
+    }
+}
+
+.courses-swiper .swiper-slide {
+    height: auto;
+}
+
+.courses-swiper .swiper-slide .course-item-slider {
+    height: 100%;
+}
+
+/* Custom Navigation Buttons */
+.swiper-custom-nav {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.swiper-nav-btn {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-:deep(.carousel__next){
-    right: -5%;
+.swiper-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
 }
 
-:deep(.carousel__prev){
-    left: -5%;
+.swiper-nav-btn svg {
+    width: 12px;
+    height: 12px;
+    fill: none;
 }
 
 
@@ -1000,6 +1077,21 @@ polygon {
     .search-block input::placeholder {
         font-size: 14px;
     }
+
+    /* Swiper mobile styles */
+    .swiper-container-wrapper {
+        padding-bottom: 50px;
+    }
+
+    .swiper-custom-nav {
+        right: 50%;
+        transform: translateX(50%);
+    }
+
+    .swiper-nav-btn {
+        width: 32px;
+        height: 32px;
+    }
 }
 
 /* Small Devices */
@@ -1140,6 +1232,21 @@ polygon {
     .search-block input::placeholder {
         font-size: 14px;
     }
+
+    /* Swiper mobile styles */
+    .swiper-container-wrapper {
+        padding-bottom: 50px;
+    }
+
+    .swiper-custom-nav {
+        right: 50%;
+        transform: translateX(50%);
+    }
+
+    .swiper-nav-btn {
+        width: 32px;
+        height: 32px;
+    }
 }
 
 /* Medium Devices */
@@ -1273,9 +1380,18 @@ polygon {
         width: 100%;
     }
 
-
     .search-block input::placeholder {
         font-size: 14px;
+    }
+
+    /* Swiper tablet styles */
+    .swiper-container-wrapper {
+        padding-bottom: 50px;
+    }
+
+    .swiper-custom-nav {
+        right: 50%;
+        transform: translateX(50%);
     }
 }
 

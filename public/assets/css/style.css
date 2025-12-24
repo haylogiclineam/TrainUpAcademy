@@ -1,6 +1,7 @@
 :root {
     --font-montserrat: 'Montserrat', sans-serif;
     --font-inter: 'Inter', sans-serif;
+    --font-noto-armenian: 'Noto Sans Armenian', sans-serif;
 
     --home-header: linear-gradient(202.47deg, rgba(0, 16, 40, 0) -3.66%, rgba(0, 16, 40, 0.671573) 13.74%, rgba(0, 16, 40, 0.8) 59.5%);
     --about-header: linear-gradient(202.47deg, rgba(0, 16, 40, 0) -3.66%, rgba(0, 16, 40, 0.671573) 13.74%, rgba(0, 16, 40, 0.8) 59.5%);
@@ -10,7 +11,7 @@
     --blog-header: linear-gradient(202.47deg, rgba(0, 16, 40, 0) -3.66%, rgba(0, 16, 40, 0.671573) 13.74%, rgba(0, 16, 40, 0.8) 59.5%);
     --why-choose-us-header: linear-gradient(202.47deg, rgba(0, 16, 40, 0) -3.66%, rgba(0, 16, 40, 0.671573) 13.74%, rgba(0, 16, 40, 0.8) 59.5%);
     --auth-header: linear-gradient(251.74deg, rgba(0, 16, 40, 0) -17.54%, rgba(0, 16, 40, 0.8) 64%);
-   --train-up-header: linear-gradient(202.47deg, rgba(0, 16, 40, 0) -3.66%, rgba(0, 16, 40, 0.671573) 13.74%, rgba(0, 16, 40, 0.8) 59.5%);
+    --train-up-header: linear-gradient(202.47deg, rgba(0, 16, 40, 0) -3.66%, rgba(0, 16, 40, 0.671573) 13.74%, rgba(0, 16, 40, 0.8) 59.5%);
 
 
     --about-faq-item: linear-gradient(237.85deg, rgba(0, 16, 40, 0) 4.28%, rgba(0, 16, 40, 0.671573) 23.52%, rgba(0, 16, 40, 0.8) 74.13%);
@@ -83,27 +84,27 @@
 
     --modal-overlay: rgba(0, 0, 0, 0.5);
 
-    --settings-image-upload-btn-hover:rgb(232 247 253);
+    --settings-image-upload-btn-hover: rgb(232 247 253);
     --payment-method-bg: rgba(216, 227, 243, 1);
     --payment-method-delete-btn-hover: rgba(237, 67, 55, 0.1);
     --invoice-btn: rgba(170, 104, 255, 1);
 
     --status-completed-bg: rgba(236, 253, 243, 1);
-    --status-completed-text:  rgba(3, 120, 71, 1);
+    --status-completed-text: rgba(3, 120, 71, 1);
     --status-completed-dot: rgba(20, 186, 109, 1);
 
     --status-declined-bg: rgba(255, 237, 237, 1);
-    --status-declined-text:  rgba(238, 33, 33, 1);
+    --status-declined-text: rgba(238, 33, 33, 1);
 
 
     --status-pending-bg: rgba(255, 244, 228, 1);
-    --status-pending-text:  rgba(237, 149, 18, 1);
+    --status-pending-text: rgba(237, 149, 18, 1);
 
     --card-visa-bg: rgba(216, 227, 243, 1);
     --card-master-bg: rgba(253, 234, 206, 1);
     --google-pay-bg: rgba(228, 229, 231, 1);
-    --apple-pay-bg:  rgba(230, 230, 230, 1);
-    --box-shadow-0000001A:#0000001A;
+    --apple-pay-bg: rgba(230, 230, 230, 1);
+    --box-shadow-0000001A: #0000001A;
     --pending-wallet: rgba(240, 173, 78, 1);
 }
 
@@ -172,15 +173,21 @@ body {
 .pagination-numbers {
     display: flex;
     flex-wrap: nowrap;
-    overflow-x: auto; /* horizontal scroll on small screens */
-    white-space: nowrap; /* prevent inline elements from wrapping */
-    justify-content: center; /* center items */
+    overflow-x: auto;
+    /* horizontal scroll on small screens */
+    white-space: nowrap;
+    /* prevent inline elements from wrapping */
+    justify-content: center;
+    /* center items */
     border: 1px solid var(--neutral-20);
     border-radius: 6px;
     margin: 0 24px;
-    gap: 0; /* optional */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    gap: 0;
+    /* optional */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
 }
 
 .pagination-numbers::-webkit-scrollbar {
@@ -264,7 +271,7 @@ body {
     color: var(--primary-90)
 }
 
-.cursor-pointer{
+.cursor-pointer {
     cursor: pointer !important;
 }
 
@@ -296,7 +303,7 @@ body {
         height: 17px;
     }
 
-    .settings-tab-header{
+    .settings-tab-header {
         border-bottom: unset;
     }
 
@@ -307,8 +314,8 @@ body {
     .settings-tab-p {
         font-size: 14px;
     }
-    
-    div.blog-article-section ul.pagination{
+
+    div.blog-article-section ul.pagination {
         margin-top: 60px !important;
     }
 }
@@ -340,7 +347,7 @@ body {
         height: 17px;
     }
 
-    .settings-tab-header{
+    .settings-tab-header {
         border-bottom: unset;
     }
 
@@ -365,7 +372,7 @@ body {
         margin-top: 6px;
     }
 
-    .settings-tab-header{
+    .settings-tab-header {
         border-bottom: unset;
     }
 
@@ -377,7 +384,7 @@ body {
         font-size: 14px;
     }
 
-    .settings-tab-body{
+    .settings-tab-body {
         padding: 0 4% 4% 4%;
     }
 }
@@ -409,4 +416,3 @@ body {
         max-width: 1800px !important;
     }
 }
-

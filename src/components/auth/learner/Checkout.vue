@@ -71,6 +71,10 @@ const selectedLabel = computed(() => {
     return countries.find(c => c.value === selected.value)?.label || 'Select Country'
 })
 
+const selectedMethod = ref('new_card')
+const balance = ref(100)
+const coursePrice = 85
+
 function toggleDropdown() {
     open.value = !open.value
 }
@@ -125,71 +129,110 @@ function selectCountry(country) {
                             </div>
                             <div>
                                 <h5 class="h5">Payment Method</h5>
-                                <div class="payment-card">
-                                    <div class="payment-icons flex-wrap">
-                                        <div class="form-check-custom d-flex align-items-center">
-                                            <input
+                                <div class="payment-options d-flex flex-column gap-3">
+                                    <!-- My Balance -->
+                                    <div class="payment-option-card" :class="{ active: selectedMethod === 'balance', 'error-border': selectedMethod === 'balance' && balance < coursePrice }" @click="selectedMethod = 'balance'">
+                                        <div class="d-flex flex-column w-100">
+                                            <div class="card-header-row d-flex align-items-center gap-3">
+                                                <input
                                                     class="form-check-input-custom"
                                                     type="radio"
-                                                    :id="`payment-radio-${selectedPayment}`"
-                                                    :value="selectedPayment"
-                                                    checked
+                                                    id="payment-balance"
+                                                    value="balance"
+                                                    :checked="selectedMethod === 'balance'"
                                                     readonly
+                                                />
+                                                <label class="form-check-label-custom" for="payment-balance">My Balance</label>
+                                            </div>
+                                            <div v-if="selectedMethod === 'balance'" class="balance-details ps-5 mt-2">
+                                                <p class="balance-text mb-0">Balance: <span class="balance-amount">$ {{ balance }}</span></p>
+                                                <p v-if="balance < coursePrice" class="balance-error mb-0 mt-1">Not enough balance</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- My Added Card -->
+                                    <div class="payment-option-card" :class="{ active: selectedMethod === 'saved_card' }" @click="selectedMethod = 'saved_card'">
+                                        <div class="card-header-row d-flex align-items-center gap-3">
+                                            <input
+                                                class="form-check-input-custom"
+                                                type="radio"
+                                                id="payment-saved-card"
+                                                value="saved_card"
+                                                :checked="selectedMethod === 'saved_card'"
+                                                readonly
                                             />
-                                            <label class="form-check-label-custom" :for="`payment-radio-${selectedPayment}`">
-                                                {{ selectedPayment || 'Cards' }}
-                                            </label>
-                                        </div>
-
-
-
-                                        <div class="d-flex align-items-center gap-3 card-block">
-                                            <div
-                                                    v-for="method in paymentMethods"
-                                                    :key="method.name"
-                                                    class="card-bg"
-                                                    :class="method.class"
-                                                    @click="selectPayment(method.name)"
-                                                    style="cursor: pointer;"
-                                                    v-html="method.svg"
-                                            ></div>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="payment-input-group">
-                                        <div>
-                                            <label for="card-number" class="input-label">Card Number*</label>
-                                            <input class="input-card-details" id="card-number" type="text"
-                                                   placeholder="1234 5678 5678 3456"/>
-                                        </div>
-
-                                        <div class="flex-row w-100">
-                                            <div class="w-50">
-                                                <label for="expiry-date" class="input-label">Expiry Date</label>
-                                                <input class="input-card-details" id="expiry-date" type="text"
-                                                       placeholder="MM/YY"/>
-                                            </div>
-                                            <div class="w-50">
-                                                <label for="cvc-cvv" class="input-label">CVC/CVV</label>
-                                                <input class="input-card-details" id="cvc-cvv" type="text"
-                                                       placeholder="CVC"/>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label for="name-on-card" class="input-label">Name on Card</label>
-                                            <input class="input-card-details" id="name-on-card" type="text"
-                                                   placeholder="Name on Card"/>
-                                        </div>
-
-                                        <div class="d-flex gap-2 align-items-center">
-                                            <input class="checkbox-custom flex-shrink-0" type="checkbox" value=""
-                                                   id="flexCheckChecked" checked>
-                                            <label class="form-check-label" for="flexCheckChecked">
-                                                Securely save this card for my later purchase
-                                            </label>
+                                            <label class="form-check-label-custom" for="payment-saved-card">My Added Card</label>
+                                            <span class="option-subtitle">•• 56</span>
                                         </div>
                                     </div>
 
+                                    <!-- Cards (Original Style) -->
+                                    <div class="payment-card" :class="{ active: selectedMethod === 'new_card' }" @click="selectedMethod = 'new_card'">
+                                        <div class="payment-icons flex-wrap">
+                                            <div class="form-check-custom d-flex align-items-center">
+                                                <input
+                                                        class="form-check-input-custom"
+                                                        type="radio"
+                                                        :id="`payment-radio-${selectedPayment}`"
+                                                        :value="selectedPayment"
+                                                        :checked="selectedMethod === 'new_card'"
+                                                        readonly
+                                                />
+                                                <label class="form-check-label-custom" :for="`payment-radio-${selectedPayment}`">
+                                                    {{ selectedPayment || 'Cards' }}
+                                                </label>
+                                            </div>
+
+                                            <div class="d-flex align-items-center gap-3 card-block">
+                                                <div
+                                                        v-for="method in paymentMethods"
+                                                        :key="method.name"
+                                                        class="card-bg"
+                                                        :class="method.class"
+                                                        @click.stop="selectPayment(method.name)"
+                                                        style="cursor: pointer;"
+                                                        v-html="method.svg"
+                                                ></div>
+                                            </div>
+                                        </div>
+                                        <template v-if="selectedMethod === 'new_card'">
+                                            <hr>
+                                            <div class="payment-input-group">
+                                                <div>
+                                                    <label for="card-number" class="input-label">Card Number*</label>
+                                                    <input class="input-card-details" id="card-number" type="text"
+                                                        placeholder="1234 5678 5678 3456"/>
+                                                </div>
+
+                                                <div class="flex-row w-100">
+                                                    <div class="w-50">
+                                                        <label for="expiry-date" class="input-label">Expiry Date</label>
+                                                        <input class="input-card-details" id="expiry-date" type="text"
+                                                            placeholder="MM/YY"/>
+                                                    </div>
+                                                    <div class="w-50">
+                                                        <label for="cvc-cvv" class="input-label">CVC/CVV</label>
+                                                        <input class="input-card-details" id="cvc-cvv" type="text"
+                                                            placeholder="CVC"/>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label for="name-on-card" class="input-label">Name on Card</label>
+                                                    <input class="input-card-details" id="name-on-card" type="text"
+                                                        placeholder="Name on Card"/>
+                                                </div>
+
+                                                <div class="d-flex gap-2 align-items-center">
+                                                    <input class="checkbox-custom flex-shrink-0" type="checkbox" value=""
+                                                        id="flexCheckChecked" checked>
+                                                    <label class="form-check-label" for="flexCheckChecked">
+                                                        Securely save this card for my later purchase
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -904,6 +947,110 @@ select:focus {
         flex: 1 1 30%;
         max-width: 30%;
     }
+}
+
+.payment-option-card {
+    border: 1px solid var(--primary-30);
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+}
+
+.payment-option-card.active {
+    border: 1.5px solid var(--primary-50);
+}
+
+.payment-option-card.error-border {
+    border-color: #EB001B !important;
+}
+
+.custom-radio {
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    border: 1px solid var(--primary-30);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    flex-shrink: 0;
+}
+
+.payment-option-card.active .custom-radio {
+    border-color: var(--secondary-1-100);
+}
+
+.radio-inner {
+    width: 20px;
+    height: 20px;
+    background-color: var(--secondary-1-100);
+    border-radius: 50%;
+}
+
+.option-title {
+    font-family: var(--font-inter);
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--primary-90);
+}
+
+.option-subtitle {
+    font-family: var(--font-inter);
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--primary-90);
+    letter-spacing: 0.02em;
+}
+
+.balance-text {
+    font-family: var(--font-inter); 
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--secondary-1-100);
+}
+
+.balance-error {
+    font-family: var(--font-inter);
+    font-weight: 400;
+    font-size: 14px;
+    color: #EB001B;
+}
+
+.brand-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.payment-logos {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.mini-card-logo {
+    width: 44px;
+    height: 29px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+}
+
+.mini-card-logo svg {
+    width: 100%;
+    height: 100%;
+}
+
+.new-card-form .card-bg.ring-active {
+    border: 2px solid var(--secondary-1-100);
+}
+
+.new-card-form .payment-input-group {
+    padding: 0;
 }
 
 
