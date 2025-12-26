@@ -1,42 +1,49 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import api from '/src/services/api.js'
-import 'vue3-carousel/carousel.css'
-import {Carousel, Slide, Navigation} from 'vue3-carousel'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Autoplay } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/navigation'
 
-const carouselRef = ref(null)
+const swiperRef = ref(null)
+const swiperModules = [Navigation, Autoplay]
 const pricingItems = ref([])
-const currentSlide = ref(0)
-const itemsToShow = ref(3)
+const activeIndex = ref(0)
 const { t, locale } = useI18n()
-const hoveredIndex = ref(null)
-const loading = ref(false);
+const loading = ref(false)
 
-const isDesktop = ref(window.innerWidth >= 1200)
+// Dynamic definition of loop possibility
+const canLoop = computed(() => pricingItems.value.length >= 3)
 
-function updateItemsToShow() {
-    const width = window.innerWidth
-    isDesktop.value = width >= 1200
+const onSwiper = (swiper) => {
+    swiperRef.value = swiper
+    activeIndex.value = swiper.realIndex
+}
 
-    if (width < 576) itemsToShow.value = 1
-    else if (width < 992) itemsToShow.value = 1
-    else itemsToShow.value = 3
+const onSlideChange = (swiper) => {
+    activeIndex.value = swiper.realIndex
+}
+
+const goToPrev = () => {
+    if (swiperRef.value) swiperRef.value.slidePrev()
+}
+
+const goToNext = () => {
+    if (swiperRef.value) swiperRef.value.slideNext()
 }
 
 onMounted(async () => {
-    loading.value = true;
+    loading.value = true
     try {
         const response = await api.get('/api/pricing')
         pricingItems.value = response.data
     } catch (error) {
-        console.error('Failed to fetch pricing:', error)
-        fetchError.value = true
-    }finally {
-        loading.value = false;
+        console.error('Error loading pricing:', error)
+    } finally {
+        loading.value = false
     }
-    updateItemsToShow()
-    window.addEventListener('resize', updateItemsToShow)
 })
 
 const getCurrencySymbol = (code) => {
@@ -51,66 +58,103 @@ const getCurrencySymbol = (code) => {
             <div class="pricing-main d-flex flex-column align-items-center position-relative">
                 <div class="pricing-title">
                     <h3 class="text-capitalize">Our Pricing</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar</p>
                 </div>
                 <div v-if="loading" class="d-flex justify-content-center align-items-center my-5">
                     <div class="spinner-border text-secondary" role="status">
                         <span class="visually-hidden">{{ $t('loading') }}...</span>
                     </div>
                 </div>
-                <Carousel v-else
-                    ref="carouselRef"
-                    v-model:currentSlide="currentSlide"
-                    :wrapAround="true"
-                    :autoplay="6000"
-                    :itemsToShow="itemsToShow"
-                    :transition="700"
-                    class="slider-block w-100"
-                >
-                    <Slide v-for="(item, index) in pricingItems" :key="index">
-                        <div
-                            class="custom-slide"
-                            @mouseover="hoveredIndex = index"
-                            @mouseleave="hoveredIndex = null"
-                            :class="{ 'slide-active': hoveredIndex === index && isDesktop }">
-                            <p v-if="hoveredIndex === index && isDesktop" class="text-capitalize active-title">Lorem Ipsum</p>
-                            <div :class="{ 'slide-active-content': hoveredIndex === index && isDesktop }">
-                                <div class="slide-content">
-                                    <div class="enroll-more-btn-div d-flex justify-content-center">
-                                        <button class="enroll-more-btn text-capitalize">{{ $t('enroll_now') }}</button>
-                                    </div>
-                                    <div class="package-detail">
-                                        <h3 class="h3">{{ item[`title_${locale}`] }}</h3>
-                                        <p class="p">{{ item[`description_${locale}`] }}</p>
-                                        <h4 class="h4">
-                                            {{ getCurrencySymbol(item[`currency_${locale}`]) }}
-                                            {{ item[`price_${locale}`] }}/{{ item[`unit_${locale}`] }}
-                                        </h4>
-                                    </div>
-                                    <div class="line"></div>
-                                    <div class="package-include">
-                                        <p class="package-include-title">{{ $t('package_include') }}</p>
-                                        <div
-                                            v-for="(feature, aIndex) in item.features"
-                                            :key="aIndex"
-                                            class="include-item d-flex flex-column">
-                                            <div class="d-flex align-items-center">
-                                                <img src="/assets/icons/pricing/checkmark.svg" alt="checkmark" />
-                                                <span class="span">{{ feature[`feature_${locale}`] }}</span>
+                <div v-else class="pricing-swiper-wrapper">
+                    <Swiper
+                        :modules="swiperModules"
+                        :slides-per-view="3"
+                        :space-between="19"
+                        :centered-slides="true"
+                        :loop="canLoop"
+                        :autoplay="canLoop ? {
+                            delay: 6000,
+                            disableOnInteraction: false
+                        } : false"
+                        :speed="700"
+                        :breakpoints="{
+                            0: {
+                                slidesPerView: 1,
+                                spaceBetween: 10,
+                                centeredSlides: true
+                            },
+                            576: {
+                                slidesPerView: 1.2,
+                                spaceBetween: 15,
+                                centeredSlides: true
+                            },
+                            992: {
+                                slidesPerView: 2,
+                                spaceBetween: 19,
+                                centeredSlides: true
+                            },
+                            1200: {
+                                slidesPerView: 3,
+                                spaceBetween: 19,
+                                centeredSlides: true
+                            }
+                        }"
+                        @swiper="onSwiper"
+                        @slideChange="onSlideChange"
+                        class="pricing-swiper"
+                    >
+                        <SwiperSlide v-for="(item, index) in pricingItems" :key="index">
+                            <div
+                                class="pricing-slide"
+                                :class="{ 'pricing-slide-active': pricingItems.length === 1 || activeIndex === index }"
+                            >
+                                <p v-if="pricingItems.length === 1 || activeIndex === index" class="active-label">Lorem Ipsum</p>
+                                <div class="pricing-slide-inner" :class="{ 'active-inner': pricingItems.length === 1 || activeIndex === index }">
+                                    <div class="slide-content">
+                                        <div class="enroll-btn-wrapper">
+                                            <button class="enroll-btn">{{ $t('enroll_now') }}</button>
+                                        </div>
+                                        <div class="package-info">
+                                            <h3 class="package-title">{{ item[`title_${locale}`] }}</h3>
+                                            <p class="package-desc">{{ item[`description_${locale}`] }}</p>
+                                            <h4 class="package-price">
+                                                {{ getCurrencySymbol(item[`currency_${locale}`]) }}
+                                                {{ item[`price_${locale}`] }}/{{ item[`unit_${locale}`] }}
+                                            </h4>
+                                        </div>
+                                        <div class="divider"></div>
+                                        <div class="features-section">
+                                            <p class="features-title">{{ $t('package_include') }}</p>
+                                            <div
+                                                v-for="(feature, fIndex) in item.features"
+                                                :key="fIndex"
+                                                class="feature-item"
+                                            >
+                                                <div class="feature-row">
+                                                    <img src="/assets/icons/pricing/checkmark.svg" alt="checkmark" />
+                                                    <span class="feature-text">{{ feature[`feature_${locale}`] }}</span>
+                                                </div>
+                                                <div v-if="fIndex < item.features.length - 1" class="divider"></div>
                                             </div>
-                                            <div class="line"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </SwiperSlide>
+                    </Swiper>
+
+                    <!-- Navigation and pagination -->
+                    <div class="pricing-controls">
+                        <div class="pricing-nav">
+                            <button class="nav-btn nav-prev" @click="goToPrev" aria-label="Previous">
+                                <img src="/assets/icons/pricing/prev.svg" alt="Previous" />
+                            </button>
+                            <button class="nav-btn nav-next" @click="goToNext" aria-label="Next">
+                                <img src="/assets/icons/pricing/next.svg" alt="Next" />
+                            </button>
                         </div>
-                    </Slide>
-
-                    <template #addons>
-                        <Navigation />
-                    </template>
-                </Carousel>
-
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -118,11 +162,10 @@ const getCurrencySymbol = (code) => {
 
 <style scoped>
 .pricing-section {
-    padding: 8% 0;
+    padding: 100px 0;
     background-image: url("/assets/images/repeting-image.jpg");
     background-size: cover;
     position: relative;
-    margin-bottom: 8%;
 }
 
 .pricing-section:before {
@@ -136,576 +179,355 @@ const getCurrencySymbol = (code) => {
 }
 
 .pricing-main {
-    gap: 30px;
+    gap: 50px;
 }
 
 .pricing-title {
-    width: 42%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 20px;
+    max-width: 524px;
+    text-align: center;
 }
 
 .pricing-title h3 {
     font-family: var(--font-montserrat);
-    font-weight: 400;
+    font-weight: 500;
     font-size: 42px;
-    line-height: normal;
-    letter-spacing: 2%;
-    text-align: center;
-    color: var(--white-245);
+    line-height: 51px;
+    letter-spacing: 0.02em;
+    color: #F5F5F5;
     margin: 0;
 }
 
 .pricing-title p {
     font-family: var(--font-inter);
-    font-weight: 300;
+    font-weight: 400;
     font-size: 18px;
-    line-height: normal;
-    letter-spacing: 0%;
-    text-align: center;
-    color: var(--primary-10);
+    line-height: 22px;
+    color: #E5E7E9;
+    margin: 0;
 }
 
-.slider-block {
+.pricing-swiper-wrapper {
     width: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 60px;
+    flex-direction: column;
+    gap: 50px;
+    overflow: hidden;
 }
 
-.custom-slide {
-    min-height: 501px;
+.pricing-swiper {
+    width: 100%;
+    padding: 50px 0;
+    overflow: visible;
+}
+
+:deep(.swiper-wrapper) {
+    align-items: center !important;
+}
+
+/* Base style for inactive card */
+.pricing-slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 370px;
+    min-height: 520px;
+    height: auto;
+    border: 1px solid #4BBBE4;
     border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid var(--secondary-1-100);
-    padding: 15px 23px 17px;
+    padding: 17px 30px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, background 0.3s ease;
 }
 
-.next-prev svg {
-    cursor: pointer !important;
+.pricing-slide-inner {
+    width: 100%;
+    height: 100%;
 }
 
-.next-prev svg:hover path {
-    fill: var(--primary-50) !important;
-    animation-timing-function: ease-out;
-    animation-duration: 200ms;
-
-}
-
-.enroll-more-btn {
-    gap: 10px;
-    border-radius: 70px;
-    font-family: var(--font-montserrat);
-    font-weight: 400;
-    font-size: 16px;
-    line-height: normal;
-    letter-spacing: 1px;
-    color: var(--white-229);
-    cursor: pointer;
-    padding: 0 30px;
-    height: 47px;
-    background: var(--general-btn);
+/* Active (centered) card */
+.pricing-slide-active {
+    transform: scale(1.12);
+    background: linear-gradient(308.37deg, #001028 -39.02%, #4BBBE4 143.53%);
     border: none;
-    outline: none;
-    white-space: nowrap;
+    min-height: 520px;
+    height: auto;
 }
 
-.enroll-more-btn:hover {
-    height: 50px;
-    font-size: 18px;
-    text-decoration: none;
-}
- 
-.enroll-more-btn-div {
-    height: 50px;
+.pricing-slide-active .active-inner {
+    background: #001028;
+    border-radius: 16px;
+    padding: 15px 30px;
+    height: auto;
 }
 
-.package-detail {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.package-detail .h3,
-.package-detail .h4,
-.package-detail .p {
-    font-weight: 300;
-    line-height: normal;
-    letter-spacing: 2%;
-    color: var(--white-245);
-}
-
-.package-detail .h3 {
-    font-family: var(--font-montserrat);
-    font-size: 24px;
-    margin: 0;
-}
-
-.package-detail .p {
+.active-label {
     font-family: var(--font-inter);
-    font-size: 16px;
-    margin: 0;
-}
-
-.package-detail .h4 {
-    font-family: var(--font-montserrat);
-    font-size: 34px;
-    margin: 0;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #E5E7E9;
+    margin: 0 0 14px 0;
 }
 
 .slide-content {
-    gap: 18px;
     display: flex;
     flex-direction: column;
-    padding: 25px;
-    border-radius: 16px;
-    position: relative;
-    z-index: 1;
+    gap: 30px;
     height: 100%;
-    width: 100%;
 }
 
-.line {
-    border-width: 0.5px;
-    border-style: solid;
-    box-sizing: border-box;
-    border-color: var(--secondary-1-100) !important;
+.enroll-btn-wrapper {
+    display: flex;
+    justify-content: flex-start;
 }
 
-.package-include-title,
-.package-include .p {
-    font-weight: 300;
-    line-height: normal;
-    letter-spacing: 0%;
-
-}
-
-.package-include-title {
-    font-family: var(--font-montserrat);
-    font-size: 18px;
-    color: var(--white-245);
-}
-
-.package-include .span {
-    font-family: var(--font-inter);
-    font-size: 16px;
-    color: var(--primary-60);
-}
-
-.package-include img {
-    margin-right: 10px;
-}
-
-.include-item {
-    gap: 20px;
-    margin-top: 6%;
-}
-
-.include-item:last-child .line {
-    display: none;
-}
-
-.active-title {
-    font-family: var(--font-inter);
-    color: var(--primary-10);
-    font-weight: 300;
-}
-
-.slide-active {
-    background: var(--pricing-slider-border);
-    border-radius: 16px;
-    background-clip: padding-box !important;
-    position: relative;
+.enroll-btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 15px 23px 17px;
-    flex-direction: column;
-    transform: scale(1.05);
-    transition: all 0.3s ease-in-out;
-    border: unset;
+    padding: 13px 37px;
+    gap: 10px;
+    width: 163px;
+    height: 47px;
+    background: linear-gradient(94.91deg, #4BBBE4 -29%, #45B0D8 -0.85%, #114D6D 114%, #002C4A 141.18%);
+    border-radius: 25px;
+    border: none;
+    font-family: var(--font-montserrat);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    color: #F5F5F5;
     cursor: pointer;
+    text-transform: capitalize;
 }
 
-.slide-active p {
+.package-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.package-title {
+    font-family: var(--font-montserrat);
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    letter-spacing: 0.02em;
+    color: #F5F5F5;
+    margin: 0;
+}
+
+.package-desc {
     font-family: var(--font-inter);
-    font-weight: 300;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #F5F5F5;
+    margin: 0;
+}
+
+.package-price {
+    font-family: var(--font-montserrat);
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 41px;
+    color: #F5F5F5;
+    margin: 0;
+}
+
+.divider {
+    width: 100%;
+    height: 0;
+    border: 0.5px solid #4BBBE4;
+}
+
+.features-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.features-title {
+    font-family: var(--font-montserrat);
+    font-weight: 400;
     font-size: 18px;
-    line-height: normal;
-    letter-spacing: 0%;
-    color: var(--primary-10);
+    line-height: 22px;
+    color: #F5F5F5;
+    margin: 0;
 }
 
-.slide-active-content {
-    width: 330px;
-    min-height: 501px;
-    background: var(--primary-100);
-    border-radius: 16px;
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-:deep(.carousel__slide) {
-    align-items: unset !important;
+.feature-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-:deep(.carousel__icon) {
-    fill: #dee2e6 !important;
-
+.feature-row img {
+    width: 20px;
+    height: 20px;
 }
 
-:deep(.carousel__next),
-:deep(.carousel__prev){
-    background-color: var(--primary-60);
-    border-radius: 50%;
+.feature-text {
+    font-family: var(--font-inter);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #66707E;
 }
 
-:deep(.carousel__next){
-    right: -5%;
+/* Navigation and pagination */
+.pricing-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
-:deep(.carousel__prev){
-   left: -5%;
+.pricing-nav {
+    display: flex;
+    align-items: center;
+    gap: 14px;
 }
 
+.nav-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-/* Extra Small Devices */
+.nav-btn:hover {
+    opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 1199px) {
+    .pricing-slide {
+        width: 100%;
+        max-width: 370px;
+    }
+    
+    .pricing-slide-active {
+        width: 100%;
+        max-width: 446px;
+    }
+}
+
+@media (max-width: 991px) {
+    .pricing-section {
+        padding: 60px 0;
+    }
+    
+    .pricing-main {
+        gap: 40px;
+    }
+    
+    .pricing-title h3 {
+        font-size: 32px;
+        line-height: 40px;
+    }
+    
+    .pricing-title p {
+        font-size: 16px;
+    }
+    
+    .pricing-slide,
+    .pricing-slide-active {
+        width: 100%;
+        max-width: 370px;
+        height: auto;
+        min-height: 450px;
+    }
+    
+    .pricing-slide-active .active-inner {
+        height: auto;
+        min-height: 400px;
+    }
+}
+
 @media (max-width: 575px) {
     .pricing-section {
-        padding: 18% 0 13%;
-        margin-bottom: 18%;
+        padding: 50px 0;
     }
-
+    
+    .pricing-main {
+        gap: 30px;
+    }
+    
     .pricing-title {
-        width: 100%;
+        max-width: 100%;
+        padding: 0 15px;
     }
-
+    
     .pricing-title h3 {
         font-size: 22px;
-        font-weight: 300;
+        line-height: 28px;
     }
-
+    
     .pricing-title p {
         font-size: 14px;
+        line-height: 18px;
     }
-
-    .slider-circle-block svg {
-        width: 12px;
-        height: 12px;
+    
+    .pricing-slide,
+    .pricing-slide-active {
+        padding: 15px 20px;
+        margin: 0 auto;
+        transform: none;
+        width: 100%;
+        max-width: 320px;
     }
-
-    .next-prev svg {
-        width: 30px;
-        height: 30px;
+    
+    :deep(.swiper-slide) {
+        display: flex;
+        justify-content: center;
     }
-
-    .slide-active,
-    .slide-active-content{
+    
+    .pricing-swiper {
+        overflow: hidden;
+    }
+    
+    .enroll-btn {
         width: 100%;
     }
-
-    .pricing-main{
-        gap: 40px;
-    }
-    .enroll-more-btn,
-    .enroll-more-btn-div{
-        width: 100%;
-    }
-
-    .enroll-more-btn:hover{
-        width: 100%;
-        background: var(--general-btn);
-        height: 47px;
-    }
-
-    .enroll-more-btn,
-    .package-detail .h3{
+    
+    .package-title {
         font-size: 18px;
         text-align: center;
     }
-
-    .package-detail .p{
+    
+    .package-desc {
         font-size: 14px;
         text-align: center;
     }
-
-    .slide-active{
-        border-radius: 8px;
-    }
-
-    .slide-content{
-        padding: 25px 11px;
-    }
-
-    .package-detail .h4{
+    
+    .package-price {
         font-size: 22px;
         text-align: center;
     }
-
-    .slide-active-content{
-        min-height: 270px !important;
+    
+    .pricing-controls {
+        flex-direction: column-reverse;
+        gap: 20px;
+        align-items: start;
     }
-
-    .slide-active p{
-        text-align: center;
-    }
-}
-
-/* Small Devices */
-@media (min-width: 576px) and (max-width: 767px) {
-    .pricing-section {
-        padding: 10% 0 8%;
-        margin-bottom: 10%;
-    }
-
-    .pricing-title {
-        width: 100%;
-    }
-
-    .pricing-title h3 {
-        font-size: 22px;
-        font-weight: 300;
-    }
-
-    .pricing-title p {
-        font-size: 14px;
-    }
-
-    .slider-circle-block svg {
-        width: 12px;
-        height: 12px;
-    }
-
-    .next-prev svg {
-        width: 30px;
-        height: 30px;
-    }
-
-    .slide-active,
-    .slide-active-content{
-        width: 100%;
-    }
-
-    .pricing-main{
-        gap: 40px;
-    }
-    .enroll-more-btn,
-    .enroll-more-btn-div{
-        width: 100%;
-    }
-
-    .enroll-more-btn:hover{
-        width: 100%;
-        background: var(--general-btn);
-        height: 47px;
-    }
-
-    .enroll-more-btn,
-    .package-detail .h3{
-        font-size: 18px;
-        text-align: center;
-    }
-
-    .package-detail .p{
-        font-size: 14px;
-        text-align: center;
-    }
-
-    .slide-active{
-        border-radius: 8px;
-    }
-
-    .slide-content{
-        padding: 25px 11px;
-    }
-
-    .package-detail .h4{
-        font-size: 22px;
-        text-align: center;
-    }
-
-    .slide-active-content{
-        min-height: 270px !important;
-    }
-
-    .slide-active p{
-        text-align: center;
-    }
-
-    .w-100{
-        width: 78% !important;
-    }
-}
-
-/* Medium Devices */
-@media (min-width: 768px) and (max-width: 991px) {
-    .pricing-section {
-        padding: 10% 0 8%;
-        margin-bottom: 10%;
-    }
-
-    .pricing-title {
-        width: 100%;
-    }
-
-    .pricing-title h3 {
-        font-size: 38px;
-        font-weight: 300;
-    }
-
-    .pricing-title p {
+    
+    .active-label {
         font-size: 16px;
     }
-
-    .slider-circle-block svg {
-        width: 14px;
-        height: 14px;
-    }
-
-    .next-prev svg {
-        width: 34px;
-        height: 34px;
-    }
-
-    .slide-active,
-    .slide-active-content{
-        width: 100%;
-    }
-
-    .pricing-main{
-        gap: 35px;
-    }
-    .enroll-more-btn,
-    .enroll-more-btn-div{
-        width: 100%;
-    }
-
-    .enroll-more-btn:hover{
-        width: 100%;
-        background: var(--general-btn);
-        height: 47px;
-    }
-
-    .enroll-more-btn,
-    .package-detail .h3{
-        font-size: 20px;
-        text-align: center;
-    }
-
-    .package-detail .p{
-        font-size: 16px;
-        text-align: center;
-    }
-
-    .slide-active{
-        border-radius: 8px;
-    }
-
-    .slide-content{
-        padding: 25px 11px;
-    }
-
-    .package-detail .h4{
-        font-size: 22px;
-        text-align: center;
-    }
-
-    .slide-active-content{
-        min-height: 270px !important;
-    }
-
-    .slide-active p{
-        text-align: center;
-        font-size: 18px;
-    }
-
-    .w-100{
-        width: 68% !important;
-    }
 }
-
-/* Large Devices */
-@media (min-width: 992px) and (max-width: 1199px) {
-    .w-100{
-        gap:10px;
-    }
-
-    .custom-slide{
-        width: 95%;
-    }
-
-    .slide-active{
-        width: 337px;
-    }
-
-    .slide-active-content{
-        width: 100%;
-    }
-
-    .package-detail .h4{
-        font-size: 30px;
-    }
-}
-
-
-/* Extra Large Devices */
-@media (min-width: 1200px) {
-    .w-100{
-        gap:30px;
-    }
-    .custom-slide{
-        width: 94%;
-    }
-
-    :deep(.carousel__next){
-        right: -2%;
-    }
-
-    :deep(.carousel__prev ){
-        left: -2%;
-    }
-
-    :deep(.carousel__viewport) {
-        min-height: 700px !important;
-        padding: 45px 0 !important;
-    }
-
-    :deep(.carousel) {
-        min-height: 700px !important;
-    }
-}
-
-/* Extra Large Devices */
-@media (min-width: 1600px) {
-    .custom-slide{
-        width: 75%;
-    }
-
-    .slide-active{
-        width:95%;
-    }
-
-    .slide-active-content{
-        width: 100%;
-    }
-
-    .slide-content{
-        padding: 32px;
-        gap:44px;
-    }
-
-    :deep(.carousel__viewport) {
-        min-height: 700px !important;
-        padding: 45px 0 !important;
-    }
-
-    :deep(.carousel) {
-        min-height: 700px !important;
-    }
-
-}
-
-
 </style>

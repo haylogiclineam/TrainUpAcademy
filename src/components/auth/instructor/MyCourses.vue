@@ -58,13 +58,18 @@ async function loadCourses(page = 1) {
         if (isAuthenticated) {
             data.data.forEach(async (course, index) => {
                 try {
-                    const videoUrl = `${baseUrl}/api/stream-video/${course.id}`
-                    const blob = await fetchVideoBlob(videoUrl)
-                    const blobUrl = URL.createObjectURL(blob)
-
-                    videos.value[index].src = blobUrl
+                    // Only attempt to fetch video if the course has a video file
+                    if (course.video_file) {
+                        const videoUrl = `${baseUrl}/api/stream-video/${course.id}`
+                        const blob = await fetchVideoBlob(videoUrl)
+                        const blobUrl = URL.createObjectURL(blob)
+                        videos.value[index].src = blobUrl
+                    } else {
+                        console.log(`No video file for course ID ${course.id}`)
+                    }
                 } catch (error) {
-                    console.error(`Failed to load video blob for course ID ${course.id}:`, error)
+                    console.warn(`Failed to load video blob for course ID ${course.id}:`, error.message)
+                    // Don't throw error, just log it - video will be unavailable
                 }
             })
         }
