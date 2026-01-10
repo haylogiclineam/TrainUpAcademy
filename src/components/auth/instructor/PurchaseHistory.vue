@@ -47,19 +47,19 @@ function capitalize(str) {
         <div class="container">
             <div class="my-history-main">
                 <div class="d-flex justify-content-between align-items-center my-history-title-block">
-                    <h3 class="text-capitalize my-history-section-title">Purchase history</h3>
+                    <h3 class="text-capitalize my-history-section-title">{{ $t('purchase_history.title') }}</h3>
                 </div>
                 <div class="purchase-history">
                     <div class="table-wrapper">
                         <table class="purchase-table">
                             <thead>
                             <tr>
-                                <th>Product</th>
-                                <th>Date</th>
-                                <th>Total Amount</th>
-                                <th>Service Fee</th>
-                                <th>Net</th>
-                                <th>Status</th>
+                                <th>{{ $t('purchase_history.product') }}</th>
+                                <th>{{ $t('purchase_history.date') }}</th>
+                                <th>{{ $t('purchase_history.total_amount') }}</th>
+                                <th>{{ $t('purchase_history.service_fee') }}</th>
+                                <th>{{ $t('purchase_history.net') }}</th>
+                                <th>{{ $t('purchase_history.status') }}</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -86,7 +86,7 @@ function capitalize(str) {
                                     </div>
                                     <div class="course-details">
                                         <p class="course-title">Certified Cloud Practitioner CLF-C02 2025</p>
-                                        <p class="course-instructor-name">Instructor: By Stephane</p>
+                                        <p class="course-instructor-name">{{ $t('purchase_history.instructor') }} By Stephane</p>
                                     </div>
                                 </td>
                                 <td>10/07/2023</td>
@@ -103,7 +103,7 @@ function capitalize(str) {
                                 </span>
                                 </td>
                                 <td>
-                                    <button class="invoice-btn">Invoice</button>
+                                    <button class="invoice-btn">{{ $t('purchase_history.invoice') }}</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -116,7 +116,7 @@ function capitalize(str) {
                             v-for="(video, index) in videos"
                             :key="index">
                             <div class="mobile-row">
-                                <p class="mobile-label">Product</p>
+                                <p class="mobile-label">{{ $t('purchase_history.product') }}</p>
                                 <hr>
                                 <div class="product-info gap-2">
                                     <div class="course-video-div-main d-flex">
@@ -139,42 +139,42 @@ function capitalize(str) {
                                     </div>
                                     <div>
                                         <p class="course-title">Certified Cloud Practitioner CLF-C02 2025</p>
-                                        <p class="course-instructor-name">Instructor: By Stephane</p>
+                                        <p class="course-instructor-name">{{ $t('purchase_history.instructor') }} By Stephane</p>
                                     </div>
                                 </div>
                                 <hr>
                             </div>
 
                             <div class="mobile-row">
-                                <p class="mobile-label">Date</p>
+                                <p class="mobile-label">{{ $t('purchase_history.date') }}</p>
                                 <hr>
                                 <p class="mobile-label-content">10/07/2023</p>
                             </div>
                             <hr>
 
                             <div class="mobile-row">
-                                <p class="mobile-label">Total Amount</p>
+                                <p class="mobile-label">{{ $t('purchase_history.total_amount') }}</p>
                                 <hr>
                                 <p class="mobile-label-content">$1,752,585.54</p>
                             </div>
                             <hr>
 
                             <div class="mobile-row">
-                                <p class="mobile-label">Service Fee</p>
+                                <p class="mobile-label">{{ $t('purchase_history.service_fee') }}</p>
                                 <hr>
                                 <p class="mobile-label-content">10%</p>
                             </div>
                             <hr>
 
                             <div class="mobile-row">
-                                <p class="mobile-label">Net</p>
+                                <p class="mobile-label">{{ $t('purchase_history.net') }}</p>
                                 <hr>
                                 <p class="mobile-label-content">$625.22</p>
                             </div>
                             <hr>
 
                             <div class="mobile-row">
-                                <p class="mobile-label">Status</p>
+                                <p class="mobile-label">{{ $t('purchase_history.status') }}</p>
                                 <hr>
                                 <p class="mobile-label-content">
                                 <span :class="['status', getStatus(index)]" >
@@ -189,7 +189,7 @@ function capitalize(str) {
                             <hr>
 
                             <div class="mobile-row no-border">
-                                <button class="invoice-btn">Invoice</button>
+                                <button class="invoice-btn">{{ $t('purchase_history.invoice') }}</button>
                             </div>
                             <hr>
                         </div>
@@ -233,13 +233,13 @@ function capitalize(str) {
                 <div class="d-flex align-items-center empty-my-cart-block gap-3">
                     <div class="not-exist-items">
                         <p class="mb-0">
-                            You don't have any course purchases.
+                            {{ $t('purchase_history.no_purchases') }}
                         </p>
                     </div>
                     <div class="my-course-btn-div d-flex justify-content-center align-items-center">
                         <router-link to="/courses">
                             <button class="my-course-btn">
-                                Courses
+                                {{ $t('purchase_history.courses') }}
                             </button>
                         </router-link>
                     </div>
@@ -283,16 +283,17 @@ function capitalize(str) {
     outline: none;
     border: none;
     text-transform: capitalize;
+    white-space: nowrap;
+    padding: 0 35px;
 }
 
 .my-course-btn {
-    width: 176px;
     height: 53px;
 }
 
 .my-course-btn-div {
     height: 56px;
-    width: 186px;
+    width: fit-content;
 }
 
 .not-exist-items p {
@@ -558,18 +559,18 @@ function capitalize(str) {
     }
 
     .my-course-btn-div {
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover {
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn {
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }
@@ -657,18 +658,18 @@ function capitalize(str) {
     }
 
     .my-course-btn-div {
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover {
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn {
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }
@@ -756,18 +757,18 @@ function capitalize(str) {
     }
 
     .my-course-btn-div {
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover {
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn {
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }

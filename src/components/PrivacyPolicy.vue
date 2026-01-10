@@ -122,11 +122,11 @@ function formatBody(text) {
             <h2>{{ t('privacy_policy.sections.10.heading') }}</h2>
             <div class="contact-item">
                 <span class="icon">📧</span>
-                <a href="mailto:support@trainup.academy">support@trainup.academy</a>
+                <a :href="`mailto:${$t('privacy_policy.support_email')}`">{{ $t('privacy_policy.support_email') }}</a>
             </div>
             <div class="contact-item">
                 <span class="icon">🌐</span>
-                <a href="https://trainup.academy" target="_blank" rel="noopener">www.trainup.academy</a>
+                <a href="https://trainup.academy" target="_blank" rel="noopener">{{ $t('privacy_policy.website') }}</a>
             </div>
             <div class="contact-item">
                 <span class="icon">📍</span>

@@ -496,16 +496,16 @@ watch(() => course.value?.id, (newId, oldId) => {
                                     href="#"
                                     @click.prevent="showAllComments ? showAllComments = false : fetchAllComments()"
                             >
-                                {{ showAllComments ? 'View less' : 'View more' }}
+                                {{ showAllComments ? $t('single_course.view_less') : $t('single_course.view_more') }}
                             </a>
 
 
                             <div class="write-comment-textarea">
                                 <textarea v-model="newCommentText" rows="4" class="form-input w-100 mt-2" type="text"
-                                          placeholder="Write comment"></textarea>
+                                          :placeholder="$t('single_course.write_comment_placeholder')"></textarea>
                                 <div class="write-comment-btn-div">
                                     <button @click="submitComment" class="write-comment-btn text-capitalize">
-                                        Submit
+                                        {{ $t('single_course.submit') }}
                                     </button>
                                 </div>
                             </div>

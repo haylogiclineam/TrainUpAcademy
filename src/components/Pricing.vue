@@ -57,8 +57,8 @@ const getCurrencySymbol = (code) => {
         <div class="container">
             <div class="pricing-main d-flex flex-column align-items-center position-relative">
                 <div class="pricing-title">
-                    <h3 class="text-capitalize">Our Pricing</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar</p>
+                    <h3 class="text-capitalize">{{ $t('pricing.title') }}</h3>
+                    <p>{{ $t('pricing.description') }}</p>
                 </div>
                 <div v-if="loading" class="d-flex justify-content-center align-items-center my-5">
                     <div class="spinner-border text-secondary" role="status">
@@ -108,7 +108,7 @@ const getCurrencySymbol = (code) => {
                                 class="pricing-slide"
                                 :class="{ 'pricing-slide-active': pricingItems.length === 1 || activeIndex === index }"
                             >
-                                <p v-if="pricingItems.length === 1 || activeIndex === index" class="active-label">Lorem Ipsum</p>
+                                <p v-if="pricingItems.length === 1 || activeIndex === index" class="active-label">{{ $t('pricing.active_label') }}</p>
                                 <div class="pricing-slide-inner" :class="{ 'active-inner': pricingItems.length === 1 || activeIndex === index }">
                                     <div class="slide-content">
                                         <div class="enroll-btn-wrapper">

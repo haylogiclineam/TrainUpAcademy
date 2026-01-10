@@ -74,7 +74,7 @@ const newsletter = async () => {
             <div class="position-relative d-flex justify-content-between footer-main-menu">
                 <div class="footer-menu d-flex justify-content-between">
                     <div class="footer-menu-first">
-                        <h5 class="item-title">Company</h5>
+                        <h5 class="item-title">{{$t('footer.company')}}</h5>
                         <ul class="p-0 list-unstyled">
                             <li class="footer-item">
                                 <router-link to="/" class="footer-menu-link text-capitalize">{{$t('home')}}</router-link>
@@ -99,7 +99,7 @@ const newsletter = async () => {
                         </ul>
                     </div>
                     <div class="footer-menu-second">
-                        <h5 class="item-title">Information</h5>
+                        <h5 class="item-title">{{$t('footer.information')}}</h5>
                         <ul class="p-0 list-unstyled">
                             <li class="footer-item">
                                 <a class="footer-contact-link" href="tel:+37477198238">+374 77 198238</a>
@@ -115,10 +115,10 @@ const newsletter = async () => {
                         </ul>
                     </div>
                     <div class="footer-menu-third">
-                        <h5 class="item-title">Location</h5>
+                        <h5 class="item-title">{{$t('footer.location')}}</h5>
                         <ul class="p-0 list-unstyled">
                             <li class="footer-item">
-                                <a class="footer-contact-link" href="">Yerevan</a>
+                                <a class="footer-contact-link" href="">{{$t('footer.yerevan')}}</a>
                             </li>
                         </ul>
                     </div>
@@ -126,7 +126,7 @@ const newsletter = async () => {
                 <div class="form-newsletter">
                     <div class="form-bg-parent">
                         <div class="form-bg">
-                            <p>Newsletter</p>
+                            <p>{{$t('footer.newsletter')}}</p>
 
                             <input
                                     type="text"
@@ -163,25 +163,25 @@ const newsletter = async () => {
             <div class="position-relative d-flex justify-content-between align-items-center privacy-policy-web">
                 <ul class="list-unstyled d-flex justify-content-between align-items-center w-100 privacy-policy-ul">
                     <li>
-                        <a class="footer-a" href="">Copyright © {{ currentYear }} HayLogic Line LLC</a>
+                        <a class="footer-a" href="">{{$t('footer.rights_reserved', { year: currentYear })}}</a>
                     </li>
                     <li>
-                        <router-link to="/privacy-policy" class="footer-a">Privacy Policy</router-link>
+                        <router-link to="/privacy-policy" class="footer-a">{{$t('footer.privacy_policy')}}</router-link>
                     </li>
                     <li>
-                        <router-link to="/terms-conditions" class="footer-a">Terms Of Services</router-link>
+                        <router-link to="/terms-conditions" class="footer-a">{{$t('footer.terms_of_services')}}</router-link>
                     </li>
                 </ul>
                 <ul class="d-none list-unstyled d-flex justify-content-between align-items-center w-100 privacy-policy-ul-mobile">
                     <li>
-                        <a class="footer-a" href="">Copyright © {{ currentYear }} HayLogic Academy LLC</a>
+                        <a class="footer-a" href="">{{$t('footer.rights_reserved_academy', { year: currentYear })}}</a>
                     </li>
                     <ul class="list-unstyled">
                         <li>
-                            <router-link to="/privacy-policy" class="footer-a">Privacy Policy</router-link>
+                            <router-link to="/privacy-policy" class="footer-a">{{$t('footer.privacy_policy')}}</router-link>
                         </li>
                         <li>
-                            <router-link to="/terms-conditions" class="footer-a">Terms Of Services</router-link>
+                            <router-link to="/terms-conditions" class="footer-a">{{$t('footer.terms_of_services')}}</router-link>
                         </li>
                     </ul>
 

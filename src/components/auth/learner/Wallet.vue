@@ -5,15 +5,15 @@ const activeStep = ref(0);
 
 const steps = [
     {
-        title: "Wallet Balance",
+        title: "wallet.balance",
         items: [
-            { text: "Your Wallet Balance:", price: "$ 1200" },
+            { text: "wallet.your_balance", price: "$ 1200" },
         ],
     },
     {
-        title: "Total Spent",
+        title: "wallet.total_spent",
         items: [
-            { text: "Total Spent:", price: "$ 1500" },
+            { text: "wallet.total_spent_text", price: "$ 1500" },
         ],
     }
 ];
@@ -49,12 +49,12 @@ onMounted(() => {
         <div class="container">
             <div class="my-wallet-main">
                 <div class="d-flex justify-content-between align-items-center my-wallet-title-block">
-                    <h3 class="text-capitalize my-wallet-section-title">Wallet</h3>
+                    <h3 class="text-capitalize my-wallet-section-title">{{ $t('wallet.title') }}</h3>
                     <div class="purchase-btn-web purchase-history-btn-div d-flex justify-content-center align-items-center">
                         <router-link to="/learner/purchase-history"
                                      :class="{ active: $route.path === '/learner/purchase-history' }">
                             <button class="purchase-history-btn text-capitalize">
-                                Purchase history
+                                {{ $t('wallet.purchase_history') }}
                             </button>
                         </router-link>
                     </div>
@@ -70,7 +70,7 @@ onMounted(() => {
                                         @click="activeStep = index"
                                         ref="tabTitles"
                                 >
-                                    <div class="tab-title">{{ step.title }}</div>
+                                    <div class="tab-title">{{ $t(step.title) }}</div>
                                 </div>
                                 <div :style="activeTabStyle"></div>
                             </div>
@@ -85,7 +85,7 @@ onMounted(() => {
                                     class="wallet-box"
                             >
                                 <p class="wallet-text mb-0">
-                                    {{ item.text }}
+                                    {{ $t(item.text) }}
                                     <span
                                             class="wallet-amount"
                                             :class="{
@@ -99,7 +99,7 @@ onMounted(() => {
 
                             <div v-if="activeStep !== null && activeStep === 0" class="mt-3 withdraw-btn-div">
                                 <router-link to="/learner/add-funds">
-                                    <button class="withdraw-btn text-capitalize">Add Funds</button>
+                                    <button class="withdraw-btn text-capitalize">{{ $t('wallet.add_funds') }}</button>
                                 </router-link>
                             </div>
                         </div>
@@ -112,7 +112,7 @@ onMounted(() => {
                             <button
                                     class="accordion-header"
                                     @click="activeStep = activeStep === index ? null : index">
-                                {{ step.title }}
+                                {{ $t(step.title) }}
                                 <span class="arrow" :class="{ open: activeStep === index }">
                                 <svg width="12" height="7" viewBox="0 0 12 7" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -128,7 +128,7 @@ onMounted(() => {
                                         :key="itemIndex"
                                         class="wallet-box mb-2">
                                     <p class="wallet-text mb-0">
-                                        {{ item.text }}
+                                        {{ $t(item.text) }}
                                         <span
                                                 class="wallet-amount"
                                                 :class="{
@@ -142,7 +142,7 @@ onMounted(() => {
 
                                 <div v-if="activeStep === 0" class="mt-3 withdraw-btn-div">
                                     <router-link to="/learner/add-funds">
-                                        <button class="withdraw-btn text-capitalize">Add Funds</button>
+                                        <button class="withdraw-btn text-capitalize">{{ $t('wallet.add_funds') }}</button>
                                     </router-link>
                                 </div>
 
@@ -153,7 +153,7 @@ onMounted(() => {
                             <router-link to="/learner/purchase-history"
                                          :class="{ active: $route.path === '/learner/purchase-history' }">
                                 <button class="purchase-history-btn text-capitalize">
-                                    Purchase history
+                                    {{ $t('wallet.purchase_history') }}
                                 </button>
                             </router-link>
                         </div>
@@ -200,26 +200,26 @@ onMounted(() => {
     outline: none;
     border: none;
     text-transform: capitalize;
+    white-space: nowrap;
+    padding: 0 35px;
 }
 
 .withdraw-btn{
-    width: 273px;
     height: 53px;
 }
 
 .purchase-history-btn {
-    width: 219px;
     height: 53px;
 }
 
 .withdraw-btn-div{
     height: 56px;
-    width: 278px;
+    width: fit-content;
 }
 
 .purchase-history-btn-div {
     height: 56px;
-    width: 223px;
+    width: fit-content;
 }
 
 
@@ -326,7 +326,8 @@ onMounted(() => {
     .purchase-history-btn-div,
     .withdraw-btn,
     .withdraw-btn-div{
-        width: 100%;
+        width: fit-content;
+        padding: 0 35px;
     }
 }
 
@@ -344,7 +345,8 @@ onMounted(() => {
     .purchase-history-btn-div,
     .withdraw-btn,
     .withdraw-btn-div{
-        width: 70%;
+        width: fit-content;
+        padding: 0 35px;
     }
 }
 
@@ -362,7 +364,8 @@ onMounted(() => {
     .purchase-history-btn-div,
     .withdraw-btn,
     .withdraw-btn-div{
-        width: 70%;
+        width: fit-content;
+        padding: 0 35px;
     }
 }
 
@@ -433,13 +436,13 @@ onMounted(() => {
 @media (min-width: 1200px) {
     .purchase-history-btn:hover {
         height: 56px;
-        width: 223px;
+        padding: 0 45px;
         font-size: 18px;
     }
 
     .withdraw-btn:hover {
         height: 56px;
-        width: 278px;
+        padding: 0 45px;
         font-size: 18px;
     }
 }

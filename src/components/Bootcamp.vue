@@ -79,7 +79,7 @@ onMounted(() => {
 
                 <div class="learn-more-btn-div d-flex align-items-center">
                     <a href="/assets/files/Our%20Bootcamp.pdf" download class="learn-more-btn text-center text-decoration-none d-flex align-items-center justify-content-center">
-                        Learn more
+                        {{ $t('bootcamp.learn_more') }}
                     </a>
                 </div>
             </div>
@@ -93,10 +93,8 @@ onMounted(() => {
                                     <img src="/assets/icons/bootcamp/bootcamp-item-1.svg" alt="bootcamp-item-1">
                                 </div>
                                 <div class="item-content">
-                                    <h6 class="text-capitalize">Trusted Bootcamp Since</h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus
-                                        nec
-                                        ullamcorper mattis, pulvinar</p>
+                                    <h6 class="text-capitalize">{{ $t('bootcamp.trusted_bootcamp_1') }}</h6>
+                                    <p>{{ $t('bootcamp.item_description_1') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -108,10 +106,8 @@ onMounted(() => {
                                     <img src="/assets/icons/bootcamp/bootcamp-item-2.svg" alt="bootcamp-item-2">
                                 </div>
                                 <div class="item-content">
-                                    <h6 class="text-capitalize">Trusted Bootcamp Since</h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus
-                                        nec
-                                        ullamcorper mattis, pulvinar</p>
+                                    <h6 class="text-capitalize">{{ $t('bootcamp.trusted_bootcamp_2') }}</h6>
+                                    <p>{{ $t('bootcamp.item_description_2') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -123,10 +119,8 @@ onMounted(() => {
                                     <img src="/assets/icons/bootcamp/bootcamp-item-3.svg" alt="bootcamp-item-3">
                                 </div>
                                 <div class="item-content">
-                                    <h6 class="text-capitalize">Trusted Bootcamp Since</h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus
-                                        nec
-                                        ullamcorper mattis, pulvinar</p>
+                                    <h6 class="text-capitalize">{{ $t('bootcamp.trusted_bootcamp_3') }}</h6>
+                                    <p>{{ $t('bootcamp.item_description_3') }}</p>
                                 </div>
                             </div>
                         </div>

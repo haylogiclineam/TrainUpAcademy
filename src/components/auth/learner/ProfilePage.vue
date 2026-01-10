@@ -76,11 +76,11 @@ const getStatusIcon = (status) => {
             <div class="my-courses-main">
                 <div class="my-learning">
                     <div class="d-flex justify-content-between align-items-center courses-title-block">
-                        <h3 class="text-capitalize my-course-section-title">My Learning</h3>
+                        <h3 class="text-capitalize my-course-section-title">{{ $t('learner_profile.my_learning') }}</h3>
                         <div class="my-course-btn-div d-flex justify-content-center align-items-center">
                             <router-link to="">
                                 <button class="my-course-btn">
-                                    view more
+                                    {{ $t('learner_profile.view_more') }}
                                 </button>
                             </router-link>
                         </div>
@@ -88,17 +88,17 @@ const getStatusIcon = (status) => {
 
                     <div class="not-exist-items">
                         <p class="mb-0">
-                            You haven’t purchased any courses yet. Explore our catalog and start learning today.
+                            {{ $t('learner_profile.no_purchases') }}
                         </p>
                     </div>
                 </div>
                 <div class="my-wishlist">
                     <div class="d-flex justify-content-between align-items-center courses-title-block">
-                        <h3 class="text-capitalize my-course-section-title">Wishlist</h3>
+                        <h3 class="text-capitalize my-course-section-title">{{ $t('learner_profile.wishlist') }}</h3>
                         <div class="my-course-btn-div d-flex justify-content-center align-items-center">
                             <router-link to="">
                                 <button class="my-course-btn">
-                                    view more
+                                    {{ $t('learner_profile.view_more') }}
                                 </button>
                             </router-link>
                         </div>
@@ -153,11 +153,11 @@ const getStatusIcon = (status) => {
                 </div>
                 <div class="my-cart">
                     <div class="d-flex justify-content-between align-items-center courses-title-block">
-                        <h3 class="text-capitalize my-course-section-title">My cart</h3>
+                        <h3 class="text-capitalize my-course-section-title">{{ $t('learner_profile.my_cart') }}</h3>
                         <div class="my-course-btn-div d-flex justify-content-center align-items-center">
                             <router-link to="">
                                 <button class="my-course-btn">
-                                    view more
+                                    {{ $t('learner_profile.view_more') }}
                                 </button>
                             </router-link>
                         </div>
@@ -247,24 +247,25 @@ const getStatusIcon = (status) => {
     letter-spacing: 1px;
     color: var(--white-229);
     cursor: pointer;
-    width: 176px;
-    height: 53px;
     background: var(--general-btn);
     outline: none;
     border: none;
     text-transform: capitalize;
+    white-space: nowrap;
+    padding: 0 35px;
+    height: 53px;
 }
 
 
 .my-course-btn:hover {
     height: 56px;
-    width: 186px;
+    padding: 0 45px;
     font-size: 18px;
 }
 
 .my-course-btn-div {
     height: 56px;
-    width: 186px;
+    width: fit-content;
 }
 
 .course-video-div {
@@ -381,18 +382,18 @@ const getStatusIcon = (status) => {
     }
 
     .my-course-btn-div{
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover{
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn{
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }
@@ -447,18 +448,18 @@ const getStatusIcon = (status) => {
     }
 
     .my-course-btn-div{
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover{
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn{
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }
@@ -512,18 +513,18 @@ const getStatusIcon = (status) => {
     }
 
     .my-course-btn-div{
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover {
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn{
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }

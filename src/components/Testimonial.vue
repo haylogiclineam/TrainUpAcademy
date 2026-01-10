@@ -104,7 +104,7 @@ onMounted(fetchComments);
                                 </svg>
                             </div>
 
-                            <span class="text-capitalize course-name">{{ comment.course?.title_en ?? 'Course Title' }}</span>
+                            <span class="text-capitalize course-name">{{ comment.course ? comment.course[`title_${locale}`] : $t('testimonials.fallback_course_title') }}</span>
                             <p class="p">{{ comment.comment_text }}</p>
 
                             <div class="client-info d-flex justify-content-between align-items-center">

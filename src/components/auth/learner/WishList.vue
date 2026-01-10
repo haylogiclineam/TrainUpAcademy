@@ -302,24 +302,25 @@ const {wishlistCount, loadWishlistCount} = useWishlistCount();
     letter-spacing: 1px;
     color: var(--white-229);
     cursor: pointer;
-    width: 176px;
-    height: 53px;
     background: var(--general-btn);
     outline: none;
     border: none;
     text-transform: capitalize;
+    white-space: nowrap;
+    padding: 0 35px;
+    height: 53px;
 }
 
 
 .my-course-btn:hover {
     height: 56px;
-    width: 186px;
+    padding: 0 45px;
     font-size: 18px;
 }
 
 .my-course-btn-div {
     height: 56px;
-    width: 186px;
+    width: fit-content;
 }
 
 .course-video-div {
@@ -451,8 +452,8 @@ polygon {
 }
 
 .buy-btn {
-    min-width: 176px;
-    width: 60%;
+    padding: 0 25px;
+    width: fit-content;
     height: 44px;
     border-radius: 70px;
     background: var(--general-btn-light);
@@ -464,6 +465,7 @@ polygon {
     line-height: normal;
     letter-spacing: 0%;
     color: var(--white-245);
+    white-space: nowrap;
 }
 
 /* Extra Small Devices */
@@ -483,18 +485,18 @@ polygon {
     }
 
     .my-course-btn-div {
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover {
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn {
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }
@@ -543,14 +545,13 @@ polygon {
     }
 
     .buy-btn-div {
-        min-width: 140px;
-        width: 100%;
+        width: fit-content;
         height: 50px;
     }
 
     .buy-btn {
-        min-width: 140px;
-        width: 100%;
+        padding: 0 25px;
+        width: fit-content;
         height: 47px;
     }
 
@@ -578,18 +579,18 @@ polygon {
     }
 
     .my-course-btn-div {
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover {
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn {
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }
@@ -638,14 +639,13 @@ polygon {
     }
 
     .buy-btn-div {
-        min-width: 140px;
-        width: 70%;
+        width: fit-content;
         height: 50px;
     }
 
     .buy-btn {
-        min-width: 140px;
-        width: 100%;
+        padding: 0 25px;
+        width: fit-content;
         height: 47px;
     }
 }
@@ -666,18 +666,18 @@ polygon {
     }
 
     .my-course-btn-div {
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover {
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn {
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }
@@ -705,14 +705,13 @@ polygon {
     }
 
     .buy-btn-div {
-        min-width: 140px;
-        width: 40%;
+        width: fit-content;
         height: 40px;
     }
 
     .buy-btn {
-        min-width: 140px;
-        width: 100%;
+        padding: 0 25px;
+        width: fit-content;
         height: 40px;
         font-size: 16px;
     }
@@ -730,14 +729,13 @@ polygon {
     }
 
     .buy-btn-div {
-        min-width: 140px;
-        width: 50%;
+        width: fit-content;
         height: 45px;
     }
 
     .buy-btn {
-        min-width: 140px;
-        width: 100%;
+        padding: 0 25px;
+        width: fit-content;
         height: 40px;
     }
 }
@@ -750,10 +748,10 @@ polygon {
     }
 
     .buy-btn:hover {
-        min-width: 186px;
+        padding: 0 35px;
         height: 46px;
         font-size: 18px;
-        width: 60%;
+        width: fit-content;
     }
 }
 
