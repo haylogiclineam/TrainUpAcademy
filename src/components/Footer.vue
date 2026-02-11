@@ -1,7 +1,52 @@
 <script setup>
 const currentYear = new Date().getFullYear()
 import {ref} from 'vue';
+import {useI18n} from 'vue-i18n';
 import api from "../services/api.js";
+
+const {locale} = useI18n();
+
+// Function to download Privacy Policy based on current language
+const downloadPrivacyPolicy = () => {
+    let fileName;
+    switch(locale.value) {
+        case 'en':
+            fileName = 'Privacy Policy en.pdf';
+            break;
+        case 'ru':
+            fileName = 'Privacy Policy ru.pdf';
+            break;
+        default:
+            fileName = 'Privacy Policy.pdf';
+    }
+    const link = document.createElement('a');
+    link.href = `/assets/files/TermsAndPrivacyPolicy/${fileName}`;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
+
+// Function to download Terms and Conditions based on current language
+const downloadTermsConditions = () => {
+    let fileName;
+    switch(locale.value) {
+        case 'en':
+            fileName = 'Terms and conditions en.pdf';
+            break;
+        case 'ru':
+            fileName = 'Terms and conditions ru.pdf';
+            break;
+        default:
+            fileName = 'terms and conditions.pdf';
+    }
+    const link = document.createElement('a');
+    link.href = `/assets/files/TermsAndPrivacyPolicy/${fileName}`;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
 
 const email = ref('');
 
@@ -166,10 +211,10 @@ const newsletter = async () => {
                         <a class="footer-a" href="">{{$t('footer.rights_reserved', { year: currentYear })}}</a>
                     </li>
                     <li>
-                        <router-link to="/privacy-policy" class="footer-a">{{$t('footer.privacy_policy')}}</router-link>
+                        <a href="#" class="footer-a" @click.prevent="downloadPrivacyPolicy">{{$t('footer.privacy_policy')}}</a>
                     </li>
                     <li>
-                        <router-link to="/terms-conditions" class="footer-a">{{$t('footer.terms_of_services')}}</router-link>
+                        <a href="#" class="footer-a" @click.prevent="downloadTermsConditions">{{$t('footer.terms_of_services')}}</a>
                     </li>
                 </ul>
                 <ul class="d-none list-unstyled d-flex justify-content-between align-items-center w-100 privacy-policy-ul-mobile">
@@ -178,10 +223,10 @@ const newsletter = async () => {
                     </li>
                     <ul class="list-unstyled">
                         <li>
-                            <router-link to="/privacy-policy" class="footer-a">{{$t('footer.privacy_policy')}}</router-link>
+                            <a href="#" class="footer-a" @click.prevent="downloadPrivacyPolicy">{{$t('footer.privacy_policy')}}</a>
                         </li>
                         <li>
-                            <router-link to="/terms-conditions" class="footer-a">{{$t('footer.terms_of_services')}}</router-link>
+                            <a href="#" class="footer-a" @click.prevent="downloadTermsConditions">{{$t('footer.terms_of_services')}}</a>
                         </li>
                     </ul>
 

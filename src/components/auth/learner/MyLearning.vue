@@ -178,7 +178,7 @@ const getStatusIcon = (status) => {
                 </nav>
                 <div class="not-exist-items">
                     <p class="mb-0">
-                        You haven’t purchased any courses yet. Explore our catalog and start learning today.
+                        {{ $t('learner_profile.no_purchases') }}
                     </p>
                 </div>
 

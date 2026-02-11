@@ -1,7 +1,52 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import api from "../../services/api.js";
 import { useRouter, useRoute } from 'vue-router';
+
+const { locale } = useI18n();
+
+// Function to download Privacy Policy based on current language
+const downloadPrivacyPolicy = () => {
+    let fileName;
+    switch(locale.value) {
+        case 'en':
+            fileName = 'Privacy Policy en.pdf';
+            break;
+        case 'ru':
+            fileName = 'Privacy Policy ru.pdf';
+            break;
+        default:
+            fileName = 'Privacy Policy.pdf';
+    }
+    const link = document.createElement('a');
+    link.href = `/assets/files/TermsAndPrivacyPolicy/${fileName}`;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
+
+// Function to download Terms and Conditions based on current language
+const downloadTermsConditions = () => {
+    let fileName;
+    switch(locale.value) {
+        case 'en':
+            fileName = 'Terms and conditions en.pdf';
+            break;
+        case 'ru':
+            fileName = 'Terms and conditions ru.pdf';
+            break;
+        default:
+            fileName = 'terms and conditions.pdf';
+    }
+    const link = document.createElement('a');
+    link.href = `/assets/files/TermsAndPrivacyPolicy/${fileName}`;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
 
 const router = useRouter();
 const route = useRoute();
@@ -164,13 +209,13 @@ const handleSubmit = async () => {
                     </div>
                     <label class="terms-label">
                         {{ $t('auth.by_creating_account') }}
-                        <router-link to="/terms-conditions" target="_blank" rel="noopener noreferrer">
+                        <a href="#" @click.prevent="downloadTermsConditions">
                             {{ $t('auth.terms') }}
-                        </router-link>
+                        </a>
                         {{ $t('auth.and') }}
-                        <router-link to="/privacy-policy" target="_blank" rel="noopener noreferrer">
+                        <a href="#" @click.prevent="downloadPrivacyPolicy">
                             {{ $t('auth.privacy_policy') }}
-                        </router-link>
+                        </a>
                     </label>
                 </div>
                 <p v-if="errors.accept_terms" class="required-field">{{ $t(errors.accept_terms) }}</p>
