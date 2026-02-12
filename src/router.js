@@ -37,6 +37,8 @@ import WalletInstructor from "./views/auth/instructor/Wallet.vue";
 import WithdrawFundsInstructor from "./views/auth/instructor/WithdrawFunds.vue";
 import WalletLearner from "./views/auth/learner/Wallet.vue";
 import AddFundsLearner from "./views/auth/learner/AddFunds.vue";
+import PaymentCallback from "./views/auth/learner/PaymentCallback.vue";
+import PaymentResult from "./views/auth/learner/PaymentResult.vue";
 
 
 const routes = [
@@ -44,13 +46,17 @@ const routes = [
     { path: '/about', component: About },
     { path: '/contact', component: Contact },
     { path: '/courses', component: Courses },
-    { path: '/single-course/:id', component: SingleCourse,
-        name: 'single-course'},
+    {
+        path: '/single-course/:id', component: SingleCourse,
+        name: 'single-course'
+    },
     { path: '/blog', component: Blog },
-    {  path: '/single-blog/:id',
+    {
+        path: '/single-blog/:id',
         name: 'SingleBlog',
         component: SingleBlog,
-        props: true, },
+        props: true,
+    },
     { path: '/why-choose-us', component: WhyChooseUs },
     { path: '/sign-in', component: SignIn, meta: { guestOnly: true } },
     { path: '/sign-up', component: SignUp, meta: { guestOnly: true } },
@@ -195,7 +201,20 @@ const routes = [
                 props: true
             },
         ]
-    }
+    },
+
+    // Payment flow routes
+    {
+        path: '/payment/callback',
+        name: 'payment-callback',
+        component: PaymentCallback,
+    },
+    {
+        path: '/payment/result',
+        name: 'payment-result',
+        component: PaymentResult,
+        meta: { requiresAuth: true },
+    },
 ];
 
 const router = createRouter({

@@ -40,7 +40,23 @@
   "loading": "Loading",
   "header": {
     "title": "TrainUp Online Academy",
-    "subtitle": "The Most Convenient Place to Develop Your Skills"
+    "subtitle": "The Most Convenient Place to Develop Your Skills",
+    "menu": {
+      "course": "Course",
+      "my_courses": "My courses",
+      "add_course": "Add a course",
+      "most_popular": "Most popular",
+      "account_settings": "Account Settings",
+      "wallet": "Wallet",
+      "purchase_history": "Purchase History",
+      "more_from_academy": "More from HayLogic academy",
+      "help_support": "Help & Support",
+      "logout": "Log Out",
+      "learn": "Learn",
+      "my_learning": "My Learning",
+      "my_cart": "My Cart",
+      "wishlist": "Wishlist"
+    }
   },
   "hero": {
     "learn_anywhere_anytime": "Learn anywhere, anytime.",
@@ -57,9 +73,14 @@
     "description": "See what our students say about TrainUp.academy and our courses. Their success stories are proof that the right knowledge can transform a career. Read their real opinions about our instructors, course quality, and learning experience.",
     "best_conference": "Best Conference",
     "certified_trusted": "100% Certified & Trusted",
-    "world_class_support": "Enjoy 24/7 World Class Support"
+    "world_class_support": "Enjoy 24/7 World Class Support",
+    "fallback_course_title": "Course Title"
   },
   "blog_description": "In the TrainUp Academy blog, you’ll find the latest articles on professional skills, personal growth, technology, and career development. Learn new ideas, discover practical tips, and always stay one step ahead.",
+  "blog_page": {
+    "title_1": "Blog &",
+    "title_2": "Article"
+  },
   "book_call_title": "Call us and discover new opportunities.",
   "messages": {
     "email_required": "Email is required",
@@ -81,7 +102,19 @@
     "newsletter_created": "Your newsletter has been sent successfully!",
     "newsletter_creation_failed": "There was an error sending your newsletter. Please try again.",
     "contact_created": "Your contact has been sent successfully!",
-    "contact_creation_failed": "There was an error sending your contact. Please try again."
+    "contact_creation_failed": "There was an error sending your contact. Please try again.",
+    "course_created": "Your course has been created successfully!",
+    "course_updated": "Your course has been updated successfully!",
+    "course_creation_failed": "Failed to create the course. Please try again.",
+    "course_update_failed": "Failed to update the course. Please try again.",
+    "unauthorized_action": "You are not authorized to perform this action.",
+    "course_fetch_failed": "Failed to fetch courses.",
+    "course_not_found": "Course not found.",
+    "course_details_fetch_failed": "Failed to fetch course details.",
+    "view_increment_failed": "Failed to increment views.",
+    "failed_to_fetch_comments": "Failed to fetch comments.",
+    "failed_to_fetch_top_viewed_courses": "Failed to fetch top viewed courses.",
+    "course_not_found_or_not_approved": "Course not found or not approved yet."
   },
   "about": {
     "about": "About",
@@ -153,6 +186,144 @@
     "feature2_text": "Gain recognition on our platform, collaborate with experienced instructors, and expand your professional network.",
     "feature3": "Support & Growth",
     "feature3_text": "Receive full support, access new teaching methods, and develop your instructional skills."
+  },
+  "faq_section": {
+    "title": "Frequently Asked Questions",
+    "description": "Find answers to the most common questions and learn more about our academy"
+  },
+  "bootcamp": {
+    "learn_more": "Learn more",
+    "trusted_bootcamp_1": "Intensive Bootcamp Program",
+    "item_description_1": "Master modern technologies with experienced professionals and launch your career",
+    "trusted_bootcamp_2": "Practical Bootcamp Training",
+    "item_description_2": "Gain practical skills through intensive training and real-world projects",
+    "trusted_bootcamp_3": "Proven Bootcamp Method",
+    "item_description_3": "Join our proven program and learn skills actively sought by employers"
+  },
+  "pricing": {
+    "title": "Our Pricing",
+    "description": "Choose the package that suits you and start learning today",
+    "active_label": "Active"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "payment_method": "Payment Method",
+    "my_balance": "My Balance",
+    "balance_label": "Balance:",
+    "not_enough_balance": "Not enough balance",
+    "cards": "Cards",
+    "redirect_info": "You will be redirected to a secure payment page to enter your card details.",
+    "save_card": "Save card for future use",
+    "order_details": "Order Details",
+    "course_count": "(1 course)",
+    "price_label": "Price:",
+    "order_summary": "Order Summary",
+    "total_label": "Total",
+    "terms_info": "By completing your purchase, you agree to these",
+    "terms_link": "Terms of Use.",
+    "pay_button": "Pay",
+    "cancel_button": "Cancel",
+    "error_no_course": "No course selected",
+    "error_load_failed": "Failed to load course data",
+    "payment_failed": "Payment failed",
+    "payment_init_failed": "Payment initiation failed"
+  },
+  "wallet": {
+    "title": "Wallet",
+    "balance": "Wallet Balance",
+    "your_balance": "Your Wallet Balance:",
+    "available_withdrawal": "Available for Withdrawal",
+    "available_withdrawal_text": "Available for Withdrawal:",
+    "earning_status": "Earning Status",
+    "earnings_pending": "Earnings are pending:",
+    "earnings_canceled": "Earnings were canceled:",
+    "earnings_received": "Earnings received:",
+    "total_earning": "Total Earning",
+    "your_total_earning": "Your Total Earning:",
+    "total_spent": "Total Spent",
+    "total_spent_text": "Total Spent:",
+    "withdraw": "Withdraw",
+    "add_funds": "Add Funds",
+    "purchase_history": "Purchase history",
+    "withdrawal_requests": "Withdrawal Requests",
+    "date": "Date",
+    "amount": "Amount",
+    "status": "Status",
+    "admin_notes": "Admin Notes",
+    "status_pending": "Pending",
+    "status_completed": "Approved",
+    "status_rejected": "Rejected",
+    "no_withdrawals": "No withdrawal requests yet",
+    "platform_fees": "Platform Fees (20%)",
+    "total_gross_earning": "Total Gross Earning",
+    "my_balance": "My Balance"
+  },
+  "purchase_history": {
+    "title": "Purchase history",
+    "product": "Product",
+    "date": "Date",
+    "total_amount": "Total Amount",
+    "service_fee": "Service Fee",
+    "net": "Net",
+    "status": "Status",
+    "invoice": "Invoice",
+    "instructor": "Instructor:",
+    "no_purchases": "You don't have any course purchases.",
+    "courses": "Courses",
+    "statuses": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "declined": "Declined",
+      "approved": "Approved",
+      "deposited": "Deposited",
+      "canceled": "Canceled",
+      "failed": "Failed"
+    }
+  },
+  "help_support_instructor": {
+    "title": "Select a Topic to Search for Help",
+    "header_title_1": "How We",
+    "header_title_2": "Can Help You",
+    "header_description": "Find guides, troubleshooting steps, and answers to common questions to help you get the most out of TrainUp Academy.",
+    "instructor_payment": "Instructor Payment",
+    "instructor_payment_desc": "Understand the revenue share and how to receive payments",
+    "selling_promotion": "Selling & Promotion",
+    "selling_promotion_desc": "Learn about the announcement and promotional tools",
+    "course_building": "Course Building",
+    "course_building_desc": "Build your course curriculum and landing page",
+    "course_management": "Course Management",
+    "course_management_desc": "Maintain your course and engage with students",
+    "trust_safety": "Trust & Safety",
+    "trust_safety_desc": "Policy and copyright questions and guidance"
+  },
+  "help_support_learner": {
+    "title": "Select a Topic to Search for Help",
+    "header_title_1": "How We",
+    "header_title_2": "Can Help You",
+    "header_description": "Find guides, troubleshooting steps, and answers to common questions to help you get the most out of TrainUp Academy.",
+    "account_profile": "Account/Profile",
+    "account_profile_desc": "Manage your account settings",
+    "troubleshooting": "Troubleshooting",
+    "troubleshooting_desc": "Experiencing a technical issue? Check here.",
+    "learning_experience": "Learning Experience",
+    "learning_experience_desc": "Everything about the HayLogic Academy learning experience.",
+    "purchase_refunds": "Purchase/Refunds",
+    "purchase_refunds_desc": "Learn about purchasing courses, how to send gifts, and refunds.",
+    "mobile": "Mobile",
+    "mobile_desc": "On the go? Learn about our mobile app.",
+    "trust_safety": "Trust & Safety",
+    "trust_safety_desc": "Trust & Safety information and reporting."
+  },
+  "footer": {
+    "company": "Company",
+    "information": "Information",
+    "location": "Location",
+    "yerevan": "Yerevan",
+    "newsletter": "Newsletter",
+    "rights_reserved": "Copyright © {year} HayLogic Line LLC",
+    "rights_reserved_academy": "Copyright © {year} HayLogic Academy LLC",
+    "privacy_policy": "Privacy Policy",
+    "terms_of_services": "Terms Of Services"
   },
   "become_instructor": {
     "title": "Become an instructor today",
@@ -509,16 +680,20 @@
     "course_price": "Course Price:",
     "course_include": "This Course Includes",
     "buy_now_btn": "Buy now",
-    "add_to_card_btn": "Add to card"
+    "add_to_card_btn": "Add to cart",
+    "view_more": "View more",
+    "view_less": "View less",
+    "write_comment_placeholder": "Write comment",
+    "submit": "Submit"
   },
   "no_notification": "No notifications",
   "withdraw_funds": {
     "title": "Withdraw Funds",
     "available_balance": "Available Balance",
     "amount_to_withdraw": "Amount to Withdraw",
-    "amount_placeholder": "$ 0.00",
-    "minimum": "Minimum $20",
-    "maximum": "Maximum $2,000",
+    "amount_placeholder": "0.00 ֏",
+    "minimum": "Minimum 1000 ֏",
+    "maximum": "Maximum 100,000 ֏",
     "platform_fee": "Platform Fee (10%)",
     "net_amount": "Net Amount You'll Receive",
     "bank_transfer": "Bank Transfer",
@@ -529,7 +704,7 @@
     "swift_iban": "SWIFT / IBAN",
     "info_processing": "Withdraw processed in 24-48 hours",
     "info_fee": "Platform takes 10% fee",
-    "info_minimum": "Minimum withdrawal $20",
+    "info_minimum": "Minimum withdrawal 1000 ֏",
     "cancel": "Cancel",
     "request_withdrawal": "Request Withdrawal"
   },
@@ -537,9 +712,9 @@
     "title": "Add funds to student balance",
     "available_balance": "Available balance",
     "amount_to_add": "Amount to add",
-    "amount_placeholder": "$ 0.00",
-    "minimum": "Minimum $20",
-    "maximum": "Maximum $2,000",
+    "amount_placeholder": "0.00 ֏",
+    "minimum": "Minimum 1000 ֏",
+    "maximum": "Maximum 100,000 ֏",
     "platform_fee": "Platform fee (10%)",
     "net_amount": "Net amount to be credited",
     "credit_debit_card": "Credit / debit card",
@@ -550,9 +725,34 @@
     "paypal": "PayPal",
     "info_processing": "Top-ups are usually processed instantly",
     "info_fee": "The platform charges a 10% fee",
-    "info_minimum": "Minimum top-up amount is $20",
+    "info_minimum": "Minimum top-up amount is 1000 ֏",
     "cancel": "Cancel",
-    "add_funds_btn": "Add funds"
+    "add_funds_btn": "Add funds",
+    "arca_card": "ARCA Card / Local Armenian Cards",
+    "arca_redirect_info": "You will be redirected to the secure ARCA payment page to complete the transaction.",
+    "info_arca_secure": "Payments are protected by 3D-Secure",
+    "payment_success": "Payment successful! Your balance has been updated.",
+    "payment_not_completed": "Payment was not completed or was declined.",
+    "error_payment_failed": "Payment failed. Please try again.",
+    "error_verification": "Error verifying payment. Please contact support.",
+    "redirect_info": "You will be redirected to a secure payment page to enter your card details."
+  },
+  "payment": {
+    "processing_title": "Processing Payment",
+    "processing_text": "Please wait while we verify your payment...",
+    "success_title": "Payment Successful",
+    "success_text": "Your payment has been processed successfully. Your balance has been updated.",
+    "failed_title": "Payment Failed",
+    "failed_text": "Unfortunately, your payment could not be processed. Please try again.",
+    "unknown_title": "Payment Status Unknown",
+    "unknown_text": "We could not determine the status of your payment. Please check your wallet or contact support.",
+    "error_title": "Error",
+    "order_id": "Order ID",
+    "back_to_wallet": "Back to Wallet",
+    "go_to_learning": "Go to My Learning",
+    "try_again": "Try Again",
+    "go_home": "Go Home",
+    "initiation_error": "Could not initiate payment. Please try again."
   },
   "wishlist_page": {
     "title": "Wishlist",
@@ -589,6 +789,7 @@
     "title": "TERMS AND CONDITIONS",
     "lastUpdated": "Last updated: November 1, 2025",
     "welcome": "Welcome to TrainUp Online Academy (\"TrainUp\", \"we\", \"our\", or \"us\"). By accessing or using our website www.trainup.academy (the \"Website\"), you agree to comply with and be bound by these Terms and Conditions (\"Terms\"). If you do not agree, please do not use our services.",
+    "support_email": "support@trainup.academy",
     "sections": [
       {
         "heading": "1. Acceptance of Terms",
@@ -640,11 +841,19 @@
       }
     ]
   },
+  "learner_profile": {
+    "my_learning": "My Learning",
+    "view_more": "view more",
+    "no_purchases": "You haven’t purchased any courses yet. Explore our catalog and start learning today.",
+    "wishlist": "Wishlist",
+    "my_cart": "My cart"
+  },
   "privacy_policy": {
     "title": "PRIVACY POLICY",
     "lastUpdated": "Last Updated: November 1, 2025",
     "website_title": "Website:",
     "website": "www.trainup.academy",
+    "support_email": "support@trainup.academy",
     "email_title": "Email: ",
     "jurisdiction": "Jurisdiction: Republic of Armenia",
     "sections": [

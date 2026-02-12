@@ -1,12 +1,13 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+import api from "../../../services/api";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 const router = useRouter();
 
-const availableBalance = ref(1240);
+const availableBalance = ref(0);
 const withdrawAmount = ref('');
 const paymentMethod = ref('bank');
 
@@ -14,30 +15,20 @@ const paymentMethod = ref('bank');
 const bankName = ref('');
 const accountHolderName = ref('');
 const accountNumber = ref('');
-const swiftIban = ref('');
 
-const platformFeePercent = 10;
+const platformFeePercent = 0;
 
-const platformFee = computed(() => {
-    const amount = parseFloat(withdrawAmount.value) || 0;
-    return (amount * platformFeePercent / 100).toFixed(2);
-});
 
-const netAmount = computed(() => {
-    const amount = parseFloat(withdrawAmount.value) || 0;
-    const fee = parseFloat(platformFee.value);
-    return (amount - fee).toFixed(2);
-});
 
 const isValidAmount = computed(() => {
     const amount = parseFloat(withdrawAmount.value) || 0;
-    return amount >= 20 && amount <= 2000 && amount <= availableBalance.value;
+    return amount >= 20 && amount <= availableBalance.value;
 });
 
 const canSubmit = computed(() => {
     if (!isValidAmount.value) return false;
     if (paymentMethod.value === 'bank') {
-        return bankName.value && accountHolderName.value && accountNumber.value && swiftIban.value;
+        return bankName.value && accountHolderName.value && accountNumber.value;
     }
     return true;
 });
@@ -46,19 +37,42 @@ const handleCancel = () => {
     router.push('/instructor/wallet');
 };
 
-const handleWithdraw = () => {
+const fetchBalance = async () => {
+    try {
+        const { data } = await api.get('/api/instructor/wallet/summary');
+        if (data.success) {
+            availableBalance.value = data.summary.current_balance;
+        }
+    } catch (e) {
+        console.error('Failed to fetch balance', e);
+    }
+};
+
+onMounted(() => {
+    fetchBalance();
+});
+
+const handleWithdraw = async () => {
     if (!canSubmit.value) return;
-    // TODO: Implement withdrawal API call
-    console.log('Withdrawal request:', {
-        amount: withdrawAmount.value,
-        method: paymentMethod.value,
-        bankDetails: paymentMethod.value === 'bank' ? {
-            bankName: bankName.value,
-            accountHolderName: accountHolderName.value,
-            accountNumber: accountNumber.value,
-            swiftIban: swiftIban.value
-        } : null
-    });
+    
+    try {
+        const response = await api.post('/api/instructor/wallet/withdraw', {
+            amount: parseFloat(withdrawAmount.value),
+            payment_method: paymentMethod.value,
+            payment_details: {
+                bankName: bankName.value,
+                accountHolderName: accountHolderName.value,
+                accountNumber: accountNumber.value
+            }
+        });
+
+        if (response.data.success) {
+            alert('Withdrawal request submitted successfully');
+            router.push('/instructor/wallet');
+        }
+    } catch (err) {
+        alert(err.response?.data?.message || 'Failed to submit withdrawal request');
+    }
 };
 </script>
 
@@ -68,7 +82,7 @@ const handleWithdraw = () => {
             <div class="withdraw-funds-main">
                 <h1 class="withdraw-title">{{ t('withdraw_funds.title') }}</h1>
                 
-                <p class="available-balance">{{ t('withdraw_funds.available_balance') }}: ${{ availableBalance.toLocaleString() }}</p>
+                <p class="available-balance">{{ t('withdraw_funds.available_balance') }}: {{ availableBalance.toLocaleString() }} ֏</p>
                 
                 <div class="form-section">
                     <label class="section-label">{{ t('withdraw_funds.amount_to_withdraw') }}</label>
@@ -87,15 +101,7 @@ const handleWithdraw = () => {
                         <span>{{ t('withdraw_funds.maximum') }}</span>
                     </div>
                     
-                    <div class="fee-row">
-                        <span>{{ t('withdraw_funds.platform_fee') }}:</span>
-                        <span>-${{ platformFee }}</span>
-                    </div>
-                    
-                    <div class="fee-row net-amount">
-                        <span>{{ t('withdraw_funds.net_amount') }}:</span>
-                        <span>${{ netAmount }}</span>
-                    </div>
+
                     
                     <!-- Payment Method Selection -->
                     <div class="payment-method-section">
@@ -132,28 +138,13 @@ const handleWithdraw = () => {
                                     :placeholder="t('withdraw_funds.account_number')"
                                 />
                             </div>
-                            <div class="input-wrapper">
-                                <input 
-                                    type="text" 
-                                    v-model="swiftIban" 
-                                    class="form-input"
-                                    :placeholder="t('withdraw_funds.swift_iban')"
-                                />
-                            </div>
-                        </div>
-                        
-                        <div class="payment-option" @click="paymentMethod = 'paypal'">
-                            <div class="radio-circle" :class="{ active: paymentMethod === 'paypal' }">
-                                <div class="radio-inner" v-if="paymentMethod === 'paypal'"></div>
-                            </div>
-                            <span class="payment-label">{{ t('withdraw_funds.paypal') }}</span>
                         </div>
                     </div>
                     
                     <!-- Info Notes -->
                     <div class="info-notes">
                         <p>• {{ t('withdraw_funds.info_processing') }}</p>
-                        <p>• {{ t('withdraw_funds.info_fee') }}</p>
+
                         <p>• {{ t('withdraw_funds.info_minimum') }}</p>
                     </div>
                     
@@ -272,21 +263,7 @@ const handleWithdraw = () => {
     border-radius: 50%;
 }
 
-.fee-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
 
-.fee-row span {
-    font-family: var(--font-montserrat);
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: var(--primary-100);
-}
 
 .payment-method-section {
     display: flex;
@@ -425,7 +402,6 @@ const handleWithdraw = () => {
     
     .available-balance,
     .section-label,
-    .fee-row span,
     .payment-label,
     .info-notes p {
         font-size: 16px;

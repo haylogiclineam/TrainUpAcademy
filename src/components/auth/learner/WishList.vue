@@ -5,9 +5,12 @@ import api from "/src/services/api.js";
 import {useI18n} from "vue-i18n";
 import {useAuthStore} from "../../../stores/auth.js";
 import {useWishlistCount} from '../../../composables/useWishlistCount.js';
+import {usePurchasedCourses} from '../../../composables/usePurchasedCourses.js';
 
 const authStore = useAuthStore();
+const { isPurchased } = usePurchasedCourses();
 const {locale} = useI18n();
+const {wishlistCount, loadWishlistCount} = useWishlistCount();
 
 const route = useRoute();
 const router = useRouter();
@@ -76,9 +79,15 @@ const fetchWishlist = async (page = 1) => {
     loading.value = true;
     try {
         const res = await api.get(`/api/wishlist?per_page=3&page=${page}`);
-        courses.value = res.data.data.map((item) => item.course);
-        currentPage.value = res.data.current_page;
-        totalPages.value = res.data.last_page;
+        if (res.data && Array.isArray(res.data.data)) {
+            courses.value = res.data.data
+                .map((item) => item.course)
+                .filter(course => course !== null && typeof course === 'object');
+            currentPage.value = res.data.current_page || 1;
+            totalPages.value = res.data.last_page || 1;
+        } else {
+            courses.value = [];
+        }
 
         if (courses.value.length === 0 && currentPage.value > 1) {
             await goToPage(currentPage.value - 1);
@@ -107,14 +116,17 @@ onMounted(async () => {
     if (authStore.isAuthenticated && authStore.userRole === "learner") {
         try {
             const response = await api.get("/api/wishlist");
-            likedCourses.value = response.data.data.map((item) => item.course_id);
+            if (response.data && Array.isArray(response.data.data)) {
+                likedCourses.value = response.data.data
+                    .map((item) => item.course_id)
+                    .filter(id => id !== null && id !== undefined);
+            }
         } catch (err) {
             console.error("Failed to fetch wishlist:", err);
         }
     }
 });
 
-const {wishlistCount, loadWishlistCount} = useWishlistCount();
 
 </script>
 
@@ -179,9 +191,9 @@ const {wishlistCount, loadWishlistCount} = useWishlistCount();
                                         course.comments_count || '0'
                                         }} ({{ $t('wishlist_page.total_ratings') }})</span>
                                 </div>
-                                <div class="d-flex align-items-center justify-content-between gap-3 buy-btn-and-price-block">
+                                <div v-if="!isPurchased(course.id)" class="d-flex align-items-center justify-content-between gap-3 buy-btn-and-price-block">
                                     <div class="buy-btn-div d-flex justify-content-center align-items-center">
-                                        <router-link to="/learner/checkout"
+                                        <router-link :to="{ path: '/learner/checkout', query: { courseId: course.id } }"
                                                      class="buy-btn text-capitalize text-decoration-none text-center d-flex align-items-center justify-content-center">
                                             {{ $t('single_course.buy_now_btn') }}
                                         </router-link>
@@ -302,24 +314,25 @@ const {wishlistCount, loadWishlistCount} = useWishlistCount();
     letter-spacing: 1px;
     color: var(--white-229);
     cursor: pointer;
-    width: 176px;
-    height: 53px;
     background: var(--general-btn);
     outline: none;
     border: none;
     text-transform: capitalize;
+    white-space: nowrap;
+    padding: 0 35px;
+    height: 53px;
 }
 
 
 .my-course-btn:hover {
     height: 56px;
-    width: 186px;
+    padding: 0 45px;
     font-size: 18px;
 }
 
 .my-course-btn-div {
     height: 56px;
-    width: 186px;
+    width: fit-content;
 }
 
 .course-video-div {
@@ -451,8 +464,8 @@ polygon {
 }
 
 .buy-btn {
-    min-width: 176px;
-    width: 60%;
+    padding: 0 25px;
+    width: fit-content;
     height: 44px;
     border-radius: 70px;
     background: var(--general-btn-light);
@@ -464,6 +477,7 @@ polygon {
     line-height: normal;
     letter-spacing: 0%;
     color: var(--white-245);
+    white-space: nowrap;
 }
 
 /* Extra Small Devices */
@@ -483,18 +497,18 @@ polygon {
     }
 
     .my-course-btn-div {
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover {
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn {
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }
@@ -543,14 +557,13 @@ polygon {
     }
 
     .buy-btn-div {
-        min-width: 140px;
-        width: 100%;
+        width: fit-content;
         height: 50px;
     }
 
     .buy-btn {
-        min-width: 140px;
-        width: 100%;
+        padding: 0 25px;
+        width: fit-content;
         height: 47px;
     }
 
@@ -578,18 +591,18 @@ polygon {
     }
 
     .my-course-btn-div {
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover {
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn {
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }
@@ -638,14 +651,13 @@ polygon {
     }
 
     .buy-btn-div {
-        min-width: 140px;
-        width: 70%;
+        width: fit-content;
         height: 50px;
     }
 
     .buy-btn {
-        min-width: 140px;
-        width: 100%;
+        padding: 0 25px;
+        width: fit-content;
         height: 47px;
     }
 }
@@ -666,18 +678,18 @@ polygon {
     }
 
     .my-course-btn-div {
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover {
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn {
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }
@@ -705,14 +717,13 @@ polygon {
     }
 
     .buy-btn-div {
-        min-width: 140px;
-        width: 40%;
+        width: fit-content;
         height: 40px;
     }
 
     .buy-btn {
-        min-width: 140px;
-        width: 100%;
+        padding: 0 25px;
+        width: fit-content;
         height: 40px;
         font-size: 16px;
     }
@@ -730,14 +741,13 @@ polygon {
     }
 
     .buy-btn-div {
-        min-width: 140px;
-        width: 50%;
+        width: fit-content;
         height: 45px;
     }
 
     .buy-btn {
-        min-width: 140px;
-        width: 100%;
+        padding: 0 25px;
+        width: fit-content;
         height: 40px;
     }
 }
@@ -750,10 +760,10 @@ polygon {
     }
 
     .buy-btn:hover {
-        min-width: 186px;
+        padding: 0 35px;
         height: 46px;
         font-size: 18px;
-        width: 60%;
+        width: fit-content;
     }
 }
 

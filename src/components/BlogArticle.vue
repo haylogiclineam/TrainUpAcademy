@@ -162,7 +162,7 @@ const visibleBlogItems = computed(() => {
                         <div class="item-content d-flex flex-column">
                             <h5 class="text-capitalize">{{ item[`title_${locale}`] }}</h5>
                             <p>{{ truncateDescription(item[`description_${locale}`]) }}</p>
-                            <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
+                            <div class="learn-more-btn-div d-flex align-items-center">
                                 <RouterLink :to="`/single-blog/${item.id}`">
                                     <button class="learn-more-btn text-capitalize">
                                         {{ $t('learn_more') }}
@@ -265,11 +265,15 @@ const visibleBlogItems = computed(() => {
 
 .blog-article-items {
     width: 100%;
-    gap: 20px;
+    max-width: 1224px;
+    gap: 57px;
+    justify-content: center;
+    align-items: center;
 }
 
 .blog-article-items .item {
     width: 370px;
+    max-width: 370px;
     min-height: 502px;
     border-radius: 16px;
     background: var(--blog-article-item-bg);
@@ -277,6 +281,7 @@ const visibleBlogItems = computed(() => {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    flex-shrink: 0;
 }
 
 .blog-article-items .item-img {
@@ -311,31 +316,37 @@ const visibleBlogItems = computed(() => {
 }
 
 .learn-more-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 13px 28px;
     gap: 10px;
-    border-radius: 70px;
+    border-radius: 25px;
     font-family: var(--font-montserrat);
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
-    line-height: normal;
-    letter-spacing: 1px;
-    color: var(--white-229);
+    line-height: 20px;
+    color: var(--white-245);
     cursor: pointer;
-    width: 148px;
-    height: 46px;
     background: var(--general-btn);
     border: none;
     outline: none;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .learn-more-btn:hover {
-    height: 49px;
-    width: 158px;
-    font-size: 18px;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(75, 187, 228, 0.3);
 }
 
 .learn-more-btn-div {
-    height: 49px;
-    width: 158px;
+    display: flex;
+}
+
+.learn-more-btn-div a {
+    text-decoration: none;
 }
 
 .item-content {
@@ -422,21 +433,15 @@ const visibleBlogItems = computed(() => {
     }
 
     .learn-more-btn {
-        width: 131px;
-        height: 41px;
+        padding: 10px 22px;
         font-size: 14px;
     }
 
     .learn-more-btn:hover {
-        width: 131px;
-        height: 41px;
-        font-size: 14px;
+        transform: scale(1.03);
     }
 
-    .learn-more-btn-div {
-        width: 140px;
-        height: 44px;
-    }
+
 
     .blog-article-items .item-img {
         width: 100%;
@@ -504,21 +509,15 @@ const visibleBlogItems = computed(() => {
     }
 
     .learn-more-btn {
-        width: 131px;
-        height: 41px;
+        padding: 10px 22px;
         font-size: 14px;
     }
 
     .learn-more-btn:hover {
-        width: 131px;
-        height: 41px;
-        font-size: 14px;
+        transform: scale(1.03);
     }
 
-    .learn-more-btn-div {
-        width: 140px;
-        height: 44px;
-    }
+
 
     .blog-article-items .item-img {
         width: 100%;
@@ -586,21 +585,15 @@ const visibleBlogItems = computed(() => {
     }
 
     .learn-more-btn {
-        width: 141px;
-        height: 41px;
-        font-size: 16px;
+        padding: 11px 24px;
+        font-size: 15px;
     }
 
     .learn-more-btn:hover {
-        width: 141px;
-        height: 41px;
-        font-size: 16px;
+        transform: scale(1.04);
     }
 
-    .learn-more-btn-div {
-        width: 160px;
-        height: 48px;
-    }
+
 
     .blog-article-items .item-img {
         width: 100%;
@@ -608,30 +601,43 @@ const visibleBlogItems = computed(() => {
     }
 }
 
-/* Large Devices */
-@media (min-width: 992px) and (max-width: 1199px) {
+/* Large Devices (Laptops) */
+@media (min-width: 992px) {
     .blog-article-items {
         flex-wrap: wrap;
-        gap: 20px;
+        gap: 30px;
         justify-content: center !important;
     }
 
     .blog-article-items .item {
-        width: 48%;
+        width: calc(33.33% - 20px);
+        max-width: 370px;
+        min-width: 300px;
     }
 }
 
 @media (min-width: 1200px) {
+    .blog-article-items {
+        gap: 57px;
+    }
+    
     .blog-article-items .item {
-        width: 32%;
+        width: calc(33.33% - 38px);
+        max-width: 370px;
+        min-width: 340px;
     }
 }
 
 
 /* Extra Large Devices */
 @media (min-width: 1600px) {
+    .blog-article-items {
+        gap: 57px;
+    }
+    
     .blog-article-items .item {
-        width: 32%;
+        width: 370px;
+        max-width: 370px;
     }
 }
 

@@ -77,9 +77,9 @@ onMounted(() => {
                     </div>
                 </div>
 
-                <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
+                <div class="learn-more-btn-div d-flex align-items-center">
                     <a href="/assets/files/Our%20Bootcamp.pdf" download class="learn-more-btn text-center text-decoration-none d-flex align-items-center justify-content-center">
-                        Learn more
+                        {{ $t('bootcamp.learn_more') }}
                     </a>
                 </div>
             </div>
@@ -93,10 +93,8 @@ onMounted(() => {
                                     <img src="/assets/icons/bootcamp/bootcamp-item-1.svg" alt="bootcamp-item-1">
                                 </div>
                                 <div class="item-content">
-                                    <h6 class="text-capitalize">Trusted Bootcamp Since</h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus
-                                        nec
-                                        ullamcorper mattis, pulvinar</p>
+                                    <h6 class="text-capitalize">{{ $t('bootcamp.trusted_bootcamp_1') }}</h6>
+                                    <p>{{ $t('bootcamp.item_description_1') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -108,10 +106,8 @@ onMounted(() => {
                                     <img src="/assets/icons/bootcamp/bootcamp-item-2.svg" alt="bootcamp-item-2">
                                 </div>
                                 <div class="item-content">
-                                    <h6 class="text-capitalize">Trusted Bootcamp Since</h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus
-                                        nec
-                                        ullamcorper mattis, pulvinar</p>
+                                    <h6 class="text-capitalize">{{ $t('bootcamp.trusted_bootcamp_2') }}</h6>
+                                    <p>{{ $t('bootcamp.item_description_2') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -123,10 +119,8 @@ onMounted(() => {
                                     <img src="/assets/icons/bootcamp/bootcamp-item-3.svg" alt="bootcamp-item-3">
                                 </div>
                                 <div class="item-content">
-                                    <h6 class="text-capitalize">Trusted Bootcamp Since</h6>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus
-                                        nec
-                                        ullamcorper mattis, pulvinar</p>
+                                    <h6 class="text-capitalize">{{ $t('bootcamp.trusted_bootcamp_3') }}</h6>
+                                    <p>{{ $t('bootcamp.item_description_3') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -191,14 +185,14 @@ onMounted(() => {
 .img-items .item {
     width: 81%;
     min-height: 150px;
-    //max-height: 150px;
+    /* max-height: 150px; */
     border-radius: 16px;
     border-width: 1px;
     padding: 20px;
     border-color: var(--secondary-1-100);
     border-style: solid;
     background: var(--bootcamp-item-bg);
-    //overflow: scroll;
+    /* overflow: scroll; */
 }
 
 .item-img {
@@ -276,31 +270,33 @@ onMounted(() => {
 }
 
 .learn-more-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 13px 28px;
     gap: 10px;
-    border-radius: 70px;
+    border-radius: 25px;
     font-family: var(--font-montserrat);
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
-    line-height: normal;
-    letter-spacing: 1px;
-    color: var(--white-229);
+    line-height: 20px;
+    color: var(--white-245);
     cursor: pointer;
-    width: 176px;
-    height: 53px;
     background: var(--general-btn);
     border: none;
     outline: none;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .learn-more-btn:hover {
-    height: 56px;
-    width: 186px;
-    font-size: 18px;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(75, 187, 228, 0.3);
 }
 
 .learn-more-btn-div {
-    height: 56px;
-    width: 186px;
+    display: flex;
 }
 
 /* Extra Small Devices */
@@ -334,20 +330,12 @@ onMounted(() => {
     }
 
     .learn-more-btn {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
+        padding: 10px 22px;
+        font-size: 15px;
     }
 
     .learn-more-btn:hover {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
-    }
-
-    .learn-more-btn-div{
-        width: 190px;
-        height: 50px;
+        transform: scale(1.03);
     }
 }
 
@@ -382,20 +370,12 @@ onMounted(() => {
     }
 
     .learn-more-btn {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
+        padding: 10px 22px;
+        font-size: 15px;
     }
 
     .learn-more-btn:hover {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
-    }
-
-    .learn-more-btn-div{
-        width: 190px;
-        height: 50px;
+        transform: scale(1.03);
     }
 }
 
@@ -430,20 +410,12 @@ onMounted(() => {
     }
 
     .learn-more-btn {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
+        padding: 11px 24px;
+        font-size: 15px;
     }
 
     .learn-more-btn:hover {
-        width: 179px;
-        height: 47px;
-        font-size: 18px;
-    }
-
-    .learn-more-btn-div{
-        width: 190px;
-        height: 50px;
+        transform: scale(1.04);
     }
 }
 

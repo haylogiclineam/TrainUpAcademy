@@ -1,4 +1,40 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { getUserCards, deleteCard } from '../../../../services/paymentService';
+
+const { t } = useI18n();
+const cards = ref([]);
+const isLoading = ref(true);
+
+const fetchCards = async () => {
+    isLoading.value = true;
+    try {
+        const response = await getUserCards();
+        if (response.data.success) {
+            cards.value = response.data.cards;
+        }
+    } catch (error) {
+        console.error('Failed to fetch cards:', error);
+    } finally {
+        isLoading.value = false;
+    }
+};
+
+const handleDelete = async (cardId) => {
+    if (!confirm(t('auth.paymentMethods.confirm_delete'))) return;
+    
+    try {
+        const response = await deleteCard(cardId);
+        if (response.data.success) {
+            cards.value = cards.value.filter(c => c.id !== cardId);
+        }
+    } catch (error) {
+        console.error('Failed to delete card:', error);
+    }
+};
+
+onMounted(fetchCards);
 
 </script>
 <template>
@@ -12,35 +48,27 @@
             <div class="d-flex flex-column settings-detail-item">
                 <p class="settings-tab-p p mb-0 text-capitalize">{{ $t('auth.paymentMethods.saved_methods') }}</p>
 
-                <div class="card-method">
-                    <div class="card-details d-flex gap-3">
-                        <div class="card-image">
-                            <svg width="46" height="14" viewBox="0 0 46 14" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M42.4753 0.289398H39.6464C38.7911 0.289398 38.1332 0.552556 37.7385 1.40782L32.3438 13.7105H36.1595C36.1595 13.7105 36.8174 12.0657 36.949 11.671C37.3438 11.671 41.0937 11.671 41.6201 11.671C41.7516 12.1315 42.0806 13.6447 42.0806 13.6447H45.5016L42.4753 0.289398ZM38.0016 8.90782C38.3306 8.11835 39.449 5.15782 39.449 5.15782C39.449 5.22361 39.778 4.36835 39.9095 3.90782L40.1727 5.09203C40.1727 5.09203 40.8964 8.31571 41.028 8.97361H38.0016V8.90782Z"
-                                      fill="#3362AB"/>
-                                <path d="M32.609 9.3026C32.609 12.0658 30.109 13.9079 26.2274 13.9079C24.5826 13.9079 23.0037 13.5789 22.1484 13.1842L22.6748 10.1579L23.1353 10.3552C24.3195 10.8815 25.109 11.0789 26.5563 11.0789C27.609 11.0789 28.7274 10.6842 28.7274 9.76312C28.7274 9.17102 28.2669 8.77628 26.8195 8.11839C25.4379 7.46049 23.5958 6.40786 23.5958 4.49997C23.5958 1.86839 26.1616 0.0920715 29.78 0.0920715C31.1616 0.0920715 32.3458 0.355229 33.0695 0.684177L32.5432 3.57891L32.28 3.31576C31.6221 3.0526 30.7669 2.78944 29.5169 2.78944C28.1353 2.85523 27.4774 3.44733 27.4774 3.97365C27.4774 4.56576 28.2669 5.02628 29.5169 5.61839C31.6221 6.60523 32.609 7.72365 32.609 9.3026Z"
-                                      fill="#3362AB"/>
-                                <path d="M0.5 0.421056L0.565789 0.157898H6.22368C7.01316 0.157898 7.60526 0.421056 7.80263 1.27632L9.05263 7.19737C7.80263 4.03948 4.90789 1.47369 0.5 0.421056Z"
-                                      fill="#F9B50B"/>
-                                <path d="M17.0119 0.289453L11.2882 13.6447H7.40666L4.11719 2.46051C6.48561 3.97366 8.45929 6.34208 9.18298 7.98682L9.57771 9.3684L13.1303 0.223663H17.0119V0.289453Z"
-                                      fill="#3362AB"/>
-                                <path d="M18.5292 0.223663H22.1476L19.845 13.6447H16.2266L18.5292 0.223663Z"
-                                      fill="#3362AB"/>
-                            </svg>
+                <div v-if="cards.length > 0">
+                    <div v-for="card in cards" :key="card.id" class="card-method">
+                        <div class="card-details d-flex gap-3">
+                            <!-- <div class="card-image d-flex align-items-center justify-content-center">
+                                <span v-if="card.card_type === 'Visa'" class="visa-text">VISA</span>
+                                <span v-else-if="card.card_type === 'Mastercard'" class="master-text">MC</span>
+                                <img src="" alt="">
+                            </div> -->
+                            <span class="card-number">{{ card.card_pan }}</span>
                         </div>
-                        <span class="card-number">{{ $t('auth.paymentMethods.card_number_masked') }}</span>
+                        <button type="button" class="delete-button" @click="handleDelete(card.id)">{{ t('auth.paymentMethods.delete_button') }}</button>
                     </div>
-                    <button class="delete-button">{{ $t('auth.paymentMethods.delete_button') }}</button>
                 </div>
 
-                <div class="no-exist-card-method d-flex justify-content-center align-items-center">
-                    <span class="text-center">{{ $t('auth.paymentMethods.no_saved_methods') }}</span>
+                <div v-else-if="!isLoading" class="no-exist-card-method d-flex justify-content-center align-items-center">
+                    <span class="text-center">{{ t('auth.paymentMethods.no_saved_methods') }}</span>
                 </div>
-            </div>
 
-            <div class="settings-btn-div d-flex justify-content-center align-items-center">
-                <button class="settings-btn text-capitalize">{{ $t('auth.paymentMethods.add_new_button') }}</button>
+                <div v-if="isLoading" class="text-center p-4">
+                    <div class="spinner-border text-primary" role="status"></div>
+                </div>
             </div>
         </form>
     </div>

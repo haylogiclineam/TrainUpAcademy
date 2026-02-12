@@ -193,7 +193,7 @@ onMounted(() => {
                                     <button class="move-to-btn"  @click="toggleLike(course.id)">{{ $t("cart_page.move_to_wishlist") }}</button>
                                 </div>
                                 <div class="my-cart-btn-div d-flex justify-content-center align-items-center">
-                                    <router-link to="/learner/checkout" class="my-cart-btn text-decoration-none text-center d-flex align-items-center justify-content-center">
+                                    <router-link :to="{ path: '/learner/checkout', query: { courseId: course.id } }" class="my-cart-btn text-decoration-none text-center d-flex align-items-center justify-content-center">
                                         {{ $t("cart_page.buy_now") }}
                                     </router-link>
                                 </div>
@@ -293,15 +293,15 @@ onMounted(() => {
     outline: none;
     border: none;
     text-transform: capitalize;
+    white-space: nowrap;
+    padding: 0 35px;
 }
 
 .my-course-btn {
-    width: 176px;
     height: 53px;
 }
 
 .my-cart-btn {
-    width: 176px;
     height: 44px;
 }
 
@@ -309,7 +309,7 @@ onMounted(() => {
 .my-course-btn-div,
 .my-cart-btn-div {
     height: 56px;
-    width: 186px;
+    width: fit-content;
 }
 
 .not-exist-items p {
@@ -491,18 +491,18 @@ onMounted(() => {
     }
 
     .my-course-btn-div {
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover {
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn {
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }
@@ -552,7 +552,8 @@ onMounted(() => {
 
     .my-cart-btn-div,
     .my-cart-btn {
-        width: 100%;
+        width: fit-content;
+        padding: 0 35px;
     }
 
     .empty-my-cart-block {
@@ -614,18 +615,18 @@ onMounted(() => {
     }
 
     .my-course-btn-div {
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover {
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn {
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }
@@ -734,18 +735,18 @@ onMounted(() => {
     }
 
     .my-course-btn-div {
-        width: 190px;
+        width: fit-content;
         height: 50px;
     }
 
     .my-course-btn:hover {
-        width: 179px;
+        padding: 0 45px;
         height: 47px;
         font-size: 18px;
     }
 
     .my-course-btn {
-        width: 179px;
+        padding: 0 35px;
         height: 47px;
         font-size: 18px;
     }
@@ -863,13 +864,13 @@ onMounted(() => {
 @media (min-width: 1200px) {
     .my-course-btn:hover {
         height: 56px;
-        width: 186px;
+        padding: 0 45px;
         font-size: 18px;
     }
 
     .my-cart-btn:hover {
         height: 46px;
-        width: 186px;
+        padding: 0 45px;
         font-size: 18px;
     }
 }

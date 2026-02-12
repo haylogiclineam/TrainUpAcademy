@@ -13,6 +13,9 @@ const email = ref('')
 const errors = ref({})
 const successMessage = ref('')
 
+const showPassword = ref(false);
+const showConfirmPassword = ref(false);
+
 onMounted(() => {
     token.value = route.query.token || ''
     email.value = route.query.email || ''
@@ -57,14 +60,22 @@ const submitResetPassword = async () => {
                 <div class="w-100">
                     <label for="password">{{ $t('create_new_password') }}*</label>
                 </div>
-                <input
-                        id="password"
-                        name="password"
-                        class="form-input"
-                        type="text"
-                        :placeholder="$t('new_password')"
-                        v-model="password"
-                />
+                <div class="password-input-wrapper">
+                    <input
+                            id="password"
+                            name="password"
+                            class="form-input"
+                            :type="showPassword ? 'text' : 'password'"
+                            :placeholder="$t('new_password')"
+                            v-model="password"
+                    />
+                    <img
+                        :src="showPassword ? '/assets/icons/eye-open.svg' : '/assets/icons/eye-close.svg'"
+                        class="eye-icon"
+                        @click="showPassword = !showPassword"
+                        alt="toggle password visibility"
+                    />
+                </div>
                 <p class="required-field" v-if="errors.password">{{ $t(errors.password[0]) }}</p>
             </div>
 
@@ -72,14 +83,22 @@ const submitResetPassword = async () => {
                 <div class="w-100">
                     <label for="password_confirmation">{{ $t('confirm_your_password') }}*</label>
                 </div>
-                <input
-                        id="password_confirmation"
-                        name="password_confirmation"
-                        class="form-input"
-                        type="text"
-                        :placeholder="$t('your_password')"
-                        v-model="password_confirmation"
-                />
+                <div class="password-input-wrapper">
+                    <input
+                            id="password_confirmation"
+                            name="password_confirmation"
+                            class="form-input"
+                            :type="showConfirmPassword ? 'text' : 'password'"
+                            :placeholder="$t('your_password')"
+                            v-model="password_confirmation"
+                    />
+                    <img
+                        :src="showConfirmPassword ? '/assets/icons/eye-open.svg' : '/assets/icons/eye-close.svg'"
+                        class="eye-icon"
+                        @click="showConfirmPassword = !showConfirmPassword"
+                        alt="toggle password visibility"
+                    />
+                </div>
                 <p class="required-field mt-2" v-if="errors.password_confirmation">{{
                     $t(errors.password_confirmation[0])
                     }}</p>
@@ -136,7 +155,27 @@ const submitResetPassword = async () => {
     border: none;
     color: var(--white-245);
     font-weight: 300;
-    padding: 18px 23px;
+    padding: 18px 50px 18px 23px;
+}
+
+.password-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    transition: opacity 0.2s ease;
+}
+
+.eye-icon:hover {
+    opacity: 0.8;
 }
 
 .form-input::placeholder {
@@ -262,7 +301,7 @@ const submitResetPassword = async () => {
     .form-input {
         width: 100%;
         border-radius: 6px;
-        padding: 11px 13px;
+        padding: 11px 40px 11px 13px;
     }
 
     .form-input::placeholder {

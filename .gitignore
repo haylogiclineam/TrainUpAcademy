@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .agent
+.env*
+!.env.example
+.env.development
+.env.production

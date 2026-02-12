@@ -75,9 +75,8 @@ onMounted(async () => {
         <div class="container">
             <div class="d-flex justify-content-between faq-section-main">
                 <div v-if="isHomePage" class="faq-content">
-                    <h3 class="text-capitalize h3">Frequently Asked Questions</h3>
-                    <p class="p">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec
-                        ullamcorper mattis, pulvinar</p>
+                    <h3 class="text-capitalize h3">{{ $t('faq_section.title') }}</h3>
+                    <p class="p">{{ $t('faq_section.description') }}</p>
 
                 </div>
 

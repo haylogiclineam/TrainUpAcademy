@@ -1,7 +1,52 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import api from "../../services/api.js";
 import { useRouter, useRoute } from 'vue-router';
+
+const { locale } = useI18n();
+
+// Function to download Privacy Policy based on current language
+const downloadPrivacyPolicy = () => {
+    let fileName;
+    switch(locale.value) {
+        case 'en':
+            fileName = 'Privacy Policy en.pdf';
+            break;
+        case 'ru':
+            fileName = 'Privacy Policy ru.pdf';
+            break;
+        default:
+            fileName = 'Privacy Policy.pdf';
+    }
+    const link = document.createElement('a');
+    link.href = `/assets/files/TermsAndPrivacyPolicy/${fileName}`;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
+
+// Function to download Terms and Conditions based on current language
+const downloadTermsConditions = () => {
+    let fileName;
+    switch(locale.value) {
+        case 'en':
+            fileName = 'Terms and conditions en.pdf';
+            break;
+        case 'ru':
+            fileName = 'Terms and conditions ru.pdf';
+            break;
+        default:
+            fileName = 'terms and conditions.pdf';
+    }
+    const link = document.createElement('a');
+    link.href = `/assets/files/TermsAndPrivacyPolicy/${fileName}`;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
 
 const router = useRouter();
 const route = useRoute();
@@ -15,6 +60,9 @@ const form = ref({
     role: '',
     accept_terms: false,
 });
+
+const showPassword = ref(false);
+const showConfirmPassword = ref(false);
 
 const errors = ref({
     first_name: '',
@@ -123,8 +171,16 @@ const handleSubmit = async () => {
                     <div class="w-100">
                         <label for="password">{{ $t('password') }}*</label>
                     </div>
-                    <input id="password" name="password" class="form-input" type="password"
-                           v-model="form.password" :placeholder="$t('your_password')">
+                    <div class="password-input-wrapper">
+                        <input id="password" name="password" class="form-input" :type="showPassword ? 'text' : 'password'"
+                               v-model="form.password" :placeholder="$t('your_password')">
+                        <img
+                            :src="showPassword ? '/assets/icons/eye-open.svg' : '/assets/icons/eye-close.svg'"
+                            class="eye-icon"
+                            @click="showPassword = !showPassword"
+                            alt="toggle password visibility"
+                        />
+                    </div>
                     <p v-if="errors.password" class="required-field">{{ $t(errors.password) }}</p>
                 </div>
 
@@ -132,8 +188,16 @@ const handleSubmit = async () => {
                     <div class="w-100">
                         <label for="repeat-password">{{ $t('repeat_password') }}*</label>
                     </div>
-                    <input id="repeat-password" name="repeat-password" class="form-input" type="password"
-                           v-model="form.password_confirmation" :placeholder="$t('repeat_password')">
+                    <div class="password-input-wrapper">
+                        <input id="repeat-password" name="repeat-password" class="form-input" :type="showConfirmPassword ? 'text' : 'password'"
+                               v-model="form.password_confirmation" :placeholder="$t('repeat_password')">
+                        <img
+                            :src="showConfirmPassword ? '/assets/icons/eye-open.svg' : '/assets/icons/eye-close.svg'"
+                            class="eye-icon"
+                            @click="showConfirmPassword = !showConfirmPassword"
+                            alt="toggle password visibility"
+                        />
+                    </div>
                     <p v-if="errors.password_confirmation" class="required-field">{{ $t(errors.password_confirmation) }}</p>
                 </div>
 
@@ -145,9 +209,13 @@ const handleSubmit = async () => {
                     </div>
                     <label class="terms-label">
                         {{ $t('auth.by_creating_account') }}
-                        <router-link to="/terms-conditions">{{ $t('auth.terms') }}</router-link>
+                        <a href="#" @click.prevent="downloadTermsConditions">
+                            {{ $t('auth.terms') }}
+                        </a>
                         {{ $t('auth.and') }}
-                        <router-link to="/privacy-policy">{{ $t('auth.privacy_policy') }}</router-link>
+                        <a href="#" @click.prevent="downloadPrivacyPolicy">
+                            {{ $t('auth.privacy_policy') }}
+                        </a>
                     </label>
                 </div>
                 <p v-if="errors.accept_terms" class="required-field">{{ $t(errors.accept_terms) }}</p>
@@ -228,7 +296,27 @@ const handleSubmit = async () => {
     border: none;
     color: var(--white-245);
     font-weight: 300;
-    padding: 18px 23px;
+    padding: 18px 50px 18px 23px;
+}
+
+.password-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    transition: opacity 0.2s ease;
+}
+
+.eye-icon:hover {
+    opacity: 0.8;
 }
 
 .form-input::placeholder {
@@ -368,7 +456,6 @@ const handleSubmit = async () => {
 .terms-label {
     font-family: 'Montserrat', sans-serif;
     font-style: normal;
-    font-weight: 500;
     font-size: 16px;
     line-height: 20px;
     color: #F5F5F5;
@@ -404,7 +491,7 @@ const handleSubmit = async () => {
     .form-input {
         width: 100%;
         border-radius: 6px;
-        padding: 11px 13px;
+        padding: 11px 40px 11px 13px;
     }
 
     .form-input::placeholder {

@@ -58,13 +58,18 @@ async function loadCourses(page = 1) {
         if (isAuthenticated) {
             data.data.forEach(async (course, index) => {
                 try {
-                    const videoUrl = `${baseUrl}/api/stream-video/${course.id}`
-                    const blob = await fetchVideoBlob(videoUrl)
-                    const blobUrl = URL.createObjectURL(blob)
-
-                    videos.value[index].src = blobUrl
+                    // Use 'video' field as provided by backend
+                    if (course.video) {
+                        const videoUrl = `${baseUrl}/api/stream-video/${course.id}`
+                        const blob = await fetchVideoBlob(videoUrl)
+                        const blobUrl = URL.createObjectURL(blob)
+                        videos.value[index].src = blobUrl
+                    } else {
+                        console.log(`No video file for course ID ${course.id}`)
+                    }
                 } catch (error) {
-                    console.error(`Failed to load video blob for course ID ${course.id}:`, error)
+                    console.warn(`Failed to load video blob for course ID ${course.id}:`, error.message)
+                    // Don't throw error, just log it - video will be unavailable
                 }
             })
         }
@@ -269,6 +274,7 @@ function getLocalizedField(obj, fieldBase) {
                                 :key="index"
                         >
                             <div class="course-video-div position-relative">
+                                <!-- Status badge - always visible -->
                                 <div @click.stop="openStatusModal(video)"
                                      class="locked-div position-absolute d-flex align-items-center gap-3">
                                     <span v-html="getStatusIcon(video.statusKey)"></span>
@@ -277,22 +283,27 @@ function getLocalizedField(obj, fieldBase) {
                                 </span>
                                 </div>
 
-                                <div
-                                        class="position-absolute play-icon-div"
-                                        v-if="showPlayIcons[index]"
-                                        @click.stop="playVideo(index)"
-                                >
-                                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none"
+                                <!-- Hover overlay with play button -->
+                                <div class="hover-overlay" @click.stop="openStatusModal(video)">
+                                    <svg class="play-icon" width="80" height="80" viewBox="0 0 80 80" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path d="M55.1667 34.7833L35.6733 24.1067C33.8 23.0533 31.58 23.0767 29.73 24.1533C27.8767 25.2367 26.77 27.1667 26.77 29.3133V50.6833C26.77 52.83 27.8767 54.76 29.73 55.8433C30.6733 56.3933 31.7133 56.67 32.7467 56.67C33.75 56.67 34.7467 56.4133 35.6567 55.9033L55.18 45.21C57.0867 44.1367 58.2267 42.19 58.2267 40.0033C58.2267 37.8167 57.0867 35.8667 55.1633 34.7867L55.1667 34.7833ZM53.5667 42.2933L34.0433 52.9867C33.2133 53.45 32.2333 53.4433 31.4167 52.9667C30.5967 52.4867 30.1067 51.6333 30.1067 50.6833V29.3133C30.1067 28.3633 30.5933 27.51 31.4167 27.03C31.83 26.79 32.2867 26.6667 32.7433 26.6667C33.19 26.6667 33.6433 26.7833 34.06 27.0167L53.5533 37.6933C54.3967 38.1667 54.9 39.0267 54.9 39.9933C54.9 40.96 54.3967 41.82 53.57 42.2867L53.5667 42.2933ZM40 0C17.9433 0 0 17.9433 0 40C0 62.0567 17.9433 80 40 80C62.0567 80 80 62.0567 80 40C80 17.9433 62.0567 0 40 0ZM40 76.6667C19.7833 76.6667 3.33333 60.2167 3.33333 40C3.33333 19.7833 19.7833 3.33333 40 3.33333C60.2167 3.33333 76.6667 19.7833 76.6667 40C76.6667 60.2167 60.2167 76.6667 40 76.6667Z"
                                               fill="#E5EAED"/>
                                     </svg>
                                 </div>
 
+                                <img
+                                    v-if="video.thumbnail"
+                                    :src="`${baseUrl}/storage/${video.thumbnail}`"
+                                    class="course-video-thumbnail"
+                                    alt="Course Thumbnail"
+                                />
+
                                 <video
                                         v-if="video.src"
                                         class="course-video"
                                         :src="video.src"
+                                        :poster="video.thumbnail ? `${baseUrl}/storage/${video.thumbnail}` : ''"
                                         controls
                                         controlsList="nodownload"
                                         preload="metadata"
@@ -406,22 +417,13 @@ function getLocalizedField(obj, fieldBase) {
                                 t(`auth.courses.${selectedVideo.statusKey}`)
                                 }}</span>
                         </div>
-                        <div class="position-absolute play-icon-div"
-                             v-if="showPlayIcons[selectedVideo.src]"
-                             @click.stop="playVideo(selectedVideo.src)">
-                            <svg width="80" height="80" viewBox="0 0 80 80" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M55.1667 34.7833L35.6733 24.1067C33.8 23.0533 31.58 23.0767 29.73 24.1533C27.8767 25.2367 26.77 27.1667 26.77 29.3133V50.6833C26.77 52.83 27.8767 54.76 29.73 55.8433C30.6733 56.3933 31.7133 56.67 32.7467 56.67C33.75 56.67 34.7467 56.4133 35.6567 55.9033L55.18 45.21C57.0867 44.1367 58.2267 42.19 58.2267 40.0033C58.2267 37.8167 57.0867 35.8667 55.1633 34.7867L55.1667 34.7833ZM53.5667 42.2933L34.0433 52.9867C33.2133 53.45 32.2333 53.4433 31.4167 52.9667C30.5967 52.4867 30.1067 51.6333 30.1067 50.6833V29.3133C30.1067 28.3633 30.5933 27.51 31.4167 27.03C31.83 26.79 32.2867 26.6667 32.7433 26.6667C33.19 26.6667 33.6433 26.7833 34.06 27.0167L53.5533 37.6933C54.3967 38.1667 54.9 39.0267 54.9 39.9933C54.9 40.96 54.3967 41.82 53.57 42.2867L53.5667 42.2933ZM40 0C17.9433 0 0 17.9433 0 40C0 62.0567 17.9433 80 40 80C62.0567 80 80 62.0567 80 40C80 17.9433 62.0567 0 40 0ZM40 76.6667C19.7833 76.6667 3.33333 60.2167 3.33333 40C3.33333 19.7833 19.7833 3.33333 40 3.33333C60.2167 3.33333 76.6667 19.7833 76.6667 40C76.6667 60.2167 60.2167 76.6667 40 76.6667Z"
-                                      fill="#E5EAED"/>
-                            </svg>
-                        </div>
 
                         <video
-                                class="course-video"
+                                class="course-video modal-course-video"
                                 :src="selectedVideo.src"
+                                :poster="selectedVideo.thumbnail ? `${baseUrl}/storage/${selectedVideo.thumbnail}` : ''"
                                 controls
                                 preload="metadata"
-                                @click="showPlayIcons[selectedVideo.src] = false"
                                 controlsList="nodownload"
                                 :ref="el => setVideoRef(el, selectedVideo.src)"
                         ></video>
@@ -618,7 +620,14 @@ function getLocalizedField(obj, fieldBase) {
 .add-course-btn,
 .change-course-btn,
 .view-more-btn {
+    padding: 0 30px;
+    height: 53px;
+    border-radius: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 10px;
+    white-space: nowrap;
     border-radius: 70px;
     font-family: var(--font-montserrat);
     font-weight: 400;
@@ -627,8 +636,6 @@ function getLocalizedField(obj, fieldBase) {
     letter-spacing: 1px;
     color: var(--white-229);
     cursor: pointer;
-    width: 176px;
-    height: 53px;
     background: var(--general-btn);
     outline: none;
     border: none;
@@ -640,15 +647,18 @@ function getLocalizedField(obj, fieldBase) {
 .change-course-btn:hover,
 .view-more-btn:hover {
     height: 56px;
-    width: 186px;
     font-size: 18px;
+    text-decoration: none;
 }
 
 .add-course-btn-div,
 .change-course-btn-div,
 .view-more-btn-div {
     height: 56px;
-    width: 186px;
+}
+
+.add-course-btn-div a {
+    text-decoration: none !important;
 }
 
 .course-video-div {
@@ -668,10 +678,13 @@ function getLocalizedField(obj, fieldBase) {
 
 .course-video-div:before {
     content: "";
-    background: var(--single-course-item);
+    background: rgba(8, 8, 8, 0.2);
     width: 100%;
     height: 100%;
     position: absolute;
+    z-index: 1;
+    border-radius: 16px;
+    pointer-events: none;
 }
 
 .course-video {
@@ -680,33 +693,63 @@ function getLocalizedField(obj, fieldBase) {
     object-fit: cover;
 }
 
+.course-video-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .course-list {
     gap: 5%;
 }
 
 .locked-div {
-    padding: 25px;
-    z-index: 3;
+    padding: 20px;
+    z-index: 4;
     cursor: pointer;
+    gap: 12px;
 }
 
 .locked-text {
-    font-family: var(--font-montserrat);
-    font-weight: 400;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
     font-size: 16px;
-    line-height: normal;
-    letter-spacing: 0%;
-    color: var(--white-245);
+    line-height: 20px;
+    color: #FFFFFF;
 }
 
-.play-icon-div {
-    width: 100%;
-    height: 100%;
+/* Hover overlay with play button */
+.hover-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(8, 8, 8, 0.6);
+    border-radius: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
     cursor: pointer;
+}
+
+.course-video-div:hover .hover-overlay {
+    opacity: 1;
+}
+
+.hover-overlay .play-icon {
+    width: 80px;
+    height: 80px;
+}
+
+.hover-overlay .play-icon path {
+    fill: #E5EAED;
 }
 
 .custom-title-overlay {
@@ -725,6 +768,7 @@ function getLocalizedField(obj, fieldBase) {
     color: var(--primary-100);
     padding-left: 10px;
     margin-bottom: 0 !important;
+    margin-top: 20px;
 }
 
 .not-exist-items p,
@@ -771,12 +815,21 @@ function getLocalizedField(obj, fieldBase) {
     background: var(--white-255);
     border-radius: 16px;
     width: 85%;
-    overflow-y: scroll;
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.modal-content::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 
 .modal-video {
     width: 100%;
     height: 458px;
+    border-radius: 16px 16px 0 0;
+    overflow: hidden;
 }
 
 .modal-video video {
@@ -785,12 +838,18 @@ function getLocalizedField(obj, fieldBase) {
     object-fit: cover;
 }
 
+.modal-course-video {
+    border-radius: 16px 16px 0 0;
+}
+
 .modal-video:before {
     content: "";
     background: var(--single-course-item);
     width: 100%;
     height: 100%;
     position: absolute;
+    border-radius: 16px 16px 0 0;
+    pointer-events: none;
 }
 
 .modal-status-block {

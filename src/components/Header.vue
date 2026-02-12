@@ -485,18 +485,18 @@ const {cartCount, loadCartCount} = useCartCount();
                     </div>
                 </li>
                 <li class="auth-user-nav-li">
-                    <p class="auth-user-nav-li-title mb-2 mt-2">Course</p>
+                    <p class="auth-user-nav-li-title mb-2 mt-2">{{ $t('header.menu.course') }}</p>
                     <ul class="list-unstyled">
                         <li class="auth-user-nav-li ps-0">
                             <router-link to="/instructor/my-courses"
                                          :class="{ active: $route.path === '/instructor/my-courses' }"
-                                         class="text-capitalize auth-user-nav-li-item">My courses
+                                         class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.my_courses') }}
                             </router-link>
                         </li>
                         <li class="auth-user-nav-li ps-0">
                             <router-link to="/instructor/add-courses"
                                          :class="{ active: $route.path === '/instructor/add-courses' }"
-                                         class="text-capitalize auth-user-nav-li-item">Add a course
+                                         class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.add_course') }}
                             </router-link>
                         </li>
                     </ul>
@@ -506,24 +506,24 @@ const {cartCount, loadCartCount} = useCartCount();
                 </li>
 
                 <li class="auth-user-nav-li">
-                    <p class="auth-user-nav-li-title mb-2 mt-2">Most popular</p>
+                    <p class="auth-user-nav-li-title mb-2 mt-2">{{ $t('header.menu.most_popular') }}</p>
                     <ul class="list-unstyled">
                         <li class="auth-user-nav-li ps-0">
                             <router-link to="/instructor/settings"
                                          :class="{ active: $route.path === '/instructor/settings' }"
-                                         class="text-capitalize auth-user-nav-li-item">Account Settings
+                                         class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.account_settings') }}
                             </router-link>
                         </li>
                         <li class="auth-user-nav-li  ps-0">
                             <router-link to="/instructor/wallet"
                                          :class="{ active: $route.path === '/instructor/wallet' }"
-                                         class="text-capitalize auth-user-nav-li-item">Wallet
+                                         class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.wallet') }}
                             </router-link>
                         </li>
                         <li class="auth-user-nav-li ps-0">
                             <router-link to="/instructor/purchase-history"
                                          :class="{ active: $route.path === '/instructor/purchase-history' }"
-                                         class="text-capitalize auth-user-nav-li-item">Purchase History
+                                         class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.purchase_history') }}
                             </router-link>
                         </li>
                     </ul>
@@ -532,7 +532,7 @@ const {cartCount, loadCartCount} = useCartCount();
                     <div class="navbar-line w-100"></div>
                 </li>
                 <li class="auth-user-nav-li">
-                    <p class="auth-user-nav-li-title">More from HayLogic academy</p>
+                    <p class="auth-user-nav-li-title">{{ $t('header.menu.more_from_academy') }}</p>
 
                     <ul class="list-unstyled menu-nav">
                         <li class="active">
@@ -678,7 +678,7 @@ const {cartCount, loadCartCount} = useCartCount();
                 <li class="auth-user-nav-li">
                     <router-link to="/instructor/how-we-can-help"
                                  :class="{ active: $route.path === '/instructor/how-we-can-help' }"
-                                 class="text-capitalize auth-user-nav-li-item">Help & Support
+                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.help_support') }}
                     </router-link>
                 </li>
                 <li class="auth-user-nav-li">
@@ -686,7 +686,7 @@ const {cartCount, loadCartCount} = useCartCount();
                             href="#"
                             class="text-capitalize auth-user-nav-li-item item-logout"
                             @click.prevent="logout"
-                    >Log Out</a>
+                    >{{ $t('header.menu.logout') }}</a>
                 </li>
             </ul>
 
@@ -713,12 +713,12 @@ const {cartCount, loadCartCount} = useCartCount();
                     </div>
                 </li>
                 <li class="auth-user-nav-li">
-                    <p class="auth-user-nav-li-title mb-2 mt-2">Learn</p>
+                    <p class="auth-user-nav-li-title mb-2 mt-2">{{ $t('header.menu.learn') }}</p>
                     <ul class="list-unstyled">
                         <li class="auth-user-nav-li ps-0">
                             <router-link to="/learner/my-learning"
                                          :class="{ active: $route.path === '/learner/my-learning' }"
-                                         class="text-capitalize auth-user-nav-li-item">My Learning
+                                         class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.my_learning') }}
                             </router-link>
                         </li>
                     </ul>
@@ -728,35 +728,35 @@ const {cartCount, loadCartCount} = useCartCount();
                 </li>
 
                 <li class="auth-user-nav-li">
-                    <p class="auth-user-nav-li-title mb-2 mt-2">Most popular</p>
+                    <p class="auth-user-nav-li-title mb-2 mt-2">{{ $t('header.menu.most_popular') }}</p>
                     <ul class="list-unstyled">
                         <li class="auth-user-nav-li ps-0">
                             <router-link to="/learner/shopping-cart"
                                          :class="{ active: $route.path === '/learner/shopping-cart' }"
-                                         class="text-capitalize auth-user-nav-li-item">My Cart
+                                         class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.my_cart') }}
                             </router-link>
                         </li>
                         <li class="auth-user-nav-li ps-0">
                             <router-link to="/learner/wishlist" :class="{ active: $route.path === '/learner/wishlist' }"
-                                         class="text-capitalize auth-user-nav-li-item">Wishlist
+                                         class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.wishlist') }}
                             </router-link>
                         </li>
                         <li class="auth-user-nav-li ps-0">
                             <router-link to="/learner/settings" :class="{ active: $route.path === '/learner/settings' }"
-                                         class="text-capitalize auth-user-nav-li-item">Account Settings
+                                         class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.account_settings') }}
                             </router-link>
                         </li>
                         <li class="auth-user-nav-li ps-0">
                             <router-link to="/learner/wallet"
                                          :class="{ active: $route.path === '/learner/wallet' }"
-                                         class="text-capitalize auth-user-nav-li-item">Wallet
+                                         class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.wallet') }}
                             </router-link>
                         </li>
 
                         <li class="auth-user-nav-li ps-0">
                             <router-link to="/learner/purchase-history"
                                          :class="{ active: $route.path === '/learner/purchase-history' }"
-                                         class="text-capitalize auth-user-nav-li-item">Purchase History
+                                         class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.purchase_history') }}
                             </router-link>
                         </li>
                     </ul>
@@ -765,7 +765,7 @@ const {cartCount, loadCartCount} = useCartCount();
                     <div class="navbar-line w-100"></div>
                 </li>
                 <li class="auth-user-nav-li">
-                    <p class="auth-user-nav-li-title">More from HayLogic academy</p>
+                    <p class="auth-user-nav-li-title">{{ $t('header.menu.more_from_academy') }}</p>
 
                     <ul class="list-unstyled menu-nav">
                         <li class="active">
@@ -912,7 +912,7 @@ const {cartCount, loadCartCount} = useCartCount();
                 <li class="auth-user-nav-li">
                     <router-link to="/learner/how-we-can-help"
                                  :class="{ active: $route.path === '/learner/how-we-can-help' }"
-                                 class="text-capitalize auth-user-nav-li-item">Help & Support
+                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.help_support') }}
                     </router-link>
                 </li>
                 <li class="auth-user-nav-li">
@@ -920,7 +920,7 @@ const {cartCount, loadCartCount} = useCartCount();
                             href="#"
                             class="text-capitalize auth-user-nav-li-item item-logout"
                             @click.prevent="logout"
-                    >Log Out</a>
+                    >{{ $t('header.menu.logout') }}</a>
                 </li>
             </ul>
 
@@ -928,9 +928,6 @@ const {cartCount, loadCartCount} = useCartCount();
     </div>
 
     <div :class="headerClass">
-        <div v-if="isHomePage || isPrivacyPolicyPage || isTermsConditionsPage" class="home-girl-img position-absolute">
-            <img src="/assets/images/home/header-girl.svg" alt="girl">
-        </div>
         <div class="container">
             <nav v-if="!auth.isAuthenticated" class="navbar d-flex justify-content-between">
                 <div class="logo-section d-flex align-items-center">
@@ -1085,13 +1082,13 @@ const {cartCount, loadCartCount} = useCartCount();
                                 <li class="auth-user-nav-li">
                                     <router-link to="/instructor/my-courses"
                                                  :class="{ active: $route.path === '/instructor/my-courses' }"
-                                                 class="text-capitalize auth-user-nav-li-item">My courses
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.my_courses') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
                                     <router-link to="/instructor/add-courses"
                                                  :class="{ active: $route.path === '/instructor/add-courses' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Add a course
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.add_course') }}
                                     </router-link>
                                 </li>
                                 <li>
@@ -1100,25 +1097,25 @@ const {cartCount, loadCartCount} = useCartCount();
                                 <li class="auth-user-nav-li">
                                     <router-link to="/instructor/settings"
                                                  :class="{ active: $route.path === '/instructor/settings' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Account Settings
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.account_settings') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
                                     <router-link to="/instructor/wallet"
                                                  :class="{ active: $route.path === '/instructor/wallet' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Wallet
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.wallet') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
                                     <router-link to="/instructor/purchase-history"
                                                  :class="{ active: $route.path === '/instructor/purchase-history' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Purchase History
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.purchase_history') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
                                     <router-link to="/instructor/how-we-can-help"
                                                  :class="{ active: $route.path === '/instructor/how-we-can-help' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Help & Support
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.help_support') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
@@ -1126,7 +1123,7 @@ const {cartCount, loadCartCount} = useCartCount();
                                             href="#"
                                             class="text-capitalize auth-user-nav-li-item item-logout"
                                             @click.prevent="logout"
-                                    >Log Out</a>
+                                    >{{ $t('header.menu.logout') }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -1598,13 +1595,13 @@ const {cartCount, loadCartCount} = useCartCount();
                                 <li class="auth-user-nav-li">
                                     <router-link to="/instructor/my-courses"
                                                  :class="{ active: $route.path === '/instructor/my-courses' }"
-                                                 class="text-capitalize auth-user-nav-li-item">My courses
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.my_courses') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
                                     <router-link to="/instructor/add-courses"
                                                  :class="{ active: $route.path === '/instructor/add-courses' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Add a course
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.add_course') }}
                                     </router-link>
                                 </li>
                                 <li>
@@ -1613,25 +1610,25 @@ const {cartCount, loadCartCount} = useCartCount();
                                 <li class="auth-user-nav-li">
                                     <router-link to="/instructor/settings"
                                                  :class="{ active: $route.path === '/instructor/settings' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Account Settings
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.account_settings') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
                                     <router-link to="/instructor/wallet"
                                                  :class="{ active: $route.path === '/instructor/wallet' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Wallet
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.wallet') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
                                     <router-link to="/instructor/purchase-history"
                                                  :class="{ active: $route.path === '/instructor/purchase-history' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Purchase History
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.purchase_history') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
                                     <router-link to="/instructor/how-we-can-help"
                                                  :class="{ active: $route.path === '/instructor/how-we-can-help' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Help & Support
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.help_support') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
@@ -1639,7 +1636,7 @@ const {cartCount, loadCartCount} = useCartCount();
                                             href="#"
                                             class="text-capitalize auth-user-nav-li-item item-logout"
                                             @click.prevent="logout"
-                                    >Log Out</a>
+                                    >{{ $t('header.menu.logout') }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -1669,19 +1666,19 @@ const {cartCount, loadCartCount} = useCartCount();
                                 <li class="auth-user-nav-li">
                                     <router-link to="/learner/my-learning"
                                                  :class="{ active: $route.path === '/learner/my-learning' }"
-                                                 class="text-capitalize auth-user-nav-li-item">My Learning
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.my_learning') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
                                     <router-link to="/learner/shopping-cart"
                                                  :class="{ active: $route.path === '/learner/shopping-cart' }"
-                                                 class="text-capitalize auth-user-nav-li-item">My Cart
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.my_cart') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
                                     <router-link to="/learner/wishlist"
                                                  :class="{ active: $route.path === '/learner/wishlist' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Wishlist
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.wishlist') }}
                                     </router-link>
                                 </li>
                                 <li>
@@ -1690,20 +1687,20 @@ const {cartCount, loadCartCount} = useCartCount();
                                 <li class="auth-user-nav-li">
                                     <router-link to="/learner/settings"
                                                  :class="{ active: $route.path === '/learner/settings' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Account Settings
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.account_settings') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
                                     <router-link to="/learner/wallet"
                                                  :class="{ active: $route.path === '/learner/wallet' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Wallet
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.wallet') }}
                                     </router-link>
                                 </li>
 
                                 <li class="auth-user-nav-li">
                                     <router-link to="/learner/purchase-history"
                                                  :class="{ active: $route.path === '/learner/purchase-history' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Purchase History
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.purchase_history') }}
                                     </router-link>
                                 </li>
                                 <li>
@@ -1712,7 +1709,7 @@ const {cartCount, loadCartCount} = useCartCount();
                                 <li class="auth-user-nav-li">
                                     <router-link to="/learner/how-we-can-help"
                                                  :class="{ active: $route.path === '/learner/how-we-can-help' }"
-                                                 class="text-capitalize auth-user-nav-li-item">Help & Support
+                                                 class="text-capitalize auth-user-nav-li-item">{{ $t('header.menu.help_support') }}
                                     </router-link>
                                 </li>
                                 <li class="auth-user-nav-li">
@@ -1720,7 +1717,7 @@ const {cartCount, loadCartCount} = useCartCount();
                                             href="#"
                                             class="text-capitalize auth-user-nav-li-item item-logout"
                                             @click.prevent="logout"
-                                    >Log Out</a>
+                                    >{{ $t('header.menu.logout') }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -1733,7 +1730,7 @@ const {cartCount, loadCartCount} = useCartCount();
                         <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('header.title') }}</span> {{ $t('header.subtitle') }}</h1>
                         <p>{{ $t('hero.learn_anywhere_anytime') }} {{ $t('hero.choose_course_fits_level') }}</p>
                     </div>
-                    <div class="learn-more-btn-div d-flex justify-content-center align-items-center">
+                    <div class="learn-more-btn-div d-flex align-items-center">
                         <button class="learn-more-btn">
                             {{ $t('hero.free_registration') }}
                         </button>
@@ -1751,7 +1748,7 @@ const {cartCount, loadCartCount} = useCartCount();
             <div v-if="isContactPage" class="header-contact-content-section d-flex flex-column position-relative">
                 <div class="contact-content">
                     <div class="content">
-                        <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('contact.contact') }}</span>{{ $t('contact.us') }}</h1>
+                        <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('contact.contact') }}</span> {{ $t('contact.us') }}</h1>
                         <p>{{ $t('contact.description') }}</p>
                     </div>
                 </div>
@@ -1822,9 +1819,8 @@ const {cartCount, loadCartCount} = useCartCount();
             <div v-if="isBlogPage" class="header-blog-content-section d-flex position-relative">
                 <div class="blog-content">
                     <div class="content">
-                        <h1 class="text-capitalize"><span class="text-capitalize">Blog &  </span> Article </h1>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the</p>
+                        <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('blog_page.title_1') }} </span> {{ $t('blog_page.title_2') }} </h1>
+                        <p>{{ $t('blog_description') }}</p>
                     </div>
                 </div>
             </div>
@@ -1859,7 +1855,7 @@ const {cartCount, loadCartCount} = useCartCount();
                         <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('teach_whit_us.come') }} </span> {{ $t('teach_whit_us.title') }} </h1>
                         <p>{{ $t('teach_whit_us.text') }}</p>
                     </div>
-                    <div v-if="!auth.isAuthenticated" class="learn-more-btn-div d-flex justify-content-center align-items-center">
+                    <div v-if="!auth.isAuthenticated" class="learn-more-btn-div d-flex align-items-center">
                         <router-link
                                 :to="{ path: '/sign-up', query: { hideLearner: true } }"
                                 class="learn-more-btn text-decoration-none align-items-center justify-content-center d-flex">
@@ -1888,9 +1884,8 @@ const {cartCount, loadCartCount} = useCartCount();
                  class="header-how-we-can-help-content-section d-flex position-relative">
                 <div class="how-we-can-help-content">
                     <div class="content">
-                        <h1 class="text-capitalize"><span class="text-capitalize">How We  </span> Can Help You </h1>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the</p>
+                        <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('help_support_instructor.header_title_1') }} </span> {{ $t('help_support_instructor.header_title_2') }}</h1>
+                        <p>{{ $t('help_support_instructor.header_description') }}</p>
                     </div>
                 </div>
             </div>
@@ -1898,12 +1893,14 @@ const {cartCount, loadCartCount} = useCartCount();
                  class="header-how-we-can-help-content-section d-flex position-relative">
                 <div class="how-we-can-help-content">
                     <div class="content">
-                        <h1 class="text-capitalize"><span class="text-capitalize">How We  </span> Can Help You </h1>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the</p>
+                        <h1 class="text-capitalize"><span class="text-capitalize">{{ $t('help_support_learner.header_title_1') }} </span> {{ $t('help_support_learner.header_title_2') }}</h1>
+                        <p>{{ $t('help_support_learner.header_description') }}</p>
                     </div>
                 </div>
             </div>
+        </div>
+        <div v-if="isHomePage || isPrivacyPolicyPage || isTermsConditionsPage" class="home-girl-img position-absolute">
+            <img src="/assets/images/home/header-girl.svg" alt="girl">
         </div>
     </div>
 </template>
@@ -1954,13 +1951,20 @@ const {cartCount, loadCartCount} = useCartCount();
 
 .train-up-header,
 .about-header,
-.courses-header,
 .blog-header,
 .why-choose-us-header,
 .single-blog-header,
 .single-course-header,
 .how-we-can-help-header {
     min-height: 500px !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    background-position: center;
+}
+
+.courses-header {
+    min-height: 420px !important;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
@@ -2039,11 +2043,14 @@ const {cartCount, loadCartCount} = useCartCount();
 .header-about-content-section,
 .header-blog-content-section,
 .header-why-choose-content-section,
-.header-courses-content-section,
 .header-single-blog-content-section,
 .header-single-course-content-section,
 .header-how-we-can-help-content-section {
     padding: 118px 0;
+}
+
+.header-courses-content-section {
+    padding: 70px 0 118px 0;
 }
 
 .header-contact-content-section {
@@ -2052,7 +2059,11 @@ const {cartCount, loadCartCount} = useCartCount();
 
 
 .train-up-content {
-    width: 60%;
+    width: 75%;
+}
+
+.train-up-content p {
+    margin-bottom: 2rem;
 }
 
 .auth-header {
@@ -2114,7 +2125,7 @@ html[lang="arm"] .nav-link {
 
 .header-home-content-section {
     width: 100% !important;
-    padding: 11% 0;
+    padding: 7% 0;
 }
 
 .header-blog-content-section,
@@ -2154,6 +2165,10 @@ html[lang="arm"] .nav-link {
 
 }
 
+.home-content{
+    width: 75%;
+}
+
 .home-content,
 .about-content,
 .contact-content,
@@ -2170,14 +2185,14 @@ html[lang="arm"] .nav-link {
 .why-choose-content,
 .single-course-content,
 .how-we-can-help-content {
-    width: 80%;
+    width: 90%;
 }
 
 .courses-content .content p,
 .why-choose-content .content p,
 .single-course-content .content p,
 .how-we-can-help-content .content p {
-    width: 84% !important;
+    width: 90% !important;
 }
 
 .single-blog-content .content p {
@@ -2197,6 +2212,17 @@ html[lang="arm"] .nav-link {
     letter-spacing: 1px;
 }
 
+html[lang="arm"] .content h1,
+html[lang="arm"] .content span,
+html[lang="arm"] .content p {
+    font-family: var(--font-noto-armenian) !important;
+    line-height: 1.1 !important;
+}
+
+html[lang="arm"] .learn-more-btn {
+    font-family: var(--font-noto-armenian) !important;
+}
+
 .content h1 {
     color: var(--white-245);
     font-size: 60px;
@@ -2208,38 +2234,41 @@ html[lang="arm"] .nav-link {
 }
 
 .content p {
-    font-size: 22px;
+    font-size: 20px;
     color: var(--white-245);
 }
 
 .learn-more-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
     border-radius: 70px;
     font-family: var(--font-montserrat);
-    font-weight: 400;
-    font-size: 24px;
+    font-weight: 500;
+    font-size: 22px;
     line-height: normal;
     letter-spacing: 1px;
     color: var(--white-229);
     cursor: pointer;
-    width: 272px;
-    height: 69px;
+    padding: 20px 55px;
     background: var(--general-btn-light);
     outline: none;
     border: none;
     text-transform: capitalize;
+    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 
 .learn-more-btn-div {
-    width: 283px;
-    height: 72px;
+    display: flex;
 }
 
 .learn-more-btn:hover {
-    width: 283px;
-    height: 72px;
-    font-size: 26px;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(75, 187, 228, 0.3);
 }
 
 .home-girl-img {
@@ -2454,7 +2483,7 @@ html[lang="arm"] .nav-link {
     }
 
     .contact-header {
-        min-height: 500px !important;
+        min-height: 850px !important;
     }
 
     .header,
@@ -2552,16 +2581,20 @@ html[lang="arm"] .nav-link {
 
     .home-girl-img {
         height: 306px;
+        position: relative !important;
+        right: auto !important;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: auto !important;
     }
 
     .home-girl-img img {
-        width: 100%;
+        width: auto;
         height: 100%;
     }
 
-    .header-home-content-section {
-        padding: 21% 0;
-    }
+
 
     .header-home-content-section,
     .header-about-content-section,
@@ -2610,41 +2643,79 @@ html[lang="arm"] .nav-link {
     }
 
     .learn-more-btn-div {
-        width: 201px !important;
-        height: 53px !important;
+        width: auto !important;
+        height: auto !important;
     }
 
     .learn-more-btn:hover {
-        width: 190px !important;
-        height: 50px !important;
+        transform: scale(1.03);
     }
 
     .learn-more-btn {
         font-size: 18px !important;
-        width: 190px !important;
-        height: 50px !important;
+        padding: 12px 24px !important;
     }
 
     .info-detail {
-        width: 95px;
-        height: 86px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px 24px;
+        gap: 10px;
+
+        background: rgba(0, 16, 40, 0.8);
+        backdrop-filter: blur(5px);
+        border-radius: 6px;
+
+        width: 100%;
+        height: 112px;
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+        justify-content: center;
     }
 
     .contact-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
         gap: 10px;
+
+        position: absolute;
+        width: 90%;
+        height: auto;
+        top: 339px;
+        left: 5%;
+
+        background: transparent;
     }
 
     .info-detail .a-web {
-        display: none !important;
+        display: block !important;
+        text-decoration: none;
+        margin-top: 0;
     }
 
-    .contact-info span {
+    .contact-info span,
+    .info-detail a {
+        font-family: 'Montserrat', sans-serif;
+        font-style: normal;
+        font-weight: 400;
         font-size: 14px;
+        line-height: 150%;
+        color: #F5F5F5;
+        text-align: center;
     }
 
     .info-detail svg {
         width: 20px;
         height: 20px;
+    }
+    
+    .info-detail svg path {
+        fill: #F5F5F5;
     }
 
     .web-phone-span {
@@ -2656,7 +2727,7 @@ html[lang="arm"] .nav-link {
     }
 
     .mobile-span {
-        margin-top: 6px !important;
+        margin-top: 0 !important;
     }
 
     .info-detail:hover {
@@ -2813,10 +2884,16 @@ html[lang="arm"] .nav-link {
 
     .home-girl-img {
         height: 443px;
+        position: relative !important;
+        right: auto !important;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: auto !important;
     }
 
     .home-girl-img img {
-        width: 100%;
+        width: auto;
         height: 100%;
     }
 
@@ -2830,10 +2907,6 @@ html[lang="arm"] .nav-link {
     .header-how-we-can-help-content-section {
         width: 100% !important;
         position: relative !important;
-    }
-
-    .header-home-content-section {
-        padding: 21% 0;
     }
 
     .home-content,
@@ -2869,19 +2942,17 @@ html[lang="arm"] .nav-link {
     }
 
     .learn-more-btn-div {
-        width: 201px !important;
-        height: 53px !important;
+        width: auto !important;
+        height: auto !important;
     }
 
     .learn-more-btn:hover {
-        width: 190px !important;
-        height: 50px !important;
+        transform: scale(1.03);
     }
 
     .learn-more-btn {
         font-size: 18px !important;
-        width: 190px !important;
-        height: 50px !important;
+        padding: 12px 24px !important;
     }
 
     .info-detail {
@@ -2891,6 +2962,7 @@ html[lang="arm"] .nav-link {
 
     .contact-info {
         gap: 10px;
+        flex-direction: column;
     }
 
     .info-detail:hover {
@@ -3111,7 +3183,7 @@ html[lang="arm"] .nav-link {
 
     .courses-content .content p,
     .why-choose-content .content p {
-        width: 60% !important;
+        width: 85% !important;
     }
 
     .single-blog-content .content p,

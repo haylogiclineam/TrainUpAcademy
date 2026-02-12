@@ -5,10 +5,12 @@ import {useRoute, useRouter} from "vue-router";
 import {useI18n} from 'vue-i18n';
 import {useAuthStore} from '/src/stores/auth.js';
 import {useCartCount} from "../../composables/useCartCount.js";
+import {usePurchasedCourses} from '../../composables/usePurchasedCourses.js';
 import {echo} from '../../services/echo.js';
 
 const auth = useAuthStore()
 auth.checkAuth()
+const { isPurchased } = usePurchasedCourses();
 
 const isLoading = ref(true);
 
@@ -347,14 +349,34 @@ watch(() => course.value?.id, (newId, oldId) => {
                         <p> {{ getLocalizedField(course, 'description') }}</p>
                     </div>
                     <div class="course-video-div position-relative">
-                        <div class="locked-div position-absolute d-flex align-items-center gap-3">
+                        <div v-if="!isPurchased(course?.id) && !isInstructor"
+                             class="locked-div position-absolute d-flex align-items-center gap-3">
                             <svg width="23" height="28" viewBox="0 0 23 28" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path d="M19.55 9.828V8.16665C19.55 3.65635 15.9459 0 11.5 0C7.05408 0 3.45001 3.65635 3.45001 8.16665V9.828C1.35704 10.7547 0.00301875 12.85 0 15.1666V22.1666C0.00377344 25.3867 2.57591 27.9962 5.74997 28H17.25C20.424 27.9962 22.9962 25.3867 23 22.1666V15.1666C22.997 12.85 21.643 10.7547 19.55 9.828ZM12.65 19.8334C12.65 20.4777 12.1351 21 11.5 21C10.8649 21 10.35 20.4777 10.35 19.8334V17.5C10.35 16.8557 10.8649 16.3334 11.5 16.3334C12.1351 16.3334 12.65 16.8557 12.65 17.5V19.8334ZM17.25 9.33335H5.74997V8.1667C5.74997 4.94506 8.32432 2.33335 11.5 2.33335C14.6757 2.33335 17.25 4.94501 17.25 8.1667V9.33335Z"
                                       fill="#4BBBE4"/>
                             </svg>
                         </div>
-                        <img
+                        <div v-if="(isPurchased(course?.id) || isInstructor) && showPlayIcon"
+                             class="play-icon-div position-absolute" @click="playVideo">
+                            <svg class="play-icon" width="80" height="80" viewBox="0 0 80 80" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M55.1667 34.7833L35.6733 24.1067C33.8 23.0533 31.58 23.0767 29.73 24.1533C27.8767 25.2367 26.77 27.1667 26.77 29.3133V50.6833C26.77 52.83 27.8767 54.76 29.73 55.8433C30.6733 56.3933 31.7133 56.67 32.7467 56.67C33.75 56.67 34.7467 56.4133 35.6567 55.9033L55.18 45.21C57.0867 44.1367 58.2267 42.19 58.2267 40.0033C58.2267 37.8167 57.0867 35.8667 55.1633 34.7867L55.1667 34.7833ZM53.5667 42.2933L34.0433 52.9867C33.2133 53.45 32.2333 53.4433 31.4167 52.9667C30.5967 52.4867 30.1067 51.6333 30.1067 50.6833V29.3133C30.1067 28.3633 30.5933 27.51 31.4167 27.03C31.83 26.79 32.2867 26.6667 32.7433 26.6667C33.19 26.6667 33.6433 26.7833 34.06 27.0167L53.5533 37.6933C54.3967 38.1667 54.9 39.0267 54.9 39.9933C54.9 40.96 54.3967 41.82 53.57 42.2867L53.5667 42.2933ZM40 0C17.9433 0 0 17.9433 0 40C0 62.0567 17.9433 80 40 80C62.0567 80 80 62.0567 80 40C80 17.9433 62.0567 0 40 0ZM40 76.6667C19.7833 76.6667 3.33333 60.2167 3.33333 40C3.33333 19.7833 19.7833 3.33333 40 3.33333C60.2167 3.33333 76.6667 19.7833 76.6667 40C76.6667 60.2167 60.2167 76.6667 40 76.6667Z"
+                                      fill="#E5EAED"/>
+                            </svg>
+                        </div>
+                        <video
+                                v-if="isPurchased(course?.id) || isInstructor"
+                                ref="courseVideo"
+                                :src="course ? `${baseUrl}/api/stream-video/${course.id}?token=${auth.token}` : ''"
+                                class="course-video w-100 h-100"
+                                controls
+                                controlsList="nodownload"
+                                @pause="onPause"
+                                @play="onPlay"
+                                @contextmenu.prevent
+                        ></video>
+                        <img v-if="!isPurchased(course?.id) && !isInstructor || showPlayIcon"
                                 :src="course ? `${baseUrl}/storage/${course.thumbnail}` : ''"
                                 alt="Course Thumbnail"
                                 class="course-thumbnail course-img"
@@ -496,16 +518,16 @@ watch(() => course.value?.id, (newId, oldId) => {
                                     href="#"
                                     @click.prevent="showAllComments ? showAllComments = false : fetchAllComments()"
                             >
-                                {{ showAllComments ? 'View less' : 'View more' }}
+                                {{ showAllComments ? $t('single_course.view_less') : $t('single_course.view_more') }}
                             </a>
 
 
                             <div class="write-comment-textarea">
                                 <textarea v-model="newCommentText" rows="4" class="form-input w-100 mt-2" type="text"
-                                          placeholder="Write comment"></textarea>
+                                          :placeholder="$t('single_course.write_comment_placeholder')"></textarea>
                                 <div class="write-comment-btn-div">
                                     <button @click="submitComment" class="write-comment-btn text-capitalize">
-                                        Submit
+                                        {{ $t('single_course.submit') }}
                                     </button>
                                 </div>
                             </div>
@@ -553,7 +575,7 @@ watch(() => course.value?.id, (newId, oldId) => {
                                     </div>
                                 </div>
 
-                                <div class="d-flex justify-content-between card-buttons-block">
+                                <div v-if="!isPurchased(course.id)" class="d-flex justify-content-between card-buttons-block">
                                     <div v-if="!auth.isAuthenticated" class="buy-btn-div d-flex justify-content-center align-items-center">
                                         <router-link to="/sign-in"
                                                      class="buy-btn text-capitalize text-decoration-none text-center d-flex align-items-center justify-content-center">
@@ -561,7 +583,7 @@ watch(() => course.value?.id, (newId, oldId) => {
                                         </router-link>
                                     </div>
                                     <div v-if="isLearner" class="buy-btn-div d-flex justify-content-center align-items-center">
-                                        <router-link to="/learner/checkout"
+                                        <router-link :to="{ path: '/learner/checkout', query: { courseId: course.id } }"
                                                      class="buy-btn text-capitalize text-decoration-none text-center d-flex align-items-center justify-content-center">
                                             {{ $t('single_course.buy_now_btn') }}
                                         </router-link>

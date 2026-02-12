@@ -12,6 +12,8 @@ const form = ref({
     password: '',
 });
 
+const showPassword = ref(false);
+
 const errors = ref({
     email: '',
     password: '',
@@ -106,8 +108,16 @@ const handleSubmit = async () => {
                 <div class="w-100">
                     <label for="password">{{ $t('password') }}*</label>
                 </div>
-                <input id="password" name="password" class="form-input" type="password"
-                       v-model="form.password" :placeholder="$t('your_password')">
+                <div class="password-input-wrapper">
+                    <input id="password" name="password" class="form-input" :type="showPassword ? 'text' : 'password'"
+                           v-model="form.password" :placeholder="$t('your_password')">
+                    <img
+                        :src="showPassword ? '/assets/icons/eye-open.svg' : '/assets/icons/eye-close.svg'"
+                        class="eye-icon"
+                        @click="showPassword = !showPassword"
+                        alt="toggle password visibility"
+                    />
+                </div>
                 <p v-if="errors.password" class="required-field">{{ $t(errors.password) }}</p>
             </div>
 
@@ -174,7 +184,27 @@ const handleSubmit = async () => {
     border: none;
     color: var(--white-245);
     font-weight: 300;
-    padding: 18px 23px;
+    padding: 18px 50px 18px 23px;
+}
+
+.password-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    transition: opacity 0.2s ease;
+}
+
+.eye-icon:hover {
+    opacity: 0.8;
 }
 
 .form-input::placeholder {
@@ -298,7 +328,7 @@ const handleSubmit = async () => {
     .form-input {
         width: 100%;
         border-radius: 6px;
-        padding: 11px 13px;
+        padding: 11px 40px 11px 13px;
     }
 
     .form-input::placeholder {
