@@ -735,7 +735,9 @@
     "payment_not_completed": "Payment was not completed or was declined.",
     "error_payment_failed": "Payment failed. Please try again.",
     "error_verification": "Error verifying payment. Please contact support.",
-    "redirect_info": "You will be redirected to a secure payment page to enter your card details."
+    "redirect_info": "You will be redirected to a secure payment page to enter your card details.",
+    "select_method": "Select payment method",
+    "save_card_for_future": "Save card for future use"
   },
   "payment": {
     "processing_title": "Processing Payment",

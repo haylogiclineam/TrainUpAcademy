@@ -138,16 +138,15 @@ const handleSubmit = async () => {
 <template>
     <div class="auth-form">
         <h3 class="h3 text-capitalize">{{ $t('sign_up') }}</h3>
-        <div class="form d-flex flex-column">
-            <form @submit.prevent="handleSubmit">
-                <div class="d-flex flex-column form-input-block">
-                    <div class="w-100">
-                        <label for="first-name">{{ $t('first_name') }}*</label>
-                    </div>
-                    <input id="first-name" name="first-name" class="form-input" type="text"
-                           v-model="form.first_name" :placeholder="$t('your_first_name')">
-                    <p v-if="errors.first_name" class="required-field">{{ $t(errors.first_name) }}</p>
+        <form class="form d-flex flex-column" @submit.prevent="handleSubmit">
+            <div class="d-flex flex-column form-input-block">
+                <div class="w-100">
+                    <label for="first-name">{{ $t('first_name') }}*</label>
                 </div>
+                <input id="first-name" name="first-name" class="form-input" type="text"
+                       v-model="form.first_name" :placeholder="$t('your_first_name')">
+                <p v-if="errors.first_name" class="required-field">{{ $t(errors.first_name) }}</p>
+            </div>
 
                 <div class="d-flex flex-column form-input-block">
                     <div class="w-100">
@@ -252,8 +251,7 @@ const handleSubmit = async () => {
                         {{ $t('sign_up') }}
                     </button>
                 </div>
-            </form>
-        </div>
+        </form>
     </div>
 </template>
 

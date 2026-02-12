@@ -55,7 +55,7 @@ const submitResetPassword = async () => {
 <template>
     <div class="auth-form">
         <h3 class="h3 text-capitalize">{{ $t('change_password') }}</h3>
-        <div class="form d-flex flex-column">
+        <form class="form d-flex flex-column" @submit.prevent="submitResetPassword">
             <div class="d-flex flex-column form-input-block">
                 <div class="w-100">
                     <label for="password">{{ $t('create_new_password') }}*</label>
@@ -107,12 +107,12 @@ const submitResetPassword = async () => {
             <p class="success-message text-center" v-if="successMessage">{{ $t(successMessage) }}</p>
 
             <div class="auth-btn-div d-flex justify-content-center align-items-center">
-                <button class="auth-btn text-capitalize" @click.prevent="submitResetPassword">
+                <button class="auth-btn text-capitalize" type="submit">
                     {{ $t('change') }}
                 </button>
             </div>
 
-        </div>
+        </form>
     </div>
 </template>
 

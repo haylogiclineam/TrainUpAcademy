@@ -94,7 +94,7 @@ const handleSubmit = async () => {
 <template>
     <div class="auth-form">
         <h3 class="h3 text-capitalize">{{ $t('sign_in') }}</h3>
-        <div class="form d-flex flex-column">
+        <form class="form d-flex flex-column" @submit.prevent="handleSubmit">
             <div class="d-flex flex-column form-input-block">
                 <div class="w-100">
                     <label for="email">{{ $t('email') }}*</label>
@@ -131,7 +131,7 @@ const handleSubmit = async () => {
                 {{ $t(successMessage) }}
             </div>
             <div class="auth-btn-div d-flex justify-content-center">
-                <button class="auth-btn text-capitalize" @click="handleSubmit">
+                <button class="auth-btn text-capitalize" type="submit">
                     {{ $t('sign_in') }}
                 </button>
             </div>
@@ -141,7 +141,7 @@ const handleSubmit = async () => {
                     <router-link to="/forgot-password" class="text-decoration-none">{{ $t('forgot_password') }}</router-link>
                 </p>
             </div>
-        </div>
+        </form>
     </div>
 </template>
 
