@@ -1,36 +1,66 @@
 <script setup>
 import {ref, computed, onMounted, nextTick} from "vue";
+import api from "../../../services/api";
 
 const activeStep = ref(0);
+const userBalance = ref(0);
+const availableWithdrawal = ref(0);
+const earningsPending = ref(0);
+const earningsCanceled = ref(0);
+const earningsReceived = ref(0);
+const totalEarning = ref(0);
+const totalFee = ref(0);
+const totalWithdrawn = ref(0);
+const withdrawalsList = ref([]);
 
-const steps = [
+const steps = computed(() => [
     {
         title: "wallet.balance",
         items: [
-            { text: "wallet.your_balance", price: "$ 1200" },
+            { text: "wallet.my_balance", price: `${Number(userBalance.value).toLocaleString()} ֏` },
         ],
     },
     {
         title: "wallet.available_withdrawal",
         items: [
-            { text: "wallet.available_withdrawal_text", price: "$ 1000" },
+            { text: "wallet.available_withdrawal_text", price: `${Number(availableWithdrawal.value).toLocaleString()} ֏` },
+            // { text: "Total Withdrawn", price: `${Number(totalWithdrawn.value).toLocaleString()} ֏` },
         ],
     },
     {
         title: "wallet.earning_status",
         items: [
-            { text: "wallet.earnings_pending", price: "$ 1500", status: "pending" },
-            { text: "wallet.earnings_canceled", price: "$ 1500", status: "canceled" },
-            { text: "wallet.earnings_received", price: "$ 1500", status: "received" },
+            { text: "wallet.earnings_pending", price: `${Number(earningsPending.value).toLocaleString()} ֏`, status: "pending" },
+            { text: "wallet.earnings_canceled", price: `${Number(earningsCanceled.value).toLocaleString()} ֏`, status: "canceled" },
+            { text: "wallet.earnings_received", price: `${Number(earningsReceived.value).toLocaleString()} ֏`, status: "received" },
+            { text: "wallet.platform_fees", price: `${Number(totalFee.value).toLocaleString()} ֏`, status: "received" },
         ],
     },
     {
-        title: "wallet.total_earning",
+        title: "wallet.total_gross_earning",
         items: [
-            { text: "wallet.your_total_earning", price: "$ 1500" },
+            { text: "wallet.total_gross_earning", price: `${Number(totalEarning.value).toLocaleString()} ֏` },
         ],
     }
-];
+]);
+
+const statusLabel = (status) => {
+    const map = {
+        pending: 'wallet.status_pending',
+        completed: 'wallet.status_completed',
+        rejected: 'wallet.status_rejected',
+    };
+    return map[status] || status;
+};
+
+const statusClass = (status) => {
+    const map = {
+        pending: 'badge-pending',
+        completed: 'badge-completed',
+        rejected: 'badge-rejected',
+    };
+    return map[status] || '';
+};
 
 
 const tabTitles = ref([]);
@@ -50,9 +80,41 @@ const activeTabStyle = computed(() => {
     };
 });
 
+const fetchInstructorData = async () => {
+    try {
+        const { data } = await api.get('/api/instructor/wallet/summary');
+        if (data.success) {
+            const summary = data.summary;
+            userBalance.value = summary.current_balance;
+            availableWithdrawal.value = summary.current_balance;
+            earningsPending.value = summary.earnings_pending;
+            earningsCanceled.value = summary.earnings_canceled;
+            earningsReceived.value = summary.earnings_received;
+            totalEarning.value = summary.total_gross;
+            totalFee.value = summary.total_fee;
+            totalWithdrawn.value = summary.total_withdrawn;
+        }
+    } catch (e) {
+        console.error('Failed to fetch instructor data', e);
+    }
+};
+
+const fetchWithdrawals = async () => {
+    try {
+        const { data } = await api.get('/api/instructor/wallet/withdrawals');
+        if (data.success) {
+            withdrawalsList.value = data.withdrawals;
+        }
+    } catch (e) {
+        console.error('Failed to fetch withdrawals', e);
+    }
+};
+
 onMounted(() => {
+    fetchInstructorData();
+    fetchWithdrawals();
     nextTick(() => {
-        tabTitles.value = tabTitles.value.slice(0, steps.length);
+        tabTitles.value = tabTitles.value.slice(0, steps.value.length);
     });
 });
 
@@ -116,6 +178,40 @@ onMounted(() => {
                                 </p>
                             </div>
 
+                            <!-- Withdrawal Requests List (only in Earning Status tab) -->
+                            <div v-if="activeStep === 2" class="withdrawals-list-section">
+                                <h4 class="withdrawals-list-title">{{ $t('wallet.withdrawal_requests') }}</h4>
+
+                                <div v-if="withdrawalsList.length === 0" class="no-withdrawals">
+                                    {{ $t('wallet.no_withdrawals') }}
+                                </div>
+
+                                <div v-else class="withdrawals-table-wrapper">
+                                    <table class="withdrawals-table">
+                                        <thead>
+                                        <tr>
+                                            <th>{{ $t('wallet.date') }}</th>
+                                            <th>{{ $t('wallet.amount') }}</th>
+                                            <th>{{ $t('wallet.status') }}</th>
+                                            <th>{{ $t('wallet.admin_notes') }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr v-for="w in withdrawalsList" :key="w.id">
+                                            <td>{{ w.created_at }}</td>
+                                            <td class="withdrawal-amount">{{ Number(w.amount).toLocaleString() }} ֏</td>
+                                            <td>
+                                                <span class="status-badge" :class="statusClass(w.status)">
+                                                    {{ $t(statusLabel(w.status)) }}
+                                                </span>
+                                            </td>
+                                            <td>{{ w.admin_notes || '—' }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
                             <div v-if="activeStep === 1" class="mt-3 withdraw-btn-div">
                                 <router-link to="/instructor/withdraw-funds">
                                     <button class="withdraw-btn text-capitalize">{{ $t('wallet.withdraw') }}</button>
@@ -162,6 +258,38 @@ onMounted(() => {
                                       {{ item.price }}
                                     </span>
                                     </p>
+                                </div>
+
+                                <!-- Withdrawal Requests List (mobile accordion) -->
+                                <div v-if="index === 2" class="withdrawals-list-section mt-3">
+                                    <h4 class="withdrawals-list-title">{{ $t('wallet.withdrawal_requests') }}</h4>
+
+                                    <div v-if="withdrawalsList.length === 0" class="no-withdrawals">
+                                        {{ $t('wallet.no_withdrawals') }}
+                                    </div>
+
+                                    <div v-else class="withdrawals-cards-mobile">
+                                        <div v-for="w in withdrawalsList" :key="w.id" class="withdrawal-card">
+                                            <div class="withdrawal-card-row">
+                                                <span class="withdrawal-card-label">{{ $t('wallet.date') }}</span>
+                                                <span>{{ w.created_at }}</span>
+                                            </div>
+                                            <div class="withdrawal-card-row">
+                                                <span class="withdrawal-card-label">{{ $t('wallet.amount') }}</span>
+                                                <span class="withdrawal-amount">{{ Number(w.amount).toLocaleString() }} ֏</span>
+                                            </div>
+                                            <div class="withdrawal-card-row">
+                                                <span class="withdrawal-card-label">{{ $t('wallet.status') }}</span>
+                                                <span class="status-badge" :class="statusClass(w.status)">
+                                                    {{ $t(statusLabel(w.status)) }}
+                                                </span>
+                                            </div>
+                                            <div v-if="w.admin_notes" class="withdrawal-card-row">
+                                                <span class="withdrawal-card-label">{{ $t('wallet.admin_notes') }}</span>
+                                                <span>{{ w.admin_notes }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div v-if="index === 1" class="mt-3 withdraw-btn-div">
@@ -360,6 +488,131 @@ onMounted(() => {
     line-height: 150%;
 }
 
+/* Withdrawals List Section */
+.withdrawals-list-section {
+    margin-top: 30px;
+}
+
+.withdrawals-list-title {
+    font-family: var(--font-montserrat);
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--primary-100);
+    margin-bottom: 20px;
+}
+
+.no-withdrawals {
+    font-family: var(--font-montserrat);
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--primary-60);
+    background: #F5F5F5;
+    border-radius: 8px;
+    padding: 20px 25px;
+    text-align: center;
+}
+
+.withdrawals-table-wrapper {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid var(--white-245);
+    box-shadow: 0px 0px 6px 0px var(--box-shadow-0000001A);
+}
+
+.withdrawals-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-montserrat);
+}
+
+.withdrawals-table thead {
+    background: #F5F5F5;
+}
+
+.withdrawals-table th {
+    font-weight: 500;
+    font-size: 14px;
+    color: #1A283E;
+    padding: 14px 20px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.withdrawals-table td {
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--primary-90);
+    padding: 14px 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.withdrawals-table tbody tr:hover {
+    background: #fafafa;
+}
+
+.withdrawal-amount {
+    font-weight: 500;
+    color: var(--primary-100);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.badge-pending {
+    background: #FFF3E0;
+    color: #E68A00;
+}
+
+.badge-completed {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.badge-rejected {
+    background: #FFEBEE;
+    color: #C62828;
+}
+
+/* Mobile withdrawal cards */
+.withdrawals-cards-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.withdrawal-card {
+    background: #fff;
+    border: 1px solid var(--white-245);
+    border-radius: 10px;
+    box-shadow: 0px 0px 6px 0px var(--box-shadow-0000001A);
+    padding: 16px 20px;
+}
+
+.withdrawal-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-family: var(--font-montserrat);
+    font-size: 14px;
+    color: var(--primary-90);
+}
+
+.withdrawal-card-row:not(:last-child) {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.withdrawal-card-label {
+    font-weight: 500;
+    color: #1A283E;
+}
+
 @media (max-width: 575px) {
     .my-wallet-main {
         gap: 60px;
@@ -477,6 +730,10 @@ onMounted(() => {
 
     .wallet-box{
         padding: 17px 25px;
+    }
+
+    .withdrawals-list-title {
+        font-size: 17px;
     }
 }
 

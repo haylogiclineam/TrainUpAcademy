@@ -1,216 +1,171 @@
 <script setup>
-import {ref, onMounted} from 'vue';
+import { ref, onMounted } from 'vue';
+import api from '../../../services/api.js';
+import { useI18n } from 'vue-i18n';
 
-const videos = ref([
-    {
-        src: '/assets/videos/courses/course-5.mp4',
-        title: 'Video 1',
-        status: 'Approved',
-    },
-    {
-        src: '/assets/videos/courses/course-6.mp4',
-        title: 'Video 2',
-        status: 'In Review',
-    },
-    {
-        src: '/assets/videos/courses/course-7.mp4',
-        title: 'Video 3',
-        status: 'Approved',
+const { locale } = useI18n();
+const purchasedCourses = ref([]);
+const wishlistCourses = ref([]);
+const cartCourses = ref([]);
+const loading = ref(true);
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
+const currencySymbols = { AMD: "֏", EUR: "€", USD: "$" };
+
+function getLocalizedField(obj, fieldBase) {
+    if (!obj) return "";
+    const loc = locale.value;
+    const valArm = obj[`${fieldBase}_arm`];
+    const valRu = obj[`${fieldBase}_ru`];
+    const valEn = obj[`${fieldBase}_en`] || "";
+    if (loc === "arm") return valArm || valEn;
+    if (loc === "ru") return valRu || valEn;
+    return valEn;
+}
+
+function getCoursePrice(course) {
+    const loc = locale.value;
+    const priceKey = `price_${loc}`;
+    const currencyKey = `currency_${loc}`;
+    let price = course[priceKey];
+    let currency = course[currencyKey];
+    if (!price || price === "0" || price === "") {
+        price = course.price_en;
+        currency = course.currency_en;
     }
-])
+    const symbol = currencySymbols[currency] || currency;
+    return price ? `${price} ${symbol}` : "";
+}
 
-const videoRefs = ref([]);
-const showPlayIcons = ref([]);
+onMounted(async () => {
+    try {
+        const [purchasedRes, wishlistRes, cartRes] = await Promise.all([
+            api.get('/api/purchased-courses'),
+            api.get('/api/wishlist?per_page=3'),
+            api.get('/api/cart?per_page=3')
+        ]);
 
-onMounted(() => {
-    showPlayIcons.value = videos.value.map(() => true);
+        purchasedCourses.value = purchasedRes.data.courses || [];
+        
+        if (wishlistRes.data && Array.isArray(wishlistRes.data.data)) {
+            wishlistCourses.value = wishlistRes.data.data
+                .map(item => item.course)
+                .filter(c => c !== null);
+        }
+
+        if (cartRes.data && Array.isArray(cartRes.data.data)) {
+            cartCourses.value = cartRes.data.data
+                .map(item => item.course)
+                .filter(c => c !== null);
+        }
+    } catch (err) {
+        console.error('Failed to load profile data:', err);
+    } finally {
+        loading.value = false;
+    }
 });
-
-function setVideoRef(el, index) {
-    videoRefs.value[index] = el;
-    if (el) {
-        el.addEventListener('pause', () => {
-            showPlayIcons.value[index] = true;
-        });
-        el.addEventListener('play', () => {
-            showPlayIcons.value[index] = false;
-        });
-    }
-}
-
-function playVideo(index) {
-    const video = videoRefs.value[index];
-    if (video) {
-        video.play();
-    }
-}
-
-const getStatusIcon = (status) => {
-    switch (status) {
-        case 'In Review':
-            return `<svg width="23" height="28" viewBox="0 0 23 28" fill="none"
-                     xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19.55 9.828V8.16665C19.55 3.65635 15.9459 0 11.5 0C7.05408 0 3.45001 3.65635 3.45001 8.16665V9.828C1.35704 10.7547 0.00301875 12.85 0 15.1666V22.1666C0.00377344 25.3867 2.57591 27.9962 5.74997 28H17.25C20.424 27.9962 22.9962 25.3867 23 22.1666V15.1666C22.997 12.85 21.643 10.7547 19.55 9.828ZM12.65 19.8334C12.65 20.4777 12.1351 21 11.5 21C10.8649 21 10.35 20.4777 10.35 19.8334V17.5C10.35 16.8557 10.8649 16.3334 11.5 16.3334C12.1351 16.3334 12.65 16.8557 12.65 17.5V19.8334ZM17.25 9.33335H5.74997V8.1667C5.74997 4.94506 8.32432 2.33335 11.5 2.33335C14.6757 2.33335 17.25 4.94501 17.25 8.1667V9.33335Z"
-                          fill="#4BBBE4"/>
-                    </svg>`
-        case 'Approved':
-            return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path d="M28.0093 5.70617C27.6523 2.4535 24.8897 0 21.5833 0C18.0448 0 15.1667 2.87933 15.1667 6.41667V9.33333H5.83333C2.61683 9.33333 0 11.9502 0 15.1667V22.1667C0 25.3832 2.61683 28 5.83333 28H15.1667C18.3832 28 21 25.3832 21 22.1667V15.1667C21 12.7797 19.558 10.7228 17.5 9.821V6.41667C17.5 4.165 19.3317 2.33333 21.5833 2.33333C23.6623 2.33333 25.466 3.92583 25.69 5.9605C25.76 6.601 26.348 7.06183 26.9768 6.993C27.6173 6.92183 28.0793 6.34667 28.0093 5.70617ZM11.6667 19.8333C11.6667 20.4785 11.144 21 10.5 21C9.856 21 9.33333 20.4785 9.33333 19.8333V17.5C9.33333 16.8548 9.856 16.3333 10.5 16.3333C11.144 16.3333 11.6667 16.8548 11.6667 17.5V19.8333Z"
-                              fill="#08FFA8"/>
-                    </svg>`
-        case 'Declined':
-            return `<svg width="20" height="24" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17 8.424V6.99998C17 3.13402 13.866 0 10 0C6.13398 0 3 3.13402 3 6.99998V8.424C1.18003 9.2183 0.002625 11.0143 0 13V19C0.00328126 21.76 2.23992 23.9967 4.99998 24H15C17.76 23.9967 19.9967 21.76 20 19V13C19.9974 11.0143 18.82 9.2183 17 8.424ZM11 17C11 17.5523 10.5523 18 10 18C9.44772 18 9.00001 17.5523 9.00001 17V15C9.00001 14.4477 9.44772 14 10 14C10.5523 14 11 14.4477 11 15V17ZM15 8.00002H4.99998V7.00003C4.99998 4.23863 7.23854 2.00002 10 2.00002C12.7615 2.00002 15 4.23858 15 7.00003V8.00002Z" fill="#4BBBE4"/>
-                        </svg>
-                    `
-        default:
-            return ''
-    }
-}
 </script>
 
 <template>
     <div class="my-courses-section">
         <div class="container">
             <div class="my-courses-main">
-                <div class="my-learning">
-                    <div class="d-flex justify-content-between align-items-center courses-title-block">
-                        <h3 class="text-capitalize my-course-section-title">{{ $t('learner_profile.my_learning') }}</h3>
-                        <div class="my-course-btn-div d-flex justify-content-center align-items-center">
-                            <router-link to="">
-                                <button class="my-course-btn">
-                                    {{ $t('learner_profile.view_more') }}
-                                </button>
-                            </router-link>
-                        </div>
-                    </div>
-
-                    <div class="not-exist-items">
-                        <p class="mb-0">
-                            {{ $t('learner_profile.no_purchases') }}
-                        </p>
-                    </div>
+                <!-- Loading State -->
+                <div v-if="loading" class="d-flex justify-content-center py-5">
+                    <div class="spinner-border text-primary" role="status"></div>
                 </div>
-                <div class="my-wishlist">
-                    <div class="d-flex justify-content-between align-items-center courses-title-block">
-                        <h3 class="text-capitalize my-course-section-title">{{ $t('learner_profile.wishlist') }}</h3>
-                        <div class="my-course-btn-div d-flex justify-content-center align-items-center">
-                            <router-link to="">
-                                <button class="my-course-btn">
-                                    {{ $t('learner_profile.view_more') }}
-                                </button>
-                            </router-link>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center flex-wrap wrap justify-content-between gap-5 course-list">
-                        <div class="d-flex align-items-center flex-wrap wrap justify-content-between gap-5 course-list">
-                            <div
-                                    class="course-video-div-main"
-                                    v-for="(video, index) in videos"
-                                    :key="index"
-                            >
-                                <div class="course-video-div position-relative">
-                                    <div
-                                            class="locked-div position-absolute d-flex align-items-center gap-3">
-                                        <span v-html="getStatusIcon(video.status)"></span>
 
-                                    </div>
-
-                                    <div
-                                            class="position-absolute play-icon-div"
-                                            v-if="showPlayIcons[index]"
-                                            @click.stop="playVideo(index)"
-                                    >
-                                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M55.1667 34.7833L35.6733 24.1067C33.8 23.0533 31.58 23.0767 29.73 24.1533C27.8767 25.2367 26.77 27.1667 26.77 29.3133V50.6833C26.77 52.83 27.8767 54.76 29.73 55.8433C30.6733 56.3933 31.7133 56.67 32.7467 56.67C33.75 56.67 34.7467 56.4133 35.6567 55.9033L55.18 45.21C57.0867 44.1367 58.2267 42.19 58.2267 40.0033C58.2267 37.8167 57.0867 35.8667 55.1633 34.7867L55.1667 34.7833ZM53.5667 42.2933L34.0433 52.9867C33.2133 53.45 32.2333 53.4433 31.4167 52.9667C30.5967 52.4867 30.1067 51.6333 30.1067 50.6833V29.3133C30.1067 28.3633 30.5933 27.51 31.4167 27.03C31.83 26.79 32.2867 26.6667 32.7433 26.6667C33.19 26.6667 33.6433 26.7833 34.06 27.0167L53.5533 37.6933C54.3967 38.1667 54.9 39.0267 54.9 39.9933C54.9 40.96 54.3967 41.82 53.57 42.2867L53.5667 42.2933ZM40 0C17.9433 0 0 17.9433 0 40C0 62.0567 17.9433 80 40 80C62.0567 80 80 62.0567 80 40C80 17.9433 62.0567 0 40 0ZM40 76.6667C19.7833 76.6667 3.33333 60.2167 3.33333 40C3.33333 19.7833 19.7833 3.33333 40 3.33333C60.2167 3.33333 76.6667 19.7833 76.6667 40C76.6667 60.2167 60.2167 76.6667 40 76.6667Z"
-                                                  fill="#E5EAED"/>
-                                        </svg>
-                                    </div>
-
-                                    <video
-                                            class="course-video"
-                                            :src="video.src"
-                                            controls
-                                            preload="metadata"
-                                            @click="showPlayIcons[index] = false"
-                                            :ref="el => setVideoRef(el, index)"
-                                    ></video>
-                                </div>
-
-                                <div class="custom-title-overlay">
-                                    <p class="video-title">{{ video.title }}</p>
-                                </div>
+                <template v-else>
+                    <!-- My Learning -->
+                    <div class="my-learning">
+                        <div class="d-flex justify-content-between align-items-center courses-title-block">
+                            <h3 class="text-capitalize my-course-section-title">{{ $t('learner_profile.my_learning') }}</h3>
+                            <div class="my-course-btn-div d-flex justify-content-center align-items-center">
+                                <router-link to="/learner/my-learning">
+                                    <button class="my-course-btn">
+                                        {{ $t('learner_profile.view_more') }}
+                                    </button>
+                                </router-link>
                             </div>
                         </div>
-                    </div>
-<!--                    <div class="not-exist-items">-->
-<!--                        <p class="mb-0">-->
-<!--                            Your wishlist is empty. Keep shopping to find a course!-->
-<!--                        </p>-->
-<!--                    </div>-->
-                </div>
-                <div class="my-cart">
-                    <div class="d-flex justify-content-between align-items-center courses-title-block">
-                        <h3 class="text-capitalize my-course-section-title">{{ $t('learner_profile.my_cart') }}</h3>
-                        <div class="my-course-btn-div d-flex justify-content-center align-items-center">
-                            <router-link to="">
-                                <button class="my-course-btn">
-                                    {{ $t('learner_profile.view_more') }}
-                                </button>
-                            </router-link>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center flex-wrap wrap justify-content-between gap-5 course-list">
-                        <div class="d-flex align-items-center flex-wrap wrap justify-content-between gap-5 course-list">
-                            <div
-                                    class="course-video-div-main"
-                                    v-for="(video, index) in videos"
-                                    :key="index"
-                            >
-                                <div class="course-video-div position-relative">
-                                    <div
-                                            class="locked-div position-absolute d-flex align-items-center gap-3">
-                                        <span v-html="getStatusIcon(video.status)"></span>
 
+                        <div v-if="purchasedCourses.length > 0" class="d-flex align-items-center flex-wrap wrap justify-content-between gap-5 course-list">
+                            <div v-for="course in purchasedCourses.slice(0, 3)" :key="course.id" class="course-video-div-main">
+                                <router-link :to="`/single-course/${course.id}`" class="text-decoration-none">
+                                    <div class="course-video-div position-relative">
+                                        <img :src="`${baseUrl}/storage/${course.thumbnail}`" :alt="getLocalizedField(course, 'title')" class="course-video" />
                                     </div>
-
-                                    <div
-                                            class="position-absolute play-icon-div"
-                                            v-if="showPlayIcons[index]"
-                                            @click.stop="playVideo(index)"
-                                    >
-                                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M55.1667 34.7833L35.6733 24.1067C33.8 23.0533 31.58 23.0767 29.73 24.1533C27.8767 25.2367 26.77 27.1667 26.77 29.3133V50.6833C26.77 52.83 27.8767 54.76 29.73 55.8433C30.6733 56.3933 31.7133 56.67 32.7467 56.67C33.75 56.67 34.7467 56.4133 35.6567 55.9033L55.18 45.21C57.0867 44.1367 58.2267 42.19 58.2267 40.0033C58.2267 37.8167 57.0867 35.8667 55.1633 34.7867L55.1667 34.7833ZM53.5667 42.2933L34.0433 52.9867C33.2133 53.45 32.2333 53.4433 31.4167 52.9667C30.5967 52.4867 30.1067 51.6333 30.1067 50.6833V29.3133C30.1067 28.3633 30.5933 27.51 31.4167 27.03C31.83 26.79 32.2867 26.6667 32.7433 26.6667C33.19 26.6667 33.6433 26.7833 34.06 27.0167L53.5533 37.6933C54.3967 38.1667 54.9 39.0267 54.9 39.9933C54.9 40.96 54.3967 41.82 53.57 42.2867L53.5667 42.2933ZM40 0C17.9433 0 0 17.9433 0 40C0 62.0567 17.9433 80 40 80C62.0567 80 80 62.0567 80 40C80 17.9433 62.0567 0 40 0ZM40 76.6667C19.7833 76.6667 3.33333 60.2167 3.33333 40C3.33333 19.7833 19.7833 3.33333 40 3.33333C60.2167 3.33333 76.6667 19.7833 76.6667 40C76.6667 60.2167 60.2167 76.6667 40 76.6667Z"
-                                                  fill="#E5EAED"/>
-                                        </svg>
+                                    <div class="custom-title-overlay">
+                                        <p class="video-title">{{ getLocalizedField(course, 'title') }}</p>
                                     </div>
-
-                                    <video
-                                            class="course-video"
-                                            :src="video.src"
-                                            controls
-                                            preload="metadata"
-                                            @click="showPlayIcons[index] = false"
-                                            :ref="el => setVideoRef(el, index)"
-                                    ></video>
-                                </div>
-
-                                <div class="custom-title-overlay">
-                                    <p class="video-title">{{ video.title }}</p>
-                                </div>
+                                </router-link>
                             </div>
                         </div>
+                        <div v-else class="not-exist-items">
+                            <p class="mb-0">{{ $t('learner_profile.no_purchases') }}</p>
+                        </div>
                     </div>
-<!--                    <div class="not-exist-items">-->
-<!--                        <p class="mb-0">-->
-<!--                            Your cart is empty. Keep shopping to find a course!-->
-<!--                        </p>-->
-<!--                    </div>-->
-                </div>
 
+                    <!-- Wishlist -->
+                    <div class="my-wishlist">
+                        <div class="d-flex justify-content-between align-items-center courses-title-block">
+                            <h3 class="text-capitalize my-course-section-title">{{ $t('learner_profile.wishlist') }}</h3>
+                            <div class="my-course-btn-div d-flex justify-content-center align-items-center">
+                                <router-link to="/learner/wishlist">
+                                    <button class="my-course-btn">
+                                        {{ $t('learner_profile.view_more') }}
+                                    </button>
+                                </router-link>
+                            </div>
+                        </div>
+                        <div v-if="wishlistCourses.length > 0" class="d-flex align-items-center flex-wrap wrap justify-content-between gap-5 course-list">
+                            <div v-for="course in wishlistCourses" :key="course.id" class="course-video-div-main">
+                                <router-link :to="`/single-course/${course.id}`" class="text-decoration-none">
+                                    <div class="course-video-div position-relative">
+                                        <img :src="`${baseUrl}/storage/${course.thumbnail}`" alt="Course Thumbnail" class="course-thumbnail" />
+                                    </div>
+                                    <div class="custom-title-overlay">
+                                        <p class="video-title">{{ getLocalizedField(course, 'title') }}</p>
+                                        <p class="price mb-0">{{ getCoursePrice(course) }}</p>
+                                    </div>
+                                </router-link>
+                            </div>
+                        </div>
+                        <div v-else class="not-exist-items">
+                            <p class="mb-0">{{ $t('wishlist_page.empty_wishlist') }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Cart -->
+                    <div class="my-cart">
+                        <div class="d-flex justify-content-between align-items-center courses-title-block">
+                            <h3 class="text-capitalize my-course-section-title">{{ $t('learner_profile.my_cart') }}</h3>
+                            <div class="my-course-btn-div d-flex justify-content-center align-items-center">
+                                <router-link to="/learner/shopping-cart">
+                                    <button class="my-course-btn">
+                                        {{ $t('learner_profile.view_more') }}
+                                    </button>
+                                </router-link>
+                            </div>
+                        </div>
+                        <div v-if="cartCourses.length > 0" class="d-flex align-items-center flex-wrap wrap justify-content-between gap-5 course-list">
+                            <div v-for="course in cartCourses" :key="course.id" class="course-video-div-main">
+                                <router-link :to="`/single-course/${course.id}`" class="text-decoration-none">
+                                    <div class="course-video-div position-relative">
+                                        <img :src="`${baseUrl}/storage/${course.thumbnail}`" alt="Course Thumbnail" class="course-thumbnail" />
+                                    </div>
+                                    <div class="custom-title-overlay">
+                                        <p class="video-title">{{ getLocalizedField(course, 'title') }}</p>
+                                        <p class="price mb-0">{{ getCoursePrice(course) }}</p>
+                                    </div>
+                                </router-link>
+                            </div>
+                        </div>
+                        <div v-else class="not-exist-items">
+                            <p class="mb-0">{{ $t('cart_page.empty_message') }}</p>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
     </div>

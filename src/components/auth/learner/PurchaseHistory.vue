@@ -1,44 +1,60 @@
 <script setup>
-import {onMounted, ref} from 'vue';
+import {onMounted, ref, computed} from 'vue';
+import api from "../../../services/api";
 
-const videos = ref([
-    {src: '/assets/videos/courses/course-2.mp4'},
-    {src: '/assets/videos/courses/course-3.mp4'},
-    {src: '/assets/videos/courses/course-4.mp4'},
-    {src: '/assets/videos/courses/course-5.mp4'},
-]);
+const payments = ref([]);
+const currentPage = ref(1);
+const totalPages = ref(1);
+const isLoading = ref(false);
 
-const showPlayIcons = ref([]);
-const videoRefs = ref([]);
+const hasPayments = computed(() => payments.value.length > 0);
+
+const fetchPayments = async (page = 1) => {
+    isLoading.value = true;
+    try {
+        const res = await api.get(`/api/payments/history?page=${page}`);
+        if (res.data.success && res.data.payments) {
+            payments.value = res.data.payments.data || [];
+            currentPage.value = res.data.payments.current_page || 1;
+            totalPages.value = res.data.payments.last_page || 1;
+        }
+    } catch (e) {
+        console.error('Failed to fetch payment history', e);
+    } finally {
+        isLoading.value = false;
+    }
+};
+
+const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages.value) {
+        fetchPayments(page);
+    }
+};
+
+const formatDate = (dateStr) => {
+    if (!dateStr) return '—';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+};
+
+const formatAmount = (amount) => {
+    return `${Number(amount || 0).toLocaleString()} ֏`;
+};
+
+const getStatusClass = (status) => {
+    if (['completed', 'approved', 'deposited'].includes(status)) return 'completed';
+    if (status === 'pending') return 'pending';
+    return 'declined';
+};
+
+const capitalize = (str) => {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
 onMounted(() => {
-    showPlayIcons.value = videos.value.map(() => true);
+    fetchPayments();
 });
-
-function setVideoRef(el, index) {
-    videoRefs.value[index] = el;
-    if (el) {
-        el.addEventListener('pause', () => {
-            showPlayIcons.value[index] = true;
-        });
-        el.addEventListener('play', () => {
-            showPlayIcons.value[index] = false;
-        });
-    }
-}
-
-function playVideo(index) {
-    const video = videoRefs.value[index];
-    if (video) video.play();
-}
-
-function getStatus(index) {
-    return ['completed', 'pending', 'declined'][index % 3];
-}
-
-function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
 
 </script>
 
@@ -49,7 +65,12 @@ function capitalize(str) {
                 <div class="d-flex justify-content-between align-items-center my-history-title-block">
                     <h3 class="text-capitalize my-history-section-title">{{ $t('purchase_history.title') }}</h3>
                 </div>
-                <div class="purchase-history">
+
+                <div v-if="isLoading" class="text-center py-4">
+                    <p>Loading...</p>
+                </div>
+
+                <div v-else-if="hasPayments" class="purchase-history">
                     <div class="table-wrapper">
                         <table class="purchase-table">
                             <thead>
@@ -62,40 +83,22 @@ function capitalize(str) {
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(video, index) in videos" :key="index">
+                            <tr v-for="(payment, index) in payments" :key="payment.id || index">
                                 <td class="product-info">
-                                    <div class="course-video-div-main d-flex">
-                                        <div class="course-video-div position-relative">
-                                            <div
-                                                    class="position-absolute play-icon-div"
-                                                    v-if="showPlayIcons[index]"
-                                                    @click.stop="playVideo(index)">
-                                            </div>
-
-                                            <video
-                                                    class="course-video"
-                                                    :src="video.src"
-                                                    controls
-                                                    preload="metadata"
-                                                    @click="showPlayIcons[index] = false"
-                                                    :ref="el => setVideoRef(el, index)"
-                                            ></video>
-                                        </div>
-                                    </div>
                                     <div class="course-details">
-                                        <p class="course-title">Certified Cloud Practitioner CLF-C02 2025</p>
-                                        <p class="course-instructor-name">{{ $t('purchase_history.instructor') }} By Stephane</p>
+                                        <p class="course-title">{{ payment.description || payment.type || '—' }}</p>
+                                        <p class="course-instructor-name">Order #{{ payment.order_number }}</p>
                                     </div>
                                 </td>
-                                <td>10/07/2023</td>
-                                <td>$1,752,585.54</td>
+                                <td>{{ formatDate(payment.created_at) }}</td>
+                                <td>{{ formatAmount(payment.amount) }}</td>
                                 <td>
-                               <span :class="['status', getStatus(index)]">
+                                <span :class="['status', getStatusClass(payment.status)]">
                                   <span
                                       class="dot-symbol"
-                                      :class="{'status-completed-dot': getStatus(index) === 'completed'}"
+                                      :class="{'status-completed-dot': getStatusClass(payment.status) === 'completed'}"
                                   >●</span>
-                                  {{ capitalize(getStatus(index)) }}
+                                  {{ $t(`purchase_history.statuses.${payment.status}`) }}
                                 </span>
                                 </td>
                                 <td>
@@ -109,33 +112,15 @@ function capitalize(str) {
                     <div class="mobile-wrapper">
                         <div
                             class="mobile-card"
-                            v-for="(video, index) in videos"
-                            :key="index">
+                            v-for="(payment, index) in payments"
+                            :key="'m-' + (payment.id || index)">
                             <div class="mobile-row">
                                 <p class="mobile-label">{{ $t('purchase_history.product') }}</p>
                                 <hr>
                                 <div class="product-info gap-2">
-                                    <div class="course-video-div-main d-flex">
-                                        <div class="course-video-div position-relative">
-                                            <div
-                                                class="position-absolute play-icon-div"
-                                                v-if="showPlayIcons[index]"
-                                                @click.stop="playVideo(index)">
-                                            </div>
-
-                                            <video
-                                                class="course-video"
-                                                :src="video.src"
-                                                controls
-                                                preload="metadata"
-                                                @click="showPlayIcons[index] = false"
-                                                :ref="el => setVideoRef(el, index)"
-                                            ></video>
-                                        </div>
-                                    </div>
                                     <div>
-                                        <p class="course-title">Certified Cloud Practitioner CLF-C02 2025</p>
-                                        <p class="course-instructor-name">{{ $t('purchase_history.instructor') }} By Stephane</p>
+                                        <p class="course-title">{{ payment.description || payment.type || '—' }}</p>
+                                        <p class="course-instructor-name">Order #{{ payment.order_number }}</p>
                                     </div>
                                 </div>
                                 <hr>
@@ -144,14 +129,14 @@ function capitalize(str) {
                             <div class="mobile-row">
                                 <p class="mobile-label">{{ $t('purchase_history.date') }}</p>
                                 <hr>
-                                <p class="mobile-label-content">10/07/2023</p>
+                                <p class="mobile-label-content">{{ formatDate(payment.created_at) }}</p>
                             </div>
                             <hr>
 
                             <div class="mobile-row">
                                 <p class="mobile-label">{{ $t('purchase_history.total_amount') }}</p>
                                 <hr>
-                                <p class="mobile-label-content">$1,752,585.54</p>
+                                <p class="mobile-label-content">{{ formatAmount(payment.amount) }}</p>
                             </div>
                             <hr>
 
@@ -159,12 +144,12 @@ function capitalize(str) {
                                 <p class="mobile-label">{{ $t('purchase_history.status') }}</p>
                                 <hr>
                                 <p class="mobile-label-content">
-                                <span :class="['status', getStatus(index)]" >
+                                <span :class="['status', getStatusClass(payment.status)]">
                                   <span
                                       class="dot-symbol"
-                                      :class="{'status-completed-dot': getStatus(index) === 'completed'}"
+                                      :class="{'status-completed-dot': getStatusClass(payment.status) === 'completed'}"
                                   >●</span>
-                                  {{ capitalize(getStatus(index)) }}
+                                  {{ $t(`purchase_history.statuses.${payment.status}`) }}
                                 </span>
                                 </p>
                             </div>
@@ -178,41 +163,35 @@ function capitalize(str) {
                     </div>
 
                 </div>
-                <nav>
+
+                <!-- Pagination -->
+                <nav v-if="hasPayments && totalPages > 1">
                     <ul class="pagination d-flex justify-content-center mt-0">
-                        <li class="page-item page-item-btn page-link-disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                <svg width="9" height="19" viewBox="0 0 9 19" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.62887 0.394604C8.74647 0.520754 8.83981 0.670837 8.90351 0.836199C8.96721 1.00156 9 1.17893 9 1.35807C9 1.5372 8.96721 1.71457 8.90351 1.87993C8.83981 2.04529 8.74647 2.19538 8.62887 2.32153L2.88245 8.53654C2.76485 8.66269 2.67151 8.81277 2.60781 8.97813C2.54411 9.1435 2.51131 9.32086 2.51131 9.5C2.51131 9.67914 2.54411 9.85651 2.60781 10.0219C2.67151 10.1872 2.76485 10.3373 2.88245 10.4635L8.62887 16.6785C8.74647 16.8046 8.83981 16.9547 8.90351 17.1201C8.96721 17.2854 9 17.4628 9 17.6419C9 17.8211 8.96721 17.9984 8.90351 18.1638C8.83981 18.3292 8.74647 18.4792 8.62887 18.6054C8.39379 18.8581 8.07579 19 7.74432 19C7.41285 19 7.09485 18.8581 6.85977 18.6054L1.1008 12.3768C0.395924 11.6135 0 10.5788 0 9.5C0 8.42119 0.395924 7.38649 1.1008 6.62318L6.85977 0.394604C7.09485 0.141865 7.41285 0 7.74432 0C8.07579 0 8.39379 0.141865 8.62887 0.394604Z"
-                                          fill="#C2C2C2"/>
+                        <li class="page-item page-item-btn" :class="{'page-link-disabled': currentPage === 1}">
+                            <a class="page-link" href="#" @click.prevent="goToPage(currentPage - 1)">
+                                <svg width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.62887 0.394604C8.74647 0.520754 8.83981 0.670837 8.90351 0.836199C8.96721 1.00156 9 1.17893 9 1.35807C9 1.5372 8.96721 1.71457 8.90351 1.87993C8.83981 2.04529 8.74647 2.19538 8.62887 2.32153L2.88245 8.53654C2.76485 8.66269 2.67151 8.81277 2.60781 8.97813C2.54411 9.1435 2.51131 9.32086 2.51131 9.5C2.51131 9.67914 2.54411 9.85651 2.60781 10.0219C2.67151 10.1872 2.76485 10.3373 2.88245 10.4635L8.62887 16.6785C8.74647 16.8046 8.83981 16.9547 8.90351 17.1201C8.96721 17.2854 9 17.4628 9 17.6419C9 17.8211 8.96721 17.9984 8.90351 18.1638C8.83981 18.3292 8.74647 18.4792 8.62887 18.6054C8.39379 18.8581 8.07579 19 7.74432 19C7.41285 19 7.09485 18.8581 6.85977 18.6054L1.1008 12.3768C0.395924 11.6135 0 10.5788 0 9.5C0 8.42119 0.395924 7.38649 1.1008 6.62318L6.85977 0.394604C7.09485 0.141865 7.41285 0 7.74432 0C8.07579 0 8.39379 0.141865 8.62887 0.394604Z" fill="#C2C2C2"/>
                                 </svg>
                             </a>
                         </li>
                         <li>
                             <ul class="list-unstyled d-flex pagination-numbers">
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                <li v-for="page in totalPages" :key="page" class="page-item" :class="{active: page === currentPage}">
+                                    <a class="page-link" href="#" @click.prevent="goToPage(page)">{{ page }}</a>
+                                </li>
                             </ul>
-
                         </li>
-
-                        <li class="page-item page-item-btn page-link-active">
-                            <a class="page-link" href="#">
-                                <svg width="9" height="19" viewBox="0 0 9 19" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0.371131 0.394604C0.253532 0.520754 0.160191 0.670837 0.0964931 0.836199C0.0327948 1.00156 0 1.17893 0 1.35807C0 1.5372 0.0327948 1.71457 0.0964931 1.87993C0.160191 2.04529 0.253532 2.19538 0.371131 2.32153L6.11755 8.53654C6.23515 8.66269 6.32849 8.81277 6.39219 8.97813C6.45589 9.1435 6.48869 9.32086 6.48869 9.5C6.48869 9.67914 6.45589 9.85651 6.39219 10.0219C6.32849 10.1872 6.23515 10.3373 6.11755 10.4635L0.371131 16.6785C0.253532 16.8046 0.160191 16.9547 0.0964931 17.1201C0.0327948 17.2854 0 17.4628 0 17.6419C0 17.8211 0.0327948 17.9984 0.0964931 18.1638C0.160191 18.3292 0.253532 18.4792 0.371131 18.6054C0.606211 18.8581 0.924211 19 1.25568 19C1.58715 19 1.90515 18.8581 2.14023 18.6054L7.8992 12.3768C8.60408 11.6135 9 10.5788 9 9.5C9 8.42119 8.60408 7.38649 7.8992 6.62318L2.14023 0.394604C1.90515 0.141865 1.58715 0 1.25568 0C0.924211 0 0.606211 0.141865 0.371131 0.394604Z"
-                                          fill="#AEAEAE"/>
+                        <li class="page-item page-item-btn" :class="{'page-link-active': currentPage < totalPages, 'page-link-disabled': currentPage === totalPages}">
+                            <a class="page-link" href="#" @click.prevent="goToPage(currentPage + 1)">
+                                <svg width="9" height="19" viewBox="0 0 9 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0.371131 0.394604C0.253532 0.520754 0.160191 0.670837 0.0964931 0.836199C0.0327948 1.00156 0 1.17893 0 1.35807C0 1.5372 0.0327948 1.71457 0.0964931 1.87993C0.160191 2.04529 0.253532 2.19538 0.371131 2.32153L6.11755 8.53654C6.23515 8.66269 6.32849 8.81277 6.39219 8.97813C6.45589 9.1435 6.48869 9.32086 6.48869 9.5C6.48869 9.67914 6.45589 9.85651 6.39219 10.0219C6.32849 10.1872 6.23515 10.3373 6.11755 10.4635L0.371131 16.6785C0.253532 16.8046 0.160191 16.9547 0.0964931 17.1201C0.0327948 17.2854 0 17.4628 0 17.6419C0 17.8211 0.0327948 17.9984 0.0964931 18.1638C0.160191 18.3292 0.253532 18.4792 0.371131 18.6054C0.606211 18.8581 0.924211 19 1.25568 19C1.58715 19 1.90515 18.8581 2.14023 18.6054L7.8992 12.3768C8.60408 11.6135 9 10.5788 9 9.5C9 8.42119 8.60408 7.38649 7.8992 6.62318L2.14023 0.394604C1.90515 0.141865 1.58715 0 1.25568 0C0.924211 0 0.606211 0.141865 0.371131 0.394604Z" fill="#AEAEAE"/>
                                 </svg>
                             </a>
                         </li>
                     </ul>
                 </nav>
 
-                <div class="d-flex align-items-center empty-my-cart-block gap-3">
+                <div v-if="!isLoading && !hasPayments" class="d-flex align-items-center empty-my-cart-block gap-3">
                     <div class="not-exist-items">
                         <p class="mb-0">
                             {{ $t('purchase_history.no_purchases') }}

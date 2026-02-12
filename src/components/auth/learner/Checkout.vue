@@ -1,5 +1,12 @@
 <script setup>
-import {ref, computed} from 'vue'
+import {ref, computed, onMounted} from 'vue'
+import {useRouter, useRoute} from 'vue-router'
+import { initiatePayment, redirectToPayment, payWithBalance, getUserCards, payWithSavedCard } from '../../../services/paymentService'
+import api from '../../../services/api.js'
+import { useI18n } from 'vue-i18n'
+import { usePurchasedCourses } from '../../../composables/usePurchasedCourses.js'
+
+const { refetchPurchasedCourses } = usePurchasedCourses()
 
 const paymentMethods = [
     {
@@ -72,8 +79,54 @@ const selectedLabel = computed(() => {
 })
 
 const selectedMethod = ref('new_card')
-const balance = ref(100)
-const coursePrice = 85
+const balance = ref(0)
+const isLoading = ref(false)
+const loadingCourse = ref(true)
+const errorMessage = ref('')
+const cards = ref([])
+const saveCard = ref(false)
+const router = useRouter()
+const route = useRoute()
+const { locale, t } = useI18n()
+
+// Course data from API
+const course = ref(null)
+const baseUrl = import.meta.env.VITE_API_BASE_URL
+
+const currencySymbols = { AMD: '֏', EUR: '€', USD: '$' }
+
+function getCoursePrice(c) {
+    if (!c) return 0
+    const loc = locale.value
+    let price = c[`price_${loc}`]
+    if (!price || price === '0' || price === '') {
+        price = c.price_en
+    }
+    return parseFloat(price) || 0
+}
+
+function getCourseCurrency(c) {
+    if (!c) return '֏'
+    const loc = locale.value
+    let currency = c[`currency_${loc}`]
+    if (!currency) currency = c.currency_en
+    return currencySymbols[currency] || currency || '֏'
+}
+
+function getLocalizedField(obj, fieldBase) {
+    const loc = locale.value
+    if (!obj) return ''
+    const valArm = obj[`${fieldBase}_arm`]
+    const valRu = obj[`${fieldBase}_ru`]
+    const valEn = obj[`${fieldBase}_en`] || ''
+    if (loc === 'arm') return valArm || valEn
+    if (loc === 'ru') return valRu || valEn
+    return valEn
+}
+
+const coursePrice = computed(() => getCoursePrice(course.value))
+const courseCurrency = computed(() => getCourseCurrency(course.value))
+const courseTitle = computed(() => getLocalizedField(course.value, 'title'))
 
 function toggleDropdown() {
     open.value = !open.value
@@ -84,6 +137,120 @@ function selectCountry(country) {
     open.value = false
 }
 
+async function processPayment() {
+    if (isLoading.value) return
+
+    if (selectedMethod.value === 'balance') {
+        if (balance.value < coursePrice.value) return
+        isLoading.value = true
+        errorMessage.value = ''
+
+        try {
+            const response = await payWithBalance({
+                course_id: course.value?.id,
+            })
+
+            if (response.data.success) {
+                try {
+                    await api.post(`/api/cart/remove/${course.value?.id}`)
+                } catch (_) {}
+                await refetchPurchasedCourses()
+                router.push('/learner/my-learning')
+            } else {
+                errorMessage.value = response.data.message || t('checkout.payment_failed')
+            }
+        } catch (err) {
+            errorMessage.value = err.response?.data?.message || t('checkout.payment_failed')
+        } finally {
+            isLoading.value = false
+        }
+        return
+    }
+
+    if (selectedMethod.value !== 'new_card' && selectedMethod.value !== 'balance') {
+        // Saved card payment
+        isLoading.value = true
+        errorMessage.value = ''
+
+        try {
+            const response = await payWithSavedCard({
+                card_id: selectedMethod.value, // It's a card ID
+                amount: coursePrice.value,
+                type: 'course_purchase',
+                course_id: course.value?.id,
+            })
+
+            if (response.data.success) {
+                // Remove from cart and refresh
+                try {
+                    await api.post(`/api/cart/remove/${course.value?.id}`)
+                } catch (_) {}
+                await refetchPurchasedCourses()
+                router.push('/learner/my-learning')
+            } else {
+                errorMessage.value = response.data.message || t('checkout.payment_failed')
+            }
+        } catch (err) {
+            errorMessage.value = err.response?.data?.message || t('checkout.payment_failed')
+        } finally {
+            isLoading.value = false
+        }
+        return
+    }
+
+    // New Card payment — redirect to AmeriaBank
+    isLoading.value = true
+    errorMessage.value = ''
+
+    try {
+        const response = await initiatePayment({
+            amount: coursePrice.value,
+            description: `Course purchase - ${courseTitle.value} - ${coursePrice.value} AMD`,
+            type: 'course_purchase',
+            currency: '051',
+            course_id: course.value?.id,
+            save_card: saveCard.value
+        })
+
+        if (response.data.success && response.data.redirectUrl) {
+            redirectToPayment(response.data.redirectUrl)
+        } else {
+            errorMessage.value = response.data.message || t('checkout.payment_init_failed')
+            isLoading.value = false
+        }
+    } catch (err) {
+        errorMessage.value = err.response?.data?.message || t('checkout.payment_init_failed')
+        isLoading.value = false
+    }
+}
+
+onMounted(async () => {
+    const courseId = route.query.courseId
+    if (!courseId) {
+        loadingCourse.value = false
+        errorMessage.value = t('checkout.error_no_course')
+        return
+    }
+
+    try {
+        const courseRes = await api.get(`/api/single-course/${courseId}`)
+        course.value = courseRes.data.course || courseRes.data
+
+        const profileRes = await api.get('/api/user/profile')
+        balance.value = parseFloat(profileRes.data.user?.balance) || 0
+
+        const cardsRes = await getUserCards()
+        if (cardsRes.data.success) {
+            cards.value = cardsRes.data.cards
+        }
+    } catch (err) {
+        console.error('Failed to load checkout data:', err)
+        errorMessage.value = t('checkout.error_load_failed')
+    } finally {
+        loadingCourse.value = false
+    }
+})
+
 </script>
 
 <template>
@@ -91,10 +258,10 @@ function selectCountry(country) {
         <div class="checkout-main">
             <div class="checkout-block">
                 <div class="checkout-block-body">
-                    <h3 class="checkout-title">Checkout</h3>
+                    <h3 class="checkout-title">{{ $t('checkout.title') }}</h3>
                     <div class="d-flex flex-column gap-5">
                         <div class="form-section d-flex flex-column gap-5">
-                            <div class="d-flex flex-column gap-3 billing-block">
+                            <!-- <div class="d-flex flex-column gap-3 billing-block">
                                 <p class="billing-title">Billing Address</p>
 
                                 <div class="form-group d-flex flex-column">
@@ -126,9 +293,9 @@ function selectCountry(country) {
                                     </div>
                                 </div>
 
-                            </div>
+                            </div> -->
                             <div>
-                                <h5 class="h5">Payment Method</h5>
+                                <h5 class="h5">{{ $t('checkout.payment_method') }}</h5>
                                 <div class="payment-options d-flex flex-column gap-3">
                                     <!-- My Balance -->
                                     <div class="payment-option-card" :class="{ active: selectedMethod === 'balance', 'error-border': selectedMethod === 'balance' && balance < coursePrice }" @click="selectedMethod = 'balance'">
@@ -142,30 +309,29 @@ function selectCountry(country) {
                                                     :checked="selectedMethod === 'balance'"
                                                     readonly
                                                 />
-                                                <label class="form-check-label-custom" for="payment-balance">My Balance</label>
+                                                <label class="form-check-label-custom" for="payment-balance">{{ $t('checkout.my_balance') }}</label>
                                             </div>
                                             <div v-if="selectedMethod === 'balance'" class="balance-details ps-5 mt-2">
-                                                <p class="balance-text mb-0">Balance: <span class="balance-amount">$ {{ balance }}</span></p>
-                                                <p v-if="balance < coursePrice" class="balance-error mb-0 mt-1">Not enough balance</p>
+                                                <p class="balance-text mb-0">{{ $t('checkout.balance_label') }} <span class="balance-amount">{{ balance }} ֏</span></p>
+                                                <p v-if="balance < coursePrice" class="balance-error mb-0 mt-1">{{ $t('checkout.not_enough_balance') }}</p>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- My Added Card -->
-                                    <div class="payment-option-card" :class="{ active: selectedMethod === 'saved_card' }" @click="selectedMethod = 'saved_card'">
-                                        <div class="card-header-row d-flex align-items-center gap-3">
-                                            <input
-                                                class="form-check-input-custom"
-                                                type="radio"
-                                                id="payment-saved-card"
-                                                value="saved_card"
-                                                :checked="selectedMethod === 'saved_card'"
-                                                readonly
-                                            />
-                                            <label class="form-check-label-custom" for="payment-saved-card">My Added Card</label>
-                                            <span class="option-subtitle">•• 56</span>
-                                        </div>
-                                    </div>
+                                     <!-- My Saved Cards -->
+                                     <div v-for="card in cards" :key="card.id" class="payment-option-card" :class="{ active: selectedMethod === card.id }" @click="selectedMethod = card.id">
+                                         <div class="card-header-row d-flex align-items-center gap-3">
+                                             <input
+                                                 class="form-check-input-custom"
+                                                 type="radio"
+                                                 :id="'payment-saved-' + card.id"
+                                                 :value="card.id"
+                                                 :checked="selectedMethod === card.id"
+                                                 readonly
+                                             />
+                                             <label class="form-check-label-custom" :for="'payment-saved-' + card.id">{{ card.card_pan }}</label>
+                                         </div>
+                                     </div>
 
                                     <!-- Cards (Original Style) -->
                                     <div class="payment-card" :class="{ active: selectedMethod === 'new_card' }" @click="selectedMethod = 'new_card'">
@@ -180,7 +346,7 @@ function selectCountry(country) {
                                                         readonly
                                                 />
                                                 <label class="form-check-label-custom" :for="`payment-radio-${selectedPayment}`">
-                                                    {{ selectedPayment || 'Cards' }}
+                                                    {{ selectedPayment || $t('checkout.cards') }}
                                                 </label>
                                             </div>
 
@@ -196,63 +362,43 @@ function selectCountry(country) {
                                                 ></div>
                                             </div>
                                         </div>
-                                        <template v-if="selectedMethod === 'new_card'">
-                                            <hr>
-                                            <div class="payment-input-group">
-                                                <div>
-                                                    <label for="card-number" class="input-label">Card Number*</label>
-                                                    <input class="input-card-details" id="card-number" type="text"
-                                                        placeholder="1234 5678 5678 3456"/>
-                                                </div>
-
-                                                <div class="flex-row w-100">
-                                                    <div class="w-50">
-                                                        <label for="expiry-date" class="input-label">Expiry Date</label>
-                                                        <input class="input-card-details" id="expiry-date" type="text"
-                                                            placeholder="MM/YY"/>
-                                                    </div>
-                                                    <div class="w-50">
-                                                        <label for="cvc-cvv" class="input-label">CVC/CVV</label>
-                                                        <input class="input-card-details" id="cvc-cvv" type="text"
-                                                            placeholder="CVC"/>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <label for="name-on-card" class="input-label">Name on Card</label>
-                                                    <input class="input-card-details" id="name-on-card" type="text"
-                                                        placeholder="Name on Card"/>
-                                                </div>
-
-                                                <div class="d-flex gap-2 align-items-center">
-                                                    <input class="checkbox-custom flex-shrink-0" type="checkbox" value=""
-                                                        id="flexCheckChecked" checked>
-                                                    <label class="form-check-label" for="flexCheckChecked">
-                                                        Securely save this card for my later purchase
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </template>
+                                         <template v-if="selectedMethod === 'new_card'">
+                                             <hr>
+                                             <div class="payment-redirect-info">
+                                                 <p class="redirect-notice">{{ $t('checkout.redirect_info') }}</p>
+                                                 
+                                                 <div class="mt-3">
+                                                     <label class="checkbox-container">
+                                                         <input type="checkbox" v-model="saveCard">
+                                                         <span class="checkmark"></span>
+                                                         <span class="checkbox-label">{{ $t('checkout.save_card') }}</span>
+                                                     </label>
+                                                 </div>
+                                             </div>
+                                         </template>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="order-details">
-                            <h5 class="h5">Order Details <span class="course-count">(1 course)</span></h5>
-                            <div class="course-summary">
+                            <h5 class="h5">{{ $t('checkout.order_details') }} <span class="course-count">{{ $t('checkout.course_count') }}</span></h5>
+                            <div v-if="loadingCourse" class="d-flex justify-content-center my-3">
+                                <div class="spinner-border spinner-border-sm text-secondary" role="status"></div>
+                            </div>
+                            <div v-else-if="course" class="course-summary">
                                 <div class="course-video-div-main d-flex">
                                     <div class="course-video-div position-relative">
-                                        <video
+                                        <img
+                                                :src="`${baseUrl}/storage/${course.thumbnail}`"
+                                                alt="Course Thumbnail"
                                                 class="course-video"
-                                                src="/assets/videos/courses/course-4.mp4"
-                                                controls
-                                                preload="metadata"
-                                        ></video>
+                                                style="object-fit: cover;"
+                                        />
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="course-title">[NEW] Ultimate AWS Certified Cloud Practitioner CLF-C02
-                                        2025</p>
-                                    <span class="course-price">Price: 85$</span>
+                                    <p class="course-title">{{ courseTitle }}</p>
+                                    <span class="course-price">{{ $t('checkout.price_label') }} {{ coursePrice }} {{ courseCurrency }}</span>
                                 </div>
                             </div>
                         </div>
@@ -262,32 +408,31 @@ function selectCountry(country) {
 
             <div class="order-summary-block">
                 <div class="order-summary-block-body">
-                    <h3 class="order-summary-title">Order Summary</h3>
+                    <h3 class="order-summary-title">{{ $t('checkout.order_summary') }}</h3>
                     <div>
                         <div class="summary-pricing">
-                            <p class="original-price d-flex justify-content-between">Original Price: <span class="text-break">89.99$</span>
-                            </p>
-                            <p class="discount d-flex justify-content-between">Discounts (86% Off): <span class="text-break">-77.00$</span>
-                            </p>
-                            <hr>
                             <div class="d-flex align-items-center justify-content-between">
-                                <p class="total">Total <span class="course-count">(1 course):</span></p>
-                                <p class="total text-break">85$</p>
+                                <p class="total">{{ $t('checkout.total_label') }} <span class="course-count">{{ $t('checkout.course_count') }}:</span></p>
+                                <p class="total text-break">{{ coursePrice }} {{ courseCurrency }}</p>
                             </div>
                         </div>
                         <p class="terms-text">
-                            By completing your purchase, you agree to these
-                            <a href="#" class="terms-of-use">Terms of Use.</a>
+                            {{ $t('checkout.terms_info') }}
+                            <a href="#" class="terms-of-use">{{ $t('checkout.terms_link') }}</a>
                         </p>
+                        <div v-if="errorMessage" class="checkout-error-message">
+                            {{ errorMessage }}
+                        </div>
                         <div class="mt-5 btn-block">
                             <div class="pay-btn-div d-flex justify-content-center align-items-center">
-                                <button class="pay-btn text-capitalize">
-                                    Pay $85
+                                <button class="pay-btn text-capitalize" @click="processPayment" :disabled="isLoading || loadingCourse || (selectedMethod === 'balance' && balance < coursePrice)">
+                                    <span v-if="isLoading" class="checkout-btn-spinner"></span>
+                                    <span v-else>{{ $t('checkout.pay_button') }} {{ coursePrice }} {{ courseCurrency }}</span>
                                 </button>
                             </div>
                             <div class="cancel-btn-div d-flex justify-content-center align-items-center">
-                                <button class="cancel-btn text-capitalize">
-                                    Cancel
+                                <button class="cancel-btn text-capitalize" @click="router.push('/learner/my-learning')" :disabled="isLoading">
+                                    {{ $t('checkout.cancel_button') }}
                                 </button>
                             </div>
                         </div>
@@ -611,6 +756,70 @@ select:focus {
 .course-price {
     font-weight: 500;
     font-size: 16px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 24px;
+    width: 24px;
+    background-color: transparent;
+    border: 1px solid var(--secondary-1-100);
+    border-radius: 4px;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+    background-color: rgba(75, 187, 228, 0.1);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: var(--secondary-1-100);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-label {
+    font-family: var(--font-inter);
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--primary-90);
 }
 
 .course-count {
@@ -1053,5 +1262,43 @@ select:focus {
     padding: 0;
 }
 
+.payment-redirect-info {
+    padding: 10px;
+}
+
+.redirect-notice {
+    font-family: var(--font-inter);
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--primary-60);
+    margin: 0;
+}
+
+.checkout-error-message {
+    background: #fdf2f2;
+    border: 1px solid #e74c3c;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: var(--font-inter);
+    font-weight: 400;
+    font-size: 14px;
+    color: #c0392b;
+    margin-bottom: 10px;
+}
+
+.checkout-btn-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: checkout-spin 0.6s linear infinite;
+}
+
+@keyframes checkout-spin {
+    to { transform: rotate(360deg); }
+}
 
 </style>

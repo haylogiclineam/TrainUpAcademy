@@ -193,7 +193,7 @@ onMounted(() => {
                                     <button class="move-to-btn"  @click="toggleLike(course.id)">{{ $t("cart_page.move_to_wishlist") }}</button>
                                 </div>
                                 <div class="my-cart-btn-div d-flex justify-content-center align-items-center">
-                                    <router-link to="/learner/checkout" class="my-cart-btn text-decoration-none text-center d-flex align-items-center justify-content-center">
+                                    <router-link :to="{ path: '/learner/checkout', query: { courseId: course.id } }" class="my-cart-btn text-decoration-none text-center d-flex align-items-center justify-content-center">
                                         {{ $t("cart_page.buy_now") }}
                                     </router-link>
                                 </div>

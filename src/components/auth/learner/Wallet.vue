@@ -1,22 +1,25 @@
 <script setup>
 import {ref, computed, onMounted, nextTick} from "vue";
+import api from "../../../services/api";
 
 const activeStep = ref(0);
+const userBalance = ref(0);
+const totalSpent = ref(0);
 
-const steps = [
+const steps = computed(() => [
     {
         title: "wallet.balance",
         items: [
-            { text: "wallet.your_balance", price: "$ 1200" },
+            { text: "wallet.your_balance", price: `${Number(userBalance.value).toLocaleString()} ֏` },
         ],
     },
     {
         title: "wallet.total_spent",
         items: [
-            { text: "wallet.total_spent_text", price: "$ 1500" },
+            { text: "wallet.total_spent_text", price: `${Number(totalSpent.value).toLocaleString()} ֏` },
         ],
     }
-];
+]);
 
 
 const tabTitles = ref([]);
@@ -36,9 +39,27 @@ const activeTabStyle = computed(() => {
     };
 });
 
+const fetchUserData = async () => {
+    try {
+        const { data } = await api.get('/api/user/profile');
+        userBalance.value = data.user?.balance || 0;
+
+        // Calculate total spent from completed payments
+        const paymentsRes = await api.get('/api/payments/history?page=1');
+        if (paymentsRes.data.success && paymentsRes.data.payments?.data) {
+            totalSpent.value = paymentsRes.data.payments.data
+                .filter(p => p.status === 'completed' && p.type === 'course_purchase')
+                .reduce((sum, p) => sum + parseFloat(p.amount || 0), 0);
+        }
+    } catch (e) {
+        console.error('Failed to fetch user data', e);
+    }
+};
+
 onMounted(() => {
+    fetchUserData();
     nextTick(() => {
-        tabTitles.value = tabTitles.value.slice(0, steps.length);
+        tabTitles.value = tabTitles.value.slice(0, steps.value.length);
     });
 });
 

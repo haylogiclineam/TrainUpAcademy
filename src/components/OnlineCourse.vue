@@ -5,6 +5,7 @@ import api from "/src/services/api.js";
 import { useI18n } from "vue-i18n";
 import { useAuthStore } from "../stores/auth.js";
 import { useWishlistCount } from '../composables/useWishlistCount.js';
+import { usePurchasedCourses } from '../composables/usePurchasedCourses.js';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -28,6 +29,7 @@ const goToNext = () => {
 }
 
 const authStore = useAuthStore();
+const { isPurchased } = usePurchasedCourses();
 const { locale, t } = useI18n();
 
 const route = useRoute();
@@ -369,8 +371,8 @@ onMounted(async () => {
                                                 </button>
                                             </RouterLink>
                                         </div>
-                                        <div v-if="authStore.userRole === 'learner'" class="buy-btn-div d-flex justify-content-center align-items-center">
-                                            <router-link to="/learner/checkout"
+                                        <div v-if="authStore.userRole === 'learner' && !isPurchased(course.id)" class="buy-btn-div d-flex justify-content-center align-items-center">
+                                            <router-link :to="{ path: '/learner/checkout', query: { courseId: course.id } }"
                                                          class="buy-btn text-capitalize text-decoration-none text-center d-flex align-items-center justify-content-center">
                                                 {{ $t('single_course.buy_now_btn') }}
                                             </router-link>
@@ -457,8 +459,8 @@ onMounted(async () => {
                                         </button>
                                     </RouterLink>
                                 </div>
-                                <div v-if="authStore.userRole === 'learner'" class="buy-btn-div d-flex justify-content-center align-items-center">
-                                    <router-link to="/learner/checkout"
+                                <div v-if="authStore.userRole === 'learner' && !isPurchased(course.id)" class="buy-btn-div d-flex justify-content-center align-items-center">
+                                    <router-link :to="{ path: '/learner/checkout', query: { courseId: course.id } }"
                                                  class="buy-btn text-capitalize text-decoration-none text-center d-flex align-items-center justify-content-center">
                                         {{ $t('single_course.buy_now_btn') }}
                                     </router-link>

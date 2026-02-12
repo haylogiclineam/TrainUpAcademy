@@ -108,7 +108,6 @@ const getCurrencySymbol = (code) => {
                                 class="pricing-slide"
                                 :class="{ 'pricing-slide-active': pricingItems.length === 1 || activeIndex === index }"
                             >
-                                <p v-if="pricingItems.length === 1 || activeIndex === index" class="active-label">{{ $t('pricing.active_label') }}</p>
                                 <div class="pricing-slide-inner" :class="{ 'active-inner': pricingItems.length === 1 || activeIndex === index }">
                                     <div class="slide-content">
                                         <div class="enroll-btn-wrapper">
@@ -264,15 +263,7 @@ const getCurrencySymbol = (code) => {
     height: auto;
 }
 
-.active-label {
-    font-family: var(--font-inter);
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 22px;
-    text-align: center;
-    color: #E5E7E9;
-    margin: 0 0 14px 0;
-}
+
 
 .slide-content {
     display: flex;
@@ -290,10 +281,12 @@ const getCurrencySymbol = (code) => {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 13px 37px;
+    padding: 12px 24px;
     gap: 10px;
-    width: 163px;
-    height: 47px;
+    min-width: 163px;
+    min-height: 47px;
+    width: fit-content;
+    height: auto;
     background: linear-gradient(94.91deg, #4BBBE4 -29%, #45B0D8 -0.85%, #114D6D 114%, #002C4A 141.18%);
     border-radius: 25px;
     border: none;
@@ -304,6 +297,7 @@ const getCurrencySymbol = (code) => {
     color: #F5F5F5;
     cursor: pointer;
     text-transform: capitalize;
+    white-space: nowrap;
 }
 
 .package-info {
@@ -524,10 +518,6 @@ const getCurrencySymbol = (code) => {
         flex-direction: column-reverse;
         gap: 20px;
         align-items: start;
-    }
-    
-    .active-label {
-        font-size: 16px;
     }
 }
 </style>

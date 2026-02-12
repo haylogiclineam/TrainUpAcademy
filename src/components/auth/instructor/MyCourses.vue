@@ -58,8 +58,8 @@ async function loadCourses(page = 1) {
         if (isAuthenticated) {
             data.data.forEach(async (course, index) => {
                 try {
-                    // Only attempt to fetch video if the course has a video file
-                    if (course.video_file) {
+                    // Use 'video' field as provided by backend
+                    if (course.video) {
                         const videoUrl = `${baseUrl}/api/stream-video/${course.id}`
                         const blob = await fetchVideoBlob(videoUrl)
                         const blobUrl = URL.createObjectURL(blob)
@@ -292,10 +292,18 @@ function getLocalizedField(obj, fieldBase) {
                                     </svg>
                                 </div>
 
+                                <img
+                                    v-if="video.thumbnail"
+                                    :src="`${baseUrl}/storage/${video.thumbnail}`"
+                                    class="course-video-thumbnail"
+                                    alt="Course Thumbnail"
+                                />
+
                                 <video
                                         v-if="video.src"
                                         class="course-video"
                                         :src="video.src"
+                                        :poster="video.thumbnail ? `${baseUrl}/storage/${video.thumbnail}` : ''"
                                         controls
                                         controlsList="nodownload"
                                         preload="metadata"
@@ -413,6 +421,7 @@ function getLocalizedField(obj, fieldBase) {
                         <video
                                 class="course-video modal-course-video"
                                 :src="selectedVideo.src"
+                                :poster="selectedVideo.thumbnail ? `${baseUrl}/storage/${selectedVideo.thumbnail}` : ''"
                                 controls
                                 preload="metadata"
                                 controlsList="nodownload"
@@ -682,6 +691,15 @@ function getLocalizedField(obj, fieldBase) {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.course-video-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .course-list {

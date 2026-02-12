@@ -102,7 +102,19 @@
     "newsletter_created": "Your newsletter has been sent successfully!",
     "newsletter_creation_failed": "There was an error sending your newsletter. Please try again.",
     "contact_created": "Your contact has been sent successfully!",
-    "contact_creation_failed": "There was an error sending your contact. Please try again."
+    "contact_creation_failed": "There was an error sending your contact. Please try again.",
+    "course_created": "Your course has been created successfully!",
+    "course_updated": "Your course has been updated successfully!",
+    "course_creation_failed": "Failed to create the course. Please try again.",
+    "course_update_failed": "Failed to update the course. Please try again.",
+    "unauthorized_action": "You are not authorized to perform this action.",
+    "course_fetch_failed": "Failed to fetch courses.",
+    "course_not_found": "Course not found.",
+    "course_details_fetch_failed": "Failed to fetch course details.",
+    "view_increment_failed": "Failed to increment views.",
+    "failed_to_fetch_comments": "Failed to fetch comments.",
+    "failed_to_fetch_top_viewed_courses": "Failed to fetch top viewed courses.",
+    "course_not_found_or_not_approved": "Course not found or not approved yet."
   },
   "about": {
     "about": "About",
@@ -193,6 +205,29 @@
     "description": "Choose the package that suits you and start learning today",
     "active_label": "Active"
   },
+  "checkout": {
+    "title": "Checkout",
+    "payment_method": "Payment Method",
+    "my_balance": "My Balance",
+    "balance_label": "Balance:",
+    "not_enough_balance": "Not enough balance",
+    "cards": "Cards",
+    "redirect_info": "You will be redirected to a secure payment page to enter your card details.",
+    "save_card": "Save card for future use",
+    "order_details": "Order Details",
+    "course_count": "(1 course)",
+    "price_label": "Price:",
+    "order_summary": "Order Summary",
+    "total_label": "Total",
+    "terms_info": "By completing your purchase, you agree to these",
+    "terms_link": "Terms of Use.",
+    "pay_button": "Pay",
+    "cancel_button": "Cancel",
+    "error_no_course": "No course selected",
+    "error_load_failed": "Failed to load course data",
+    "payment_failed": "Payment failed",
+    "payment_init_failed": "Payment initiation failed"
+  },
   "wallet": {
     "title": "Wallet",
     "balance": "Wallet Balance",
@@ -209,7 +244,19 @@
     "total_spent_text": "Total Spent:",
     "withdraw": "Withdraw",
     "add_funds": "Add Funds",
-    "purchase_history": "Purchase history"
+    "purchase_history": "Purchase history",
+    "withdrawal_requests": "Withdrawal Requests",
+    "date": "Date",
+    "amount": "Amount",
+    "status": "Status",
+    "admin_notes": "Admin Notes",
+    "status_pending": "Pending",
+    "status_completed": "Approved",
+    "status_rejected": "Rejected",
+    "no_withdrawals": "No withdrawal requests yet",
+    "platform_fees": "Platform Fees (20%)",
+    "total_gross_earning": "Total Gross Earning",
+    "my_balance": "My Balance"
   },
   "purchase_history": {
     "title": "Purchase history",
@@ -222,7 +269,16 @@
     "invoice": "Invoice",
     "instructor": "Instructor:",
     "no_purchases": "You don't have any course purchases.",
-    "courses": "Courses"
+    "courses": "Courses",
+    "statuses": {
+      "completed": "Completed",
+      "pending": "Pending",
+      "declined": "Declined",
+      "approved": "Approved",
+      "deposited": "Deposited",
+      "canceled": "Canceled",
+      "failed": "Failed"
+    }
   },
   "help_support_instructor": {
     "title": "Select a Topic to Search for Help",
@@ -678,7 +734,25 @@
     "payment_success": "Payment successful! Your balance has been updated.",
     "payment_not_completed": "Payment was not completed or was declined.",
     "error_payment_failed": "Payment failed. Please try again.",
-    "error_verification": "Error verifying payment. Please contact support."
+    "error_verification": "Error verifying payment. Please contact support.",
+    "redirect_info": "You will be redirected to a secure payment page to enter your card details."
+  },
+  "payment": {
+    "processing_title": "Processing Payment",
+    "processing_text": "Please wait while we verify your payment...",
+    "success_title": "Payment Successful",
+    "success_text": "Your payment has been processed successfully. Your balance has been updated.",
+    "failed_title": "Payment Failed",
+    "failed_text": "Unfortunately, your payment could not be processed. Please try again.",
+    "unknown_title": "Payment Status Unknown",
+    "unknown_text": "We could not determine the status of your payment. Please check your wallet or contact support.",
+    "error_title": "Error",
+    "order_id": "Order ID",
+    "back_to_wallet": "Back to Wallet",
+    "go_to_learning": "Go to My Learning",
+    "try_again": "Try Again",
+    "go_home": "Go Home",
+    "initiation_error": "Could not initiate payment. Please try again."
   },
   "wishlist_page": {
     "title": "Wishlist",

@@ -102,7 +102,19 @@
     "newsletter_created": "Ваша рассылка была успешно отправлена!",
     "newsletter_creation_failed": "Произошла ошибка при отправке рассылки. Пожалуйста, попробуйте снова",
     "contact_created": "Ваш контакт успешно отправлен!",
-    "contact_creation_failed": "Произошла ошибка при отправке вашего контакта. Пожалуйста, попробуйте снова."
+    "contact_creation_failed": "Произошла ошибка при отправке вашего контакта. Пожалуйста, попробуйте снова.",
+    "course_created": "Ваш курс успешно создан!",
+    "course_updated": "Курс успешно обновлен!",
+    "course_creation_failed": "Не удалось создать курс. Пожалуйста, попробуйте еще раз.",
+    "course_update_failed": "Не удалось обновить курс. Пожалуйста, попробуйте еще раз.",
+    "unauthorized_action": "У вас нет прав для выполнения этого действия.",
+    "course_fetch_failed": "Не удалось загрузить курсы.",
+    "course_not_found": "Курс не найден.",
+    "course_details_fetch_failed": "Не удалось загрузить данные курса.",
+    "view_increment_failed": "Не удалось обновить просмотры.",
+    "failed_to_fetch_comments": "Не удалось загрузить комментарии.",
+    "failed_to_fetch_top_viewed_courses": "Не удалось загрузить популярные курсы.",
+    "course_not_found_or_not_approved": "Курс не найден или еще не одобрен."
   },
   "about": {
     "about": "О",
@@ -193,6 +205,29 @@
     "description": "Выберите подходящий вам пакет и начните обучение уже сегодня",
     "active_label": "Активный"
   },
+  "checkout": {
+    "title": "Касса",
+    "payment_method": "Способ оплаты",
+    "my_balance": "Мой баланс",
+    "balance_label": "Баланс:",
+    "not_enough_balance": "Недостаточно средств",
+    "cards": "Карты",
+    "redirect_info": "Вы будете перенаправлены на защищенную страницу для ввода данных карты.",
+    "save_card": "Сохранить карту для будущих покупок",
+    "order_details": "Детали заказа",
+    "course_count": "(1 курс)",
+    "price_label": "Цена:",
+    "order_summary": "Итог заказа",
+    "total_label": "Итого",
+    "terms_info": "Совершая покупку, вы соглашаетесь с",
+    "terms_link": "Условиями использования.",
+    "pay_button": "Оплатить",
+    "cancel_button": "Отмена",
+    "error_no_course": "Курс не выбран",
+    "error_load_failed": "Не удалось загрузить данные курса",
+    "payment_failed": "Ошибка оплаты",
+    "payment_init_failed": "Ошибка инициализации оплаты"
+  },
   "wallet": {
     "title": "Кошелек",
     "balance": "Баланс кошелька",
@@ -209,7 +244,19 @@
     "total_spent_text": "Всего потрачено:",
     "withdraw": "Вывести",
     "add_funds": "Пополнить",
-    "purchase_history": "История покупок"
+    "purchase_history": "История покупок",
+    "withdrawal_requests": "Заявки на вывод",
+    "date": "Дата",
+    "amount": "Сумма",
+    "status": "Статус",
+    "admin_notes": "Заметки админа",
+    "status_pending": "В ожидании",
+    "status_completed": "Одобрено",
+    "status_rejected": "Отклонено",
+    "no_withdrawals": "Заявок на вывод пока нет",
+    "platform_fees": "Комиссия платформы (20%)",
+    "total_gross_earning": "Общий валовый доход",
+    "my_balance": "Мой баланс"
   },
   "purchase_history": {
     "title": "История покупок",
@@ -222,7 +269,16 @@
     "invoice": "Счет",
     "instructor": "Преподаватель:",
     "no_purchases": "У вас пока нет покупок курсов.",
-    "courses": "Курсы"
+    "courses": "Курсы",
+    "statuses": {
+      "completed": "Завершено",
+      "pending": "В ожидании",
+      "declined": "Отклонено",
+      "approved": "Одобрено",
+      "deposited": "Депонировано",
+      "canceled": "Отменено",
+      "failed": "Ошибка"
+    }
   },
   "help_support_instructor": {
     "title": "Выберите тему для поиска помощи",
@@ -670,8 +726,26 @@
     "info_processing": "Пополнение обычно обрабатывается мгновенно",
     "info_fee": "Платформа взимает 10% комиссии",
     "info_minimum": "Минимальная сумма пополнения 1000 ֏",
-    "cancel": "Отмена",
-    "add_funds_btn": "Пополнить баланс"
+    "cancel": "\u041e\u0442\u043c\u0435\u043d\u0430",
+    "add_funds_btn": "\u041f\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u044c \u0431\u0430\u043b\u0430\u043d\u0441",
+    "redirect_info": "You will be redirected to a secure payment page to enter your card details."
+  },
+  "payment": {
+    "processing_title": "Processing Payment",
+    "processing_text": "Please wait while we verify your payment...",
+    "success_title": "Payment Successful",
+    "success_text": "Your payment has been processed successfully. Your balance has been updated.",
+    "failed_title": "Payment Failed",
+    "failed_text": "Unfortunately, your payment could not be processed. Please try again.",
+    "unknown_title": "Payment Status Unknown",
+    "unknown_text": "We could not determine the status of your payment. Please check your wallet or contact support.",
+    "error_title": "Error",
+    "order_id": "Order ID",
+    "back_to_wallet": "Back to Wallet",
+    "go_to_learning": "Go to My Learning",
+    "try_again": "Try Again",
+    "go_home": "Go Home",
+    "initiation_error": "Could not initiate payment. Please try again."
   },
   "wishlist_page": {
     "title": "Список желаний",

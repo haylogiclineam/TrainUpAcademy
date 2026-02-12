@@ -937,7 +937,7 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                             </div>
 
                             <div v-if="successMessage" class="success-message mb-3">
-                                {{ $t('auth.add_course.success_msg.course_added') }}
+                                {{ successMessage }}
                             </div>
                             <div class="add-course-btn-div d-flex justify-content-center align-items-center">
                                 <button
@@ -1115,7 +1115,7 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
     border-color: var(--primary-50);
     box-sizing: border-box;
     padding: 15px;
-    color: var(--primary-50);
+    color: var(--primary-100);
     transform: scale(1);
     outline: none;
 }
@@ -1136,7 +1136,7 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
     border-style: solid;
     border-color: var(--primary-50);
     -webkit-appearance: none;
-    color: var(--primary-40);
+    color: var(--primary-100);
     box-sizing: border-box;
     transform: scale(1);
 }
@@ -1257,7 +1257,7 @@ textarea {
     font-size: 18px;
     line-height: normal;
     letter-spacing: 2%;
-    color: var(--primary-90);
+    color: var(--primary-100);
     border-bottom: 1px solid #000;
     border-top:none;
     border-left: none;
@@ -1290,7 +1290,7 @@ textarea {
     border-style: solid;
     -webkit-appearance: none;
     border-color: var(--primary-50);
-    color: var(--primary-50);
+    color: var(--primary-100);
     box-sizing: border-box;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
