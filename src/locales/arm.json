@@ -516,6 +516,30 @@
       "description_placeholder": "Մուտքագրեք դասընթացի նկարագրությունը",
       "button_add": "Ավելացնել դասընթաց",
       "course_details_time_required": "Խնդրում ենք գրեք ժամը, դա պարտադիր է",
+      "quiz": {
+        "section_title": "Թեստի հարցեր",
+        "question_label": "Հարց",
+        "question_placeholder": "Մուտքագրեք հարցի տեքստը",
+        "option_placeholder": "Տարբերակ",
+        "add_option": "Ավելացնել տարբերակ",
+        "type_label": "Տեսակ",
+        "type_radio": "Մեկ պատասխան",
+        "type_checkbox": "Մի քանի պատասխան",
+        "practice_section_title": "Գործնական առաջադրանքներ",
+        "practice_label": "Առաջադրանք",
+        "practice_text_placeholder": "Մուտքագրեք առաջադրանքի տեքստը",
+        "practice_answer_placeholder": "Մուտքագրեք ճիշտ պատասխանը",
+        "add_practice": "Ավելացնել առաջադրանք",
+        "validation": {
+          "question_required": "Հարցի տեքստը պարտադիր է",
+          "option_required": "Տարբերակի տեքստը պարտադիր է",
+          "min_options": "Անհրաժեշտ է առնվազն 2 տարբերակ",
+          "select_correct": "Խնդրում ենք ընտրել մեկ ճիշտ պատասխան",
+          "select_correct_checkbox": "Խնդրում ենք ընտրել առնվազն մեկ ճիշտ պատասխան",
+          "practice_text_required": "Առաջադրանքի տեքստը պարտադիր է",
+          "practice_answer_required": "Ճիշտ պատասխանը պարտադիր է"
+        }
+      },
       "success_msg": {
         "course_added": "Դասընթացը հաջողությամբ ավելացվել է"
       },
