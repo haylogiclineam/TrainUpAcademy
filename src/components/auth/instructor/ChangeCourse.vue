@@ -4,6 +4,7 @@ import api from "../../../services/api.js";
 import { useI18n } from "vue-i18n";
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
+import { mandatoryDetails } from "../../../constants/courseDetails.js";
 
 const { locale, t } = useI18n();
 const route = useRoute();
@@ -29,7 +30,7 @@ const highlights = ref({
     arm: [''],
 });
 
-const courseDetails = ref([]);
+
 
 const form = ref({
     video: '',
@@ -45,7 +46,11 @@ const form = ref({
     description_arm: '',
     description_ru: '',
     description_en: '',
-    details_by_instructor: [],
+    details_by_instructor: mandatoryDetails.map(detail => ({
+        course_details_data_id: detail.id,
+        time: '',
+        selected: true,
+    })),
 });
 
 
@@ -67,10 +72,10 @@ const resetForm = () => {
         description_arm: '',
         description_ru: '',
         description_en: '',
-        details_by_instructor: courseDetails.value.map(detail => ({
+        details_by_instructor: mandatoryDetails.map(detail => ({
             course_details_data_id: detail.id,
-            time: detail.time || null,
-            selected: false,
+            time: '',
+            selected: true,
         })),
     };
 
@@ -93,24 +98,7 @@ function onCheckboxChange(event, detail, index) {
     form.value.details_by_instructor[index].selected = event.target.checked;
 }
 
-const getAllDetails = async () => {
-    try {
-        const response = await api.get('/api/course-details-data');
-        courseDetails.value = response.data.map(detail => ({
-            ...detail,
-            originalTime: detail.time,
-            isEditing: detail.time === null,
-        }));
 
-        form.value.details_by_instructor = courseDetails.value.map(detail => ({
-            course_details_data_id: detail.id,
-            time: detail.time || null,
-            selected: false,
-        }));
-    } catch (error) {
-        console.error(error.response?.data || error.message);
-    }
-};
 
 const getCourseById = async () => {
     if (!courseId) return;
@@ -135,7 +123,7 @@ const getCourseById = async () => {
             description_ru: data.description_ru || '',
             description_en: data.description_en || '',
 
-            details_by_instructor: courseDetails.value.map(detail => {
+            details_by_instructor: mandatoryDetails.map(detail => {
                 const matched = data.details_by_instructor?.find(
                     d => String(d.course_details_data_id) === String(detail.id)
                 );
@@ -143,15 +131,13 @@ const getCourseById = async () => {
                 const isEditable = Number(detail.editable) === 1;
 
                 const time = isEditable
-                    ? (matched?.time !== null && matched?.time !== undefined ? matched.time : null)
-                    : null;
+                    ? (matched?.time !== null && matched?.time !== undefined ? matched.time : '')
+                    : '';
 
                 return {
                     course_details_data_id: detail.id,
                     time: time,
-                    selected: !isEditable
-                        ? (matched ? Boolean(Number(matched.selected ?? 1)) : false)
-                        : false,
+                    selected: true, // Always mandatory now
                 };
             }),
         };
@@ -189,7 +175,6 @@ const getCourseById = async () => {
 
 onMounted(async () => {
     isDataLoading.value = true;
-    await getAllDetails();
     await getCourseById();
     isDataLoading.value = false;
 });
@@ -248,22 +233,24 @@ const prepareFormData = () => {
 
     const dataToSend = form.value.details_by_instructor
         .map((item, index) => {
-            const editable = courseDetails.value[index]?.editable == 1;
-
+            const detailData = mandatoryDetails[index];
+            const editable = Number(detailData?.editable) === 1;
             const hasTime = item.time && item.time !== '';
-            const selected = item.selected;
+
+            // If it's editable (like duration), it MUST have time
+            if (editable && !hasTime) {
+                return { error: true, id: item.course_details_data_id };
+            }
 
             return {
                 course_details_data_id: item.course_details_data_id,
-                time: editable && hasTime
-                    ? (item.time.length === 5 ? item.time + ':00' : item.time)
-                    : '',
-                send: selected || (editable && hasTime),
+                time: editable ? item.time : '',
+                send: true,
             };
-        })
-        .filter(item => item.send);
+        });
 
-    if (dataToSend.length === 0) {
+    const hasErrors = dataToSend.some(item => item.error);
+    if (hasErrors) {
         errors.value['details_by_instructor'] = [t('auth.add_course.course_details_time_required')];
         return null;
     } else {
@@ -412,38 +399,23 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                 }}</p>
 
                             <div class="course-detail-items-list">
-                                <template v-for="(detail, index) in courseDetails" :key="detail.id">
-                                    <div class="d-flex align-items-center gap-2">
-
-                                        <!-- Non-editable checkbox -->
-                                        <template v-if="Number(detail.editable) !== 1">
-                                            <input
-                                                class="checkbox-custom flex-shrink-0"
-                                                type="checkbox"
-                                                :id="'checkbox-' + detail.id"
-                                                v-model="form.details_by_instructor[index].selected"
-                                            />
-                                            <label class="form-check-label" :for="'checkbox-' + detail.id"></label>
-                                        </template>
-
-                                        <img :src="imageUrl(detail.icon)" :alt="detail.icon"/>
+                                <template v-for="(detail, index) in mandatoryDetails" :key="detail.id">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <div class="detail-icon-wrapper" v-html="detail.icon">
+                                        </div>
 
                                         <!-- Editable input -->
                                         <template v-if="Number(detail.editable) === 1">
-                                            <template v-if="form.details_by_instructor[index].time === null || form.details_by_instructor[index].time === '' || detail.isEditing">
-                                                <input
-                                                    type="number"
-                                                    min="0"
-                                                    class="time-input"
-                                                    v-model="form.details_by_instructor[index].time"
-                                                />
-                                            </template>
-                                            <template v-else>
-                                                <span class="span">{{ form.details_by_instructor[index].time }}</span>
-                                            </template>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                class="time-input"
+                                                v-model="form.details_by_instructor[index].time"
+                                                style="width: 60px; height: 30px; padding: 0 5px;"
+                                            />
                                         </template>
 
-                                        <span class="span ms-2">{{ detail[`text_${locale}`] }}</span>
+                                        <span class="span ms-1">{{ detail[`text_${locale}`] }}</span>
                                     </div>
                                 </template>
                             </div>
@@ -1124,6 +1096,14 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+
+.detail-icon-wrapper {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Custom Checkbox Styles */

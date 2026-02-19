@@ -5,6 +5,8 @@ import api from "../../services/api.js";
 const name = ref('');
 const email = ref('');
 const message = ref('');
+const preferredDate = ref('');
+const preferredTime = ref('');
 
 const errors = ref({
     name: '',
@@ -66,6 +68,8 @@ const contact = async () => {
             name: name.value,
             email: email.value,
             message: message.value,
+            preferred_date: preferredDate.value || null,
+            preferred_time: preferredTime.value || null,
         };
 
         const response = await api.post('/api/contact/send-contact', contactData);
@@ -75,6 +79,8 @@ const contact = async () => {
             name.value = '';
             email.value = '';
             message.value = '';
+            preferredDate.value = '';
+            preferredTime.value = '';
         }
     } catch (error) {
         console.error('Error sending the contact:', error);
@@ -135,6 +141,28 @@ const contact = async () => {
                                 v-model="message"
                         ></textarea>
                         <p v-if="errors.message" class="required-field mt-1">{{ $t(errors.message) }}</p>
+                    </div>
+
+                    <div class="d-flex flex-column form-input-block">
+                        <div class="w-100">
+                            <label>{{ $t('preferred_date_time') }}</label>
+                        </div>
+                        <div class="date-time-row">
+                            <input
+                                class="form-input date-time-input"
+                                v-model="preferredDate"
+                                type="date"
+                                :placeholder="$t('preferred_date')"
+                                name="preferred_date"
+                            />
+                            <input
+                                class="form-input date-time-input"
+                                v-model="preferredTime"
+                                type="time"
+                                :placeholder="$t('preferred_time')"
+                                name="preferred_time"
+                            />
+                        </div>
                     </div>
 
                     <p v-if="errors.general" class="required-field mt-1 text-start">
@@ -250,6 +278,16 @@ textarea:focus::placeholder {
 .send-msg-btn-div {
     width: 100%;
     margin-top: 3%;
+}
+
+.date-time-row {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.date-time-input {
+    flex: 1;
 }
 
 .send-msg-btn {

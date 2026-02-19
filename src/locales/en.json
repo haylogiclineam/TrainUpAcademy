@@ -82,6 +82,9 @@
     "title_2": "Article"
   },
   "book_call_title": "Call us and discover new opportunities.",
+  "preferred_date": "Preferred Date",
+  "preferred_time": "Preferred Time",
+  "preferred_date_time": "Preferred Date & Time",
   "messages": {
     "email_required": "Email is required",
     "email_invalid": "Email must be valid",
@@ -516,6 +519,30 @@
       "description_placeholder": "Your Course Description",
       "button_add": "Add course",
       "course_details_time_required": "Please write time, it is required",
+      "quiz": {
+        "section_title": "Quiz Questions",
+        "question_label": "Question",
+        "question_placeholder": "Enter the question text",
+        "option_placeholder": "Option",
+        "add_option": "Add Option",
+        "type_label": "Type",
+        "type_radio": "Single",
+        "type_checkbox": "Multiple",
+        "practice_section_title": "Practice Assignments",
+        "practice_label": "Assignment",
+        "practice_text_placeholder": "Enter the assignment text",
+        "practice_answer_placeholder": "Enter the correct answer",
+        "add_practice": "Add Assignment",
+        "validation": {
+          "question_required": "Question text is required",
+          "option_required": "Option text is required",
+          "min_options": "At least 2 options are required",
+          "select_correct": "Please select one correct answer",
+          "select_correct_checkbox": "Please select at least one correct answer",
+          "practice_text_required": "Assignment text is required",
+          "practice_answer_required": "Correct answer is required"
+        }
+      },
       "success_msg": {
         "course_added": "Course added successfully"
       },
@@ -848,7 +875,40 @@
     "view_more": "view more",
     "no_purchases": "You haven’t purchased any courses yet. Explore our catalog and start learning today.",
     "wishlist": "Wishlist",
-    "my_cart": "My cart"
+    "my_cart": "My cart",
+    "take_quiz": "Take Quiz",
+    "quiz": {
+      "page_title": "Course Quiz",
+      "back_to_learning": "Back to Course",
+      "your_score": "Your Score",
+      "correct_answer": "correct answer",
+      "retake": "Retake Quiz",
+      "submit": "Submit Answers",
+      "no_quiz": "This course has no quiz questions.",
+      "not_purchased": "You have not purchased this course.",
+      "load_error": "Failed to load quiz. Please try again.",
+      "answer_all": "Please answer all questions before submitting.",
+      "answer_all_practice": "Please answer all practice assignments before submitting.",
+      "submit_error": "Failed to submit quiz. Please try again.",
+      "cooldown_title": "Please wait",
+      "cooldown_message": "You must wait 24 hours after a failed attempt before retrying.",
+      "already_passed_title": "Congratulations!",
+      "already_passed_message": "You have already passed this quiz and earned your certificate.",
+      "test_score": "Test",
+      "practice_score": "Practice",
+      "passed": "Passed! Certificate earned!",
+      "failed": "Not passed. You can retry in 24 hours.",
+      "test_results": "Test Question Results",
+      "practice_results": "Practice Assignment Results",
+      "your_answer": "Your answer",
+      "answer_was_incorrect": "Your answer was incorrect.",
+      "single": "Single",
+      "multiple": "Multiple",
+      "test_questions_title": "Test Questions",
+      "practice_title": "Practice Assignments",
+      "practice_placeholder": "Type your answer here...",
+      "download_certificate": "Download Certificate"
+    }
   },
   "privacy_policy": {
     "title": "PRIVACY POLICY",

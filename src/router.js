@@ -25,6 +25,7 @@ import MyLearning from "./views/auth/learner/MyLearning.vue";
 import SettingsTabsLearner from "./views/auth/learner/SettingsTabs.vue";
 import HowWeCanHelpLearner from "./views/auth/learner/HowWeCanHelp.vue";
 import WishList from "./views/auth/learner/WishList.vue";
+import CourseQuiz from "./views/auth/learner/CourseQuiz.vue";
 import ShoppingCart from "./views/auth/learner/ShoppingCart.vue";
 import ProfilePage from "./views/auth/learner/ProfilePage.vue";
 import PurchaseHistoryLearner from "./views/auth/learner/PurchaseHistory.vue";
@@ -201,6 +202,14 @@ const routes = [
                 props: true
             },
         ]
+    },
+
+    {
+        path: '/learner/quiz/:courseId',
+        name: 'learner-quiz',
+        component: CourseQuiz,
+        props: true,
+        meta: { requiresAuth: true, role: 'learner' },
     },
 
     // Payment flow routes

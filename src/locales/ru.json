@@ -82,6 +82,9 @@
     "title_2": "Статьи"
   },
   "book_call_title": "Позвоните и откройте новые возможности.",
+  "preferred_date": "Предпочтительная дата",
+  "preferred_time": "Предпочтительное время",
+  "preferred_date_time": "Предпочтительные дата и время",
   "messages": {
     "email_required": "Электронная почта обязательна",
     "email_invalid": "Электронная почта должна быть действительной",
@@ -516,6 +519,30 @@
       "description_placeholder": "Введите описание курса",
       "button_add": "Добавить курс",
       "course_details_time_required": "Пожалуйста, укажите время, это обязательно",
+      "quiz": {
+        "section_title": "Вопросы викторины",
+        "question_label": "Вопрос",
+        "question_placeholder": "Введите текст вопроса",
+        "option_placeholder": "Вариант",
+        "add_option": "Добавить вариант",
+        "type_label": "Тип",
+        "type_radio": "Один ответ",
+        "type_checkbox": "Несколько ответов",
+        "practice_section_title": "Практические задания",
+        "practice_label": "Задание",
+        "practice_text_placeholder": "Введите текст задания",
+        "practice_answer_placeholder": "Введите правильный ответ",
+        "add_practice": "Добавить задание",
+        "validation": {
+          "question_required": "Текст вопроса обязателен",
+          "option_required": "Текст варианта обязателен",
+          "min_options": "Необходимо минимум 2 варианта",
+          "select_correct": "Пожалуйста, выберите один правильный ответ",
+          "select_correct_checkbox": "Пожалуйста, выберите хотя бы один правильный ответ",
+          "practice_text_required": "Текст задания обязателен",
+          "practice_answer_required": "Правильный ответ обязателен"
+        }
+      },
       "success_msg": {
         "course_added": "Курс успешно добавлен"
       },
@@ -841,7 +868,40 @@
     "view_more": "показать еще",
     "no_purchases": "Вы еще не приобрели ни одного курса. Изучите наш каталог и начните учиться уже сегодня.",
     "wishlist": "Список желаний",
-    "my_cart": "Моя корзина"
+    "my_cart": "Моя корзина",
+    "take_quiz": "Пройти тест",
+    "quiz": {
+      "page_title": "Тест по курсу",
+      "back_to_learning": "Назад к курсу",
+      "your_score": "Ваш результат",
+      "correct_answer": "правильный ответ",
+      "retake": "Пройти заново",
+      "submit": "Отправить ответы",
+      "no_quiz": "Для этого курса нет тестовых вопросов.",
+      "not_purchased": "Вы не приобрели этот курс.",
+      "load_error": "Не удалось загрузить тест. Попробуйте снова.",
+      "answer_all": "Пожалуйста, ответьте на все вопросы перед отправкой.",
+      "answer_all_practice": "Пожалуйста, ответьте на все практические задания перед отправкой.",
+      "submit_error": "Не удалось отправить тест. Попробуйте снова.",
+      "cooldown_title": "Подождите",
+      "cooldown_message": "После неудачной попытки необходимо подождать 24 часа.",
+      "already_passed_title": "Поздравляем!",
+      "already_passed_message": "Вы уже прошли этот тест и получили сертификат.",
+      "test_score": "Тест",
+      "practice_score": "Практика",
+      "passed": "Пройдено! Сертификат получен!",
+      "failed": "Не пройдено. Повтор через 24 часа.",
+      "test_results": "Результаты тестовых вопросов",
+      "practice_results": "Результаты практических заданий",
+      "your_answer": "Ваш ответ",
+      "answer_was_incorrect": "Ваш ответ неверен.",
+      "single": "Один",
+      "multiple": "Несколько",
+      "test_questions_title": "Тестовые вопросы",
+      "practice_title": "Практические задания",
+      "practice_placeholder": "Введите ваш ответ...",
+      "download_certificate": "Скачать сертификат"
+    }
   },
   "privacy_policy": {
     "title": "ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ",

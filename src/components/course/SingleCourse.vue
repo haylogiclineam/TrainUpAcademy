@@ -7,6 +7,7 @@ import {useAuthStore} from '/src/stores/auth.js';
 import {useCartCount} from "../../composables/useCartCount.js";
 import {usePurchasedCourses} from '../../composables/usePurchasedCourses.js';
 import {echo} from '../../services/echo.js';
+import { mandatoryDetails } from "../../constants/courseDetails.js";
 
 const auth = useAuthStore()
 auth.checkAuth()
@@ -548,17 +549,21 @@ watch(() => course.value?.id, (newId, oldId) => {
                                 <p class="course-include-title text-capitalize">
                                     {{ $t('single_course.course_include') }}</p>
                                 <div class="include-items-list mt-4">
-                                    <div v-for="(item, index) in course.details_by_instructor"
-                                         :key="index" class="d-flex flex-column include-item"
-                                         v-if="course && course.details_by_instructor">
-                                        <div class="d-flex align-items-center">
-                                            <img :src="`${baseUrl}/storage/${item.detail.icon}`" alt=""/>
-                                            <span class="span">{{ item.time }} {{
-                                                getLocalizedField(item.detail, 'text')
-                                                }}</span>
+                                    <template v-for="(detail, index) in mandatoryDetails" :key="detail.id">
+                                        <div class="d-flex flex-column include-item" v-if="course">
+                                            <div class="d-flex align-items-center">
+                                                <div class="detail-icon-wrapper" v-html="detail.icon">
+                                                </div>
+                                                <span class="span">
+                                                    <template v-if="detail.editable === 1">
+                                                        {{ course.details_by_instructor?.find(d => String(d.course_details_data_id) === String(detail.id))?.time }}
+                                                    </template>
+                                                    {{ detail[`text_${locale}`] }}
+                                                </span>
+                                            </div>
+                                            <div class="line"></div>
                                         </div>
-                                        <div class="line"></div>
-                                    </div>
+                                    </template>
                                 </div>
                             </div>
                             <div class="card-footer-custom">
@@ -594,6 +599,13 @@ watch(() => course.value?.id, (newId, oldId) => {
                                         </button>
                                     </div>
                                 </div>
+                                <div v-if="isPurchased(course.id) && isLearner" class="d-flex justify-content-center mt-3">
+                                    <router-link :to="`/learner/quiz/${course.id}`" class="text-decoration-none w-100">
+                                        <button class="take-quiz-btn w-100 text-capitalize">
+                                            {{ $t('learner_profile.take_quiz') }}
+                                        </button>
+                                    </router-link>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -610,6 +622,20 @@ watch(() => course.value?.id, (newId, oldId) => {
 
 .single-course-block {
     gap: 60px;
+}
+
+.detail-icon-wrapper {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+.detail-icon-wrapper img {
+    width: 100%;
+    height: 100%;
 }
 
 .course-title,
@@ -712,6 +738,7 @@ watch(() => course.value?.id, (newId, oldId) => {
     border-style: solid;
     border-color: var(--primary-50);
     -webkit-appearance: none !important;
+    appearance: none !important;
     box-sizing: border-box !important;
     outline: none !important;
     transform: scale(1) !important;
@@ -904,6 +931,24 @@ watch(() => course.value?.id, (newId, oldId) => {
     font-size: 16px;
 }
 
+.take-quiz-btn {
+    padding: 14px 20px;
+    border-radius: 70px;
+    font-family: var(--font-montserrat);
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--white-229);
+    background: var(--general-btn);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+}
+
+.take-quiz-btn:hover {
+    opacity: 0.85;
+}
+
 .buy-btn-div,
 .add-to-card-btn-div {
     min-width: 200px;
@@ -1050,6 +1095,7 @@ watch(() => course.value?.id, (newId, oldId) => {
     box-sizing: border-box !important;
     transform: scale(1) !important;
     -webkit-appearance: none !important;
+    appearance: none !important;
     outline: none !important;
     border-radius: 8px;
     color: var(--primary-30);

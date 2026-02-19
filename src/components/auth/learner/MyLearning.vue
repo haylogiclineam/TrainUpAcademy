@@ -192,6 +192,26 @@ onMounted(async () => {
     margin-bottom: 0 !important;
 }
 
+.take-quiz-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: var(--font-montserrat);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--white-229);
+    background: var(--general-btn);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+}
+
+.take-quiz-btn:hover {
+    opacity: 0.85;
+}
+
 .not-exist-items p,
 .not-exist-items a {
     font-family: var(--font-montserrat);

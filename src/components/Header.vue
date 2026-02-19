@@ -140,12 +140,16 @@ const isLearnerProfilePage = computed(() => route.path === '/learner/shopping-ca
 const isLearnerPurchaseHistoryPage = computed(() => route.path === '/learner/purchase-history');
 const isLearnerCheckoutPage = computed(() => route.path === '/learner/checkout');
 const isLearnerWalletPage = computed(() => route.path === '/learner/wallet');
+const isQuizPage = computed(() => route.name === 'learner-quiz');
 
 const headerClass = computed(() => {
     if (route.name === 'SingleBlog') {
         return 'single-blog-header';
     }
     if (route.name === 'single-course') {
+        return 'single-course-header';
+    }
+    if (route.name === 'learner-quiz') {
         return 'single-course-header';
     }
     if (route.name === 'instructor-help-details') {
@@ -306,6 +310,9 @@ const fetchCourseName = async (id) => {
 onMounted(() => {
     if (isSingleCoursePage.value) {
         fetchCourseName(route.params.id);
+    }
+    if (isQuizPage.value) {
+        fetchCourseName(route.params.courseId);
     }
 });
 
@@ -1801,6 +1808,22 @@ const {cartCount, loadCartCount} = useCartCount();
                 </div>
             </div>
             <div v-if="isSingleCoursePage" class="header-single-course-content-section d-flex position-relative">
+                <div v-if="isLoading" class="d-flex justify-content-center align-items-center w-100"
+                     style="min-height: 300px">
+                    <div class="spinner-border text-secondary" role="status">
+                        <span class="visually-hidden">{{ $t('loading') }}...</span>
+                    </div>
+                </div>
+                <div v-else class="single-course-content">
+                    <div class="content">
+                        <h1 v-if="course" class="text-capitalize">
+                            <span class="text-capitalize">{{ getLocalizedField(course, 'title') }}</span>
+                        </h1>
+                        <p class="description-3-lines">{{ getLocalizedField(course, 'description') }}</p>
+                    </div>
+                </div>
+            </div>
+            <div v-if="isQuizPage" class="header-single-course-content-section d-flex position-relative">
                 <div v-if="isLoading" class="d-flex justify-content-center align-items-center w-100"
                      style="min-height: 300px">
                     <div class="spinner-border text-secondary" role="status">

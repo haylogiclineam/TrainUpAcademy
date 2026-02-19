@@ -3,6 +3,7 @@ import {ref, onMounted, watch, computed} from 'vue'
 import api from "../../../services/api.js";
 import {useI18n} from 'vue-i18n';
 import {useAuthStore} from '/src/stores/auth.js';
+import { mandatoryDetails } from "../../../constants/courseDetails.js";
 
 const isLoading = ref(true)
 const auth = useAuthStore()
@@ -535,15 +536,20 @@ function getLocalizedField(obj, fieldBase) {
                                     <div class="mt-4">
                                         <p class="course-include-title h2">{{ $t('auth.courses.course_include') }}</p>
                                         <div class="include-items-list">
-                                            <div v-for="(item, index) in selectedVideo?.details_by_instructor"
-                                                 :key="index" class="d-flex flex-column">
-                                                <div class="d-flex align-items-center include-item">
-                                                    <img :src="`${baseUrl}/storage/${item.detail.icon}`" alt=""/>
-                                                    <span class="span">{{ item.time }} {{
-                                                        getLocalizedField(item.detail, 'text')
-                                                        }}</span>
+                                            <template v-for="(detail, index) in mandatoryDetails" :key="detail.id">
+                                                <div class="d-flex flex-column" v-if="selectedVideo">
+                                                    <div class="d-flex align-items-center include-item">
+                                                        <div class="detail-icon-wrapper" v-html="detail.icon">
+                                                        </div>
+                                                        <span class="span">
+                                                            <template v-if="detail.editable === 1">
+                                                                {{ selectedVideo.details_by_instructor?.find(d => String(d.course_details_data_id) === String(detail.id))?.time }}
+                                                            </template>
+                                                            {{ detail[`text_${locale}`] }}
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </template>
                                         </div>
                                     </div>
                                 </div>
@@ -942,6 +948,20 @@ function getLocalizedField(obj, fieldBase) {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.detail-icon-wrapper {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.detail-icon-wrapper img {
+    width: 100%;
+    height: 100%;
 }
 
 .include-item {

@@ -7,6 +7,8 @@ const route = useRoute();
 
 const fullName = ref('');
 const phoneNumber = ref('');
+const preferredDate = ref('');
+const preferredTime = ref('');
 // const email = ref('');
 
 const errors = ref({
@@ -65,6 +67,8 @@ const bookCall = async () => {
         const bookCallData = {
             full_name: fullName.value,
             phone_number: phoneNumber.value,
+            preferred_date: preferredDate.value || null,
+            preferred_time: preferredTime.value || null,
             // email: email.value,
         };
 
@@ -74,6 +78,8 @@ const bookCall = async () => {
             successMessage.value = 'messages.book_call_created';
             fullName.value = '';
             phoneNumber.value = '';
+            preferredDate.value = '';
+            preferredTime.value = '';
             // email.value = '';
         }
     } catch (error) {
@@ -123,6 +129,25 @@ const isHomePage = computed(() => route.path === '/');
 <!--                        />-->
 <!--                        <p v-if="errors.email" class="required-field mt-1">{{ $t(errors.email) }}</p>-->
 <!--                    </div>-->
+
+                    <div class="w-100 d-flex flex-column align-items-center">
+                        <div class="date-time-row">
+                            <input
+                                class="form-input date-time-input"
+                                v-model="preferredDate"
+                                type="date"
+                                :placeholder="$t('preferred_date')"
+                                name="preferred_date"
+                            />
+                            <input
+                                class="form-input date-time-input"
+                                v-model="preferredTime"
+                                type="time"
+                                :placeholder="$t('preferred_time')"
+                                name="preferred_time"
+                            />
+                        </div>
+                    </div>
 
                     <p v-if="errors.general" class="required-field mt-1 text-start">
                         {{ $t(errors.general) }}
@@ -227,6 +252,16 @@ const isHomePage = computed(() => route.path === '/');
 
 .form-input:focus::placeholder {
     color: var(--primary-20);
+}
+
+.date-time-row {
+    display: flex;
+    gap: 10px;
+    width: 62%;
+}
+
+.date-time-input {
+    flex: 1;
 }
 
 .required-field{
