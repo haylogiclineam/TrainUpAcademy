@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import api from '../services/api.js';
+import { useI18n } from 'vue-i18n';
 
+const { locale } = useI18n();
 const rating = ref(5);
 const comments = ref([]);
 const loading = ref(false);
@@ -17,7 +19,6 @@ const fetchComments = async () => {
     try {
         const response = await api.get('/api/latest-learner-comments');
         comments.value = response.data;
-        console.log( response.data)
     } catch (error) {
         console.error('Error fetching comments', error);
     }finally {
@@ -249,6 +250,7 @@ onMounted(fetchComments);
     align-items: center;
     padding: 2% 0;
     -webkit-appearance: none !important;
+    appearance: none !important;
     outline: none;
     transform: scale(1) !important;
 }

@@ -99,7 +99,7 @@ const handleSubmit = async () => {
                 <div class="w-100">
                     <label for="email">{{ $t('email') }}*</label>
                 </div>
-                <input id="email" name="email" class="form-input" type="text"
+                <input id="email" name="email" class="form-input" type="text" autocomplete="username"
                        v-model="form.email" :placeholder="$t('your_email')">
                 <p v-if="errors.email" class="required-field">{{ $t(errors.email) }}</p>
             </div>
@@ -109,7 +109,7 @@ const handleSubmit = async () => {
                     <label for="password">{{ $t('password') }}*</label>
                 </div>
                 <div class="password-input-wrapper">
-                    <input id="password" name="password" class="form-input" :type="showPassword ? 'text' : 'password'"
+                    <input id="password" name="password" class="form-input" :type="showPassword ? 'text' : 'password'" autocomplete="current-password"
                            v-model="form.password" :placeholder="$t('your_password')">
                     <img
                         :src="showPassword ? '/assets/icons/eye-open.svg' : '/assets/icons/eye-close.svg'"

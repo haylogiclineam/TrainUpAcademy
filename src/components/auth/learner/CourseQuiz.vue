@@ -1,5 +1,7 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { defineProps } from 'vue';
+const props = defineProps({ courseId: [String, Number] });
+import { ref, onMounted, computed, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import api from '../../../services/api.js';
 import { useI18n } from 'vue-i18n';
@@ -96,6 +98,12 @@ onMounted(async () => {
         console.error('Failed to load quiz:', err);
     } finally {
         loading.value = false;
+    }
+});
+
+onUnmounted(() => {
+    if (cooldownInterval) {
+        clearInterval(cooldownInterval);
     }
 });
 

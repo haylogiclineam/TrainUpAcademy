@@ -143,7 +143,7 @@ const handleSubmit = async () => {
                 <div class="w-100">
                     <label for="first-name">{{ $t('first_name') }}*</label>
                 </div>
-                <input id="first-name" name="first-name" class="form-input" type="text"
+                <input id="first-name" name="first-name" class="form-input" type="text" autocomplete="given-name"
                        v-model="form.first_name" :placeholder="$t('your_first_name')">
                 <p v-if="errors.first_name" class="required-field">{{ $t(errors.first_name) }}</p>
             </div>
@@ -152,7 +152,7 @@ const handleSubmit = async () => {
                     <div class="w-100">
                         <label for="last-name">{{ $t('last_name') }}*</label>
                     </div>
-                    <input id="last-name" name="last-name" class="form-input" type="text"
+                    <input id="last-name" name="last-name" class="form-input" type="text" autocomplete="family-name"
                            v-model="form.last_name" :placeholder="$t('your_last_name')">
                     <p v-if="errors.last_name" class="required-field">{{ $t(errors.last_name) }}</p>
                 </div>
@@ -161,7 +161,7 @@ const handleSubmit = async () => {
                     <div class="w-100">
                         <label for="email">{{ $t('email') }}*</label>
                     </div>
-                    <input id="email" name="email" class="form-input" type="text"
+                    <input id="email" name="email" class="form-input" type="email" autocomplete="email"
                            v-model="form.email" :placeholder="$t('your_email')">
                     <p v-if="errors.email" class="required-field">{{ $t(errors.email) }}</p>
                 </div>
@@ -171,7 +171,7 @@ const handleSubmit = async () => {
                         <label for="password">{{ $t('password') }}*</label>
                     </div>
                     <div class="password-input-wrapper">
-                        <input id="password" name="password" class="form-input" :type="showPassword ? 'text' : 'password'"
+                        <input id="password" name="password" class="form-input" :type="showPassword ? 'text' : 'password'" autocomplete="new-password"
                                v-model="form.password" :placeholder="$t('your_password')">
                         <img
                             :src="showPassword ? '/assets/icons/eye-open.svg' : '/assets/icons/eye-close.svg'"
@@ -188,7 +188,7 @@ const handleSubmit = async () => {
                         <label for="repeat-password">{{ $t('repeat_password') }}*</label>
                     </div>
                     <div class="password-input-wrapper">
-                        <input id="repeat-password" name="repeat-password" class="form-input" :type="showConfirmPassword ? 'text' : 'password'"
+                        <input id="repeat-password" name="repeat-password" class="form-input" :type="showConfirmPassword ? 'text' : 'password'" autocomplete="new-password"
                                v-model="form.password_confirmation" :placeholder="$t('repeat_password')">
                         <img
                             :src="showConfirmPassword ? '/assets/icons/eye-open.svg' : '/assets/icons/eye-close.svg'"

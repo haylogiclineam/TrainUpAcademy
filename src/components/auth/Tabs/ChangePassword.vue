@@ -61,12 +61,15 @@ const changePassword = async () => {
         </div>
 
         <form class="settings-tab-body" @submit.prevent="changePassword">
+            <!-- Hidden username field to fix accessibility warnings for password managers -->
+            <input type="text" autocomplete="username" style="display: none;" aria-hidden="true" tabindex="-1">
             <div class="mb-3 w-48">
                 <label for="oldPassword">{{ $t('auth.changePassword.old_password') }}*</label>
                 <input
                     type="password"
                     id="oldPassword"
                     class="form-control"
+                    autocomplete="current-password"
                     v-model="oldPassword"
                     :placeholder="$t('auth.changePassword.placeholders.old_password')"
                 />
@@ -82,6 +85,7 @@ const changePassword = async () => {
                         type="password"
                         id="newPassword"
                         class="form-control"
+                        autocomplete="new-password"
                         v-model="newPassword"
                         :placeholder="$t('auth.changePassword.placeholders.new_password')"
                     />
@@ -95,6 +99,7 @@ const changePassword = async () => {
                         type="password"
                         id="confirmPassword"
                         class="form-control"
+                        autocomplete="new-password"
                         v-model="confirmPassword"
                         :placeholder="$t('auth.changePassword.placeholders.confirm_password')"
                     />
@@ -129,6 +134,7 @@ const changePassword = async () => {
     border-color:  var(--primary-50);
     box-sizing: border-box;
     -webkit-appearance: none;
+    appearance: none;
     border-radius: 8px;
     padding: 15px;
     color:var(--primary-50) !important;

@@ -34,7 +34,7 @@ onMounted(async () => {
                 <div class="d-flex justify-content-between align-items-center courses-title-block">
                     <h3 class="text-capitalize my-course-section-title">{{ $t('learner_profile.my_learning') }}</h3>
                     <div class="my-course-btn-div d-flex justify-content-center align-items-center">
-                        <router-link to="/online-learning">
+                        <router-link to="/courses">
                             <button class="my-course-btn">
                                {{ $t('courses') }}
                             </button>
