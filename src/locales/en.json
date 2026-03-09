@@ -146,6 +146,8 @@
     "description": "Contact us for any questions, support, or guidance. Our team is always ready to assist you quickly and efficiently at every step.",
     "phone": "Phone Number",
     "email": "Email",
+    "address": "Bashinjaghyan 188, Yerevan, Armenia",
+    "address_label": "Address",
     "send_message": "Send Us a Message"
   },
   "why_choose_us_text": {
@@ -322,6 +324,7 @@
     "information": "Information",
     "location": "Location",
     "yerevan": "Yerevan",
+    "address": "Bashinjaghyan 188, Yerevan, Armenia",
     "newsletter": "Newsletter",
     "rights_reserved": "Copyright © {year} HayLogic Line LLC",
     "rights_reserved_academy": "Copyright © {year} HayLogic Academy LLC",

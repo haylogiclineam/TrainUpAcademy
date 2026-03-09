@@ -93,96 +93,105 @@ const contact = async () => {
     <div class="send-us-message-section">
         <div class="container">
             <div class="msg-form">
-                <h3 class="h3 text-capitalize">{{ $t('contact.send_message') }}</h3>
+                <h3 class="h3 text-capitalize mb-0">{{ $t('contact.send_message') }}</h3>
                 <div class="form d-flex flex-column">
 
-                    <div class="d-flex flex-column form-input-block">
-                        <div class="w-100">
-                            <label for="email">{{ $t('email') }}*</label>
-                        </div>
-                        <input
-                                id="email"
-                                name="email"
-                                class="form-input"
-                                type="text"
-                                :placeholder="$t('your_email')"
-                                v-model="email"
-                        />
-                        <p v-if="errors.email" class="required-field mt-1">{{ $t(errors.email) }}</p>
-                    </div>
-
-                    <div class="d-flex flex-column form-input-block">
-                        <div class="w-100">
-                            <label for="name">{{ $t('name') }}*</label>
-                        </div>
-                        <input
-                                id="name"
-                                name="name"
-                                class="form-input"
-                                type="text"
-                                :placeholder="$t('your_name')"
-                                v-model="name"
-                        />
-                        <p v-if="errors.name" class="required-field mt-1">{{ $t(errors.name) }}</p>
-                    </div>
-
-                    <div class="d-flex flex-column form-input-block">
-                        <div class="w-100">
-                            <label for="message">{{ $t('message') }}*</label>
-                        </div>
-                        <textarea
-                                id="message"
-                                name="message"
-                                rows="4"
-                                cols="50"
-                                class="form-input"
-                                type="text"
-                                :placeholder="$t('your_message')"
-                                v-model="message"
-                        ></textarea>
-                        <p v-if="errors.message" class="required-field mt-1">{{ $t(errors.message) }}</p>
-                    </div>
-
-                    <div class="d-flex flex-column form-input-block">
-                        <div class="w-100">
-                            <label>{{ $t('preferred_date_time') }}</label>
-                        </div>
-                        <div class="date-time-row">
+                        <div class="d-flex flex-column form-input-block">
+                            <div class="w-100">
+                                <label for="email">{{ $t('email') }}*</label>
+                            </div>
                             <input
-                                class="form-input date-time-input"
-                                v-model="preferredDate"
-                                type="date"
-                                :placeholder="$t('preferred_date')"
-                                name="preferred_date"
+                                    id="email"
+                                    name="email"
+                                    class="form-input"
+                                    type="text"
+                                    :placeholder="$t('your_email')"
+                                    v-model="email"
                             />
+                            <p v-if="errors.email" class="required-field mt-1">{{ $t(errors.email) }}</p>
+                        </div>
+
+                        <div class="d-flex flex-column form-input-block">
+                            <div class="w-100">
+                                <label for="name">{{ $t('name') }}*</label>
+                            </div>
                             <input
-                                class="form-input date-time-input"
-                                v-model="preferredTime"
-                                type="time"
-                                :placeholder="$t('preferred_time')"
-                                name="preferred_time"
+                                    id="name"
+                                    name="name"
+                                    class="form-input"
+                                    type="text"
+                                    :placeholder="$t('your_name')"
+                                    v-model="name"
                             />
+                            <p v-if="errors.name" class="required-field mt-1">{{ $t(errors.name) }}</p>
+                        </div>
+
+                        <div class="d-flex flex-column form-input-block">
+                            <div class="w-100">
+                                <label for="message">{{ $t('message') }}*</label>
+                            </div>
+                            <textarea
+                                    id="message"
+                                    name="message"
+                                    rows="4"
+                                    cols="50"
+                                    class="form-input"
+                                    type="text"
+                                    :placeholder="$t('your_message')"
+                                    v-model="message"
+                            ></textarea>
+                            <p v-if="errors.message" class="required-field mt-1">{{ $t(errors.message) }}</p>
+                        </div>
+
+                        <div class="d-flex flex-column form-input-block">
+                            <div class="w-100">
+                                <label>{{ $t('preferred_date_time') }}</label>
+                            </div>
+                            <div class="date-time-row">
+                                <input
+                                    class="form-input date-time-input"
+                                    v-model="preferredDate"
+                                    type="date"
+                                    :placeholder="$t('preferred_date')"
+                                    name="preferred_date"
+                                />
+                                <input
+                                    class="form-input date-time-input"
+                                    v-model="preferredTime"
+                                    type="time"
+                                    :placeholder="$t('preferred_time')"
+                                    name="preferred_time"
+                                />
+                            </div>
+                        </div>
+
+                        <p v-if="errors.general" class="required-field mt-1 text-start">
+                            {{ $t(errors.general) }}
+                        </p>
+
+                        <p v-if="successMessage" class="success-message mb-0 text-center">
+                            {{ $t(successMessage) }}
+                        </p>
+
+                        <div class="send-msg-btn-div d-flex justify-content-center align-items-center">
+                            <button @click="contact" class="send-msg-btn text-capitalize">
+                                {{ $t('submit') }}
+                            </button>
                         </div>
                     </div>
-
-                    <p v-if="errors.general" class="required-field mt-1 text-start">
-                        {{ $t(errors.general) }}
-                    </p>
-
-                    <p v-if="successMessage" class="success-message mb-0 text-center">
-                        {{ $t(successMessage) }}
-                    </p>
-
-                    <div class="send-msg-btn-div d-flex justify-content-center align-items-center">
-                        <button @click="contact" class="send-msg-btn text-capitalize">
-                            {{ $t('submit') }}
-                        </button>
-                    </div>
-
                 </div>
+
+                <!-- Address Info Block -->
+                <div class="info-detail d-flex flex-column align-items-center justify-content-center mt-5">
+                    <div class="info-icon mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </div>
+                    <h5 class="info-title text-capitalize mb-2">{{ $t('contact.address_label') }}</h5>
+                    <p class="info-text text-center">{{ $t('contact.address') }}</p>
+                </div>
+
             </div>
         </div>
-    </div>
 </template>
 
 <style scoped>
@@ -211,7 +220,6 @@ const contact = async () => {
     display: block;
     pointer-events: none;
 }
-
 .msg-form {
     position: relative;
     z-index: 2;
@@ -219,7 +227,7 @@ const contact = async () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 60px;
+    gap: 20px;
 }
 
 .msg-form .h3 {
@@ -230,6 +238,43 @@ const contact = async () => {
     letter-spacing: 2%;
     text-align: center;
     color: var(--white-245);
+}
+
+.info-detail {
+    backdrop-filter: blur(104px);
+    background: var(--white-217);
+    border-radius: 16px;
+    padding: 30px;
+    width: 60%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.info-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--general-btn-light);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white-245);
+}
+
+.info-title {
+    font-family: var(--font-montserrat);
+    font-weight: 400;
+    font-size: 24px;
+    color: var(--white-245);
+}
+
+.info-text {
+    font-family: var(--font-inter);
+    font-weight: 300;
+    font-size: 18px;
+    color: var(--white-245);
+    margin: 0;
 }
 
 .form {
@@ -330,6 +375,11 @@ textarea:focus::placeholder {
 
 /* Extra Small Devices */
 @media (max-width: 575px) {
+    .info-detail {
+        width: 100%;
+        padding: 20px;
+    }
+
     .send-us-message-section {
         padding: 18% 0 13%;
     }
@@ -381,6 +431,11 @@ textarea:focus::placeholder {
 
 /* Small Devices */
 @media (min-width: 576px) and (max-width: 767px) {
+    .info-detail {
+        width: 100%;
+        padding: 20px;
+    }
+
     .send-us-message-section {
         padding: 10% 0 8%;
     }
@@ -425,6 +480,11 @@ textarea:focus::placeholder {
 
 /* Medium Devices */
 @media (min-width: 768px) and (max-width: 991px) {
+    .info-detail {
+        width: 100%;
+        padding: 20px;
+    }
+
     .send-us-message-section {
         padding: 10% 0 8%;
     }
@@ -469,7 +529,7 @@ textarea:focus::placeholder {
 
 /* Large Devices */
 @media (min-width: 992px) and (max-width: 1199px) {
-    .form {
+    .form, .info-detail {
         width: 70%;
     }
 }

@@ -163,7 +163,7 @@ const newsletter = async () => {
                         <h5 class="item-title">{{$t('footer.location')}}</h5>
                         <ul class="p-0 list-unstyled">
                             <li class="footer-item">
-                                <a class="footer-contact-link" href="">{{$t('footer.yerevan')}}</a>
+                                <a class="footer-contact-link" style="pointer-events: none;">{{$t('contact.address')}}</a>
                             </li>
                         </ul>
                     </div>
