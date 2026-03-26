@@ -49,7 +49,7 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                         </div>
                         <div class="team-member-info">
                             <p class="text-capitalize mb-1">{{ item[`full_name_${locale}`] }}</p>
-                            <span class="text-capitalize">{{ item[`profession_${locale}`] }}</span>
+                            <span class="text-capitalize" v-html="item[`profession_${locale}`]"></span>
                         </div>
                     </div>
                 </div>

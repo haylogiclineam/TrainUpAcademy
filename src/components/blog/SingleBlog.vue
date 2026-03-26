@@ -49,7 +49,7 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                 <img :src="imageUrl(blog.image)" :alt="blog.image"/>
             </div>
             <div class="single-blog-description">
-                <p>{{ blog[`description_${locale}`] }}</p>
+                <div v-html="blog[`description_${locale}`]"></div>
             </div>
             <BlogArticle></BlogArticle>
         </div>

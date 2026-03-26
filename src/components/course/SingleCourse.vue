@@ -347,7 +347,7 @@ watch(() => course.value?.id, (newId, oldId) => {
                 <div class="course-content">
                     <div class="course-title">
                         <h2 class="text-capitalize">{{ $t('single_course.description') }}</h2>
-                        <p> {{ getLocalizedField(course, 'description') }}</p>
+                        <div v-html="getLocalizedField(course, 'description')"></div>
                     </div>
                     <div class="course-video-div position-relative">
                         <div v-if="!isPurchased(course?.id) && !isInstructor"

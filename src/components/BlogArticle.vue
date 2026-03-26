@@ -121,8 +121,10 @@ function formatDate(dateStr) {
 const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}`;
 
 const truncateDescription = (description) => {
-    const maxLength = 60;
-    return description.length > maxLength ? description.slice(0, maxLength) + '...' : description;
+    if (!description) return '';
+    const plainText = description.replace(/<[^>]*>?/gm, '');
+    const maxLength = 130;
+    return plainText.length > maxLength ? plainText.slice(0, maxLength) + '...' : plainText;
 };
 
 const visibleBlogItems = computed(() => {

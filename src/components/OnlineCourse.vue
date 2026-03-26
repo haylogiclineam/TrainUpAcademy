@@ -361,7 +361,7 @@ onMounted(async () => {
                                     </div>
                                     <div class="content">
                                         <h1 class="text-capitalize">{{ getLocalizedField(course, 'title') }}</h1>
-                                        <p class="clamped-description">{{ getLocalizedField(course, 'description') }}</p>
+                                        <p class="clamped-description">{{ getLocalizedField(course, 'description')?.replace(/<[^>]*>?/gm, '') }}</p>
                                     </div>
                                     <div class="d-flex justify-content-between gap-3 all-btn-block">
                                         <div class="course-learn-more-btn-div d-flex justify-content-center align-items-center">
@@ -449,7 +449,7 @@ onMounted(async () => {
                             </div>
                             <div class="content">
                                 <h1 class="text-capitalize">{{ getLocalizedField(course, 'title') }}</h1>
-                                <p class="clamped-description">{{ getLocalizedField(course, 'description') }}</p>
+                                <p class="clamped-description">{{ getLocalizedField(course, 'description')?.replace(/<[^>]*>?/gm, '') }}</p>
                             </div>
                             <div class="d-flex justify-content-between gap-3 all-btn-block">
                                 <div class="course-learn-more-btn-div d-flex justify-content-center align-items-center">

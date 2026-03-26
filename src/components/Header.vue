@@ -221,8 +221,10 @@ const headerClass = computed(() => {
 });
 
 const truncateDescription = (description) => {
+    if (!description) return '';
+    const plainText = description.replace(/<[^>]*>?/gm, '');
     const maxLength = 130;
-    return description.length > maxLength ? description.slice(0, maxLength) + '...' : description;
+    return plainText.length > maxLength ? plainText.slice(0, maxLength) + '...' : plainText;
 };
 
 const fullTitle = computed(() => blog.value?.[`title_${locale.value}`] || '')
@@ -1819,7 +1821,7 @@ const {cartCount, loadCartCount} = useCartCount();
                         <h1 v-if="course" class="text-capitalize">
                             <span class="text-capitalize">{{ getLocalizedField(course, 'title') }}</span>
                         </h1>
-                        <p class="description-3-lines">{{ getLocalizedField(course, 'description') }}</p>
+                        <p class="description-3-lines">{{ getLocalizedField(course, 'description')?.replace(/<[^>]*>?/gm, '') }}</p>
                     </div>
                 </div>
             </div>
@@ -1835,7 +1837,7 @@ const {cartCount, loadCartCount} = useCartCount();
                         <h1 v-if="course" class="text-capitalize">
                             <span class="text-capitalize">{{ getLocalizedField(course, 'title') }}</span>
                         </h1>
-                        <p class="description-3-lines">{{ getLocalizedField(course, 'description') }}</p>
+                        <p class="description-3-lines">{{ getLocalizedField(course, 'description')?.replace(/<[^>]*>?/gm, '') }}</p>
                     </div>
                 </div>
             </div>

@@ -115,7 +115,7 @@ const getCurrencySymbol = (code) => {
                                         </div>
                                         <div class="package-info">
                                             <h3 class="package-title">{{ item[`title_${locale}`] }}</h3>
-                                            <p class="package-desc">{{ item[`description_${locale}`] }}</p>
+                                            <div class="package-desc" v-html="item[`description_${locale}`]"></div>
                                             <h4 class="package-price">
                                                 {{ getCurrencySymbol(item[`currency_${locale}`]) }}
                                                 {{ item[`price_${locale}`] }}/{{ item[`unit_${locale}`] }}

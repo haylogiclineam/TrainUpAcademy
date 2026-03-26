@@ -66,14 +66,14 @@ onMounted(() => {
 
             <div class="bootcamp-content" v-else>
                 <h3 class="text-capitalize h3">{{ localizedTitle }}</h3>
-                <p class="p">{{ localizedDescription }}</p>
+                <div class="p" v-html="localizedDescription"></div>
 
                 <div class="checkmark-section">
                     <div v-for="(item, index) in bootcamp.lists" :key="index" class="checkmark d-flex align-items-center">
                         <div class="checkmark-icon">
                             <img src="/assets/icons/bootcamp/checkmark.svg" alt="checkmark">
                         </div>
-                        <span class="text-capitalize ms-4 span">{{ localizedItemText(item) }}</span>
+                        <span class="text-capitalize ms-4 span" v-html="localizedItemText(item)"></span>
                     </div>
                 </div>
 
