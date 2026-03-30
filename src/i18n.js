@@ -44,6 +44,7 @@ document.documentElement.setAttribute('lang', savedLang)
 const i18n = createI18n({
     legacy: false,
     locale: savedLang,
+    fallbackLocale: 'arm',
     messages,
     missing: (locale, key) => {
         console.warn(`Translation key '${key}' is missing in locale '${locale}'`)
