@@ -1,971 +1,1005 @@
 {
-  "home": "Home",
-  "about_us": "About Us",
-  "why_choose_us": "Why Choose Us",
-  "contact_us": "Contact Us",
-  "teach_on_trainUp": "Teach on TrainUp",
-  "blog": "Blog",
-  "courses": "Courses",
-  "sign_in": "Sign In",
-  "sign_up": "Sign Up",
-  "package_include": "Included in the package",
-  "learn_more": "Learn more",
-  "full_name": "Full name",
-  "phone": "Phone number",
-  "email": "Email",
-  "book_call": "Book a call",
-  "submit": "Submit",
-  "name": "Name",
-  "your_name": "Your name",
-  "message": "Message",
-  "your_message": "Your message",
-  "your_email": "Your email",
-  "first_name": "First name",
-  "your_first_name": "Your first name",
-  "last_name": "Last name",
-  "your_last_name": "Your last name",
-  "password": "Password",
-  "your_password": "Your password",
-  "repeat_password": "Repeat password",
-  "continue_as_learner": "Continue as learner",
-  "continue_as_instructor": "Continue as instructor",
-  "already_have_an_account": "You already have an account?",
-  "dont_have_an_account": "Don’t have an account?",
-  "forgot_password": "Forgot password?",
-  "create_new_password": "Create new password",
-  "new_password": "New password",
-  "confirm_your_password": "Confirm your password",
-  "change": "Change",
-  "change_password": "Change password",
-  "loading": "Loading",
-  "header": {
-    "title": "TrainUp Online Academy",
-    "subtitle": "The Most Convenient Place to Develop Your Skills",
-    "menu": {
-      "course": "Course",
-      "my_courses": "My courses",
-      "add_course": "Add a course",
-      "most_popular": "Most popular",
-      "account_settings": "Account Settings",
-      "wallet": "Wallet",
-      "purchase_history": "Purchase History",
-      "more_from_academy": "More from HayLogic academy",
-      "help_support": "Help & Support",
-      "logout": "Log Out",
-      "learn": "Learn",
-      "my_learning": "My Learning",
-      "my_cart": "My Cart",
-      "wishlist": "Wishlist"
-    }
-  },
-  "hero": {
-    "learn_anywhere_anytime": "Learn anywhere, anytime.",
-    "choose_course_fits_level": "Choose a course that fits your skill level—from beginner to advanced.",
-    "free_registration": "Free Registration"
-  },
-  "featured_courses": {
-    "title": "Featured Online Courses",
-    "description_short": "Boost your knowledge. Build a sustainable career.",
-    "description_long": "At TrainUp Online Academy, you can learn the most in-demand skills on the market with the support of experienced professionals. Select your online course and start acquiring new skills today."
-  },
-  "testimonials": {
-    "title": "What Our Students Say",
-    "description": "See what our students say about TrainUp.academy and our courses. Their success stories are proof that the right knowledge can transform a career. Read their real opinions about our instructors, course quality, and learning experience.",
-    "best_conference": "Best Conference",
-    "certified_trusted": "100% Certified & Trusted",
-    "world_class_support": "Enjoy 24/7 World Class Support",
-    "fallback_course_title": "Course Title"
-  },
-  "blog_description": "In the TrainUp Academy blog, you’ll find the latest articles on professional skills, personal growth, technology, and career development. Learn new ideas, discover practical tips, and always stay one step ahead.",
-  "blog_page": {
-    "title_1": "Blog &",
-    "title_2": "Article"
-  },
-  "book_call_title": "Call us and discover new opportunities.",
-  "preferred_date": "Preferred Date",
-  "preferred_time": "Preferred Time",
-  "preferred_date_time": "Preferred Date & Time",
-  "messages": {
-    "email_required": "Email is required",
-    "email_invalid": "Email must be valid",
-    "email_max": "Email is too long",
-    "full_name_required": "Full name is required",
-    "full_name_string": "Full name must be a string",
-    "full_name_max": "Full name must be less than 100 characters",
-    "name_required": "Name is required",
-    "name_string": "Name must be a string",
-    "name_max": "Name must be less than 100 characters",
-    "message_required": "Message is required",
-    "message_string": "Message must be a string",
-    "message_max": "Message must be less than 1000 characters",
-    "phone_number_required": "Phone number is required",
-    "phone_number_invalid": "Phone number format is invalid",
-    "book_call_created": "Your call has been booked successfully!",
-    "book_call_creation_failed": "There was an error booking your call. Please try again.",
-    "newsletter_created": "Your newsletter has been sent successfully!",
-    "newsletter_creation_failed": "There was an error sending your newsletter. Please try again.",
-    "contact_created": "Your contact has been sent successfully!",
-    "contact_creation_failed": "There was an error sending your contact. Please try again.",
-    "course_created": "Your course has been created successfully!",
-    "course_updated": "Your course has been updated successfully!",
-    "course_creation_failed": "Failed to create the course. Please try again.",
-    "course_update_failed": "Failed to update the course. Please try again.",
-    "unauthorized_action": "You are not authorized to perform this action.",
-    "course_fetch_failed": "Failed to fetch courses.",
-    "course_not_found": "Course not found.",
-    "course_details_fetch_failed": "Failed to fetch course details.",
-    "view_increment_failed": "Failed to increment views.",
-    "failed_to_fetch_comments": "Failed to fetch comments.",
-    "failed_to_fetch_top_viewed_courses": "Failed to fetch top viewed courses.",
-    "course_not_found_or_not_approved": "Course not found or not approved yet."
-  },
-  "about": {
-    "about": "About",
-    "us": "Us",
-    "description": "TrainUp Online Academy is a next-generation learning platform aimed at developing professional skills through accessible, flexible, and practical courses.We bring together the best Armenian-speaking and internationally experienced professionals to provide you with learning that delivers real results.",
-    "vision": "Our Vision",
-    "vision_text": "At TrainUp Online Academy, our vision is simple:To create an educational platform where everyone can develop their skills, discover new opportunities, and build a successful future—regardless of age, location, or prior knowledge.",
-    "mission": "Our Mission",
-    "mission_text": "The mission of TrainUp Online Academy is to provide accessible, practical, and modern education for everyone. We believe that everyone can develop skills, enter new fields, increase their salary, or start their own business if they have the right knowledge and guidance.",
-    "social_media": "Social Media",
-    "why_choose_us": "Why choose us",
-    "why_choose_us_text": "TrainUp Online Academy is an online platform where you can develop your skills at any level, from beginner to advanced. We offer modern courses, practical assignments, and support from experienced professionals.",
-    "our_team": "Our Expert Team",
-    "our_team_text": "Our team consists of experienced professionals with years of real project experience. They not only teach theory but also guide students throughout the process of acquiring practical skills.",
-    "faq": "FAQ",
-    "empowering_growth": "Empowering Growth Through Online Learning",
-    "goals_title": "Our goals",
-    "goal_1": "Provide students with in-demand practical skills,",
-    "goal_2": "Ensure high-quality instructors with real-world experience,",
-    "goal_3": "Create a supportive community where everyone can grow and develop,",
-    "goal_4": "Offer a learning environment that motivates to learn, try, and move forward."
-  },
-  "contact": {
-    "contact": "Contact",
-    "us": "Us",
-    "description": "Contact us for any questions, support, or guidance. Our team is always ready to assist you quickly and efficiently at every step.",
-    "phone": "Phone Number",
-    "email": "Email",
-    "address": "Bashinjaghyan 188, Yerevan, Armenia",
-    "address_label": "Address",
-    "send_message": "Send Us a Message"
-  },
-  "why_choose_us_text": {
-    "title_1": "Why",
-    "title_2": "Choose Us",
-    "blok_1": {
-      "title": "Modern and In-Demand Professions",
-      "text": "We offer courses that match the latest global market demands. Our programs are constantly updated so you can learn real, practical skills—UI/UX, web development, AI tools, social media, and many other directions. This is the kind of knowledge that helps you progress quickly and become a competitive professional, whether you’re a beginner or already experienced."
-    },
-    "blok_2": {
-      "title": "Experienced Instructors with Real Industry Practice",
-      "text": "The instructors at TrainUp Academy are professionals with years of experience working on real projects, businesses, and international clients. They teach not only theory but real working approaches—sharing practical techniques, methods, and insights to avoid common mistakes. You learn what is actually used in the market and what brings real results."
-    },
-    "blok_3": {
-      "title": "Learn Anytime and Anywhere",
-      "text": "All our training is fully online and available 24/7. This means you can study at your own pace—after work, on weekends, or even while traveling. No strict schedules, no limitations—you organize your learning process in the way that works best for you. This flexibility makes education more effective for everyone."
-    },
-    "blok_4": {
-      "title": "Practice with Real Examples",
-      "text": "Our courses are built on hands-on learning. You’ll get not only theoretical material but also real assignments, mini-projects, and case studies that help strengthen your skills through practice. Every student builds a personal portfolio that can be presented to employers and used when entering a new profession."
-    },
-    "blok_5": {
-      "title": "Continuous Support and Mentorship",
-      "text": "At TrainUp Academy, you never study alone. Throughout the entire learning process, we provide support—from mentors, instructors, and the community. You can write anytime to get answers, help, corrections, or advice. We believe that proper guidance is essential for success, and we support you until the final result."
-    },
-    "blok_6": {
-      "title": "Affordable Prices and Free Enrollment",
-      "text": "Our mission is to make quality education accessible, so we offer affordable prices, a flexible payment system, and free enrollment. This allows you to start learning easily without a heavy financial burden. We want everyone to have the opportunity to study, grow, and build a stable career."
-    }
-  },
-  "teach_whit_us": {
-    "come": "Come",
-    "title": "Teach with us",
-    "text": "Share your professional expertise with thousands of learners. Become an instructor on our platform, gain recognition, share your knowledge and experience, and help develop the next generation of professionals.",
-    "register": "Register for Free",
-    "why_teach": "Why Teach With Us",
-    "why_text": "Share your expertise, provide learners with new knowledge and skills, and grow as a professional instructor.",
-    "feature1": "In-Demand Skills",
-    "feature1_text": "Your courses help learners acquire modern, practical skills that are highly sought after in the real world.",
-    "feature2": "Professional Community & Recognition",
-    "feature2_text": "Gain recognition on our platform, collaborate with experienced instructors, and expand your professional network.",
-    "feature3": "Support & Growth",
-    "feature3_text": "Receive full support, access new teaching methods, and develop your instructional skills."
-  },
-  "faq_section": {
-    "title": "Frequently Asked Questions",
-    "description": "Find answers to the most common questions and learn more about our academy"
-  },
-  "bootcamp": {
-    "learn_more": "Learn more",
-    "trusted_bootcamp_1": "Intensive Bootcamp Program",
-    "item_description_1": "Master modern technologies with experienced professionals and launch your career",
-    "trusted_bootcamp_2": "Practical Bootcamp Training",
-    "item_description_2": "Gain practical skills through intensive training and real-world projects",
-    "trusted_bootcamp_3": "Proven Bootcamp Method",
-    "item_description_3": "Join our proven program and learn skills actively sought by employers"
-  },
-  "pricing": {
-    "title": "Our Pricing",
-    "description": "Choose the package that suits you and start learning today",
-    "active_label": "Active"
-  },
-  "checkout": {
-    "title": "Checkout",
-    "payment_method": "Payment Method",
-    "my_balance": "My Balance",
-    "balance_label": "Balance:",
-    "not_enough_balance": "Not enough balance",
-    "cards": "Cards",
-    "redirect_info": "You will be redirected to a secure payment page to enter your card details.",
-    "save_card": "Save card for future use",
-    "order_details": "Order Details",
-    "course_count": "(1 course)",
-    "price_label": "Price:",
-    "order_summary": "Order Summary",
-    "total_label": "Total",
-    "terms_info": "By completing your purchase, you agree to these",
-    "terms_link": "Terms of Use.",
-    "pay_button": "Pay",
-    "cancel_button": "Cancel",
-    "error_no_course": "No course selected",
-    "error_load_failed": "Failed to load course data",
-    "payment_failed": "Payment failed",
-    "payment_init_failed": "Payment initiation failed"
-  },
-  "wallet": {
-    "title": "Wallet",
-    "balance": "Wallet Balance",
-    "your_balance": "Your Wallet Balance:",
-    "available_withdrawal": "Available for Withdrawal",
-    "available_withdrawal_text": "Available for Withdrawal:",
-    "earning_status": "Earning Status",
-    "earnings_pending": "Earnings are pending:",
-    "earnings_canceled": "Earnings were canceled:",
-    "earnings_received": "Earnings received:",
-    "total_earning": "Total Earning",
-    "your_total_earning": "Your Total Earning:",
-    "total_spent": "Total Spent",
-    "total_spent_text": "Total Spent:",
-    "withdraw": "Withdraw",
-    "add_funds": "Add Funds",
-    "purchase_history": "Purchase history",
-    "withdrawal_requests": "Withdrawal Requests",
-    "date": "Date",
-    "amount": "Amount",
-    "status": "Status",
-    "admin_notes": "Admin Notes",
-    "status_pending": "Pending",
-    "status_completed": "Approved",
-    "status_rejected": "Rejected",
-    "no_withdrawals": "No withdrawal requests yet",
-    "platform_fees": "Platform Fees (20%)",
-    "total_gross_earning": "Total Gross Earning",
-    "my_balance": "My Balance"
-  },
-  "purchase_history": {
-    "title": "Purchase history",
-    "product": "Product",
-    "date": "Date",
-    "total_amount": "Total Amount",
-    "service_fee": "Service Fee",
-    "net": "Net",
-    "status": "Status",
-    "invoice": "Invoice",
-    "instructor": "Instructor:",
-    "no_purchases": "You don't have any course purchases.",
+    "home": "Home",
+    "about_us": "About Us",
+    "why_choose_us": "Why Choose Us",
+    "contact_us": "Contact Us",
+    "teach_on_trainUp": "Teach on TrainUp",
+    "blog": "Blog",
     "courses": "Courses",
-    "statuses": {
-      "completed": "Completed",
-      "pending": "Pending",
-      "declined": "Declined",
-      "approved": "Approved",
-      "deposited": "Deposited",
-      "canceled": "Canceled",
-      "failed": "Failed"
-    }
-  },
-  "help_support_instructor": {
-    "title": "Select a Topic to Search for Help",
-    "header_title_1": "How We",
-    "header_title_2": "Can Help You",
-    "header_description": "Find guides, troubleshooting steps, and answers to common questions to help you get the most out of TrainUp Academy.",
-    "instructor_payment": "Instructor Payment",
-    "instructor_payment_desc": "Understand the revenue share and how to receive payments",
-    "selling_promotion": "Selling & Promotion",
-    "selling_promotion_desc": "Learn about the announcement and promotional tools",
-    "course_building": "Course Building",
-    "course_building_desc": "Build your course curriculum and landing page",
-    "course_management": "Course Management",
-    "course_management_desc": "Maintain your course and engage with students",
-    "trust_safety": "Trust & Safety",
-    "trust_safety_desc": "Policy and copyright questions and guidance"
-  },
-  "help_support_learner": {
-    "title": "Select a Topic to Search for Help",
-    "header_title_1": "How We",
-    "header_title_2": "Can Help You",
-    "header_description": "Find guides, troubleshooting steps, and answers to common questions to help you get the most out of TrainUp Academy.",
-    "account_profile": "Account/Profile",
-    "account_profile_desc": "Manage your account settings",
-    "troubleshooting": "Troubleshooting",
-    "troubleshooting_desc": "Experiencing a technical issue? Check here.",
-    "learning_experience": "Learning Experience",
-    "learning_experience_desc": "Everything about the HayLogic Academy learning experience.",
-    "purchase_refunds": "Purchase/Refunds",
-    "purchase_refunds_desc": "Learn about purchasing courses, how to send gifts, and refunds.",
-    "mobile": "Mobile",
-    "mobile_desc": "On the go? Learn about our mobile app.",
-    "trust_safety": "Trust & Safety",
-    "trust_safety_desc": "Trust & Safety information and reporting."
-  },
-  "footer": {
-    "company": "Company",
-    "information": "Information",
-    "location": "Location",
-    "yerevan": "Yerevan",
-    "address": "Bashinjaghyan 188, Yerevan, Armenia",
-    "newsletter": "Newsletter",
-    "rights_reserved": "Copyright © {year} HayLogic Line LLC",
-    "rights_reserved_academy": "Copyright © {year} HayLogic Academy LLC",
-    "privacy_policy": "Privacy Policy",
-    "terms_of_services": "Terms Of Services"
-  },
-  "become_instructor": {
-    "title": "Become an instructor today",
-    "text": "Join our online learning marketplace.",
-    "btn_text": "Register for free"
-  },
-  "begin": {
-    "title": "Become an Instructor: Step by Step",
-    "step1": {
-      "title": "Plan Your Curriculum",
-      "text1": "Start by carefully planning your course topics and structure. Determine what your students need to learn and how to present it to provide maximum value. Creating a smart and logical course plan not only helps students but also strengthens your expertise and teaching confidence.",
-      "text2": "Register on our platform to access all the tools for structuring lessons, adding materials, and tracking student progress. By dedicating time to planning your course, you ensure a professional and engaging learning experience for every student."
-    },
-    "step2": {
-      "title": "Record Your Video",
-      "text1": "Next, create high-quality, engaging videos that showcase your knowledge and teaching style. Be ready to guide, mentor, and support your students throughout the course.",
-      "text2": "Include practical examples, real-world projects, and actionable exercises that allow students to immediately apply their skills. Videos are the core of your course — clear, interesting, and dynamic content keeps students’ attention and boosts motivation. The more effort you put into creating professional videos, the more your students will benefit from your expertise and the more visibility your course will gain."
-    },
-    "step3": {
-      "title": "Publish Your Course",
-      "text1": "Finally, publish your course by adding it to your profile. Fill in all required fields, upload your prepared videos, course materials, and description.",
-      "text2": "Submit it for approval by our team. Once approved, your course becomes available to thousands of learners. By publishing your course, you join a community of experienced instructors who are shaping the next generation of professionals."
-    }
-  },
-  "courses_page": {
-    "header_title": "TrainUp Academy",
-    "header_title_2": "Courses",
-    "header_description": "Explore a wide range of professional courses designed to help you develop new skills and advance your career. Each program is created by industry experts and includes practical lessons, real-world examples, and hands-on exercises. Start learning today and unlock opportunities for your personal and professional growth."
-  },
-  "auth": {
-    "register_success": "User registered successfully. Please check your email for the verification code.",
-    "invalid_credentials": "Invalid credentials.",
-    "email_not_verified": "Please verify your email before logging in.",
-    "logout_success": "You have been successfully logged out!",
-    "email_required": "Email is required",
-    "email_invalid": "Email is invalid",
-    "email_max": "Email cannot be longer than 255 characters",
-    "email_unique": "Email is already taken",
-    "first_name_required": "First name is required",
-    "first_name_max": "First name cannot be longer than 100 characters",
-    "first_name_string": "First name must contain only letters and spaces",
-    "last_name_required": "Last name is required",
-    "last_name_max": "Last name cannot be longer than 100 characters",
-    "last_name_string": "Last name must contain only letters and spaces",
-    "password_required": "Password is required",
-    "password_min": "Password must be at least 8 characters long",
-    "password_confirmed": "Passwords do not match",
-    "role_required": "Role is required",
-    "register_failed": "Registration failed",
-    "login_success": "You have successfully logged in.",
-    "check_email_for_verification": "Please check your email",
-    "verification_code": "Verification Code",
-    "code_sent_to": "We’ve sent a code to",
-    "verify": "Verify",
-    "didnt_receive": "Didn’t receive an email?",
-    "resend": "Resend",
-    "code_required": "Please enter all digits correctly.",
-    "invalid_code": "The code you entered is incorrect.",
-    "code_expired": "The code has expired.",
-    "email_verified_success": "Your email has been verified successfully.",
-    "code_resent": "A new code has been sent.",
-    "already_verified": "Your email is already verified.",
-    "wait_before_resend": "Please wait before requesting a new code.",
-    "something_went_wrong": "Something went wrong. Please try again.",
-    "email_not_found": "Email not found",
-    "reset_link_sent": "Password reset link has been sent",
-    "token_invalid_or_expired": "The reset link is invalid or has expired.",
-    "unauthenticated": "You must be logged in.",
-    "phone_number_updated": "Phone number successfully updated.",
-    "phone_number_update_failed": "Failed to update phone number.",
-    "phone_number_string": "Phone number must be a string.",
-    "phone_number_max": "Phone number must not exceed 20 characters.",
-    "phone_number_invalid": "Invalid phone number format.",
-    "phone_number_unique": "This phone number is already in use.",
-    "notification_state_updated": "Notification config successfully updated.",
-    "notification_state_update_failed": "Failed to update notification config",
-    "by_creating_account": "By creating an account, you accept our",
-    "terms": "Terms",
-    "privacy_policy": "Privacy Policy",
-    "accept_terms_required": "You must accept the Terms & Privacy Policy to register",
-    "and": "and",
-    "settingsTabs": {
-      "view_public_profile": "View Public Profile",
-      "view_profile": "View  Profile",
-      "profile": "Profile",
-      "photo": "Photo",
-      "changePassword": "Change Password",
-      "privacy": "Privacy",
-      "notifications": "Notifications",
-      "paymentMethods": "Payment Methods"
-    },
-    "roles": {
-      "instructor": "Instructor",
-      "learner": "Learner"
-    },
-    "profile": {
-      "title": "Your Profile",
-      "subtitle": "Add information about yourself",
-      "first_name": "First Name",
-      "last_name": "Last Name",
-      "email": "Email",
-      "phone": "Phone Number",
-      "placeholders": {
-        "first_name": "Your First Name",
-        "last_name": "Your Last Name",
-        "email": "Your Email",
-        "phone": "Your Phone Number"
-      },
-      "save": "Save"
-    },
-    "photo": {
-      "title": "Photo",
-      "subtitle": "Add a nice photo of yourself for your profile",
-      "label": "Add / Change Image",
-      "no_file": "No File Selected",
-      "upload": "Upload",
-      "save": "Save"
-    },
-    "changePassword": {
-      "title": "Change Password",
-      "subtitle": "Change your password here",
-      "old_password": "Old Password",
-      "new_password": "New Password",
-      "confirm_password": "Confirm New Password",
-      "placeholders": {
-        "old_password": "Old Password",
-        "new_password": "New Password",
-        "confirm_password": "Confirm Password"
-      },
-      "button": "Change password"
-    },
-    "notifications": {
-      "title": "Notifications",
-      "subtitle": "Manage notifications you receive",
-      "notification_settings": "Notification Settings",
-      "email": "Email",
-      "save": "Save"
-    },
-    "privacy": {
-      "title": "Privacy",
-      "subtitle": "Modify your privacy settings here",
-      "profile_page_settings": "Profile Page Settings",
-      "option1": "Lorem Ipsum",
-      "option2": "Lorem Ipsum",
-      "save": "Save"
-    },
-    "paymentMethods": {
-      "title": "Payment Methods",
-      "subtitle": "Add a payment method to get started",
-      "saved_methods": "Your Saved Payment Methods",
-      "card_number_masked": "**** **** **** 1234",
-      "delete_button": "Delete",
-      "no_saved_methods": "You don’t have any saved payment method",
-      "add_new_button": "Add new"
-    },
-    "old_password_required": "Old password is required.",
-    "new_password_required": "New password is required.",
-    "new_password_min": "New password must be at least 6 characters.",
-    "new_password_confirmed": "New password confirmation does not match.",
-    "old_password_incorrect": "The old password you entered is incorrect.",
-    "password_changed_successfully": "Your password has been changed successfully.",
-    "image_required": "Image is required.",
-    "image_must_be_image": "The file must be an image.",
-    "image_invalid_format": "Image must be jpg, jpeg, or png format.",
-    "image_max_size": "Image must not exceed 2MB.",
-    "image_updated_successfully": "Profile image updated successfully.",
-    "add_course": {
-      "general_title": "Add a Course",
-      "drag_text": "Drag and drop a file here or",
-      "browse": "Browse",
-      "selected_file": "Selected file:",
-      "course_details": "Course details",
-      "add_translations": "Add Translations",
-      "russian": "Russian",
-      "armenian": "Armenian",
-      "title_en": "English",
-      "title_ru": "Russian",
-      "title_arm": "Armenian",
-      "course_title": "Course Title",
-      "course_title_placeholder": "Your Course Name",
-      "course_price": "Course Price",
-      "course_price_placeholder": "Your Course Price",
-      "faq_label": "Frequently Asked Questions",
-      "question_placeholder": "Question:",
-      "answer_placeholder": "Answer:",
-      "add_new": "Add New",
-      "highlights_label": "Course Highlights",
-      "highlight_placeholder": "Your Course Highlight",
-      "description_label": "Course Description",
-      "description_placeholder": "Your Course Description",
-      "button_add": "Add course",
-      "course_details_time_required": "Please write time, it is required",
-      "quiz": {
-        "section_title": "Quiz Questions",
-        "question_label": "Question",
-        "question_placeholder": "Enter the question text",
-        "option_placeholder": "Option",
-        "add_option": "Add Option",
-        "type_label": "Type",
-        "type_radio": "Single",
-        "type_checkbox": "Multiple",
-        "practice_section_title": "Practice Assignments",
-        "practice_label": "Assignment",
-        "practice_text_placeholder": "Enter the assignment text",
-        "practice_answer_placeholder": "Enter the correct answer",
-        "add_practice": "Add Assignment",
-        "validation": {
-          "question_required": "Question text is required",
-          "option_required": "Option text is required",
-          "min_options": "At least 2 options are required",
-          "select_correct": "Please select one correct answer",
-          "select_correct_checkbox": "Please select at least one correct answer",
-          "practice_text_required": "Assignment text is required",
-          "practice_answer_required": "Correct answer is required"
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up",
+    "package_include": "Included in the package",
+    "learn_more": "Learn more",
+    "full_name": "Full name",
+    "phone": "Phone number",
+    "email": "Email",
+    "book_call": "Book a call",
+    "submit": "Submit",
+    "name": "Name",
+    "your_name": "Your name",
+    "message": "Message",
+    "your_message": "Your message",
+    "your_email": "Your email",
+    "first_name": "First name",
+    "your_first_name": "Your first name",
+    "last_name": "Last name",
+    "your_last_name": "Your last name",
+    "password": "Password",
+    "your_password": "Your password",
+    "repeat_password": "Repeat password",
+    "continue_as_learner": "Continue as learner",
+    "continue_as_instructor": "Continue as instructor",
+    "already_have_an_account": "You already have an account?",
+    "dont_have_an_account": "Don’t have an account?",
+    "forgot_password": "Forgot password?",
+    "create_new_password": "Create new password",
+    "new_password": "New password",
+    "confirm_your_password": "Confirm your password",
+    "change": "Change",
+    "change_password": "Change password",
+    "loading": "Loading",
+    "header": {
+        "title": "TrainUp Online Academy",
+        "subtitle": "The Most Convenient Place to Develop Your Skills",
+        "menu": {
+            "course": "Course",
+            "my_courses": "My courses",
+            "add_course": "Add a course",
+            "most_popular": "Most popular",
+            "account_settings": "Account Settings",
+            "wallet": "Wallet",
+            "purchase_history": "Purchase History",
+            "more_from_academy": "More from HayLogic academy",
+            "help_support": "Help & Support",
+            "logout": "Log Out",
+            "learn": "Learn",
+            "my_learning": "My Learning",
+            "my_cart": "My Cart",
+            "wishlist": "Wishlist"
         }
-      },
-      "success_msg": {
-        "course_added": "Course added successfully"
-      },
-      "validation": {
-        "video": {
-          "required": "Video is required",
-          "file": "The uploaded file must be a file",
-          "mimes": "The video must be a file of type: mp4, mov, avi, webm",
-          "max": "The video size must not exceed 50MB"
-        },
-        "title_en": {
-          "required": "English title is required",
-          "string": "English title must be a string",
-          "max": "English title may not be greater than 255 characters",
-          "regex": "English title contains invalid characters"
-        },
-        "title_ru": {
-          "string": "Russian title must be a string",
-          "max": "Russian title may not be greater than 255 characters",
-          "regex": "Russian title contains invalid characters"
-        },
-        "title_arm": {
-          "string": "Armenian title must be a string",
-          "max": "Armenian title may not be greater than 255 characters",
-          "regex": "Armenian title contains invalid characters"
-        },
-        "price_en": {
-          "required": "English price is required",
-          "numeric": "Price must be a number",
-          "min": "Price must be at least 0",
-          "max": "Price may not exceed 999999.99"
-        },
-        "price_ru": {
-          "numeric": "Price must be a number",
-          "min": "Price must be at least 0",
-          "max": "Price may not exceed 999999.99"
-        },
-        "price_arm": {
-          "numeric": "Price must be a number",
-          "min": "Price must be at least 0",
-          "max": "Price may not exceed 999999.99"
-        },
-        "currency_en": {
-          "invalid": "Currency must be USD",
-          "required": "Currency is required"
-        },
-        "currency_ru": {
-          "invalid": "Currency must be RUB",
-          "required": "Currency is required"
-        },
-        "currency_arm": {
-          "invalid": "Currency must be AMD",
-          "required": "Currency is required"
-        },
-        "description_en": {
-          "required": "English description is required",
-          "string": "English description must be a string",
-          "regex": "English description contains invalid characters"
-        },
-        "description_ru": {
-          "string": "Russian description must be a string",
-          "regex": "Russian description contains invalid characters"
-        },
-        "description_arm": {
-          "string": "Armenian description must be a string",
-          "regex": "Armenian description contains invalid characters"
-        },
-        "faqs": {
-          "required": "FAQs are required",
-          "inconsistent_language_count": "FAQ counts must be the same in all languages",
-          "question_en": {
-            "required": "English question is required",
-            "string": "English question must be a string",
-            "regex": "English question contains invalid characters"
-          },
-          "question_ru": {
-            "string": "Russian question must be a string",
-            "regex": "Russian question contains invalid characters"
-          },
-          "question_arm": {
-            "string": "Armenian question must be a string",
-            "regex": "Armenian question contains invalid characters"
-          },
-          "answer_en": {
-            "required": "English answer is required",
-            "string": "English answer must be a string",
-            "regex": "English answer contains invalid characters"
-          },
-          "answer_ru": {
-            "string": "Russian answer must be a string",
-            "regex": "Russian answer contains invalid characters"
-          },
-          "answer_arm": {
-            "string": "Armenian answer must be a string",
-            "regex": "Armenian answer contains invalid characters"
-          }
-        },
-        "highlights": {
-          "required": "Highlights are required",
-          "inconsistent_language_count": "Highlight counts must be the same in all languages",
-          "name_en": {
-            "required": "English highlight is required",
-            "string": "English highlight must be a string",
-            "regex": "English highlight contains invalid characters"
-          },
-          "name_ru": {
-            "string": "Russian highlight must be a string",
-            "regex": "Russian highlight contains invalid characters"
-          },
-          "name_arm": {
-            "string": "Armenian highlight must be a string",
-            "regex": "Armenian highlight contains invalid characters"
-          }
-        },
-        "details_by_instructor": {
-          "required": "Course details by instructor are required",
-          "course_details_data_id": {
-            "required": "Detail ID is required",
-            "exists": "Detail ID does not exist"
-          },
-          "time": {
-            "date_format": "Time must be in HH:mm:ss format"
-          }
-        }
-      }
     },
-    "courses": {
-      "my_courses_title": "My Courses",
-      "you_have_not_add_course": "You haven't added any courses yet. Click the",
-      "add_course": "Add a Course",
-      "to_begin": "to begin.",
-      "in_review": "In Review",
-      "approved": "Approved",
-      "declined": "Declined",
-      "change_course": "Change course",
-      "course_price": "Course price",
-      "course_description": "Description",
-      "course_highlight": "Course highlight",
-      "course_faq": "Frequently asked questions",
-      "course_include": "This course include",
-      "course_views": "Views",
-      "course_views_text": "people have viewed your video course",
-      "course_comments": "Comments",
-      "course_comments_view_more": "View more",
-      "course_updated": "Course updated successfully",
-      "title_required": "Title (English) is required.",
-      "price_required": "Price (English) is required.",
-      "currency_required": "Currency (English) is required.",
-      "description_required": "Description (English) is required.",
-      "faq_required": "At least one FAQ in English must be filled.",
-      "highlight_required": "At least one highlight in English must be filled."
-    }
-  },
-  "enroll_now": "Enroll now",
-  "what_are_you_looking_for": "What are you looking for?",
-  "comments": "Comments",
-  "single_course": {
-    "description": "Description :",
-    "course_highlight": "Course Highlight:",
-    "course_questions": "Course Questions:",
+    "hero": {
+        "learn_anywhere_anytime": "Learn anywhere, anytime.",
+        "choose_course_fits_level": "Choose a course that fits your skill level—from beginner to advanced.",
+        "free_registration": "Free Registration"
+    },
+    "featured_courses": {
+        "title": "Featured Online Courses",
+        "description_short": "Boost your knowledge. Build a sustainable career.",
+        "description_long": "At TrainUp Online Academy, you can learn the most in-demand skills on the market with the support of experienced professionals. Select your online course and start acquiring new skills today."
+    },
+    "testimonials": {
+        "title": "What Our Students Say",
+        "description": "See what our students say about TrainUp.academy and our courses. Their success stories are proof that the right knowledge can transform a career. Read their real opinions about our instructors, course quality, and learning experience.",
+        "best_conference": "Best Conference",
+        "certified_trusted": "100% Certified & Trusted",
+        "world_class_support": "Enjoy 24/7 World Class Support",
+        "fallback_course_title": "Course Title"
+    },
+    "blog_description": "In the TrainUp Academy blog, you’ll find the latest articles on professional skills, personal growth, technology, and career development. Learn new ideas, discover practical tips, and always stay one step ahead.",
+    "blog_page": {
+        "title_1": "Blog &",
+        "title_2": "Article"
+    },
+    "book_call_title": "Call us and discover new opportunities.",
+    "preferred_date": "Preferred Date",
+    "preferred_time": "Preferred Time",
+    "preferred_date_time": "Preferred Date & Time",
+    "messages": {
+        "email_required": "Email is required",
+        "email_invalid": "Email must be valid",
+        "email_max": "Email is too long",
+        "full_name_required": "Full name is required",
+        "full_name_string": "Full name must be a string",
+        "full_name_max": "Full name must be less than 100 characters",
+        "name_required": "Name is required",
+        "name_string": "Name must be a string",
+        "name_max": "Name must be less than 100 characters",
+        "message_required": "Message is required",
+        "message_string": "Message must be a string",
+        "message_max": "Message must be less than 1000 characters",
+        "phone_number_required": "Phone number is required",
+        "phone_number_invalid": "Phone number format is invalid",
+        "book_call_created": "Your call has been booked successfully!",
+        "book_call_creation_failed": "There was an error booking your call. Please try again.",
+        "newsletter_created": "Your newsletter has been sent successfully!",
+        "newsletter_creation_failed": "There was an error sending your newsletter. Please try again.",
+        "contact_created": "Your contact has been sent successfully!",
+        "contact_creation_failed": "There was an error sending your contact. Please try again.",
+        "course_created": "Your course has been created successfully!",
+        "course_updated": "Your course has been updated successfully!",
+        "course_creation_failed": "Failed to create the course. Please try again.",
+        "course_update_failed": "Failed to update the course. Please try again.",
+        "unauthorized_action": "You are not authorized to perform this action.",
+        "course_fetch_failed": "Failed to fetch courses.",
+        "course_not_found": "Course not found.",
+        "course_details_fetch_failed": "Failed to fetch course details.",
+        "view_increment_failed": "Failed to increment views.",
+        "failed_to_fetch_comments": "Failed to fetch comments.",
+        "failed_to_fetch_top_viewed_courses": "Failed to fetch top viewed courses.",
+        "course_not_found_or_not_approved": "Course not found or not approved yet."
+    },
+    "about": {
+        "about": "About",
+        "us": "Us",
+        "description": "TrainUp Online Academy is a next-generation learning platform aimed at developing professional skills through accessible, flexible, and practical courses.We bring together the best Armenian-speaking and internationally experienced professionals to provide you with learning that delivers real results.",
+        "vision": "Our Vision",
+        "vision_text": "At TrainUp Online Academy, our vision is simple:To create an educational platform where everyone can develop their skills, discover new opportunities, and build a successful future—regardless of age, location, or prior knowledge.",
+        "mission": "Our Mission",
+        "mission_text": "The mission of TrainUp Online Academy is to provide accessible, practical, and modern education for everyone. We believe that everyone can develop skills, enter new fields, increase their salary, or start their own business if they have the right knowledge and guidance.",
+        "social_media": "Social Media",
+        "why_choose_us": "Why choose us",
+        "why_choose_us_text": "TrainUp Online Academy is an online platform where you can develop your skills at any level, from beginner to advanced. We offer modern courses, practical assignments, and support from experienced professionals.",
+        "our_team": "Our Expert Team",
+        "our_team_text": "Our team consists of experienced professionals with years of real project experience. They not only teach theory but also guide students throughout the process of acquiring practical skills.",
+        "faq": "FAQ",
+        "empowering_growth": "Empowering Growth Through Online Learning",
+        "goals_title": "Our goals",
+        "goal_1": "Provide students with in-demand practical skills,",
+        "goal_2": "Ensure high-quality instructors with real-world experience,",
+        "goal_3": "Create a supportive community where everyone can grow and develop,",
+        "goal_4": "Offer a learning environment that motivates to learn, try, and move forward."
+    },
+    "contact": {
+        "contact": "Contact",
+        "us": "Us",
+        "description": "Contact us for any questions, support, or guidance. Our team is always ready to assist you quickly and efficiently at every step.",
+        "phone": "Phone Number",
+        "email": "Email",
+        "address": "Bashinjaghyan 188, Yerevan, Armenia",
+        "address_label": "Address",
+        "send_message": "Send Us a Message"
+    },
+    "why_choose_us_text": {
+        "title_1": "Why",
+        "title_2": "Choose Us",
+        "blok_1": {
+            "title": "Modern and In-Demand Professions",
+            "text": "We offer courses that match the latest global market demands. Our programs are constantly updated so you can learn real, practical skills—UI/UX, web development, AI tools, social media, and many other directions. This is the kind of knowledge that helps you progress quickly and become a competitive professional, whether you’re a beginner or already experienced."
+        },
+        "blok_2": {
+            "title": "Experienced Instructors with Real Industry Practice",
+            "text": "The instructors at TrainUp Academy are professionals with years of experience working on real projects, businesses, and international clients. They teach not only theory but real working approaches—sharing practical techniques, methods, and insights to avoid common mistakes. You learn what is actually used in the market and what brings real results."
+        },
+        "blok_3": {
+            "title": "Learn Anytime and Anywhere",
+            "text": "All our training is fully online and available 24/7. This means you can study at your own pace—after work, on weekends, or even while traveling. No strict schedules, no limitations—you organize your learning process in the way that works best for you. This flexibility makes education more effective for everyone."
+        },
+        "blok_4": {
+            "title": "Practice with Real Examples",
+            "text": "Our courses are built on hands-on learning. You’ll get not only theoretical material but also real assignments, mini-projects, and case studies that help strengthen your skills through practice. Every student builds a personal portfolio that can be presented to employers and used when entering a new profession."
+        },
+        "blok_5": {
+            "title": "Continuous Support and Mentorship",
+            "text": "At TrainUp Academy, you never study alone. Throughout the entire learning process, we provide support—from mentors, instructors, and the community. You can write anytime to get answers, help, corrections, or advice. We believe that proper guidance is essential for success, and we support you until the final result."
+        },
+        "blok_6": {
+            "title": "Affordable Prices and Free Enrollment",
+            "text": "Our mission is to make quality education accessible, so we offer affordable prices, a flexible payment system, and free enrollment. This allows you to start learning easily without a heavy financial burden. We want everyone to have the opportunity to study, grow, and build a stable career."
+        }
+    },
+    "teach_whit_us": {
+        "come": "Come",
+        "title": "Teach with us",
+        "text": "Share your professional expertise with thousands of learners. Become an instructor on our platform, gain recognition, share your knowledge and experience, and help develop the next generation of professionals.",
+        "register": "Register for Free",
+        "why_teach": "Why Teach With Us",
+        "why_text": "Share your expertise, provide learners with new knowledge and skills, and grow as a professional instructor.",
+        "feature1": "In-Demand Skills",
+        "feature1_text": "Your courses help learners acquire modern, practical skills that are highly sought after in the real world.",
+        "feature2": "Professional Community & Recognition",
+        "feature2_text": "Gain recognition on our platform, collaborate with experienced instructors, and expand your professional network.",
+        "feature3": "Support & Growth",
+        "feature3_text": "Receive full support, access new teaching methods, and develop your instructional skills."
+    },
+    "faq_section": {
+        "title": "Frequently Asked Questions",
+        "description": "Find answers to the most common questions and learn more about our academy"
+    },
+    "bootcamp": {
+        "learn_more": "Learn more",
+        "trusted_bootcamp_1": "Intensive Bootcamp Program",
+        "item_description_1": "Master modern technologies with experienced professionals and launch your career",
+        "trusted_bootcamp_2": "Practical Bootcamp Training",
+        "item_description_2": "Gain practical skills through intensive training and real-world projects",
+        "trusted_bootcamp_3": "Proven Bootcamp Method",
+        "item_description_3": "Join our proven program and learn skills actively sought by employers"
+    },
+    "pricing": {
+        "title": "Our Pricing",
+        "description": "Choose the package that suits you and start learning today",
+        "active_label": "Active"
+    },
+    "checkout": {
+        "title": "Checkout",
+        "payment_method": "Payment Method",
+        "my_balance": "My Balance",
+        "balance_label": "Balance:",
+        "not_enough_balance": "Not enough balance",
+        "cards": "Cards",
+        "redirect_info": "You will be redirected to a secure payment page to enter your card details.",
+        "save_card": "Save card for future use",
+        "order_details": "Order Details",
+        "course_count": "(1 course)",
+        "price_label": "Price:",
+        "order_summary": "Order Summary",
+        "total_label": "Total",
+        "terms_info": "By completing your purchase, you agree to these",
+        "terms_link": "Terms of Use.",
+        "pay_button": "Pay",
+        "cancel_button": "Cancel",
+        "error_no_course": "No course selected",
+        "error_load_failed": "Failed to load course data",
+        "payment_failed": "Payment failed",
+        "payment_init_failed": "Payment initiation failed"
+    },
+    "wallet": {
+        "title": "Wallet",
+        "balance": "Wallet Balance",
+        "your_balance": "Your Wallet Balance:",
+        "available_withdrawal": "Available for Withdrawal",
+        "available_withdrawal_text": "Available for Withdrawal:",
+        "earning_status": "Earning Status",
+        "earnings_pending": "Earnings are pending:",
+        "earnings_canceled": "Earnings were canceled:",
+        "earnings_received": "Earnings received:",
+        "total_earning": "Total Earning",
+        "your_total_earning": "Your Total Earning:",
+        "total_spent": "Total Spent",
+        "total_spent_text": "Total Spent:",
+        "withdraw": "Withdraw",
+        "add_funds": "Add Funds",
+        "purchase_history": "Purchase history",
+        "withdrawal_requests": "Withdrawal Requests",
+        "date": "Date",
+        "amount": "Amount",
+        "status": "Status",
+        "admin_notes": "Admin Notes",
+        "status_pending": "Pending",
+        "status_completed": "Approved",
+        "status_rejected": "Rejected",
+        "no_withdrawals": "No withdrawal requests yet",
+        "platform_fees": "Platform Fees (20%)",
+        "total_gross_earning": "Total Gross Earning",
+        "my_balance": "My Balance"
+    },
+    "purchase_history": {
+        "title": "Purchase history",
+        "product": "Product",
+        "date": "Date",
+        "total_amount": "Total Amount",
+        "service_fee": "Service Fee",
+        "net": "Net",
+        "status": "Status",
+        "invoice": "Invoice",
+        "instructor": "Instructor:",
+        "no_purchases": "You don't have any course purchases.",
+        "courses": "Courses",
+        "statuses": {
+            "completed": "Completed",
+            "pending": "Pending",
+            "declined": "Declined",
+            "approved": "Approved",
+            "deposited": "Deposited",
+            "canceled": "Canceled",
+            "failed": "Failed"
+        }
+    },
+    "help_support_instructor": {
+        "title": "Select a Topic to Search for Help",
+        "header_title_1": "How We",
+        "header_title_2": "Can Help You",
+        "header_description": "Find guides, troubleshooting steps, and answers to common questions to help you get the most out of TrainUp Academy.",
+        "instructor_payment": "Instructor Payment",
+        "instructor_payment_desc": "Understand the revenue share and how to receive payments",
+        "selling_promotion": "Selling & Promotion",
+        "selling_promotion_desc": "Learn about the announcement and promotional tools",
+        "course_building": "Course Building",
+        "course_building_desc": "Build your course curriculum and landing page",
+        "course_management": "Course Management",
+        "course_management_desc": "Maintain your course and engage with students",
+        "trust_safety": "Trust & Safety",
+        "trust_safety_desc": "Policy and copyright questions and guidance"
+    },
+    "help_support_learner": {
+        "title": "Select a Topic to Search for Help",
+        "header_title_1": "How We",
+        "header_title_2": "Can Help You",
+        "header_description": "Find guides, troubleshooting steps, and answers to common questions to help you get the most out of TrainUp Academy.",
+        "account_profile": "Account/Profile",
+        "account_profile_desc": "Manage your account settings",
+        "troubleshooting": "Troubleshooting",
+        "troubleshooting_desc": "Experiencing a technical issue? Check here.",
+        "learning_experience": "Learning Experience",
+        "learning_experience_desc": "Everything about the HayLogic Academy learning experience.",
+        "purchase_refunds": "Purchase/Refunds",
+        "purchase_refunds_desc": "Learn about purchasing courses, how to send gifts, and refunds.",
+        "mobile": "Mobile",
+        "mobile_desc": "On the go? Learn about our mobile app.",
+        "trust_safety": "Trust & Safety",
+        "trust_safety_desc": "Trust & Safety information and reporting."
+    },
+    "footer": {
+        "company": "Company",
+        "information": "Information",
+        "location": "Location",
+        "yerevan": "Yerevan",
+        "address": "Bashinjaghyan 188, Yerevan, Armenia",
+        "newsletter": "Newsletter",
+        "rights_reserved": "Copyright © {year} HayLogic Line LLC",
+        "rights_reserved_academy": "Copyright © {year} HayLogic Academy LLC",
+        "privacy_policy": "Privacy Policy",
+        "terms_of_services": "Terms Of Services"
+    },
+    "become_instructor": {
+        "title": "Become an instructor today",
+        "text": "Join our online learning marketplace.",
+        "btn_text": "Register for free"
+    },
+    "begin": {
+        "title": "Become an Instructor: Step by Step",
+        "step1": {
+            "title": "Plan Your Curriculum",
+            "text1": "Start by carefully planning your course topics and structure. Determine what your students need to learn and how to present it to provide maximum value. Creating a smart and logical course plan not only helps students but also strengthens your expertise and teaching confidence.",
+            "text2": "Register on our platform to access all the tools for structuring lessons, adding materials, and tracking student progress. By dedicating time to planning your course, you ensure a professional and engaging learning experience for every student."
+        },
+        "step2": {
+            "title": "Record Your Video",
+            "text1": "Next, create high-quality, engaging videos that showcase your knowledge and teaching style. Be ready to guide, mentor, and support your students throughout the course.",
+            "text2": "Include practical examples, real-world projects, and actionable exercises that allow students to immediately apply their skills. Videos are the core of your course — clear, interesting, and dynamic content keeps students’ attention and boosts motivation. The more effort you put into creating professional videos, the more your students will benefit from your expertise and the more visibility your course will gain."
+        },
+        "step3": {
+            "title": "Publish Your Course",
+            "text1": "Finally, publish your course by adding it to your profile. Fill in all required fields, upload your prepared videos, course materials, and description.",
+            "text2": "Submit it for approval by our team. Once approved, your course becomes available to thousands of learners. By publishing your course, you join a community of experienced instructors who are shaping the next generation of professionals."
+        }
+    },
+    "courses_page": {
+        "header_title": "TrainUp Academy",
+        "header_title_2": "Courses",
+        "header_description": "Explore a wide range of professional courses designed to help you develop new skills and advance your career. Each program is created by industry experts and includes practical lessons, real-world examples, and hands-on exercises. Start learning today and unlock opportunities for your personal and professional growth."
+    },
+    "auth": {
+        "register_success": "User registered successfully. Please check your email for the verification code.",
+        "invalid_credentials": "Invalid credentials.",
+        "email_not_verified": "Please verify your email before logging in.",
+        "logout_success": "You have been successfully logged out!",
+        "email_required": "Email is required",
+        "email_invalid": "Email is invalid",
+        "email_max": "Email cannot be longer than 255 characters",
+        "email_unique": "Email is already taken",
+        "first_name_required": "First name is required",
+        "first_name_max": "First name cannot be longer than 100 characters",
+        "first_name_string": "First name must contain only letters and spaces",
+        "last_name_required": "Last name is required",
+        "last_name_max": "Last name cannot be longer than 100 characters",
+        "last_name_string": "Last name must contain only letters and spaces",
+        "password_required": "Password is required",
+        "password_min": "Password must be at least 8 characters long",
+        "password_confirmed": "Passwords do not match",
+        "role_required": "Role is required",
+        "register_failed": "Registration failed",
+        "login_success": "You have successfully logged in.",
+        "check_email_for_verification": "Please check your email",
+        "verification_code": "Verification Code",
+        "code_sent_to": "We’ve sent a code to",
+        "verify": "Verify",
+        "didnt_receive": "Didn’t receive an email?",
+        "resend": "Resend",
+        "code_required": "Please enter all digits correctly.",
+        "invalid_code": "The code you entered is incorrect.",
+        "code_expired": "The code has expired.",
+        "email_verified_success": "Your email has been verified successfully.",
+        "code_resent": "A new code has been sent.",
+        "already_verified": "Your email is already verified.",
+        "wait_before_resend": "Please wait before requesting a new code.",
+        "something_went_wrong": "Something went wrong. Please try again.",
+        "email_not_found": "Email not found",
+        "reset_link_sent": "Password reset link has been sent",
+        "token_invalid_or_expired": "The reset link is invalid or has expired.",
+        "unauthenticated": "You must be logged in.",
+        "phone_number_updated": "Phone number successfully updated.",
+        "phone_number_update_failed": "Failed to update phone number.",
+        "phone_number_string": "Phone number must be a string.",
+        "phone_number_max": "Phone number must not exceed 20 characters.",
+        "phone_number_invalid": "Invalid phone number format.",
+        "phone_number_unique": "This phone number is already in use.",
+        "notification_state_updated": "Notification config successfully updated.",
+        "notification_state_update_failed": "Failed to update notification config",
+        "by_creating_account": "By creating an account, you accept our",
+        "terms": "Terms",
+        "privacy_policy": "Privacy Policy",
+        "accept_terms_required": "You must accept the Terms & Privacy Policy to register",
+        "and": "and",
+        "settingsTabs": {
+            "view_public_profile": "View Public Profile",
+            "view_profile": "View  Profile",
+            "profile": "Profile",
+            "photo": "Photo",
+            "changePassword": "Change Password",
+            "privacy": "Privacy",
+            "notifications": "Notifications",
+            "paymentMethods": "Payment Methods"
+        },
+        "roles": {
+            "instructor": "Instructor",
+            "learner": "Learner"
+        },
+        "profile": {
+            "title": "Your Profile",
+            "subtitle": "Add information about yourself",
+            "first_name": "First Name",
+            "last_name": "Last Name",
+            "email": "Email",
+            "phone": "Phone Number",
+            "placeholders": {
+                "first_name": "Your First Name",
+                "last_name": "Your Last Name",
+                "email": "Your Email",
+                "phone": "Your Phone Number"
+            },
+            "save": "Save"
+        },
+        "photo": {
+            "title": "Photo",
+            "subtitle": "Add a nice photo of yourself for your profile",
+            "label": "Add / Change Image",
+            "no_file": "No File Selected",
+            "upload": "Upload",
+            "save": "Save"
+        },
+        "changePassword": {
+            "title": "Change Password",
+            "subtitle": "Change your password here",
+            "old_password": "Old Password",
+            "new_password": "New Password",
+            "confirm_password": "Confirm New Password",
+            "placeholders": {
+                "old_password": "Old Password",
+                "new_password": "New Password",
+                "confirm_password": "Confirm Password"
+            },
+            "button": "Change password"
+        },
+        "notifications": {
+            "title": "Notifications",
+            "subtitle": "Manage notifications you receive",
+            "notification_settings": "Notification Settings",
+            "email": "Email",
+            "save": "Save"
+        },
+        "privacy": {
+            "title": "Privacy",
+            "subtitle": "Modify your privacy settings here",
+            "profile_page_settings": "Profile Page Settings",
+            "option1": "Lorem Ipsum",
+            "option2": "Lorem Ipsum",
+            "save": "Save"
+        },
+        "paymentMethods": {
+            "title": "Payment Methods",
+            "subtitle": "Add a payment method to get started",
+            "saved_methods": "Your Saved Payment Methods",
+            "card_number_masked": "**** **** **** 1234",
+            "delete_button": "Delete",
+            "no_saved_methods": "You don’t have any saved payment method",
+            "add_new_button": "Add new"
+        },
+        "old_password_required": "Old password is required.",
+        "new_password_required": "New password is required.",
+        "new_password_min": "New password must be at least 6 characters.",
+        "new_password_confirmed": "New password confirmation does not match.",
+        "old_password_incorrect": "The old password you entered is incorrect.",
+        "password_changed_successfully": "Your password has been changed successfully.",
+        "image_required": "Image is required.",
+        "image_must_be_image": "The file must be an image.",
+        "image_invalid_format": "Image must be jpg, jpeg, or png format.",
+        "image_max_size": "Image must not exceed 2MB.",
+        "image_updated_successfully": "Profile image updated successfully.",
+        "add_course": {
+            "general_title": "Add a Course",
+            "drag_text": "Drag and drop a file here or",
+            "browse": "Browse",
+            "selected_file": "Selected file:",
+            "course_details": "Course details",
+            "add_translations": "Add Translations",
+            "russian": "Russian",
+            "armenian": "Armenian",
+            "title_en": "English",
+            "title_ru": "Russian",
+            "title_arm": "Armenian",
+            "course_title": "Course Title",
+            "course_title_placeholder": "Your Course Name",
+            "course_price": "Course Price",
+            "course_price_placeholder": "Your Course Price",
+            "faq_label": "Frequently Asked Questions",
+            "question_placeholder": "Question:",
+            "answer_placeholder": "Answer:",
+            "add_new": "Add New",
+            "highlights_label": "Course Highlights",
+            "highlight_placeholder": "Your Course Highlight",
+            "description_label": "Course Description",
+            "description_placeholder": "Your Course Description",
+            "button_add": "Add course",
+            "course_details_time_required": "Please write time, it is required",
+            "quiz": {
+                "section_title": "Quiz Questions",
+                "question_label": "Question",
+                "question_placeholder": "Enter the question text",
+                "option_placeholder": "Option",
+                "add_option": "Add Option",
+                "type_label": "Type",
+                "type_radio": "Single",
+                "type_checkbox": "Multiple",
+                "practice_section_title": "Practice Assignments",
+                "practice_label": "Assignment",
+                "practice_text_placeholder": "Enter the assignment text",
+                "practice_answer_placeholder": "Enter the correct answer",
+                "add_practice": "Add Assignment",
+                "validation": {
+                    "question_required": "Question text is required",
+                    "option_required": "Option text is required",
+                    "min_options": "At least 2 options are required",
+                    "select_correct": "Please select one correct answer",
+                    "select_correct_checkbox": "Please select at least one correct answer",
+                    "practice_text_required": "Assignment text is required",
+                    "practice_answer_required": "Correct answer is required"
+                }
+            },
+            "success_msg": {
+                "course_added": "Course added successfully"
+            },
+            "validation": {
+                "video": {
+                    "required": "Video is required",
+                    "file": "The uploaded file must be a file",
+                    "mimes": "The video must be a file of type: mp4, mov, avi, webm",
+                    "max": "The video size must not exceed 50MB"
+                },
+                "title_en": {
+                    "required": "English title is required",
+                    "string": "English title must be a string",
+                    "max": "English title may not be greater than 255 characters",
+                    "regex": "English title contains invalid characters"
+                },
+                "title_ru": {
+                    "string": "Russian title must be a string",
+                    "max": "Russian title may not be greater than 255 characters",
+                    "regex": "Russian title contains invalid characters"
+                },
+                "title_arm": {
+                    "string": "Armenian title must be a string",
+                    "max": "Armenian title may not be greater than 255 characters",
+                    "regex": "Armenian title contains invalid characters"
+                },
+                "price_en": {
+                    "required": "English price is required",
+                    "numeric": "Price must be a number",
+                    "min": "Price must be at least 0",
+                    "max": "Price may not exceed 999999.99"
+                },
+                "price_ru": {
+                    "numeric": "Price must be a number",
+                    "min": "Price must be at least 0",
+                    "max": "Price may not exceed 999999.99"
+                },
+                "price_arm": {
+                    "numeric": "Price must be a number",
+                    "min": "Price must be at least 0",
+                    "max": "Price may not exceed 999999.99"
+                },
+                "currency_en": {
+                    "invalid": "Currency must be USD",
+                    "required": "Currency is required"
+                },
+                "currency_ru": {
+                    "invalid": "Currency must be RUB",
+                    "required": "Currency is required"
+                },
+                "currency_arm": {
+                    "invalid": "Currency must be AMD",
+                    "required": "Currency is required"
+                },
+                "description_en": {
+                    "required": "English description is required",
+                    "string": "English description must be a string",
+                    "regex": "English description contains invalid characters"
+                },
+                "description_ru": {
+                    "string": "Russian description must be a string",
+                    "regex": "Russian description contains invalid characters"
+                },
+                "description_arm": {
+                    "string": "Armenian description must be a string",
+                    "regex": "Armenian description contains invalid characters"
+                },
+                "faqs": {
+                    "required": "FAQs are required",
+                    "inconsistent_language_count": "FAQ counts must be the same in all languages",
+                    "question_en": {
+                        "required": "English question is required",
+                        "string": "English question must be a string",
+                        "regex": "English question contains invalid characters"
+                    },
+                    "question_ru": {
+                        "string": "Russian question must be a string",
+                        "regex": "Russian question contains invalid characters"
+                    },
+                    "question_arm": {
+                        "string": "Armenian question must be a string",
+                        "regex": "Armenian question contains invalid characters"
+                    },
+                    "answer_en": {
+                        "required": "English answer is required",
+                        "string": "English answer must be a string",
+                        "regex": "English answer contains invalid characters"
+                    },
+                    "answer_ru": {
+                        "string": "Russian answer must be a string",
+                        "regex": "Russian answer contains invalid characters"
+                    },
+                    "answer_arm": {
+                        "string": "Armenian answer must be a string",
+                        "regex": "Armenian answer contains invalid characters"
+                    }
+                },
+                "highlights": {
+                    "required": "Highlights are required",
+                    "inconsistent_language_count": "Highlight counts must be the same in all languages",
+                    "name_en": {
+                        "required": "English highlight is required",
+                        "string": "English highlight must be a string",
+                        "regex": "English highlight contains invalid characters"
+                    },
+                    "name_ru": {
+                        "string": "Russian highlight must be a string",
+                        "regex": "Russian highlight contains invalid characters"
+                    },
+                    "name_arm": {
+                        "string": "Armenian highlight must be a string",
+                        "regex": "Armenian highlight contains invalid characters"
+                    }
+                },
+                "details_by_instructor": {
+                    "required": "Course details by instructor are required",
+                    "course_details_data_id": {
+                        "required": "Detail ID is required",
+                        "exists": "Detail ID does not exist"
+                    },
+                    "time": {
+                        "date_format": "Time must be in HH:mm:ss format"
+                    }
+                }
+            }
+        },
+        "courses": {
+            "my_courses_title": "My Courses",
+            "you_have_not_add_course": "You haven't added any courses yet. Click the",
+            "add_course": "Add a Course",
+            "to_begin": "to begin.",
+            "in_review": "In Review",
+            "approved": "Approved",
+            "declined": "Declined",
+            "change_course": "Change course",
+            "course_price": "Course price",
+            "course_description": "Description",
+            "course_highlight": "Course highlight",
+            "course_faq": "Frequently asked questions",
+            "course_include": "This course include",
+            "course_views": "Views",
+            "course_views_text": "people have viewed your video course",
+            "course_comments": "Comments",
+            "course_comments_view_more": "View more",
+            "course_updated": "Course updated successfully",
+            "title_required": "Title (English) is required.",
+            "price_required": "Price (English) is required.",
+            "currency_required": "Currency (English) is required.",
+            "description_required": "Description (English) is required.",
+            "faq_required": "At least one FAQ in English must be filled.",
+            "highlight_required": "At least one highlight in English must be filled."
+        }
+    },
+    "enroll_now": "Enroll now",
+    "what_are_you_looking_for": "What are you looking for?",
     "comments": "Comments",
-    "course_price": "Course Price:",
-    "course_include": "This Course Includes",
-    "buy_now_btn": "Buy now",
-    "add_to_card_btn": "Add to cart",
-    "view_more": "View more",
-    "view_less": "View less",
-    "write_comment_placeholder": "Write comment",
-    "submit": "Submit"
-  },
-  "no_notification": "No notifications",
-  "withdraw_funds": {
-    "title": "Withdraw Funds",
-    "available_balance": "Available Balance",
-    "amount_to_withdraw": "Amount to Withdraw",
-    "amount_placeholder": "0.00 ֏",
-    "minimum": "Minimum 1000 ֏",
-    "maximum": "Maximum 100,000 ֏",
-    "platform_fee": "Platform Fee (10%)",
-    "net_amount": "Net Amount You'll Receive",
-    "bank_transfer": "Bank Transfer",
-    "paypal": "PayPal",
-    "bank_name": "Bank Name",
-    "account_holder_name": "Account Holder Name",
-    "account_number": "Account Number",
-    "swift_iban": "SWIFT / IBAN",
-    "info_processing": "Withdraw processed in 24-48 hours",
-    "info_fee": "Platform takes 10% fee",
-    "info_minimum": "Minimum withdrawal 1000 ֏",
-    "cancel": "Cancel",
-    "request_withdrawal": "Request Withdrawal"
-  },
-  "add_funds": {
-    "title": "Add funds to student balance",
-    "available_balance": "Available balance",
-    "amount_to_add": "Amount to add",
-    "amount_placeholder": "0.00 ֏",
-    "minimum": "Minimum 1000 ֏",
-    "maximum": "Maximum 100,000 ֏",
-    "platform_fee": "Platform fee (10%)",
-    "net_amount": "Net amount to be credited",
-    "credit_debit_card": "Credit / debit card",
-    "cardholder_name": "Cardholder name",
-    "card_number": "Card number",
-    "expiration_date": "Expiration date (MM/YY)",
-    "cvv": "CVV",
-    "paypal": "PayPal",
-    "info_processing": "Top-ups are usually processed instantly",
-    "info_fee": "The platform charges a 10% fee",
-    "info_minimum": "Minimum top-up amount is 1000 ֏",
-    "cancel": "Cancel",
-    "add_funds_btn": "Add funds",
-    "arca_card": "ARCA Card / Local Armenian Cards",
-    "arca_redirect_info": "You will be redirected to the secure ARCA payment page to complete the transaction.",
-    "info_arca_secure": "Payments are protected by 3D-Secure",
-    "payment_success": "Payment successful! Your balance has been updated.",
-    "payment_not_completed": "Payment was not completed or was declined.",
-    "error_payment_failed": "Payment failed. Please try again.",
-    "error_verification": "Error verifying payment. Please contact support.",
-    "redirect_info": "You will be redirected to a secure payment page to enter your card details.",
-    "select_method": "Select payment method",
-    "save_card_for_future": "Save card for future use"
-  },
-  "payment": {
-    "processing_title": "Processing Payment",
-    "processing_text": "Please wait while we verify your payment...",
-    "success_title": "Payment Successful",
-    "success_text": "Your payment has been processed successfully. Your balance has been updated.",
-    "failed_title": "Payment Failed",
-    "failed_text": "Unfortunately, your payment could not be processed. Please try again.",
-    "unknown_title": "Payment Status Unknown",
-    "unknown_text": "We could not determine the status of your payment. Please check your wallet or contact support.",
-    "error_title": "Error",
-    "order_id": "Order ID",
-    "back_to_wallet": "Back to Wallet",
-    "go_to_learning": "Go to My Learning",
-    "try_again": "Try Again",
-    "go_home": "Go Home",
-    "initiation_error": "Could not initiate payment. Please try again."
-  },
-  "wishlist_page": {
-    "title": "Wishlist",
-    "instructor": "Instructor",
-    "total_ratings": "total ratings",
-    "price": "Price",
-    "empty_wishlist": "Your wishlist is empty. Keep shopping to find a course!",
-    "courses_btn": "Courses"
-  },
-  "cart_page": {
-    "title": "Shopping Cart",
-    "instructor": "Instructor",
-    "total_ratings": "total ratings",
-    "price": "Price",
-    "courses_in_cart": "Courses in Cart",
-    "remove": "Remove",
-    "move_to_wishlist": "Move To Wishlist",
-    "buy_now": "Buy Now",
-    "total_hours": "total hours",
-    "empty_message": "Your cart is empty. Keep shopping to find a course!",
-    "courses_btn": "Courses"
-  },
-  "validation": {
-    "course_id_required": "Course ID is required",
-    "course_id_not_exist": "Course does not exist",
-    "rating_required": "Please rate the course first, then leave a comment (comment is optional)",
-    "rating_integer": "Rating must be an integer",
-    "rating_min": "Rating must be at least 1",
-    "rating_max": "Rating cannot exceed 5",
-    "comment_text_string": "Comment must be text"
-  },
-  "rating_success": "Thank you for your rating!",
-  "terms_conditions": {
-    "title": "TERMS AND CONDITIONS",
-    "lastUpdated": "Last updated: November 1, 2025",
-    "welcome": "Welcome to TrainUp Online Academy (\"TrainUp\", \"we\", \"our\", or \"us\"). By accessing or using our website www.trainup.academy (the \"Website\"), you agree to comply with and be bound by these Terms and Conditions (\"Terms\"). If you do not agree, please do not use our services.",
-    "support_email": "support@trainup.academy",
-    "sections": [
-      {
-        "heading": "1. Acceptance of Terms",
-        "body": "By registering or using TrainUp Online Academy, you confirm that you have read, understood, and accepted these Terms and our Privacy Policy.These Terms form a legally binding agreement under the laws of the Republic of Armenia."
-      },
-      {
-        "heading": "2. Eligibility",
-        "body": "You must be at least 16 years old to use the platform. If you are under 18, you may only use it with parental or guardian consent."
-      },
-      {
-        "heading": "3. Account Registration",
-        "body": "You agree to:\n• Provide accurate and complete information.\n• Keep your login credentials secure.\n• Not share your account with others.\n\nTrainUp reserves the right to suspend or terminate accounts violating these Terms."
-      },
-      {
-        "heading": "4. Courses and Content",
-        "body": "All courses, materials, and videos are owned by TrainUp Online Academy or independent instructors. All intellectual property rights belong to TrainUp or content authors. You may use the materials only for personal learning purposes."
-      },
-      {
-        "heading": "5. Payments and Refunds",
-        "body": "• All prices are shown in Armenian Drams (AMD).\n• Access is granted only after full payment.\n• All sales are final and non-refundable, except for technical errors (e.g., duplicate payments or course access failures).\n\nRefund requests must be sent within 7 business days to <a href='mailto:support&#64;trainup&#46;academy'>support&#64;trainup&#46;academy</a>."
-      },
-      {
-        "heading": "6. Certificates",
-        "body": "Some courses may provide digital certificates. TrainUp defines completion and certificate rules. Certificates are personal and cannot be resold or altered."
-      },
-      {
-        "heading": "7. User Conduct",
-        "body": "You agree not to:\n•Resell or share course access; \n• Post illegal or harmful content; \n• Attempt to damage or disrupt the website.\n\n Violations may result in suspension or permanent account removal."
-      },
-      {
-        "heading": "8. Intellectual Property",
-        "body": "All site design, visuals, and course materials belong to TrainUp Online Academy. Unauthorized use, copying, or distribution is prohibited and may result in legal action."
-      },
-      {
-        "heading": "9. Limitation of Liability",
-        "body": "TrainUp is not liable for any indirect or consequential damages due to: \n• Technical issues or data loss, \n• Course content errors,\n• Misuse by the user. \n\nAll services are provided “as is”."
-      },
-      {
-        "heading": "10. Modifications",
-        "body": "TrainUp may update these Terms at any time. Changes become effective once posted on the website."
-      },
-      {
-        "heading": "11. Governing Law",
-        "body": "These Terms are governed by the laws of the Republic of Armenia. Any disputes will be resolved in the courts of Yerevan, Armenia."
-      },
-      {
-        "heading": "12. Contact Us",
-        "body": "Yerevan, Republic of Armenia"
-      }
-    ]
-  },
-  "learner_profile": {
-    "my_learning": "My Learning",
-    "view_more": "view more",
-    "no_purchases": "You haven’t purchased any courses yet. Explore our catalog and start learning today.",
-    "wishlist": "Wishlist",
-    "my_cart": "My cart",
-    "take_quiz": "Take Quiz",
-    "quiz": {
-      "page_title": "Course Quiz",
-      "back_to_learning": "Back to Course",
-      "your_score": "Your Score",
-      "correct_answer": "correct answer",
-      "retake": "Retake Quiz",
-      "submit": "Submit Answers",
-      "no_quiz": "This course has no quiz questions.",
-      "not_purchased": "You have not purchased this course.",
-      "load_error": "Failed to load quiz. Please try again.",
-      "answer_all": "Please answer all questions before submitting.",
-      "answer_all_practice": "Please answer all practice assignments before submitting.",
-      "submit_error": "Failed to submit quiz. Please try again.",
-      "cooldown_title": "Please wait",
-      "cooldown_message": "You must wait 24 hours after a failed attempt before retrying.",
-      "already_passed_title": "Congratulations!",
-      "already_passed_message": "You have already passed this quiz and earned your certificate.",
-      "test_score": "Test",
-      "practice_score": "Practice",
-      "passed": "Passed! Certificate earned!",
-      "failed": "Not passed. You can retry in 24 hours.",
-      "test_results": "Test Question Results",
-      "practice_results": "Practice Assignment Results",
-      "your_answer": "Your answer",
-      "answer_was_incorrect": "Your answer was incorrect.",
-      "single": "Single",
-      "multiple": "Multiple",
-      "test_questions_title": "Test Questions",
-      "practice_title": "Practice Assignments",
-      "practice_placeholder": "Type your answer here...",
-      "download_certificate": "Download Certificate"
+    "single_course": {
+        "description": "Description :",
+        "course_highlight": "Course Highlight:",
+        "course_questions": "Course Questions:",
+        "comments": "Comments",
+        "course_price": "Course Price:",
+        "course_include": "This Course Includes",
+        "buy_now_btn": "Buy now",
+        "add_to_card_btn": "Add to cart",
+        "view_more": "View more",
+        "view_less": "View less",
+        "write_comment_placeholder": "Write comment",
+        "submit": "Submit"
+    },
+    "no_notification": "No notifications",
+    "withdraw_funds": {
+        "title": "Withdraw Funds",
+        "available_balance": "Available Balance",
+        "amount_to_withdraw": "Amount to Withdraw",
+        "amount_placeholder": "0.00 ֏",
+        "minimum": "Minimum 1000 ֏",
+        "maximum": "Maximum 100,000 ֏",
+        "platform_fee": "Platform Fee (10%)",
+        "net_amount": "Net Amount You'll Receive",
+        "bank_transfer": "Bank Transfer",
+        "paypal": "PayPal",
+        "bank_name": "Bank Name",
+        "account_holder_name": "Account Holder Name",
+        "account_number": "Account Number",
+        "swift_iban": "SWIFT / IBAN",
+        "info_processing": "Withdraw processed in 24-48 hours",
+        "info_fee": "Platform takes 10% fee",
+        "info_minimum": "Minimum withdrawal 1000 ֏",
+        "cancel": "Cancel",
+        "request_withdrawal": "Request Withdrawal"
+    },
+    "add_funds": {
+        "title": "Add funds to student balance",
+        "available_balance": "Available balance",
+        "amount_to_add": "Amount to add",
+        "amount_placeholder": "0.00 ֏",
+        "minimum": "Minimum 1000 ֏",
+        "maximum": "Maximum 100,000 ֏",
+        "platform_fee": "Platform fee (10%)",
+        "net_amount": "Net amount to be credited",
+        "credit_debit_card": "Credit / debit card",
+        "cardholder_name": "Cardholder name",
+        "card_number": "Card number",
+        "expiration_date": "Expiration date (MM/YY)",
+        "cvv": "CVV",
+        "paypal": "PayPal",
+        "info_processing": "Top-ups are usually processed instantly",
+        "info_fee": "The platform charges a 10% fee",
+        "info_minimum": "Minimum top-up amount is 1000 ֏",
+        "cancel": "Cancel",
+        "add_funds_btn": "Add funds",
+        "arca_card": "ARCA Card / Local Armenian Cards",
+        "arca_redirect_info": "You will be redirected to the secure ARCA payment page to complete the transaction.",
+        "info_arca_secure": "Payments are protected by 3D-Secure",
+        "payment_success": "Payment successful! Your balance has been updated.",
+        "payment_not_completed": "Payment was not completed or was declined.",
+        "error_payment_failed": "Payment failed. Please try again.",
+        "error_verification": "Error verifying payment. Please contact support.",
+        "redirect_info": "You will be redirected to a secure payment page to enter your card details.",
+        "select_method": "Select payment method",
+        "save_card_for_future": "Save card for future use"
+    },
+    "payment": {
+        "processing_title": "Processing Payment",
+        "processing_text": "Please wait while we verify your payment...",
+        "success_title": "Payment Successful",
+        "success_text": "Your payment has been processed successfully. Your balance has been updated.",
+        "failed_title": "Payment Failed",
+        "failed_text": "Unfortunately, your payment could not be processed. Please try again.",
+        "unknown_title": "Payment Status Unknown",
+        "unknown_text": "We could not determine the status of your payment. Please check your wallet or contact support.",
+        "error_title": "Error",
+        "order_id": "Order ID",
+        "back_to_wallet": "Back to Wallet",
+        "go_to_learning": "Go to My Learning",
+        "try_again": "Try Again",
+        "go_home": "Go Home",
+        "initiation_error": "Could not initiate payment. Please try again."
+    },
+    "wishlist_page": {
+        "title": "Wishlist",
+        "instructor": "Instructor",
+        "total_ratings": "total ratings",
+        "price": "Price",
+        "empty_wishlist": "Your wishlist is empty. Keep shopping to find a course!",
+        "courses_btn": "Courses"
+    },
+    "cart_page": {
+        "title": "Shopping Cart",
+        "instructor": "Instructor",
+        "total_ratings": "total ratings",
+        "price": "Price",
+        "courses_in_cart": "Courses in Cart",
+        "remove": "Remove",
+        "move_to_wishlist": "Move To Wishlist",
+        "buy_now": "Buy Now",
+        "total_hours": "total hours",
+        "empty_message": "Your cart is empty. Keep shopping to find a course!",
+        "courses_btn": "Courses"
+    },
+    "validation": {
+        "course_id_required": "Course ID is required",
+        "course_id_not_exist": "Course does not exist",
+        "rating_required": "Please rate the course first, then leave a comment (comment is optional)",
+        "rating_integer": "Rating must be an integer",
+        "rating_min": "Rating must be at least 1",
+        "rating_max": "Rating cannot exceed 5",
+        "comment_text_string": "Comment must be text"
+    },
+    "rating_success": "Thank you for your rating!",
+    "terms_conditions": {
+        "title": "TERMS AND CONDITIONS",
+        "lastUpdated": "Last updated: November 1, 2025",
+        "welcome": "Welcome to TrainUp Online Academy (\"TrainUp\", \"we\", \"our\", or \"us\"). By accessing or using our website www.trainup.academy (the \"Website\"), you agree to comply with and be bound by these Terms and Conditions (\"Terms\"). If you do not agree, please do not use our services.",
+        "support_email": "support@trainup.academy",
+        "sections": [
+            {
+                "heading": "1. Acceptance of Terms",
+                "body": "By registering or using TrainUp Online Academy, you confirm that you have read, understood, and accepted these Terms and our Privacy Policy.These Terms form a legally binding agreement under the laws of the Republic of Armenia."
+            },
+            {
+                "heading": "2. Eligibility",
+                "body": "You must be at least 16 years old to use the platform. If you are under 18, you may only use it with parental or guardian consent."
+            },
+            {
+                "heading": "3. Account Registration",
+                "body": "You agree to:\n• Provide accurate and complete information.\n• Keep your login credentials secure.\n• Not share your account with others.\n\nTrainUp reserves the right to suspend or terminate accounts violating these Terms."
+            },
+            {
+                "heading": "4. Courses and Content",
+                "body": "All courses, materials, and videos are owned by TrainUp Online Academy or independent instructors. All intellectual property rights belong to TrainUp or content authors. You may use the materials only for personal learning purposes."
+            },
+            {
+                "heading": "5. Payments and Refunds",
+                "body": "• All prices are shown in Armenian Drams (AMD).\n• Access is granted only after full payment.\n• All sales are final and non-refundable, except for technical errors (e.g., duplicate payments or course access failures).\n\nRefund requests must be sent within 7 business days to <a href='mailto:support&#64;trainup&#46;academy'>support&#64;trainup&#46;academy</a>."
+            },
+            {
+                "heading": "6. Certificates",
+                "body": "Some courses may provide digital certificates. TrainUp defines completion and certificate rules. Certificates are personal and cannot be resold or altered."
+            },
+            {
+                "heading": "7. User Conduct",
+                "body": "You agree not to:\n•Resell or share course access; \n• Post illegal or harmful content; \n• Attempt to damage or disrupt the website.\n\n Violations may result in suspension or permanent account removal."
+            },
+            {
+                "heading": "8. Intellectual Property",
+                "body": "All site design, visuals, and course materials belong to TrainUp Online Academy. Unauthorized use, copying, or distribution is prohibited and may result in legal action."
+            },
+            {
+                "heading": "9. Limitation of Liability",
+                "body": "TrainUp is not liable for any indirect or consequential damages due to: \n• Technical issues or data loss, \n• Course content errors,\n• Misuse by the user. \n\nAll services are provided “as is”."
+            },
+            {
+                "heading": "10. Modifications",
+                "body": "TrainUp may update these Terms at any time. Changes become effective once posted on the website."
+            },
+            {
+                "heading": "11. Governing Law",
+                "body": "These Terms are governed by the laws of the Republic of Armenia. Any disputes will be resolved in the courts of Yerevan, Armenia."
+            },
+            {
+                "heading": "12. Contact Us",
+                "body": "Yerevan, Republic of Armenia"
+            }
+        ]
+    },
+    "learner_profile": {
+        "my_learning": "My Learning",
+        "view_more": "view more",
+        "no_purchases": "You haven’t purchased any courses yet. Explore our catalog and start learning today.",
+        "wishlist": "Wishlist",
+        "my_cart": "My cart",
+        "take_quiz": "Take Quiz",
+        "quiz": {
+            "page_title": "Course Quiz",
+            "back_to_learning": "Back to Course",
+            "your_score": "Your Score",
+            "correct_answer": "correct answer",
+            "retake": "Retake Quiz",
+            "submit": "Submit Answers",
+            "no_quiz": "This course has no quiz questions.",
+            "not_purchased": "You have not purchased this course.",
+            "load_error": "Failed to load quiz. Please try again.",
+            "answer_all": "Please answer all questions before submitting.",
+            "answer_all_practice": "Please answer all practice assignments before submitting.",
+            "submit_error": "Failed to submit quiz. Please try again.",
+            "cooldown_title": "Please wait",
+            "cooldown_message": "You must wait 24 hours after a failed attempt before retrying.",
+            "already_passed_title": "Congratulations!",
+            "already_passed_message": "You have already passed this quiz and earned your certificate.",
+            "test_score": "Test",
+            "practice_score": "Practice",
+            "passed": "Passed! Certificate earned!",
+            "failed": "Not passed. You can retry in 24 hours.",
+            "test_results": "Test Question Results",
+            "practice_results": "Practice Assignment Results",
+            "your_answer": "Your answer",
+            "answer_was_incorrect": "Your answer was incorrect.",
+            "single": "Single",
+            "multiple": "Multiple",
+            "test_questions_title": "Test Questions",
+            "practice_title": "Practice Assignments",
+            "practice_placeholder": "Type your answer here...",
+            "download_certificate": "Download Certificate"
+        }
+    },
+    "privacy_policy": {
+        "title": "PRIVACY POLICY",
+        "lastUpdated": "Last Updated: November 1, 2025",
+        "website_title": "Website:",
+        "website": "www.trainup.academy",
+        "support_email": "support@trainup.academy",
+        "email_title": "Email: ",
+        "jurisdiction": "Jurisdiction: Republic of Armenia",
+        "sections": [
+            {
+                "heading": "1. Introduction",
+                "body": "TrainUp Online Academy (“TrainUp”, “we”, “our”, “us”) respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, and protect data when you use our website, services, or enroll in our online courses. By using www.trainup.academy, you agree to this Privacy Policy."
+            },
+            {
+                "heading": "2. Information We Collect",
+                "body": "• Name and surname\n• Email address\n• Phone number\n• Payment details (processed securely via gateways)\n• Technical data (IP, device, cookies)"
+            },
+            {
+                "heading": "3. Purpose of Data Collection",
+                "body": "We use your data to:\n• Manage accounts and enrollments\n• Process payments\n• Communicate with you\n• Improve our services\n• Comply with Armenian law"
+            },
+            {
+                "heading": "4. Cookies",
+                "body": "Cookies help us improve functionality, store preferences, and analyze site performance. You can disable cookies in your browser, but some features may not function properly."
+            },
+            {
+                "heading": "5. Data Retention",
+                "body": "We retain your data only as long as necessary or as required by law."
+            },
+            {
+                "heading": "6. Data Protection",
+                "body": "We use SSL encryption, limited access, and secure third-party services to protect your data. Payment data is not stored on our servers."
+            },
+            {
+                "heading": "7. Sharing Information",
+                "body": "We do not sell or rent data. We may share information only with:\n• Trusted service providers\n• Legal authorities if required by law"
+            },
+            {
+                "heading": "8. Your Rights",
+                "body": "You may:\n• Access your data\n• Request correction or deletion\n• Withdraw consent\n• Request data copy\nContact: <a href='mailto:support&#64;trainup&#46;academy'>support&#64;trainup&#46;academy</a>."
+            },
+            {
+                "heading": "9. Third-Party Links",
+                "body": "We are not responsible for the privacy practices of external websites linked from our platform."
+            },
+            {
+                "heading": "10. Changes to This Policy",
+                "body": "We may update this Privacy Policy. Updates take effect once published on our website."
+            },
+            {
+                "heading": "11. Contact",
+                "body": "Yerevan, Republic of Armenia"
+            }
+        ]
+    },
+    "chatbot": {
+        "greeting": "Hi there! 👋 Welcome to TrainUp Academy. How can I help you today? Choose a question below:",
+        "status_online": "Online",
+        "questions": [
+            {
+                "q": "What courses do you offer?",
+                "a": "We offer a wide range of courses including Web Development, UI/UX Design, Data Science, Mobile App Development, and more. Visit our Courses page to explore the full catalog!"
+            },
+            {
+                "q": "How do I enroll in a course?",
+                "a": "To enroll, simply create an account, browse our courses, and click \"Add to Cart\" on the course you like. Complete the checkout process and you'll get instant access!"
+            },
+            {
+                "q": "Are there any free courses?",
+                "a": "Yes! We have several free introductory courses available. Check out our Courses page and filter by price to find free options."
+            },
+            {
+                "q": "How can I become an instructor?",
+                "a": "We welcome new instructors! Visit the \"Teach on TrainUp\" page to learn about the requirements and apply. Our team will review your application and get back to you."
+            },
+            {
+                "q": "What payment methods do you accept?",
+                "a": "We accept credit/debit cards and wallet balance. You can add funds to your wallet from your account dashboard."
+            },
+            {
+                "q": "How do I contact support?",
+                "a": "You can reach us via email at info@trainup.academy or call us at +374 77 198238. You can also visit our Contact page to send us a message directly."
+            },
+            {
+                "q": "Do I get a certificate after completing a course?",
+                "a": "Yes! Upon successfully completing a course and passing the quizzes, you will receive a digital certificate that you can download and share."
+            }
+        ]
     }
-  },
-  "privacy_policy": {
-    "title": "PRIVACY POLICY",
-    "lastUpdated": "Last Updated: November 1, 2025",
-    "website_title": "Website:",
-    "website": "www.trainup.academy",
-    "support_email": "support@trainup.academy",
-    "email_title": "Email: ",
-    "jurisdiction": "Jurisdiction: Republic of Armenia",
-    "sections": [
-      {
-        "heading": "1. Introduction",
-        "body": "TrainUp Online Academy (“TrainUp”, “we”, “our”, “us”) respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, and protect data when you use our website, services, or enroll in our online courses. By using www.trainup.academy, you agree to this Privacy Policy."
-      },
-      {
-        "heading": "2. Information We Collect",
-        "body": "• Name and surname\n• Email address\n• Phone number\n• Payment details (processed securely via gateways)\n• Technical data (IP, device, cookies)"
-      },
-      {
-        "heading": "3. Purpose of Data Collection",
-        "body": "We use your data to:\n• Manage accounts and enrollments\n• Process payments\n• Communicate with you\n• Improve our services\n• Comply with Armenian law"
-      },
-      {
-        "heading": "4. Cookies",
-        "body": "Cookies help us improve functionality, store preferences, and analyze site performance. You can disable cookies in your browser, but some features may not function properly."
-      },
-      {
-        "heading": "5. Data Retention",
-        "body": "We retain your data only as long as necessary or as required by law."
-      },
-      {
-        "heading": "6. Data Protection",
-        "body": "We use SSL encryption, limited access, and secure third-party services to protect your data. Payment data is not stored on our servers."
-      },
-      {
-        "heading": "7. Sharing Information",
-        "body": "We do not sell or rent data. We may share information only with:\n• Trusted service providers\n• Legal authorities if required by law"
-      },
-      {
-        "heading": "8. Your Rights",
-        "body": "You may:\n• Access your data\n• Request correction or deletion\n• Withdraw consent\n• Request data copy\nContact: <a href='mailto:support&#64;trainup&#46;academy'>support&#64;trainup&#46;academy</a>."
-      },
-      {
-        "heading": "9. Third-Party Links",
-        "body": "We are not responsible for the privacy practices of external websites linked from our platform."
-      },
-      {
-        "heading": "10. Changes to This Policy",
-        "body": "We may update this Privacy Policy. Updates take effect once published on our website."
-      },
-      {
-        "heading": "11. Contact",
-        "body": "Yerevan, Republic of Armenia"
-      }
-    ]
-  }
 }

@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useAuthStore } from './stores/auth.js'
+import ChatBot from './components/ChatBot.vue'
 
 const auth = useAuthStore()
 const readyToRender = computed(() => !auth.isLoading)
@@ -14,6 +15,7 @@ const readyToRender = computed(() => !auth.isLoading)
     </div>
     <div v-else>
         <router-view />
+        <ChatBot />
     </div>
 </template>
 
