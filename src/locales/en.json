@@ -231,7 +231,8 @@
         "error_no_course": "No course selected",
         "error_load_failed": "Failed to load course data",
         "payment_failed": "Payment failed",
-        "payment_init_failed": "Payment initiation failed"
+        "payment_init_failed": "Payment initiation failed",
+        "session_expired": "Payment session expired. Please try again."
     },
     "wallet": {
         "title": "Wallet",
@@ -444,6 +445,7 @@
             "title": "Photo",
             "subtitle": "Add a nice photo of yourself for your profile",
             "label": "Add / Change Image",
+            "or_select_avatar": "Or select an avatar",
             "no_file": "No File Selected",
             "upload": "Upload",
             "save": "Save"
@@ -908,6 +910,7 @@
             "single": "Single",
             "multiple": "Multiple",
             "test_questions_title": "Test Questions",
+            "attention": "Attention",
             "practice_title": "Practice Assignments",
             "practice_placeholder": "Type your answer here...",
             "download_certificate": "Download Certificate"

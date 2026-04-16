@@ -447,7 +447,7 @@ watch(() => course.value?.id, (newId, oldId) => {
                         </div>
                     </div>
                     <div class="course-comments">
-                        <h2 v-if="course && Array.isArray(course.comments) && course.comments.length > 0 || isLearner" class="mb-0">{{
+                        <h2 v-if="course && Array.isArray(course.comments) && course.comments.length > 0 || (isLearner && isPurchased(course?.id))" class="mb-0">{{
                             $t('single_course.comments')
                             }}</h2>
                         <div v-if="!auth.isAuthenticated || isInstructor" class="comments d-flex flex-column gap-3">
@@ -471,7 +471,7 @@ watch(() => course.value?.id, (newId, oldId) => {
                                 </div>
                             </div>
                         </div>
-                        <div v-if="auth.isAuthenticated && isLearner"
+                        <div v-if="auth.isAuthenticated && isLearner && isPurchased(course?.id)"
                              class="write-comment mt-2 d-flex flex-column gap-3">
                             <div class="rating mb-3">
                                 <svg

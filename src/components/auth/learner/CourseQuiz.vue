@@ -346,11 +346,15 @@ const goBack = () => {
 
                 <!-- Quiz Form -->
                 <div v-else-if="questions.length > 0" class="quiz-form">
-                    <div v-if="errorMessage" class="quiz-inline-error mb-3">
-                        {{ errorMessage }}
-                    </div>
-
-                    <!-- Test Questions -->
+                    <!-- Error Modal -->
+                    <div v-if="errorMessage" class="quiz-error-modal-overlay" @click="errorMessage = ''">
+                        <div class="quiz-error-modal" @click.stop>
+                            <div class="quiz-error-icon"><i class="fas fa-exclamation-circle"></i></div>
+                            <h4 class="quiz-error-modal-title">{{ $t('learner_profile.quiz.attention') }}</h4>
+                            <p class="quiz-error-modal-text">{{ errorMessage }}</p>
+                            <button class="quiz-error-modal-btn" @click="errorMessage = ''">OK</button>
+                        </div>
+                    </div>                    <!-- Test Questions -->
                     <h5 class="quiz-form-section-title">{{ $t('learner_profile.quiz.test_questions_title') }} ({{ questions.length }})</h5>
                     <div v-for="(question, qIndex) in questions" :key="question.id" class="quiz-question-card">
                         <p class="quiz-question-text">
@@ -576,13 +580,78 @@ const goBack = () => {
     cursor: not-allowed;
 }
 
-.quiz-inline-error {
+/* Modal Error Styles */
+.quiz-error-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+}
+
+.quiz-error-modal {
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    animation: slideInUp 0.3s ease-out;
+}
+
+.quiz-error-icon {
+    font-size: 50px;
     color: #e74c3c;
+    margin-bottom: 15px;
+}
+
+.quiz-error-modal-title {
     font-family: var(--font-montserrat);
-    font-size: 15px;
-    padding: 12px 16px;
-    background: rgba(231, 76, 60, 0.1);
-    border-radius: 10px;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--primary-100);
+    margin-bottom: 10px;
+}
+
+.quiz-error-modal-text {
+    font-family: var(--font-montserrat);
+    font-size: 16px;
+    color: var(--primary-60);
+    margin-bottom: 25px;
+}
+
+.quiz-error-modal-btn {
+    background: var(--general-btn);
+    color: var(--white-229);
+    border: none;
+    border-radius: 70px;
+    padding: 10px 40px;
+    font-family: var(--font-montserrat);
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.quiz-error-modal-btn:hover {
+    opacity: 0.9;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .quiz-error-box,

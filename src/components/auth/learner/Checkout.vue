@@ -213,6 +213,7 @@ async function processPayment() {
         })
 
         if (response.data.success && response.data.redirectUrl) {
+            sessionStorage.setItem('payment_pending', route.query.courseId || course.value?.id)
             redirectToPayment(response.data.redirectUrl)
         } else {
             errorMessage.value = response.data.message || t('checkout.payment_init_failed')
@@ -230,6 +231,13 @@ onMounted(async () => {
         loadingCourse.value = false
         errorMessage.value = t('checkout.error_no_course')
         return
+    }
+
+    // Check if user returned from a failed/expired payment session
+    const pendingPayment = sessionStorage.getItem('payment_pending')
+    if (pendingPayment) {
+        sessionStorage.removeItem('payment_pending')
+        errorMessage.value = t('checkout.session_expired')
     }
 
     try {

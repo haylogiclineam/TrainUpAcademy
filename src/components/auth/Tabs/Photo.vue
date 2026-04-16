@@ -17,6 +17,7 @@ const { t } = useI18n()
 const fileInput = ref(null)
 const fileName = ref('')
 const previewUrl = ref(null)
+const selectedAvatar = ref(null)
 
 const messageKey = ref(null)
 const messageType = ref(null)
@@ -31,8 +32,18 @@ const triggerFileSelect = () => {
 const handleFileChange = (event) => {
     const file = event.target.files[0]
     if (file) {
+        selectedAvatar.value = null
         fileName.value = file.name
         previewUrl.value = URL.createObjectURL(file)
+    }
+}
+
+const selectPredefinedAvatar = (n) => {
+    selectedAvatar.value = n
+    fileName.value = `avatar-${n}.webp`
+    previewUrl.value = `/assets/avatars/avatar-${n}.webp`
+    if (fileInput.value) {
+        fileInput.value.value = ''
     }
 }
 const uploadImage = async () => {
@@ -40,15 +51,18 @@ const uploadImage = async () => {
     messageType.value = null
     validationErrors.value = {}
 
-    const file = fileInput.value?.files[0]
-    if (!file) {
+    const formData = new FormData()
+    let file = fileInput.value?.files[0]
+
+    if (file) {
+        formData.append('image', file)
+    } else if (selectedAvatar.value) {
+        formData.append('avatar', `avatar-${selectedAvatar.value}.webp`)
+    } else {
         messageKey.value = 'auth.image_required'
         messageType.value = 'error'
         return
     }
-
-    const formData = new FormData()
-    formData.append('image', file)
 
     try {
         const response = await api.post('/api/user/update-profile-image', formData, {
@@ -64,6 +78,7 @@ const uploadImage = async () => {
 
         fileName.value = ''
         fileInput.value.value = ''
+        selectedAvatar.value = null
 
     } catch (error) {
         if (error.response?.status === 422) {
@@ -115,6 +130,21 @@ const uploadImage = async () => {
                         class="hidden-file-input"
                         accept="image/*"
                     />
+                </div>
+
+                <div class="avatar-selection mt-4">
+                    <label class="file-label">{{ $t('auth.photo.or_select_avatar', 'Or select an avatar') }}</label>
+                    <div class="avatar-grid">
+                        <div 
+                            v-for="n in 16" 
+                            :key="n" 
+                            class="avatar-option" 
+                            :class="{ 'selected': selectedAvatar === n }"
+                            @click="selectPredefinedAvatar(n)"
+                        >
+                            <img :src="`/assets/avatars/avatar-${n}.webp`" :alt="`Avatar ${n}`" />
+                        </div>
+                    </div>
                 </div>
 
                 <div v-if="validationErrors.image" class="required-field mt-2">
@@ -261,6 +291,47 @@ const uploadImage = async () => {
 
 .file-label {
     margin-top: 15px;
+}
+
+.avatar-selection {
+    margin-top: 30px;
+}
+
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.avatar-option {
+    cursor: pointer;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid transparent;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background: var(--primary-10);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar-option img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    display: block;
+}
+
+.avatar-option:hover {
+    transform: scale(1.05);
+}
+
+.avatar-option.selected {
+    border-color: #4BBBE4;
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(75, 187, 228, 0.4);
 }
 
 /* Extra Small Devices */

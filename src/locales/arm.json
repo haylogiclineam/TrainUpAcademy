@@ -3,7 +3,7 @@
     "about_us": "Մեր մասին",
     "why_choose_us": "Ինչու ընտրել մեզ",
     "contact_us": "Կապ մեզ հետ",
-    "teach_on_trainUp": "Սովորեցրու TrainUp-ում",
+    "teach_on_trainUp": "Դասավանդել TrainUp-ում",
     "blog": "Բլոգ",
     "courses": "Դասընթացներ",
     "sign_in": "Մուտք",
@@ -231,7 +231,8 @@
         "error_no_course": "Դասընթաց ընտրված չէ",
         "error_load_failed": "Չհաջողվեց բեռնել դասընթացի տվյալները",
         "payment_failed": "Վճարումը ձախողվեց",
-        "payment_init_failed": "Վճարման նախաձեռնումը ձախողվեց"
+        "payment_init_failed": "Վճարման նախաձեռնումը ձախողվեց",
+        "session_expired": "Վճարման սեանսը ավարտվել է։ Փորձեք նորից։"
     },
     "wallet": {
         "title": "Դրամապանակ",
@@ -444,6 +445,7 @@
             "title": "Լուսանկար",
             "subtitle": "Ավելացրեք գեղեցիկ լուսանկար ձեր պրոֆիլի համար",
             "label": "Ավելացնել / Փոխել լուսանկարը",
+            "or_select_avatar": "Կամ ընտրեք ավատար",
             "no_file": "Ֆայլը չի ընտրվել",
             "upload": "Վերբեռնել",
             "save": "Պահպանել"
@@ -901,6 +903,7 @@
             "single": "Մեկ",
             "multiple": "Մի քանի",
             "test_questions_title": "Թեստային հարցեր",
+            "attention": "Ուշադրություն",
             "practice_title": "Գործնական առաջադրանքներ",
             "practice_placeholder": "Մուտքագրեք ձեր պատասխանը այստեղ...",
             "download_certificate": "Ներբեռնել հավաստագիրը"

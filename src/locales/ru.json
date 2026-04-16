@@ -231,7 +231,8 @@
         "error_no_course": "Курс не выбран",
         "error_load_failed": "Не удалось загрузить данные курса",
         "payment_failed": "Ошибка оплаты",
-        "payment_init_failed": "Ошибка инициализации оплаты"
+        "payment_init_failed": "Ошибка инициализации оплаты",
+        "session_expired": "Сессия оплаты истекла. Попробуйте снова."
     },
     "wallet": {
         "title": "Кошелек",
@@ -444,6 +445,7 @@
             "title": "Фото",
             "subtitle": "Добавьте красивое фото для вашего профиля",
             "label": "Добавить / Изменить изображение",
+            "or_select_avatar": "Или выберите аватар",
             "no_file": "Файл не выбран",
             "upload": "Загрузить",
             "save": "Сохранить"
@@ -901,6 +903,7 @@
             "single": "Один",
             "multiple": "Несколько",
             "test_questions_title": "Тестовые вопросы",
+            "attention": "Внимание",
             "practice_title": "Практические задания",
             "practice_placeholder": "Введите ваш ответ...",
             "download_certificate": "Скачать сертификат"
