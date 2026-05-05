@@ -408,11 +408,11 @@ const updateCourse = async () => {
         formData.append('title_ru', form.value.title_ru || '');
         formData.append('title_en', form.value.title_en || '');
         formData.append('price_arm', form.value.price_arm || '');
-        formData.append('currency_arm', form.value.currency_arm || '');
+        formData.append('currency_arm', form.value.currency_arm || 'AMD');
         formData.append('price_ru', form.value.price_ru || '');
-        formData.append('currency_ru', form.value.currency_ru || '');
+        formData.append('currency_ru', form.value.currency_ru || 'AMD');
         formData.append('price_en', form.value.price_en || '');
-        formData.append('currency_en', form.value.currency_en || '');
+        formData.append('currency_en', form.value.currency_en || 'AMD');
         formData.append('description_arm', form.value.description_arm || '');
         formData.append('description_ru', form.value.description_ru || '');
         formData.append('description_en', form.value.description_en || '');
