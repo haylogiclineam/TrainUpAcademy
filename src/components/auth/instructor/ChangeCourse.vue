@@ -11,6 +11,13 @@ const route = useRoute();
 const courseId = route.params.id;
 const router = useRouter();
 const isDataLoading = ref(true);
+const categories = ref([]);
+
+const getCategoryName = (cat) => {
+    if (!cat) return '';
+    const loc = locale.value;
+    return cat[`name_${loc}`] || cat.name_en || '';
+};
 
 const errors = ref({});
 const successMessage = ref('');
@@ -33,6 +40,7 @@ const highlights = ref({
 
 
 const form = ref({
+    category_id: '',
     video: '',
     title_arm: '',
     title_ru: '',
@@ -55,10 +63,11 @@ const form = ref({
 
 
 const showRu = ref(false);
-const showArm = ref(false);
+const showArm = ref(true);
 
 const resetForm = () => {
     form.value = {
+        category_id: '',
         video: '',
         title_arm: '',
         title_ru: '',
@@ -109,6 +118,7 @@ const getCourseById = async () => {
         if (!courseDetails.value.length) await getAllDetails();
 
         form.value = {
+            category_id: data.category_id || '',
             video: '',
             title_arm: data.title_arm || '',
             title_ru: data.title_ru || '',
@@ -175,6 +185,14 @@ const getCourseById = async () => {
 
 onMounted(async () => {
     isDataLoading.value = true;
+    try {
+        const catRes = await api.get('/api/course-categories');
+        if (catRes.data.success) {
+            categories.value = catRes.data.categories;
+        }
+    } catch (e) {
+        console.error('Failed to load categories:', e);
+    }
     await getCourseById();
     isDataLoading.value = false;
 });
@@ -285,6 +303,7 @@ const updateCourse = async () => {
             return;
         }
 
+        formData.append('category_id', form.value.category_id || '');
         formData.append('title_arm', form.value.title_arm || '');
         formData.append('title_ru', form.value.title_ru || '');
         formData.append('title_en', form.value.title_en || '');
@@ -428,6 +447,16 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                     </div>
                     <div class="form-input-block w-100">
                         <div class="mb-3">
+                            <label class="form-label">{{ $t('auth.add_course.category') }}*</label>
+                            <select v-model="form.category_id" class="form-control">
+                                <option value="" disabled>{{ $t('auth.add_course.select_category') }}</option>
+                                <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+                                    {{ getCategoryName(cat) }}
+                                </option>
+                            </select>
+                            <span v-if="errors.category_id" class="required-field">{{ $t('auth.add_course.category_required') }}</span>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">{{ $t('auth.add_course.add_translations') }}</label><br/>
                             <div class="d-flex gap-3">
                                 <div class="d-flex gap-2">
@@ -445,14 +474,14 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                         <form class="form">
                             <!-- ENGLISH -->
                             <div>
-                                <h5 class="title-translation">{{ $t('auth.add_course.title_en') }} *</h5>
+                                <h5 class="title-translation">{{ $t('auth.add_course.title_en') }}</h5>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label class="form-label">{{ $t('auth.add_course.course_title') }}*</label>
+                                        <label class="form-label">{{ $t('auth.add_course.course_title') }}</label>
                                         <input v-model="form.title_en" type="text" class="form-control"
                                                :placeholder="$t('auth.add_course.course_title_placeholder')">
                                         <span v-if="errors.title_en" class="required-field">{{
-                                            t('auth.add_course.' + errors.title_en)
+                                            errors.title_en[0]
                                             }}</span>
                                     </div>
                                     <div class="col-md-6">
@@ -493,7 +522,7 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">{{ $t('auth.add_course.faq_label') }}*</label>
+                                    <label class="form-label">{{ $t('auth.add_course.faq_label') }}</label>
 
                                     <div class="mb-3">
                                         <input v-model="faqList.en[0].question_en" type="text" class="form-control mb-2"

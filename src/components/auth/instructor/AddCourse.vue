@@ -4,7 +4,34 @@ import api from "../../../services/api.js";
 import { useI18n } from "vue-i18n";
 import { mandatoryDetails } from "../../../constants/courseDetails.js";
 
-const { locale, t } = useI18n();
+const categories = ref([]);
+
+onMounted(async () => {
+    try {
+        const res = await api.get('/api/course-categories');
+        if (res.data.success) {
+            categories.value = res.data.categories;
+        }
+    } catch (e) {
+        console.error('Failed to load categories:', e);
+    }
+});
+
+const getCategoryName = (cat) => {
+    if (!cat) return '';
+    const loc = locale.value;
+    return cat[`name_${loc}`] || cat.name_en || '';
+};
+
+const { locale, t, te } = useI18n();
+
+const translateError = (error) => {
+    const message = Array.isArray(error) ? error[0] : error;
+    if (!message) return '';
+
+    const key = message.startsWith('auth.add_course.') ? message : `auth.add_course.${message}`;
+    return te(key) ? t(key) : message;
+};
 
 const errors = ref({});
 const successMessage = ref('');
@@ -47,14 +74,15 @@ const practiceAssignments = ref([
 
 
 const form = ref({
+    category_id: '',
     video: '',
     title_arm: '',
     title_ru: '',
     title_en: '',
     price_arm: '',
-    currency_arm: '',
+    currency_arm: 'AMD',
     price_ru: '',
-    currency_ru: '',
+    currency_ru: 'AMD',
     price_en: '',
     currency_en: 'AMD',
     description_arm: '',
@@ -69,6 +97,7 @@ const form = ref({
 
 const resetForm = () => {
     form.value = {
+        category_id: '',
         video: '',
         title_arm: '',
         title_ru: '',
@@ -296,6 +325,7 @@ const addCourse = async () => {
         }
 
         const simpleFields = [
+            'category_id',
             'title_arm', 'title_ru', 'title_en',
             'price_arm', 'currency_arm',
             'price_ru', 'currency_ru',
@@ -414,7 +444,7 @@ const addCourse = async () => {
 };
 
 const showRu = ref(false);
-const showArm = ref(false);
+const showEn = ref(false);
 
 const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}`;
 </script>
@@ -466,7 +496,7 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                 }} {{ fileName }}</p>
                         </div>
                         <span v-if="errors.video" class="required-field">{{
-                            t('auth.add_course.' + errors.video[0])
+                            translateError(errors.video)
                             }}</span>
                         <div class="course-detail-block mt-4">
                             <p class="text-capitalize course-detail-title">{{
@@ -492,12 +522,22 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                 </template>
                             </div>
                             <span v-if="errors.details_by_instructor" class="required-field">
-                              {{ errors.details_by_instructor[0] }}
+                              {{ translateError(errors.details_by_instructor) }}
                             </span>
 
                         </div>
                     </div>
                     <div class="form-input-block w-100">
+                        <div class="mb-3">
+                            <label class="form-label">{{ $t('auth.add_course.category') }}*</label>
+                            <select v-model="form.category_id" class="form-control">
+                                <option value="" disabled>{{ $t('auth.add_course.select_category') }}</option>
+                                <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+                                    {{ getCategoryName(cat) }}
+                                </option>
+                            </select>
+                            <span v-if="errors.category_id" class="required-field">{{ $t('auth.add_course.category_required') }}</span>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label">{{ $t('auth.add_course.add_translations') }}</label><br/>
                             <div class="d-flex gap-3">
@@ -507,201 +547,177 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                 </div>
 
                                 <div class="d-flex gap-2">
-                                    <input class="checkbox-custom" type="checkbox" id="addArm" v-model="showArm"/>
-                                    <label for="addArm" class="check-arm">{{ $t('auth.add_course.armenian') }}</label>
+                                    <input class="checkbox-custom" type="checkbox" id="addEn" v-model="showEn"/>
+                                    <label for="addEn" class="check-en">{{ $t('auth.add_course.english') }}</label>
                                 </div>
                             </div>
                         </div>
 
                         <form class="form">
-                            <!-- ENGLISH -->
+                            <!-- ARMENIAN (Mandatory) -->
                             <div>
-                                <h5 class="title-translation">{{ $t('auth.add_course.title_en') }} *</h5>
+                                <h5 class="title-translation">{{ $t('auth.add_course.title_arm') }} *</h5>
+
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label class="form-label">{{ $t('auth.add_course.course_title') }}*</label>
-                                        <input v-model="form.title_en" type="text" class="form-control"
+                                        <input v-model="form.title_arm" type="text" class="form-control"
                                                :placeholder="$t('auth.add_course.course_title_placeholder')">
-                                        <span v-if="errors.title_en" class="required-field">{{
-                                            t('auth.add_course.' + errors.title_en)
-                                            }}</span>
+                                        <span v-if="errors.title_arm" class="required-field">{{ translateError(errors.title_arm) }}</span>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">{{ $t('auth.add_course.course_price') }}*</label>
                                         <div class="input-group">
-                                            <input v-model="form.price_en" type="number" class="form-control"
+                                            <input v-model="form.price_arm" type="number" class="form-control"
                                                    :placeholder="$t('auth.add_course.course_price_placeholder')">
-
                                             <div class="dropdown">
                                                 <button
                                                     class="btn currency-btn"
                                                     type="button"
                                                     disabled
                                                 >
-                                                    {{ form.currency_en || 'AMD' }}
+                                                    {{ form.currency_arm || 'AMD' }}
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li>
-                                                        <a class="dropdown-item" href="#" @click.prevent="selectCurrency('USD', 'en')">USD</a>
+                                                        <a class="dropdown-item" href="#" @click.prevent="selectCurrency('USD', 'arm')">USD</a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" href="#" @click.prevent="selectCurrency('EUR', 'en')">EUR</a>
+                                                        <a class="dropdown-item" href="#" @click.prevent="selectCurrency('EUR', 'arm')">EUR</a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" href="#" @click.prevent="selectCurrency('AMD', 'en')">AMD</a>
+                                                        <a class="dropdown-item" href="#" @click.prevent="selectCurrency('AMD', 'arm')">AMD</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
-                                        <span v-if="errors.price_en" class="required-field">
-                                          {{ t('auth.add_course.' + errors.price_en) }}
+                                        <span v-if="errors.price_arm" class="required-field">
+                                          {{ translateError(errors.price_arm) }}
                                         </span>
-                                        <span v-if="errors.price_en && errors.currency_en"><br></span>
-                                        <span v-if="errors.currency_en" class="required-field">
-                                          {{ t('auth.add_course.' + errors.currency_en) }}
+                                        <span v-if="errors.price_arm && errors.currency_arm"><br></span>
+                                        <span v-if="errors.currency_arm" class="required-field">
+                                          {{ translateError(errors.currency_arm) }}
                                         </span>
                                     </div>
                                 </div>
 
+                                <!-- FAQ Section -->
                                 <div class="mb-3">
-                                    <label class="form-label">{{ $t('auth.add_course.faq_label') }}*</label>
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                        {{ $t('auth.add_course.faq_label') }}*
+                                    </label>
 
                                     <div class="mb-3">
-                                        <input v-model="faqList.en[0].question_en" type="text" class="form-control mb-2"
+                                        <input v-model="faqList.arm[0].question_arm" type="text" class="form-control mb-2"
                                                :placeholder="$t('auth.add_course.question_placeholder')"/>
-
-                                        <input v-model="faqList.en[0].answer_en" type="text" class="form-control"
+                                        <input v-model="faqList.arm[0].answer_arm" type="text" class="form-control"
                                                :placeholder="$t('auth.add_course.answer_placeholder')"/>
-                                        <p v-if="errors['faqs.0.question_en']" class="required-field">
-                                            {{ t('auth.add_course.' + errors['faqs.0.question_en'][0])}}
-                                          </p>
-                                        <p v-if="errors['faqs.0.answer_en']" class="required-field">
-                                            {{ t('auth.add_course.' + errors['faqs.0.answer_en'][0] )}}
-                                          </p>
 
+                                        <p v-if="errors['faqs.0.question_arm']" class="required-field">
+                                            {{ translateError(errors['faqs.0.question_arm']) }}
+                                        </p>
+                                        <p v-if="errors['faqs.0.answer_arm']" class="required-field">
+                                            {{ translateError(errors['faqs.0.answer_arm']) }}
+                                        </p>
                                     </div>
-                                    <div v-for="(faq, index) in faqList.en.slice(1)" :key="index + 1" >
-                                        <div class="position-relative mb-2 mt-2">
-                                            <input
-                                                    v-model="faq.question_en"
-                                                    type="text"
-                                                    class="form-control pe-5"
-                                                    :placeholder="$t('auth.add_course.question_placeholder')"
-                                            />
 
-                                            <svg
-                                                    class="position-absolute top-50 end-0 translate-middle-y me-3"
-                                                    role="button"
-                                                    @click="removeFAQ('en',index + 1)"
-                                                    width="14"
-                                                    height="14"
-                                                    viewBox="0 0 14 14"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    style="cursor: pointer;"
-                                            >
-                                                <path
-                                                        d="M12.9998 0.99994C12.8123 0.812469 12.558 0.707153 12.2928 0.707153C12.0277 0.707153 11.7733 0.812469 11.5858 0.99994L6.99982 5.58594L2.41382 0.99994C2.22629 0.812469 1.97198 0.707153 1.70682 0.707153C1.44165 0.707153 1.18735 0.812469 0.999818 0.99994C0.812347 1.18747 0.707031 1.44178 0.707031 1.70694C0.707031 1.9721 0.812347 2.22641 0.999818 2.41394L5.58582 6.99994L0.999818 11.5859C0.812347 11.7735 0.707031 12.0278 0.707031 12.2929C0.707031 12.5581 0.812347 12.8124 0.999818 12.9999C1.18735 13.1874 1.44165 13.2927 1.70682 13.2927C1.97198 13.2927 2.22629 13.1874 2.41382 12.9999L6.99982 8.41394L11.5858 12.9999C11.7733 13.1874 12.0277 13.2927 12.2928 13.2927C12.558 13.2927 12.8123 13.1874 12.9998 12.9999C13.1873 12.8124 13.2926 12.5581 13.2926 12.2929C13.2926 12.0278 13.1873 11.7735 12.9998 11.5859L8.41382 6.99994L12.9998 2.41394C13.1873 2.22641 13.2926 1.9721 13.2926 1.70694C13.2926 1.44178 13.1873 1.18747 12.9998 0.99994Z"
-                                                        fill="#808793"
+                                    <div v-for="(faq, index) in faqList.arm.slice(1)" :key="index + 1" class="mb-3">
+                                        <div class="position-relative mb-2">
+                                            <input v-model="faq.question_arm" type="text" class="form-control pe-5"
+                                                   :placeholder="$t('auth.add_course.question_placeholder')"/>
+                                            <svg class="position-absolute top-50 end-0 translate-middle-y me-3"
+                                                 role="button"
+                                                 @click="removeFAQ('arm', index + 1)" width="14" height="14"
+                                                 viewBox="0 0 14 14" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;">
+                                                <path d="M12.9998 0.99994C12.8123 0.812469 12.558 0.707153 12.2928 0.707153C12.0277 0.707153 11.7733 0.812469 11.5858 0.99994L6.99982 5.58594L2.41382 0.99994C2.22629 0.812469 1.97198 0.707153 1.70682 0.707153C1.44165 0.707153 1.18735 0.812469 0.999818 0.99994C0.812347 1.18747 0.707031 1.44178 0.707031 1.70694C0.707031 1.9721 0.812347 2.22641 0.999818 2.41394L5.58582 6.99994L0.999818 11.5859C0.812347 11.7735 0.707031 12.0278 0.707031 12.2929C0.707031 12.5581 0.812347 12.8124 0.999818 12.9999C1.18735 13.1874 1.44165 13.2927 1.70682 13.2927C1.97198 13.2927 2.22629 13.1874 2.41382 12.9999L6.99982 8.41394L11.5858 12.9999C11.7733 13.1874 12.0277 13.2927 12.2928 13.2927C12.558 13.2927 12.8123 13.1874 12.9998 12.9999C13.1873 12.8124 13.2926 12.5581 13.2926 12.2929C13.2926 12.0278 13.1873 11.7735 12.9998 11.5859L8.41382 6.99994L12.9998 2.41394C13.1873 2.22641 13.2926 1.9721 13.2926 1.70694C13.2926 1.44178 13.1873 1.18747 12.9998 0.99994Z"
+                                                      fill="#808793"
                                                 />
                                             </svg>
                                         </div>
-
-                                        <input
-                                                v-model="faq.answer_en"
-                                                type="text"
-                                                class="form-control"
-                                                :placeholder="$t('auth.add_course.answer_placeholder')"
-                                        />
+                                        <input v-model="faq.answer_arm" type="text" class="form-control"
+                                               :placeholder="$t('auth.add_course.answer_placeholder')"/>
                                     </div>
-                                    <p v-if="errors['faqs']" class="required-field">
-                                        {{  t('auth.add_course.'  + errors['faqs'][0]) }}
-                                    </p>
-                                    <button type="button" class="add-btn mt-3" @click="addFAQ('en')">
+
+                                    <button type="button" class="add-btn" @click="addFAQ('arm')">
                                         {{ $t('auth.add_course.add_new') }}
-                                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
+                                        <svg class="flex-shrink-0" width="28" height="28" viewBox="0 0 28 28"
+                                             fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path
-                                                    d="M14 0C6.28017 0 0 6.28017 0 14C0 21.7198 6.28017 28 14 28C21.7198 28 28 21.7198 28 14C28 6.28017 21.7198 0 14 0ZM14 26.8333C6.92417 26.8333 1.16667 21.0758 1.16667 14C1.16667 6.92417 6.92417 1.16667 14 1.16667C21.0758 1.16667 26.8333 6.92417 26.8333 14C26.8333 21.0758 21.0758 26.8333 14 26.8333ZM19.8333 14C19.8333 14.322 19.572 14.5833 19.25 14.5833H14.5833V19.25C14.5833 19.572 14.322 19.8333 14 19.8333C13.678 19.8333 13.4167 19.572 13.4167 19.25V14.5833H8.75C8.428 14.5833 8.16667 14.322 8.16667 14C8.16667 13.678 8.428 13.4167 8.75 13.4167H13.4167V8.75C13.4167 8.428 13.678 8.16667 14 8.16667C14.322 8.16667 14.5833 8.428 14.5833 8.75V13.4167H19.25C19.572 13.4167 19.8333 13.678 19.8333 14Z"
-                                                    fill="#4BBBE4"
+                                                d="M14 0C6.28017 0 0 6.28017 0 14C0 21.7198 6.28017 28 14 28C21.7198 28 28 21.7198 28 14C28 6.28017 21.7198 0 14 0ZM14 26.8333C6.92417 26.8333 1.16667 21.0758 1.16667 14C1.16667 6.92417 6.92417 1.16667 14 1.16667C21.0758 1.16667 26.8333 6.92417 26.8333 14C26.8333 21.0758 21.0758 26.8333 14 26.8333ZM19.8333 14C19.8333 14.322 19.572 14.5833 19.25 14.5833H14.5833V19.25C14.5833 19.572 14.322 19.8333 14 19.8333C13.678 19.8333 13.4167 19.572 13.4167 19.25V14.5833H8.75C8.428 14.5833 8.16667 14.322 8.16667 14C8.16667 13.678 8.428 13.4167 8.75 13.4167H13.4167V8.75C13.4167 8.428 13.678 8.16667 14 8.16667C14.322 8.16667 14.5833 8.428 14.5833 8.75V13.4167H19.25C19.572 13.4167 19.8333 13.678 19.8333 14Z"
+                                                fill="#4BBBE4"
                                             />
                                         </svg>
                                     </button>
                                 </div>
 
-
+                                <!-- Highlights Section -->
                                 <div class="mb-3">
-                                    <label class="form-label">{{ $t('auth.add_course.highlights_label') }}*</label>
+                                    <label class="form-label d-flex align-items-center gap-2">
+                                        {{ $t('auth.add_course.highlights_label') }}*
+                                    </label>
 
                                     <div class="input-with-icon">
-                                        <svg class="input-icon" width="22" height="22" viewBox="0 0 22 22" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7.10342 18.9408C6.47893 18.9411 5.88002 18.6928 5.43881 18.2509L0.406139 13.2201C-0.13538 12.6784 -0.13538 11.8003 0.406139 11.2586C0.947831 10.7171 1.82591 10.7171 2.36761 11.2586L7.10342 15.9944L19.6324 3.46547C20.1741 2.92395 21.0522 2.92395 21.5939 3.46547C22.1354 4.00716 22.1354 4.88524 21.5939 5.42693L8.76803 18.2509C8.32683 18.6928 7.72791 18.9411 7.10342 18.9408Z"
-                                                  fill="#4BBBE4"/>
+                                        <svg class="input-icon" width="22" height="22" fill="#4BBBE4"
+                                             viewBox="0 0 22 22">
+                                            <path d="M7.103 18.94c-.625.001-1.224-.247-1.665-.69L.406 13.22c-.542-.542-.542-1.42 0-1.961s1.42-.542 1.962 0L7.103 15.994 19.632 3.465c.541-.542 1.42-.542 1.961 0s.542 1.42 0 1.961L8.768 18.251a2.351 2.351 0 0 1-1.665.69Z"/>
                                         </svg>
-                                        <input
-                                                v-model="highlights.en[0]"
-                                                type="text"
-                                                class="form-control check-input ps-5"
-                                                :placeholder="$t('auth.add_course.highlight_placeholder')"
-                                        />
+                                        <input v-model="highlights.arm[0]" type="text"
+                                               class="form-control check-input ps-5"
+                                               :placeholder="$t('auth.add_course.highlight_placeholder')"/>
                                     </div>
-                                    <p v-if="errors['highlights.0.name_en']" class="required-field">
-                                        {{ t('auth.add_course.' + errors['highlights.0.name_en'][0])}}
+                                    <p v-if="errors['highlights.0.name_arm']" class="required-field">
+                                        {{ translateError(errors['highlights.0.name_arm']) }}
                                     </p>
 
-                                    <div
-                                            v-for="(highlight, index) in highlights.en.slice(1)"
-                                            :key="index + 1"
-                                            class="input-with-icon mt-3 position-relative"
-                                    >
-                                        <svg class="input-icon" width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                    <div v-for="(highlight, index) in highlights.arm.slice(1)" :key="index + 1"
+                                         class="input-with-icon position-relative mb-3 mt-3">
+                                        <svg class="input-icon" width="22" height="22" fill="#4BBBE4"
+                                             viewBox="0 0 22 22">
+                                            <path d="M7.103 18.94c-.625.001-1.224-.247-1.665-.69L.406 13.22c-.542-.542-.542-1.42 0-1.961s1.42-.542 1.962 0L7.103 15.994 19.632 3.465c.541-.542 1.42-.542 1.961 0s.542 1.42 0 1.961L8.768 18.251a2.351 2.351 0 0 1-1.665.69Z"/>
+                                        </svg>
+                                        <input v-model="highlights.arm[index + 1]" type="text"
+                                               class="form-control check-input ps-5"
+                                               :placeholder="$t('auth.add_course.highlight_placeholder')"/>
+                                        <svg class="position-absolute top-50 translate-middle-y end-0 me-3 remove-icon"
+                                             role="button"
+                                             @click="removeHighlight('arm', index)" width="14" height="14"
+                                             viewBox="0 0 14 14" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7.10342 18.9408C6.47893 18.9411 5.88002 18.6928 5.43881 18.2509L0.406139 13.2201C-0.13538 12.6784 -0.13538 11.8003 0.406139 11.2586C0.947831 10.7171 1.82591 10.7171 2.36761 11.2586L7.10342 15.9944L19.6324 3.46547C20.1741 2.92395 21.0522 2.92395 21.5939 3.46547C22.1354 4.00716 22.1354 4.88524 21.5939 5.42693L8.76803 18.2509C8.32683 18.6928 7.72791 18.9411 7.10342 18.9408Z"
-                                                  fill="#4BBBE4"/>
+                                            <path
+                                                d="M12.9998 0.99994C12.8123 0.812469 12.558 0.707153 12.2928 0.707153C12.0277 0.707153 11.7733 0.812469 11.5858 0.99994L6.99982 5.58594L2.41382 0.99994C2.22629 0.812469 1.97198 0.707153 1.70682 0.707153C1.44165 0.707153 1.18735 0.812469 0.999818 0.99994C0.812347 1.18747 0.707031 1.44178 0.707031 1.70694C0.707031 1.9721 0.812347 2.22641 0.999818 2.41394L5.58582 6.99994L0.999818 11.5859C0.812347 11.7735 0.707031 12.0278 0.707031 12.2929C0.707031 12.5581 0.812347 12.8124 0.999818 12.9999C1.18735 13.1874 1.44165 13.2927 1.70682 13.2927C1.97198 13.2927 2.22629 13.1874 2.41382 12.9999L6.99982 8.41394L11.5858 12.9999C11.7733 13.1874 12.0277 13.2927 12.2928 13.2927C12.558 13.2927 12.8123 13.1874 12.9998 12.9999C13.1873 12.8124 13.2926 12.5581 13.2926 12.2929C13.2926 12.0278 13.1873 11.7735 12.9998 11.5859L8.41382 6.99994L12.9998 2.41394C13.1873 2.22641 13.2926 1.9721 13.2926 1.70694C13.2926 1.44178 13.1873 1.18747 12.9998 0.99994Z"
+                                                fill="#808793"
+                                            />
                                         </svg>
-                                        <input
-                                                v-model="highlights.en[index + 1]"
-                                                type="text"
-                                                class="form-control check-input ps-5"
-                                                :placeholder="$t('auth.add_course.highlight_placeholder')"
-                                        />
-                                        <svg
-                                                class="position-absolute top-50 translate-middle-y end-0 me-3 remove-icon"
-                                                role="button"
-                                                @click="removeHighlight('en', index)"
-                                                width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path d="M12.9998 0.99994C12.8123 0.812469 12.558 0.707153 12.2928 0.707153C12.0277 0.707153 11.7733 0.812469 11.5858 0.99994L6.99982 5.58594L2.41382 0.99994C2.22629 0.812469 1.97198 0.707153 1.70682 0.707153C1.44165 0.707153 1.18735 0.812469 0.999818 0.99994C0.812347 1.18747 0.707031 1.44178 0.707031 1.70694C0.707031 1.9721 0.812347 2.22641 0.999818 2.41394L5.58582 6.99994L0.999818 11.5859C0.812347 11.7735 0.707031 12.0278 0.707031 12.2929C0.707031 12.5581 0.812347 12.8124 0.999818 12.9999C1.18735 13.1874 1.44165 13.2927 1.70682 13.2927C1.97198 13.2927 2.22629 13.1874 2.41382 12.9999L6.99982 8.41394L11.5858 12.9999C11.7733 13.1874 12.0277 13.2927 12.2928 13.2927C12.558 13.2927 12.8123 13.1874 12.9998 12.9999C13.1873 12.8124 13.2926 12.5581 13.2926 12.2929C13.2926 12.0278 13.1873 11.7735 12.9998 11.5859L8.41382 6.99994L12.9998 2.41394C13.1873 2.22641 13.2926 1.9721 13.2926 1.70694C13.2926 1.44178 13.1873 1.18747 12.9998 0.99994Z"
-                                                  fill="#808793"/>
-                                        </svg>
+                                        <span v-if="errors['highlights.' + (index + 1)]" class="required-field">
+                                            {{ translateError(errors['highlights.' + (index + 1)]) }}
+                                        </span>
                                     </div>
-                                    <p v-if="errors['highlights']" class="required-field">
-                                        {{  t('auth.add_course.'  + errors['highlights'][0]) }}
-                                    </p>
-                                    <button type="button" class="add-btn mt-3" @click="addHighlight('en')">
+                                    <span v-if="errors.highlights" class="required-field">
+                                        {{ translateError(errors.highlights) }}
+                                    </span>
+
+                                    <button type="button" class="add-btn mt-3" @click="addHighlight('arm')">
                                         {{ $t('auth.add_course.add_new') }}
-                                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
+                                        <svg class="flex-shrink-0" width="28" height="28" viewBox="0 0 28 28"
+                                             fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
-                                            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M14 0C6.28017 0 0 6.28017 0 14C0 21.7198 6.28017 28 14 28C21.7198 28 28 21.7198 28 14C28 6.28017 21.7198 0 14 0ZM14 26.8333C6.92417 26.8333 1.16667 21.0758 1.16667 14C1.16667 6.92417 6.92417 1.16667 14 1.16667C21.0758 1.16667 26.8333 6.92417 26.8333 14C26.8333 21.0758 21.0758 26.8333 14 26.8333ZM19.8333 14C19.8333 14.322 19.572 14.5833 19.25 14.5833H14.5833V19.25C14.5833 19.572 14.322 19.8333 14 19.8333C13.678 19.8333 13.4167 19.572 13.4167 19.25V14.5833H8.75C8.428 14.5833 8.16667 14.322 8.16667 14C8.16667 13.678 8.428 13.4167 8.75 13.4167H13.4167V8.75C13.4167 8.428 13.678 8.16667 14 8.16667C14.322 8.16667 14.5833 8.428 14.5833 8.75V13.4167H19.25C19.572 13.4167 19.8333 13.678 19.8333 14Z"
-                                                      fill="#4BBBE4"/>
-                                            </svg>
+                                            <path d="M14 0C6.28017 0 0 6.28017 0 14C0 21.7198 6.28017 28 14 28C21.7198 28 28 21.7198 28 14C28 6.28017 21.7198 0 14 0ZM14 26.8333C6.92417 26.8333 1.16667 21.0758 1.16667 14C1.16667 6.92417 6.92417 1.16667 14 1.16667C21.0758 1.16667 26.8333 6.92417 26.8333 14C26.8333 21.0758 21.0758 26.8333 14 26.8333ZM19.8333 14C19.8333 14.322 19.572 14.5833 19.25 14.5833H14.5833V19.25C14.5833 19.572 14.322 19.8333 14 19.8333C13.678 19.8333 13.4167 19.572 13.4167 19.25V14.5833H8.75C8.428 14.5833 8.16667 14.322 8.16667 14C8.16667 13.678 8.428 13.4167 8.75 13.4167H13.4167V8.75C13.4167 8.428 13.678 8.16667 14 8.16667C14.322 8.16667 14.5833 8.428 14.5833 8.75V13.4167H19.25C19.572 13.4167 19.8333 13.678 19.8333 14Z"
+                                                  fill="#4BBBE4"/>
                                         </svg>
                                     </button>
                                 </div>
 
+                                <!-- Description -->
                                 <div class="mb-3">
-                                    <label class="form-label">{{ $t('auth.add_course.description_label') }}*</label>
-                                    <textarea v-model="form.description_en" class="form-control custom-textarea"
-                                              rows="4"
-                                              :placeholder="$t('auth.add_course.description_placeholder')"></textarea>
-                                    <span v-if="errors.description_en" class="required-field">{{
-                                            t('auth.add_course.' + errors.description_en)}}</span>
+                                    <label class="form-label">{{ $t('auth.add_course.course_description_label') }}*</label>
+                                    <textarea v-model="form.description_arm" class="form-control" rows="10"
+                                              :placeholder="$t('auth.add_course.course_description_placeholder')"></textarea>
+                                    <span v-if="errors.description_arm" class="required-field">{{
+                                        translateError(errors.description_arm)
+                                        }}</span>
                                 </div>
-
                             </div>
 
                             <!-- RUSSIAN -->
@@ -713,7 +729,7 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                         <label class="form-label">{{ $t('auth.add_course.course_title') }}</label>
                                         <input v-model="form.title_ru" type="text" class="form-control"
                                                :placeholder="$t('auth.add_course.course_title_placeholder')">
-                                        <span v-if="errors.title_ru" class="required-field">{{ t('auth.add_course.' + errors.title_ru) }}</span>
+                                        <span v-if="errors.title_ru" class="required-field">{{ translateError(errors.title_ru) }}</span>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">{{ $t('auth.add_course.course_price') }}</label>
@@ -744,11 +760,11 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                         </div>
 
                                         <span v-if="errors.price_ru" class="required-field">
-                                          {{ t('auth.add_course.' + errors.price_ru) }}
+                                          {{ translateError(errors.price_ru) }}
                                         </span>
                                         <span v-if="errors.price_ru && errors.currency_ru"><br></span>
                                         <span v-if="errors.currency_ru" class="required-field">
-                                          {{ t('auth.add_course.' + errors.currency_ru) }}
+                                          {{ translateError(errors.currency_ru) }}
                                         </span>
                                     </div>
                                 </div>
@@ -766,10 +782,10 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                                :placeholder="$t('auth.add_course.answer_placeholder')"/>
 
                                         <p v-if="errors['faqs.0.question_ru']" class="required-field">
-                                            {{ t('auth.add_course.' + errors['faqs.0.question_ru'][0])}}
+                                            {{ translateError(errors['faqs.0.question_ru'])}}
                                         </p>
                                         <p v-if="errors['faqs.0.answer_ru']" class="required-field">
-                                            {{ t('auth.add_course.' + errors['faqs.0.answer_ru'][0] )}}
+                                            {{ translateError(errors['faqs.0.answer_ru'])}}
                                         </p>
                                     </div>
 
@@ -821,7 +837,7 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                                :placeholder="$t('auth.add_course.highlight_placeholder')"/>
                                     </div>
                                     <p v-if="errors['highlights.0.name_ru']" class="required-field">
-                                        {{ t('auth.add_course.' + errors['highlights.0.name_ru'][0]) }}
+                                        {{ translateError(errors['highlights.0.name_ru']) }}
                                     </p>
 
                                     <div v-for="(highlight, index) in highlights.ru.slice(1)" :key="index + 1"
@@ -844,11 +860,11 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                             />
                                         </svg>
                                         <span v-if="errors['highlights.' + (index + 1)]" class="required-field">
-                                            {{ t('auth.add_course.' + errors['highlights.' + (index + 1)][0]) }}
+                                            {{ translateError(errors['highlights.' + (index + 1)]) }}
                                         </span>
                                                                 </div>
                                                                 <span v-if="errors.highlights" class="required-field">
-                                        {{ t('auth.add_course.' + errors.highlights[0]) }}
+                                        {{ translateError(errors.highlights) }}
                                     </span>
 
                                     <button type="button" class="add-btn mt-3" @click="addHighlight('ru')">
@@ -867,25 +883,25 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                     <label class="form-label">{{ $t('auth.add_course.description_label') }}</label>
                                     <textarea v-model="form.description_ru" class="form-control" rows="4"
                                               :placeholder="$t('auth.add_course.description_placeholder')"></textarea>
-                                    <span v-if="errors.description_ru" class="required-field">{{ t('auth.add_course.' + errors.description_ru) }}</span>
+                                    <span v-if="errors.description_ru" class="required-field">{{ translateError(errors.description_ru) }}</span>
                                 </div>
                             </div>
 
-                            <!-- ARMENIAN -->
-                            <div v-if="showArm">
-                                <h5 class="mt-4 title-translation">{{ $t('auth.add_course.title_arm') }} </h5>
+                            <!-- ENGLISH -->
+                            <div v-if="showEn">
+                                <h5 class="mt-4 title-translation">{{ $t('auth.add_course.title_en') }} </h5>
 
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label class="form-label">{{ $t('auth.add_course.course_title') }}</label>
-                                        <input v-model="form.title_arm" type="text" class="form-control"
+                                        <input v-model="form.title_en" type="text" class="form-control"
                                                :placeholder="$t('auth.add_course.course_title_placeholder')">
-                                        <span v-if="errors.title_arm" class="required-field">{{ t('auth.add_course.' + errors.title_arm) }}</span>
+                                        <span v-if="errors.title_en" class="required-field">{{ translateError(errors.title_en) }}</span>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">{{ $t('auth.add_course.course_price') }}</label>
                                         <div class="input-group">
-                                            <input v-model="form.price_arm" type="number" class="form-control"
+                                            <input v-model="form.price_en" type="number" class="form-control"
                                                    :placeholder="$t('auth.add_course.course_price_placeholder')">
                                             <div class="dropdown">
                                                 <button
@@ -893,27 +909,28 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                                     type="button"
                                                     disabled
                                                 >
-                                                    {{ form.currency_arm || 'AMD' }}
+                                                    {{ form.currency_en || 'AMD' }}
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li>
-                                                        <a class="dropdown-item" href="#" @click.prevent="selectCurrency('USD', 'arm')">USD</a>
+                                                        <a class="dropdown-item" href="#" @click.prevent="selectCurrency('USD', 'en')">USD</a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" href="#" @click.prevent="selectCurrency('EUR', 'arm')">EUR</a>
+                                                        <a class="dropdown-item" href="#" @click.prevent="selectCurrency('EUR', 'en')">EUR</a>
                                                     </li>
                                                     <li>
-                                                        <a class="dropdown-item" href="#" @click.prevent="selectCurrency('AMD', 'arm')">AMD</a>
+                                                        <a class="dropdown-item" href="#" @click.prevent="selectCurrency('AMD', 'en')">AMD</a>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
-                                        <span v-if="errors.price_arm" class="required-field">
-                                          {{ t('auth.add_course.' + errors.price_arm) }}
+
+                                        <span v-if="errors.price_en" class="required-field">
+                                          {{ t('auth.add_course.' + errors.price_en) }}
                                         </span>
-                                        <span v-if="errors.price_arm && errors.currency_arm"><br></span>
-                                        <span v-if="errors.currency_arm" class="required-field">
-                                          {{ t('auth.add_course.' + errors.currency_arm) }}
+                                        <span v-if="errors.price_en && errors.currency_en"><br></span>
+                                        <span v-if="errors.currency_en" class="required-field">
+                                          {{ t('auth.add_course.' + errors.currency_en) }}
                                         </span>
                                     </div>
                                 </div>
@@ -925,26 +942,26 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                     </label>
 
                                     <div class="mb-3">
-                                        <input v-model="faqList.arm[0].question_arm" type="text" class="form-control mb-2"
+                                        <input v-model="faqList.en[0].question_en" type="text" class="form-control mb-2"
                                                :placeholder="$t('auth.add_course.question_placeholder')"/>
-                                        <input v-model="faqList.arm[0].answer_arm" type="text" class="form-control"
+                                        <input v-model="faqList.en[0].answer_en" type="text" class="form-control"
                                                :placeholder="$t('auth.add_course.answer_placeholder')"/>
 
-                                        <p v-if="errors['faqs.0.question_arm']" class="required-field">
-                                            {{ t('auth.add_course.' + errors['faqs.0.question_arm'][0]) }}
+                                        <p v-if="errors['faqs.0.question_en']" class="required-field">
+                                            {{ translateError(errors['faqs.0.question_en'])}}
                                         </p>
-                                        <p v-if="errors['faqs.0.answer_arm']" class="required-field">
-                                            {{ t('auth.add_course.' + errors['faqs.0.answer_arm'][0]) }}
+                                        <p v-if="errors['faqs.0.answer_en']" class="required-field">
+                                            {{ translateError(errors['faqs.0.answer_en'])}}
                                         </p>
                                     </div>
 
-                                    <div v-for="(faq, index) in faqList.arm.slice(1)" :key="index + 1" class="mb-3">
+                                    <div v-for="(faq, index) in faqList.en.slice(1)" :key="index + 1" class="mb-3">
                                         <div class="position-relative mb-2">
-                                            <input v-model="faq.question_arm" type="text" class="form-control pe-5"
+                                            <input v-model="faq.question_en" type="text" class="form-control pe-5"
                                                    :placeholder="$t('auth.add_course.question_placeholder')"/>
                                             <svg class="position-absolute top-50 end-0 translate-middle-y me-3"
                                                  role="button"
-                                                 @click="removeFAQ('arm', index + 1)" width="14" height="14"
+                                                 @click="removeFAQ('en', index + 1)" width="14" height="14"
                                                  viewBox="0 0 14 14" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;">
                                                 <path d="M12.9998 0.99994C12.8123 0.812469 12.558 0.707153 12.2928 0.707153C12.0277 0.707153 11.7733 0.812469 11.5858 0.99994L6.99982 5.58594L2.41382 0.99994C2.22629 0.812469 1.97198 0.707153 1.70682 0.707153C1.44165 0.707153 1.18735 0.812469 0.999818 0.99994C0.812347 1.18747 0.707031 1.44178 0.707031 1.70694C0.707031 1.9721 0.812347 2.22641 0.999818 2.41394L5.58582 6.99994L0.999818 11.5859C0.812347 11.7735 0.707031 12.0278 0.707031 12.2929C0.707031 12.5581 0.812347 12.8124 0.999818 12.9999C1.18735 13.1874 1.44165 13.2927 1.70682 13.2927C1.97198 13.2927 2.22629 13.1874 2.41382 12.9999L6.99982 8.41394L11.5858 12.9999C11.7733 13.1874 12.0277 13.2927 12.2928 13.2927C12.558 13.2927 12.8123 13.1874 12.9998 12.9999C13.1873 12.8124 13.2926 12.5581 13.2926 12.2929C13.2926 12.0278 13.1873 11.7735 12.9998 11.5859L8.41382 6.99994L12.9998 2.41394C13.1873 2.22641 13.2926 1.9721 13.2926 1.70694C13.2926 1.44178 13.1873 1.18747 12.9998 0.99994Z"
@@ -952,11 +969,12 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                                 />
                                             </svg>
                                         </div>
-                                        <input v-model="faq.answer_arm" type="text" class="form-control"
+                                        <input v-model="faq.answer_en" type="text" class="form-control"
                                                :placeholder="$t('auth.add_course.answer_placeholder')"/>
+
                                     </div>
 
-                                    <button type="button" class="add-btn" @click="addFAQ('arm')">
+                                    <button type="button" class="add-btn" @click="addFAQ('en')">
                                         {{ $t('auth.add_course.add_new') }}
                                         <svg class="flex-shrink-0" width="28" height="28" viewBox="0 0 28 28"
                                              fill="none"
@@ -980,26 +998,26 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                              viewBox="0 0 22 22">
                                             <path d="M7.103 18.94c-.625.001-1.224-.247-1.665-.69L.406 13.22c-.542-.542-.542-1.42 0-1.961s1.42-.542 1.962 0L7.103 15.994 19.632 3.465c.541-.542 1.42-.542 1.961 0s.542 1.42 0 1.961L8.768 18.251a2.351 2.351 0 0 1-1.665.69Z"/>
                                         </svg>
-                                        <input v-model="highlights.arm[0]" type="text"
+                                        <input v-model="highlights.en[0]" type="text"
                                                class="form-control check-input ps-5"
                                                :placeholder="$t('auth.add_course.highlight_placeholder')"/>
                                     </div>
-                                    <p v-if="errors['highlights.0.name_arm']" class="required-field">
-                                        {{ t('auth.add_course.' + errors['highlights.0.name_arm'][0]) }}
+                                    <p v-if="errors['highlights.0.name_en']" class="required-field">
+                                        {{ translateError(errors['highlights.0.name_en']) }}
                                     </p>
 
-                                    <div v-for="(highlight, index) in highlights.arm.slice(1)" :key="index + 1"
+                                    <div v-for="(highlight, index) in highlights.en.slice(1)" :key="index + 1"
                                          class="input-with-icon position-relative mb-3 mt-3">
                                         <svg class="input-icon" width="22" height="22" fill="#4BBBE4"
                                              viewBox="0 0 22 22">
                                             <path d="M7.103 18.94c-.625.001-1.224-.247-1.665-.69L.406 13.22c-.542-.542-.542-1.42 0-1.961s1.42-.542 1.962 0L7.103 15.994 19.632 3.465c.541-.542 1.42-.542 1.961 0s.542 1.42 0 1.961L8.768 18.251a2.351 2.351 0 0 1-1.665.69Z"/>
                                         </svg>
-                                        <input v-model="highlights.arm[index + 1]" type="text"
+                                        <input v-model="highlights.en[index + 1]" type="text"
                                                class="form-control check-input ps-5"
                                                :placeholder="$t('auth.add_course.highlight_placeholder')"/>
                                         <svg class="position-absolute top-50 translate-middle-y end-0 me-3 remove-icon"
                                              role="button"
-                                             @click="removeHighlight('arm', index)" width="14" height="14"
+                                             @click="removeHighlight('en', index)" width="14" height="14"
                                              viewBox="0 0 14 14" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -1008,14 +1026,14 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                             />
                                         </svg>
                                         <span v-if="errors['highlights.' + (index + 1)]" class="required-field">
-                                            {{ t('auth.add_course.' + errors['highlights.' + (index + 1)][0]) }}
+                                            {{ translateError(errors['highlights.' + (index + 1)]) }}
                                         </span>
                                     </div>
                                     <span v-if="errors.highlights" class="required-field">
-                                        {{ t('auth.add_course.' + errors.highlights[0]) }}
+                                        {{ translateError(errors.highlights) }}
                                     </span>
 
-                                    <button type="button" class="add-btn mt-3" @click="addHighlight('arm')">
+                                    <button type="button" class="add-btn mt-3" @click="addHighlight('en')">
                                         {{ $t('auth.add_course.add_new') }}
                                         <svg class="flex-shrink-0" width="28" height="28" viewBox="0 0 28 28"
                                              fill="none"
@@ -1028,10 +1046,12 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
 
                                 <!-- Description -->
                                 <div class="mb-3">
-                                    <label class="form-label">{{ $t('auth.add_course.description_label') }}</label>
-                                    <textarea v-model="form.description_arm" class="form-control" rows="4"
-                                              :placeholder="$t('auth.add_course.description_placeholder')"></textarea>
-                                    <span v-if="errors.description_arm" class="required-field">{{ t('auth.add_course.' + errors.description_arm) }}</span>
+                                    <label class="form-label">{{ $t('auth.add_course.course_description_label') }}*</label>
+                                    <textarea v-model="form.description_arm" class="form-control" rows="10"
+                                              :placeholder="$t('auth.add_course.course_description_placeholder')"></textarea>
+                                    <span v-if="errors.description_arm" class="required-field">{{
+                                        translateError(errors.description_arm)
+                                        }}</span>
                                 </div>
                             </div>
 
