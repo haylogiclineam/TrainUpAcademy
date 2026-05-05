@@ -42,6 +42,7 @@ export function useNotificationsStore() {
     const listenNotifications = () => {
         if (!authStore.token || !authStore.user) return;
         const echo = createEcho(authStore.token);
+        if (!echo) return;
 
         echo.private(`user.${authStore.user.id}`)
             .notification((notification) => {

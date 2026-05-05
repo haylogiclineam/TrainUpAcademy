@@ -429,6 +429,7 @@ const addCourse = async () => {
         if (response.data.message_key) {
             successMessage.value = t(response.data.message_key);
             resetForm();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
     } catch (error) {
@@ -455,6 +456,9 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
             <div class="add-course-main">
                 <div class="d-flex justify-content-between align-items-center course-title-block">
                     <h3 class="text-capitalize add-course-section-title">{{ $t('auth.add_course.general_title') }}</h3>
+                </div>
+                <div v-if="successMessage" class="success-message">
+                    {{ successMessage }}
                 </div>
                 <div class="add-course-block d-flex">
                     <div class="upload-block">
@@ -1186,9 +1190,6 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                 </button>
                             </div>
 
-                            <div v-if="successMessage" class="success-message mb-3">
-                                {{ successMessage }}
-                            </div>
                             <div class="add-course-btn-div d-flex justify-content-center align-items-center">
                                 <button
                                     type="button"
@@ -1228,12 +1229,27 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
     font-family: var(--font-montserrat);
     font-weight: 400;
     font-size: 42px;
-    line-height: normal;
-    letter-spacing: 2%;
     color: var(--primary-100);
 }
 
+.success-message {
+    margin: 24px 0;
+    padding: 18px 22px;
+    border: 1px solid #b7ebc6;
+    border-left: 6px solid #20b15a;
+    border-radius: 12px;
+    background: #ecfff2;
+    color: #146c2e;
+    font-family: var(--font-montserrat);
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 10px 24px rgba(32, 177, 90, 0.14);
+}
+
 .upload-area {
+    border-radius: 10px;
+    border: 1px dashed rgba(62, 67, 70, 0.5);
+    padding: 60px 20px;
     border: 1px solid var(--primary-100);
     text-align: center;
     border-radius: 16px;

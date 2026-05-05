@@ -304,6 +304,8 @@ const submitComment = async () => {
 let courseChannel = null;
 
 watch(() => course.value?.id, (newId, oldId) => {
+    if (!echo) return;
+
     if (courseChannel && oldId) {
         echo.leaveChannel(`course.${oldId}`);
     }
