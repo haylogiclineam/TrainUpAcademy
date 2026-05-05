@@ -9,8 +9,6 @@ const isLoading = ref(true)
 const auth = useAuthStore()
 auth.checkAuth()
 
-const authUser = auth.user;
-
 const {locale, t} = useI18n()
 
 const openIndex = ref(0)
@@ -42,8 +40,9 @@ async function loadCourses(page = 1) {
 
         const data = response.data
         console.log(data)
-        const isAuthenticated = !!authUser.token
-        videos.value = data.data.map(course => ({
+        const isAuthenticated = !!auth.token
+        const courses = Array.isArray(data.data) ? data.data : []
+        videos.value = courses.map(course => ({
             ...course,
             src: '',
             statusKey: course.status,
@@ -57,7 +56,7 @@ async function loadCourses(page = 1) {
         window.history.pushState({}, '', `?page=${page}`)
 
         if (isAuthenticated) {
-            data.data.forEach(async (course, index) => {
+            courses.forEach(async (course, index) => {
                 try {
                     // Use 'video' field as provided by backend
                     if (course.video) {
@@ -83,7 +82,7 @@ async function loadCourses(page = 1) {
 }
 
 async function fetchVideoBlob(url) {
-    const token = authUser.token
+    const token = auth.token
     const response = await fetch(url, {
         headers: {
             Authorization: `Bearer ${token}`

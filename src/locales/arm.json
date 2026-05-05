@@ -260,7 +260,7 @@
         "status_completed": "Հաստատված",
         "status_rejected": "Մերժված",
         "no_withdrawals": "Ելքագրման հարցումներ դեռ չկան",
-        "platform_fees": "Հարթակի միջնորդավճար (20%)",
+        "platform_fees": "Հարթակի միջնորդավճար (30%)",
         "total_gross_earning": "Ընդհանուր համախառն եկամուտ",
         "my_balance": "Իմ հաշվեկշիռը"
     },

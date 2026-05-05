@@ -15,6 +15,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import {useWishlistCount} from '../composables/useWishlistCount.js';
 import {useCartCount} from '../composables/useCartCount';
+import { getUserImageUrl } from '../utils/userImage.js';
 
 const router = useRouter();
 const route = useRoute();
@@ -232,10 +233,7 @@ const firstWord = computed(() => fullTitle.value.split(' ')[0] || '')
 const rest = computed(() => fullTitle.value.split(' ').slice(1).join(' ') || '')
 
 const userImage = computed(() => {
-    if (auth.user?.image) {
-        return `${import.meta.env.VITE_API_BASE_URL}/storage/auth/${auth.user.image}`;
-    }
-    return '/assets/images/auth/default-avatar.png';
+    return getUserImageUrl(auth.user?.image);
 });
 
 const handleImageError = (event) => {

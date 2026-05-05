@@ -81,7 +81,6 @@ onMounted(() => {
                                 <th>{{ $t('purchase_history.service_fee') }}</th>
                                 <th>{{ $t('purchase_history.net') }}</th>
                                 <th>{{ $t('purchase_history.status') }}</th>
-                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -104,9 +103,6 @@ onMounted(() => {
                                   >●</span>
                                   {{ $t(`purchase_history.statuses.${payment.status}`) }}
                                 </span>
-                                </td>
-                                <td>
-                                    <button class="invoice-btn">{{ $t('purchase_history.invoice') }}</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -170,11 +166,6 @@ onMounted(() => {
                                   {{ $t(`purchase_history.statuses.${payment.status}`) }}
                                 </span>
                                 </p>
-                            </div>
-                            <hr>
-
-                            <div class="mobile-row no-border">
-                                <button class="invoice-btn">{{ $t('purchase_history.invoice') }}</button>
                             </div>
                             <hr>
                         </div>

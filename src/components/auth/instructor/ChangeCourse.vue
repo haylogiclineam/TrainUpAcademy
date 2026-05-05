@@ -37,7 +37,23 @@ const highlights = ref({
     arm: [''],
 });
 
+const createEmptyQuestion = () => ({
+    question_text: '',
+    type: 'radio',
+    options: [
+        { option_text: '', is_correct: false },
+        { option_text: '', is_correct: false },
+    ],
+});
 
+const quizQuestions = ref(
+    Array.from({ length: 10 }, () => createEmptyQuestion())
+);
+
+const practiceAssignments = ref([
+    { assignment_text: '', correct_answer: '' },
+    { assignment_text: '', correct_answer: '' },
+]);
 
 const form = ref({
     category_id: '',
@@ -97,6 +113,12 @@ const resetForm = () => {
         ru: [''],
         arm: [''],
     };
+
+    quizQuestions.value = Array.from({ length: 10 }, () => createEmptyQuestion());
+    practiceAssignments.value = [
+        { assignment_text: '', correct_answer: '' },
+        { assignment_text: '', correct_answer: '' },
+    ];
 
     fileName.value = '';
     if (fileInput.value) fileInput.value.value = '';
@@ -176,6 +198,44 @@ const getCourseById = async () => {
             ? data.highlights.map(h => h.name_arm || '')
             : [''];
 
+        quizQuestions.value = data.questions?.length
+            ? data.questions.map(q => ({
+                question_text: q.question_text || '',
+                type: q.type || 'radio',
+                options: q.options?.length
+                    ? q.options.map(opt => ({
+                        option_text: opt.option_text || '',
+                        is_correct: !!opt.is_correct,
+                    }))
+                    : [
+                        { option_text: '', is_correct: false },
+                        { option_text: '', is_correct: false },
+                    ],
+            }))
+            : Array.from({ length: 10 }, () => createEmptyQuestion());
+
+        while (quizQuestions.value.length < 10) {
+            quizQuestions.value.push(createEmptyQuestion());
+        }
+
+        if (quizQuestions.value.length > 10) {
+            quizQuestions.value = quizQuestions.value.slice(0, 10);
+        }
+
+        practiceAssignments.value = data.practice_assignments?.length
+            ? data.practice_assignments.map(pa => ({
+                assignment_text: pa.assignment_text || '',
+                correct_answer: pa.correct_answer || '',
+            }))
+            : [
+                { assignment_text: '', correct_answer: '' },
+                { assignment_text: '', correct_answer: '' },
+            ];
+
+        while (practiceAssignments.value.length < 2) {
+            practiceAssignments.value.push({ assignment_text: '', correct_answer: '' });
+        }
+
         showRu.value = !!(form.value.title_ru?.trim() || form.value.description_ru?.trim());
         showArm.value = !!(form.value.title_arm?.trim() || form.value.description_arm?.trim());
     } catch (error) {
@@ -238,6 +298,45 @@ const removeHighlight = (lang, index) => {
     }
 };
 
+const addOption = (qIndex) => {
+    quizQuestions.value[qIndex].options.push({ option_text: '', is_correct: false });
+};
+
+const removeOption = (qIndex, oIndex) => {
+    if (quizQuestions.value[qIndex].options.length > 2) {
+        quizQuestions.value[qIndex].options.splice(oIndex, 1);
+    }
+};
+
+const toggleQuestionType = (qIndex) => {
+    const q = quizQuestions.value[qIndex];
+    q.type = q.type === 'radio' ? 'checkbox' : 'radio';
+    q.options.forEach(opt => { opt.is_correct = false; });
+};
+
+const selectCorrectAnswer = (qIndex, oIndex) => {
+    const q = quizQuestions.value[qIndex];
+    if (q.type === 'radio') {
+        q.options.forEach((opt, i) => {
+            opt.is_correct = (i === oIndex);
+        });
+    } else {
+        q.options[oIndex].is_correct = !q.options[oIndex].is_correct;
+    }
+};
+
+const addPracticeAssignment = () => {
+    practiceAssignments.value.push({ assignment_text: '', correct_answer: '' });
+};
+
+const removePracticeAssignment = (index) => {
+    if (practiceAssignments.value.length > 2) {
+        practiceAssignments.value.splice(index, 1);
+    }
+};
+
+const quizErrors = ref({});
+const practiceErrors = ref({});
 
 const selectCurrency = (currency, lang) => {
     if (lang === 'en') form.value.currency_en = currency;
@@ -330,6 +429,71 @@ const updateCourse = async () => {
             formData.append(`highlights[${index}][name_en]`, highlights.value.en[index] || '');
             formData.append(`highlights[${index}][name_ru]`, highlights.value.ru[index] || '');
             formData.append(`highlights[${index}][name_arm]`, highlights.value.arm[index] || '');
+        });
+
+        quizErrors.value = {};
+        practiceErrors.value = {};
+        let hasQuizError = false;
+
+        quizQuestions.value.forEach((q, qIndex) => {
+            if (!q.question_text || q.question_text.trim() === '') {
+                quizErrors.value[`question_${qIndex}_text`] = t('auth.add_course.quiz.validation.question_required');
+                hasQuizError = true;
+            }
+
+            if (q.options.length < 2) {
+                quizErrors.value[`question_${qIndex}_options_min`] = t('auth.add_course.quiz.validation.min_options');
+                hasQuizError = true;
+            }
+
+            const correctCount = q.options.filter(o => o.is_correct).length;
+            if (q.type === 'radio' && correctCount !== 1) {
+                quizErrors.value[`question_${qIndex}_correct`] = t('auth.add_course.quiz.validation.select_correct');
+                hasQuizError = true;
+            }
+
+            if (q.type === 'checkbox' && correctCount < 1) {
+                quizErrors.value[`question_${qIndex}_correct`] = t('auth.add_course.quiz.validation.select_correct_checkbox');
+                hasQuizError = true;
+            }
+
+            q.options.forEach((opt, oIndex) => {
+                if (!opt.option_text || opt.option_text.trim() === '') {
+                    quizErrors.value[`question_${qIndex}_option_${oIndex}_text`] = t('auth.add_course.quiz.validation.option_required');
+                    hasQuizError = true;
+                }
+            });
+        });
+
+        practiceAssignments.value.forEach((pa, paIndex) => {
+            if (!pa.assignment_text || pa.assignment_text.trim() === '') {
+                practiceErrors.value[`practice_${paIndex}_text`] = t('auth.add_course.quiz.validation.practice_text_required');
+                hasQuizError = true;
+            }
+
+            if (!pa.correct_answer || pa.correct_answer.trim() === '') {
+                practiceErrors.value[`practice_${paIndex}_answer`] = t('auth.add_course.quiz.validation.practice_answer_required');
+                hasQuizError = true;
+            }
+        });
+
+        if (hasQuizError) {
+            isLoading.value = false;
+            return;
+        }
+
+        quizQuestions.value.forEach((q, qIndex) => {
+            formData.append(`questions[${qIndex}][question_text]`, q.question_text);
+            formData.append(`questions[${qIndex}][type]`, q.type);
+            q.options.forEach((opt, oIndex) => {
+                formData.append(`questions[${qIndex}][options][${oIndex}][option_text]`, opt.option_text);
+                formData.append(`questions[${qIndex}][options][${oIndex}][is_correct]`, opt.is_correct ? '1' : '0');
+            });
+        });
+
+        practiceAssignments.value.forEach((pa, paIndex) => {
+            formData.append(`practice_assignments[${paIndex}][assignment_text]`, pa.assignment_text);
+            formData.append(`practice_assignments[${paIndex}][correct_answer]`, pa.correct_answer);
         });
 
         const response = await api.post(`/api/courses/${courseId}`, formData, {
@@ -1003,6 +1167,135 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                 </div>
                             </div>
 
+                            <div class="quiz-section mb-4">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    {{ $t('auth.add_course.quiz.section_title') }} (10)
+                                </label>
+
+                                <div v-for="(question, qIndex) in quizQuestions" :key="qIndex" class="quiz-question-block mb-3">
+                                    <div class="quiz-question-header d-flex justify-content-between align-items-center mb-2">
+                                        <span class="quiz-question-number">{{ $t('auth.add_course.quiz.question_label') }} #{{ qIndex + 1 }}</span>
+                                        <div class="quiz-type-toggle d-flex align-items-center gap-2">
+                                            <span class="quiz-type-label">{{ $t('auth.add_course.quiz.type_label') }}:</span>
+                                            <button
+                                                type="button"
+                                                class="quiz-type-btn"
+                                                :class="{ active: question.type === 'radio' }"
+                                                @click="question.type !== 'radio' && toggleQuestionType(qIndex)"
+                                            >{{ $t('auth.add_course.quiz.type_radio') }}</button>
+                                            <button
+                                                type="button"
+                                                class="quiz-type-btn"
+                                                :class="{ active: question.type === 'checkbox' }"
+                                                @click="question.type !== 'checkbox' && toggleQuestionType(qIndex)"
+                                            >{{ $t('auth.add_course.quiz.type_checkbox') }}</button>
+                                        </div>
+                                    </div>
+
+                                    <input
+                                        v-model="question.question_text"
+                                        type="text"
+                                        class="form-control mb-2"
+                                        :placeholder="$t('auth.add_course.quiz.question_placeholder')"
+                                    />
+                                    <span v-if="quizErrors[`question_${qIndex}_text`]" class="required-field">
+                                        {{ quizErrors[`question_${qIndex}_text`] }}
+                                    </span>
+
+                                    <div v-for="(option, oIndex) in question.options" :key="oIndex" class="quiz-option-row d-flex align-items-center gap-2 mb-2">
+                                        <input
+                                            :type="question.type === 'radio' ? 'radio' : 'checkbox'"
+                                            :name="question.type === 'radio' ? 'quiz_correct_' + qIndex : undefined"
+                                            :checked="option.is_correct"
+                                            @change="selectCorrectAnswer(qIndex, oIndex)"
+                                            class="quiz-radio"
+                                        />
+                                        <input
+                                            v-model="option.option_text"
+                                            type="text"
+                                            class="form-control"
+                                            :placeholder="$t('auth.add_course.quiz.option_placeholder') + ' ' + (oIndex + 1)"
+                                        />
+                                        <button
+                                            v-if="question.options.length > 2"
+                                            type="button"
+                                            class="quiz-remove-option-btn"
+                                            @click="removeOption(qIndex, oIndex)"
+                                        >
+                                            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12.9998 0.99994C12.8123 0.812469 12.558 0.707153 12.2928 0.707153C12.0277 0.707153 11.7733 0.812469 11.5858 0.99994L6.99982 5.58594L2.41382 0.99994C2.22629 0.812469 1.97198 0.707153 1.70682 0.707153C1.44165 0.707153 1.18735 0.812469 0.999818 0.99994C0.812347 1.18747 0.707031 1.44178 0.707031 1.70694C0.707031 1.9721 0.812347 2.22641 0.999818 2.41394L5.58582 6.99994L0.999818 11.5859C0.812347 11.7735 0.707031 12.0278 0.707031 12.2929C0.707031 12.5581 0.812347 12.8124 0.999818 12.9999C1.18735 13.1874 1.44165 13.2927 1.70682 13.2927C1.97198 13.2927 2.22629 13.1874 2.41382 12.9999L6.99982 8.41394L11.5858 12.9999C11.7733 13.1874 12.0277 13.2927 12.2928 13.2927C12.558 13.2927 12.8123 13.1874 12.9998 12.9999C13.1873 12.8124 13.2926 12.5581 13.2926 12.2929C13.2926 12.0278 13.1873 11.7735 12.9998 11.5859L8.41382 6.99994L12.9998 2.41394C13.1873 2.22641 13.2926 1.9721 13.2926 1.70694C13.2926 1.44178 13.1873 1.18747 12.9998 0.99994Z" fill="#808793"/>
+                                            </svg>
+                                        </button>
+                                        <span v-if="quizErrors[`question_${qIndex}_option_${oIndex}_text`]" class="required-field d-block w-100">
+                                            {{ quizErrors[`question_${qIndex}_option_${oIndex}_text`] }}
+                                        </span>
+                                    </div>
+
+                                    <span v-if="quizErrors[`question_${qIndex}_correct`]" class="required-field">
+                                        {{ quizErrors[`question_${qIndex}_correct`] }}
+                                    </span>
+                                    <span v-if="quizErrors[`question_${qIndex}_options_min`]" class="required-field">
+                                        {{ quizErrors[`question_${qIndex}_options_min`] }}
+                                    </span>
+
+                                    <button type="button" class="add-btn mt-2" @click="addOption(qIndex)">
+                                        {{ $t('auth.add_course.quiz.add_option') }}
+                                        <svg class="flex-shrink-0" width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M14 0C6.28017 0 0 6.28017 0 14C0 21.7198 6.28017 28 14 28C21.7198 28 28 21.7198 28 14C28 6.28017 21.7198 0 14 0ZM14 26.8333C6.92417 26.8333 1.16667 21.0758 1.16667 14C1.16667 6.92417 6.92417 1.16667 14 1.16667C21.0758 1.16667 26.8333 6.92417 26.8333 14C26.8333 21.0758 21.0758 26.8333 14 26.8333ZM19.8333 14C19.8333 14.322 19.572 14.5833 19.25 14.5833H14.5833V19.25C14.5833 19.572 14.322 19.8333 14 19.8333C13.678 19.8333 13.4167 19.572 13.4167 19.25V14.5833H8.75C8.428 14.5833 8.16667 14.322 8.16667 14C8.16667 13.678 8.428 13.4167 8.75 13.4167H13.4167V8.75C13.4167 8.428 13.678 8.16667 14 8.16667C14.322 8.16667 14.5833 8.428 14.5833 8.75V13.4167H19.25C19.572 13.4167 19.8333 13.678 19.8333 14Z" fill="#4BBBE4"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="quiz-section mb-4">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    {{ $t('auth.add_course.quiz.practice_section_title') }}
+                                </label>
+
+                                <div v-for="(pa, paIndex) in practiceAssignments" :key="paIndex" class="quiz-question-block mb-3">
+                                    <div class="quiz-question-header d-flex justify-content-between align-items-center mb-2">
+                                        <span class="quiz-question-number">{{ $t('auth.add_course.quiz.practice_label') }} #{{ paIndex + 1 }}</span>
+                                        <button
+                                            v-if="practiceAssignments.length > 2"
+                                            type="button"
+                                            class="quiz-remove-btn"
+                                            @click="removePracticeAssignment(paIndex)"
+                                        >
+                                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12.9998 0.99994C12.8123 0.812469 12.558 0.707153 12.2928 0.707153C12.0277 0.707153 11.7733 0.812469 11.5858 0.99994L6.99982 5.58594L2.41382 0.99994C2.22629 0.812469 1.97198 0.707153 1.70682 0.707153C1.44165 0.707153 1.18735 0.812469 0.999818 0.99994C0.812347 1.18747 0.707031 1.44178 0.707031 1.70694C0.707031 1.9721 0.812347 2.22641 0.999818 2.41394L5.58582 6.99994L0.999818 11.5859C0.812347 11.7735 0.707031 12.0278 0.707031 12.2929C0.707031 12.5581 0.812347 12.8124 0.999818 12.9999C1.18735 13.1874 1.44165 13.2927 1.70682 13.2927C1.97198 13.2927 2.22629 13.1874 2.41382 12.9999L6.99982 8.41394L11.5858 12.9999C11.7733 13.1874 12.0277 13.2927 12.2928 13.2927C12.558 13.2927 12.8123 13.1874 12.9998 12.9999C13.1873 12.8124 13.2926 12.5581 13.2926 12.2929C13.2926 12.0278 13.1873 11.7735 12.9998 11.5859L8.41382 6.99994L12.9998 2.41394C13.1873 2.22641 13.2926 1.9721 13.2926 1.70694C13.2926 1.44178 13.1873 1.18747 12.9998 0.99994Z" fill="#808793"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <textarea
+                                        v-model="pa.assignment_text"
+                                        class="form-control mb-2"
+                                        rows="3"
+                                        :placeholder="$t('auth.add_course.quiz.practice_text_placeholder')"
+                                    ></textarea>
+                                    <span v-if="practiceErrors[`practice_${paIndex}_text`]" class="required-field">
+                                        {{ practiceErrors[`practice_${paIndex}_text`] }}
+                                    </span>
+
+                                    <textarea
+                                        v-model="pa.correct_answer"
+                                        class="form-control mb-2"
+                                        rows="2"
+                                        :placeholder="$t('auth.add_course.quiz.practice_answer_placeholder')"
+                                    ></textarea>
+                                    <span v-if="practiceErrors[`practice_${paIndex}_answer`]" class="required-field">
+                                        {{ practiceErrors[`practice_${paIndex}_answer`] }}
+                                    </span>
+                                </div>
+
+                                <button type="button" class="add-btn" @click="addPracticeAssignment">
+                                    {{ $t('auth.add_course.quiz.add_practice') }}
+                                    <svg class="flex-shrink-0" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M14 0C6.28017 0 0 6.28017 0 14C0 21.7198 6.28017 28 14 28C21.7198 28 28 21.7198 28 14C28 6.28017 21.7198 0 14 0ZM14 26.8333C6.92417 26.8333 1.16667 21.0758 1.16667 14C1.16667 6.92417 6.92417 1.16667 14 1.16667C21.0758 1.16667 26.8333 6.92417 26.8333 14C26.8333 21.0758 21.0758 26.8333 14 26.8333ZM19.8333 14C19.8333 14.322 19.572 14.5833 19.25 14.5833H14.5833V19.25C14.5833 19.572 14.322 19.8333 14 19.8333C13.678 19.8333 13.4167 19.572 13.4167 19.25V14.5833H8.75C8.428 14.5833 8.16667 14.322 8.16667 14C8.16667 13.678 8.428 13.4167 8.75 13.4167H13.4167V8.75C13.4167 8.428 13.678 8.16667 14 8.16667C14.322 8.16667 14.5833 8.428 14.5833 8.75V13.4167H19.25C19.572 13.4167 19.8333 13.678 19.8333 14Z" fill="#4BBBE4"/>
+                                    </svg>
+                                </button>
+                            </div>
+
                             <div v-if="successMessage" class="success-message mb-3">
                                 {{ $t('auth.courses.course_updated') }}
                             </div>
@@ -1376,6 +1669,84 @@ textarea {
 
 .required-field{
     word-break: break-all;
+}
+
+/* Quiz section styles */
+.quiz-section {
+    margin-top: 20px;
+}
+
+.quiz-question-block {
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 16px;
+    background-color: #fafafa;
+}
+
+.quiz-question-number {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--primary-100);
+}
+
+.quiz-type-toggle {
+    flex-shrink: 0;
+}
+
+.quiz-type-label {
+    font-size: 13px;
+    color: #666;
+}
+
+.quiz-type-btn {
+    padding: 4px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.quiz-type-btn.active {
+    background: #4BBBE4;
+    color: #fff;
+    border-color: #4BBBE4;
+}
+
+.quiz-remove-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.quiz-remove-btn:hover svg path {
+    fill: #e74c3c;
+}
+
+.quiz-option-row {
+    flex-wrap: wrap;
+}
+
+.quiz-radio {
+    width: 20px;
+    height: 20px;
+    accent-color: #4BBBE4;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.quiz-remove-option-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    flex-shrink: 0;
+}
+
+.quiz-remove-option-btn:hover svg path {
+    fill: #e74c3c;
 }
 
 /* Extra Small Devices */

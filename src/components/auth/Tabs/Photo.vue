@@ -3,16 +3,16 @@ import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import api from '../../../services/api.js'
 import {useAuthStore} from '/src/stores/auth.js';
+import { getUserImageUrl } from '../../../utils/userImage.js'
 
 const auth = useAuthStore()
 auth.checkAuth()
 
 const userImage = computed(() => {
-    return auth.user?.image
-        ? `${import.meta.env.VITE_API_BASE_URL}/storage/auth/${auth.user.image}`
-        : null;
+    return getUserImageUrl(auth.user?.image);
 });
 const { t } = useI18n()
+const predefinedAvatars = Array.from({ length: 7 }, (_, index) => `team-member-${index + 1}.png`)
 
 const fileInput = ref(null)
 const fileName = ref('')
@@ -38,10 +38,12 @@ const handleFileChange = (event) => {
     }
 }
 
-const selectPredefinedAvatar = (n) => {
-    selectedAvatar.value = n
-    fileName.value = `avatar-${n}.webp`
-    previewUrl.value = `/assets/avatars/avatar-${n}.webp`
+const avatarUrl = (avatar) => `/assets/images/team/${avatar}`
+
+const selectPredefinedAvatar = (avatar) => {
+    selectedAvatar.value = avatar
+    fileName.value = avatar
+    previewUrl.value = avatarUrl(avatar)
     if (fileInput.value) {
         fileInput.value.value = ''
     }
@@ -57,7 +59,7 @@ const uploadImage = async () => {
     if (file) {
         formData.append('image', file)
     } else if (selectedAvatar.value) {
-        formData.append('avatar', `avatar-${selectedAvatar.value}.webp`)
+        formData.append('avatar', selectedAvatar.value)
     } else {
         messageKey.value = 'auth.image_required'
         messageType.value = 'error'
@@ -136,13 +138,13 @@ const uploadImage = async () => {
                     <label class="file-label">{{ $t('auth.photo.or_select_avatar', 'Or select an avatar') }}</label>
                     <div class="avatar-grid">
                         <div 
-                            v-for="n in 16" 
-                            :key="n" 
+                            v-for="avatar in predefinedAvatars" 
+                            :key="avatar" 
                             class="avatar-option" 
-                            :class="{ 'selected': selectedAvatar === n }"
-                            @click="selectPredefinedAvatar(n)"
+                            :class="{ 'selected': selectedAvatar === avatar }"
+                            @click="selectPredefinedAvatar(avatar)"
                         >
-                            <img :src="`/assets/avatars/avatar-${n}.webp`" :alt="`Avatar ${n}`" />
+                            <img :src="avatarUrl(avatar)" :alt="avatar" />
                         </div>
                     </div>
                 </div>

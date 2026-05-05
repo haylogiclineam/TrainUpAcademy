@@ -260,7 +260,7 @@
         "status_completed": "Одобрено",
         "status_rejected": "Отклонено",
         "no_withdrawals": "Заявок на вывод пока нет",
-        "platform_fees": "Комиссия платформы (20%)",
+        "platform_fees": "Комиссия платформы (30%)",
         "total_gross_earning": "Общий валовый доход",
         "my_balance": "Мой баланс"
     },

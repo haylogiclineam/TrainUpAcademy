@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import api from '../services/api.js';
 import { useI18n } from 'vue-i18n';
+import { getUserImageUrl } from '../utils/userImage.js'
 
 const { locale } = useI18n();
 const rating = ref(5);
@@ -12,10 +13,8 @@ const setRating = (star) => {
     rating.value = star;
 };
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
 const userImageUrl = (user) => {
-    if (!user?.image) return '/assets/images/auth/default-avatar.png';
-    return `${baseUrl}/storage/auth/${user.image}`;
+    return getUserImageUrl(user?.image);
 };
 
 const fetchComments = async () => {

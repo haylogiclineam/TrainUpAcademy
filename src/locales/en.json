@@ -260,7 +260,7 @@
         "status_completed": "Approved",
         "status_rejected": "Rejected",
         "no_withdrawals": "No withdrawal requests yet",
-        "platform_fees": "Platform Fees (20%)",
+        "platform_fees": "Platform Fees (30%)",
         "total_gross_earning": "Total Gross Earning",
         "my_balance": "My Balance"
     },

@@ -1,14 +1,13 @@
 <script setup>
 import {computed} from "vue";
 import {useAuthStore} from '/src/stores/auth.js';
+import { getUserImageUrl } from '../../utils/userImage.js'
 
 const auth = useAuthStore()
 auth.checkAuth()
 
 const userImage = computed(() => {
-    return auth.user?.image
-        ? `${import.meta.env.VITE_API_BASE_URL}/storage/auth/${auth.user.image}`
-        : null;
+    return getUserImageUrl(auth.user?.image);
 });
 
 const userName = computed(() => {

@@ -2,11 +2,11 @@
 import {ref, computed} from 'vue'
 import {useAuthStore} from '/src/stores/auth.js';
 import {useI18n} from 'vue-i18n';
+import { getUserImageUrl } from '../../../utils/userImage.js'
 
 import ChangePassword from "../../auth/Tabs/ChangePassword.vue";
 import Profile from "../../auth/Tabs/Profile.vue";
 import Photo from "../../auth/Tabs/Photo.vue";
-import Privacy from "../../auth/instructor/Tabs/Privacy.vue";
 import Notifications from "../../auth/Tabs/Notifications.vue";
 
 const { t } = useI18n()
@@ -15,7 +15,6 @@ const tabs = computed(() => [
     { name: 'profile', label: t('auth.settingsTabs.profile'), component: Profile },
     { name: 'photo', label: t('auth.settingsTabs.photo'), component: Photo },
     { name: 'change-password', label: t('auth.settingsTabs.changePassword'), component: ChangePassword },
-    { name: 'privacy', label: t('auth.settingsTabs.privacy'), component: Privacy },
     { name: 'notifications', label: t('auth.settingsTabs.notifications'), component: Notifications },
 ])
 
@@ -30,9 +29,7 @@ const auth = useAuthStore()
 auth.checkAuth()
 
 const userImage = computed(() => {
-    return auth.user?.image
-        ? `${import.meta.env.VITE_API_BASE_URL}/storage/auth/${auth.user.image}`
-        : null;
+    return getUserImageUrl(auth.user?.image);
 });
 
 const userName = computed(() => {

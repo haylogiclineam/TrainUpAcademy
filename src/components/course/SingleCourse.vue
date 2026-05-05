@@ -348,6 +348,7 @@ watch(() => course.value?.id, (newId, oldId) => {
             <div v-else class="single-course-block flex-wrap d-flex justify-content-between">
                 <div class="course-content">
                     <div class="course-title">
+                        <p class="category-badge">{{ getLocalizedField(course.category, 'name') }}</p>
                         <h2 class="text-capitalize">{{ $t('single_course.description') }}</h2>
                         <div v-html="getLocalizedField(course, 'description')"></div>
                     </div>
