@@ -1,7 +1,9 @@
 import axios from 'axios'
 
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'https://api.trainup.academy'
+
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL,
+    baseURL,
 })
 
 api.interceptors.request.use(

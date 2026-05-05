@@ -16,13 +16,13 @@ app.use(pinia);
 
 const auth = useAuthStore()
 
+app.use(router)
+app.use(i18n)
+
 async function bootstrap() {
     await auth.checkAuth()
     app.mount('#app')
 }
 
-app.use(router)
-app.use(i18n)
-
-app.mount('#app')
+bootstrap()
 
