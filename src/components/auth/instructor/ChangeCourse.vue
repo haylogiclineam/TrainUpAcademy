@@ -79,6 +79,7 @@ const form = ref({
 
 
 const showRu = ref(false);
+const showEn = ref(false);
 const showArm = ref(true);
 
 const resetForm = () => {
@@ -629,6 +630,11 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
                                 </div>
 
                                 <div class="d-flex gap-2">
+                                    <input class="checkbox-custom" type="checkbox" id="addEn" v-model="showEn"/>
+                                    <label for="addEn" class="check-en">{{ $t('auth.add_course.english') }}</label>
+                                </div>
+
+                                <div class="d-flex gap-2">
                                     <input class="checkbox-custom" type="checkbox" id="addArm" v-model="showArm"/>
                                     <label for="addArm" class="check-arm">{{ $t('auth.add_course.armenian') }}</label>
                                 </div>
@@ -637,7 +643,7 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}
 
                         <form class="form">
                             <!-- ENGLISH -->
-                            <div>
+                            <div v-if="showEn">
                                 <h5 class="title-translation">{{ $t('auth.add_course.title_en') }}</h5>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
