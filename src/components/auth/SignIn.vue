@@ -34,10 +34,10 @@ const handleSubmit = async () => {
     try {
         const response = await api.post('/api/login', form.value);
 
-        const { token, user } = response.data;
+        const { token, user, role } = response.data;
 
         // auth.login(token, user);
-        await auth.login(token, user);
+        await auth.login(token, user, role);
 
         successMessage.value = 'auth.login_success';
 
@@ -47,9 +47,9 @@ const handleSubmit = async () => {
         };
 
         // await router.push({ name: 'home' });
-        if (auth.user.role === 'instructor') {
+        if (auth.userRole === 'instructor') {
             await router.replace('/instructor/my-courses');
-        } else if (auth.user.role === 'learner') {
+        } else if (auth.userRole === 'learner') {
             await router.replace('/learner/my-learning');
         } else {
             await router.replace('/');

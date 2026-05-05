@@ -15,6 +15,15 @@ export const useAuthStore = defineStore('auth', {
         userRole: (state) => state.user?.role || null,
     },
     actions: {
+        normalizeUser(user, role = null) {
+            const normalizedRole = user?.role || (Array.isArray(role) ? role[0] : role)
+
+            return user ? {
+                ...user,
+                role: normalizedRole || null,
+            } : null
+        },
+
         async checkAuth() {
             const token = localStorage.getItem('token')
 
@@ -32,7 +41,7 @@ export const useAuthStore = defineStore('auth', {
             }
         },
 
-        async login(token) {
+        async login(token, user = null, role = null) {
             localStorage.setItem('token', token)
 
             this.token = token
@@ -40,7 +49,11 @@ export const useAuthStore = defineStore('auth', {
             this.isLoading = true
 
             try {
-                await this.fetchUserData()
+                if (user) {
+                    this.user = this.normalizeUser(user, role)
+                } else {
+                    await this.fetchUserData()
+                }
                 this.userLoaded = true
             } finally {
                 this.isLoading = false
@@ -50,7 +63,7 @@ export const useAuthStore = defineStore('auth', {
         async fetchUserData() {
             try {
                 const response = await api.get('/api/user/profile')
-                this.user = response.data.user
+                this.user = this.normalizeUser(response.data.user, response.data.role)
             } catch (error) {
                 console.error('Failed to fetch user data:', error)
 
