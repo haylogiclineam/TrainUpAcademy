@@ -153,7 +153,8 @@ const fetchCourses = async (page = 1, search = "") => {
     try {
         const url = `/api/all-courses-general?page=${page}` + (search ? `&search=${encodeURIComponent(search)}` : "");
         const response = await api.get(url);
-        courses.value = response.data.data || response.data;
+        const responseCourses = response.data.data || response.data.courses || response.data;
+        courses.value = Array.isArray(responseCourses) ? responseCourses : [];
         currentPage.value = response.data.current_page || 1;
         totalPages.value = response.data.last_page || 1;
     } catch (error) {
@@ -206,11 +207,15 @@ const fetchAllCoursesForSlider = async () => {
     try {
         const response = await api.get(`/api/all-courses-general?page=1`)
         const totalPages = response.data.last_page || 1
-        const allCourses = [...response.data.data]
+        const firstPageCourses = response.data.data || response.data.courses || response.data
+        const allCourses = Array.isArray(firstPageCourses) ? [...firstPageCourses] : []
 
         for (let page = 2; page <= totalPages; page++) {
             const res = await api.get(`/api/all-courses-general?page=${page}`)
-            allCourses.push(...res.data.data)
+            const pageCourses = res.data.data || res.data.courses || res.data
+            if (Array.isArray(pageCourses)) {
+                allCourses.push(...pageCourses)
+            }
         }
 
         courses.value = allCourses

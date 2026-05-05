@@ -34,7 +34,8 @@ const fetchBlogs = async (page = 1) => {
     loading.value = true;
     try {
         const response = await api.get(`/api/blogs?page=${page}`);
-        blogItems.value = response.data.data;
+        const responseBlogs = response.data.data || response.data.blogs || response.data;
+        blogItems.value = Array.isArray(responseBlogs) ? responseBlogs : [];
         currentPage.value = response.data.current_page;
         lastPage.value = response.data.last_page;
 
@@ -52,7 +53,8 @@ const fetchFirstThreeBlogs = async () => {
     loading.value = true;
     try {
         const response = await api.get('/api/blogs?page=1');
-        firstThreeBlogs.value = response.data.data.slice(0, 3);
+        const responseBlogs = response.data.data || response.data.blogs || response.data;
+        firstThreeBlogs.value = Array.isArray(responseBlogs) ? responseBlogs.slice(0, 3) : [];
     } catch (error) {
         console.error("Error fetching first three blogs", error);
     } finally {

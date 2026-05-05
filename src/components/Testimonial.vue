@@ -13,12 +13,17 @@ const setRating = (star) => {
 };
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const userImageUrl = (user) => {
+    if (!user?.image) return '/assets/images/auth/default-avatar.png';
+    return `${baseUrl}/storage/auth/${user.image}`;
+};
 
 const fetchComments = async () => {
     loading.value = true;
     try {
         const response = await api.get('/api/latest-learner-comments');
-        comments.value = response.data;
+        const responseComments = response.data.data || response.data.comments || response.data;
+        comments.value = Array.isArray(responseComments) ? responseComments : [];
     } catch (error) {
         console.error('Error fetching comments', error);
     }finally {
@@ -111,13 +116,13 @@ onMounted(fetchComments);
                             <div class="client-info d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center justify-content-between name-img-block">
                                     <div class="img">
-                                        <img :src="`${baseUrl}/storage/auth/${comment.user.image}`"
+                                        <img :src="userImageUrl(comment.user)"
                                              alt="userImage"/>
                                     </div>
                                     <div class="name-block">
-                                        <p class="text-capitalize">{{ comment.user.first_name }}</p>
+                                        <p class="text-capitalize">{{ comment.user?.first_name || '' }}</p>
                                         <span class="text-capitalize">{{
-                                                $t(`auth.roles.${comment.user.roles[0]?.name}`)
+                                                $t(`auth.roles.${comment.user?.roles?.[0]?.name || 'learner'}`)
                                             }} </span>
                                     </div>
                                 </div>
