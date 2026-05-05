@@ -381,7 +381,7 @@ watch(() => course.value?.id, (newId, oldId) => {
                                 @contextmenu.prevent
                         ></video>
                         <img v-if="!isPurchased(course?.id) && !isInstructor || showPlayIcon"
-                                :src="course ? `${baseUrl}/storage/${course.thumbnail}` : ''"
+                                :src="course ? `${baseUrl}${course.thumbnail}` : ''"
                                 alt="Course Thumbnail"
                                 class="course-thumbnail course-img"
                         />
@@ -461,7 +461,7 @@ watch(() => course.value?.id, (newId, oldId) => {
                             >
                                 <div class="comment-info d-flex gap-3 align-items-center">
                                     <div class="student-img">
-                                        <img :src="`${baseUrl}/storage/auth/${comment.user.image}`"
+                                        <img :src="`${baseUrl}${comment.user.image}`"
                                              alt="userImage"/>
                                     </div>
                                     <div class="student-name">
@@ -505,7 +505,7 @@ watch(() => course.value?.id, (newId, oldId) => {
                             >
                                 <div class="comment-info d-flex gap-3 align-items-center">
                                     <div class="student-img">
-                                        <img :src="`${baseUrl}/storage/auth/${comment.user.image}`" alt="userImage"/>
+                                        <img :src="`${baseUrl}${comment.user.image}`" alt="userImage"/>
                                     </div>
                                     <div class="student-name">
                                         <p class="m-0">{{ comment.user?.first_name }} {{ comment.user?.last_name }}</p>
@@ -572,7 +572,7 @@ watch(() => course.value?.id, (newId, oldId) => {
                             <div class="card-footer-custom">
                                 <div class="tutor-info d-flex" v-if="course && course.user">
                                     <div class="tutor-img">
-                                        <img :src="`${baseUrl}/storage/auth/${course.user.image}`"
+                                        <img :src="`${baseUrl}${course.user.image}`"
                                              alt="userImage"/>
                                     </div>
                                     <div class="tutor-name">
