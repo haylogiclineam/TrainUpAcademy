@@ -8,7 +8,7 @@ const purchasedCourses = ref([]);
 const wishlistCourses = ref([]);
 const cartCourses = ref([]);
 const loading = ref(true);
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://api.trainup.academy';
 
 const currencySymbols = { AMD: "֏", EUR: "€", USD: "$" };
 

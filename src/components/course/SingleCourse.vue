@@ -149,7 +149,7 @@ const userRole = computed(() => {
 
 const isInstructor = computed(() => userRole.value === 'instructor');
 const isLearner = computed(() => userRole.value === 'learner');
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://api.trainup.academy';
 
 const formatRelativeTime = (dateStr) => {
     const now = new Date();

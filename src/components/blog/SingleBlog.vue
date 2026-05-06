@@ -32,7 +32,7 @@ watch(() => route.params.id, (newId) => {
     fetchBlog(newId);
 });
 
-const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL}/storage/${path}`;
+const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL || 'https://api.trainup.academy'}/storage/${path}`;
 </script>
 
 

@@ -23,7 +23,7 @@ onMounted(async () => {
 
     try {
         // Forward to backend callback endpoint which handles verification
-        const backendUrl = import.meta.env.VITE_API_BASE_URL
+        const backendUrl = import.meta.env.VITE_API_BASE_URL || 'https://api.trainup.academy'
         const callbackUrl = `${backendUrl}/api/payments/callback?orderID=${encodeURIComponent(orderID)}&responseCode=${encodeURIComponent(responseCode)}&paymentID=${encodeURIComponent(paymentID)}`
 
         // The backend callback will redirect us to /payment/result

@@ -43,7 +43,7 @@ const goToPage = (page) => {
     }
 };
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://api.trainup.academy';
 </script>
 
 <template>

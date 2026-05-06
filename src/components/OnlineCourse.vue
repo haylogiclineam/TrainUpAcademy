@@ -68,7 +68,7 @@ const itemContentClass = computed(() =>
 );
 
 const likedCourses = ref([]);
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://api.trainup.academy';
 
 const { wishlistCount, loadWishlistCount } = useWishlistCount();
 

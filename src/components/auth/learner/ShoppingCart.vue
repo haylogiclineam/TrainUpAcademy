@@ -18,7 +18,7 @@ const totalPages = ref(1);
 const cartCourses = ref([]);
 const totalCartCount = ref(0);
 const loading = ref(false);
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://api.trainup.academy';
 
 const currencySymbols = { AMD: "֏",   EUR: "€", USD: "$" };
 const likedCourses = ref([]);

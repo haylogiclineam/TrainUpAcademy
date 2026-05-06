@@ -23,7 +23,7 @@ const videos = ref(null)
 
 const videoRefs = ref([])
 const showPlayIcons = ref([])
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://api.trainup.academy';
 
 onMounted(() => {
     const queryPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;

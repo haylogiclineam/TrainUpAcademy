@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 const { locale } = useI18n();
 const courses = ref([]);
 const loading = ref(true);
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://api.trainup.academy';
 
 function getLocalizedTitle(course) {
     const loc = locale.value;

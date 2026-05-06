@@ -91,7 +91,7 @@ const { locale, t } = useI18n()
 
 // Course data from API
 const course = ref(null)
-const baseUrl = import.meta.env.VITE_API_BASE_URL
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://api.trainup.academy'
 
 const currencySymbols = { AMD: '֏', EUR: '€', USD: '$' }
 

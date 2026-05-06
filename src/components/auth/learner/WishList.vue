@@ -20,7 +20,7 @@ const totalPages = ref(1);
 const courses = ref([]);
 const loading = ref(false);
 const likedCourses = ref([]);
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://api.trainup.academy';
 
 const debounceTimeout = ref(null);
 
