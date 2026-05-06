@@ -373,6 +373,7 @@ watch(() => course.value?.id, (newId, oldId) => {
                                 v-if="isPurchased(course?.id) || isInstructor"
                                 ref="courseVideo"
                                 :src="course ? `${baseUrl}/api/stream-video/${course.id}?token=${auth.token}` : ''"
+                                :poster="course ? `${baseUrl}/storage/${course.thumbnail}` : ''"
                                 class="course-video w-100 h-100"
                                 controls
                                 controlsList="nodownload"
@@ -380,7 +381,7 @@ watch(() => course.value?.id, (newId, oldId) => {
                                 @play="onPlay"
                                 @contextmenu.prevent
                         ></video>
-                        <img v-if="!isPurchased(course?.id) && !isInstructor || showPlayIcon"
+                        <img v-if="!isPurchased(course?.id) && !isInstructor"
                                 :src="course ? `${baseUrl}/storage/${course.thumbnail}` : ''"
                                 alt="Course Thumbnail"
                                 class="course-thumbnail course-img"
@@ -712,6 +713,29 @@ watch(() => course.value?.id, (newId, oldId) => {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: relative;
+    z-index: 1;
+}
+
+.course-video {
+    position: relative;
+    z-index: 1;
+}
+
+.play-icon-div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.play-icon-div svg {
+    pointer-events: auto;
 }
 
 .course-detail svg path {
