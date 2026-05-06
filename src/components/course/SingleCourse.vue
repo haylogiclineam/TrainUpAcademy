@@ -381,7 +381,7 @@ watch(() => course.value?.id, (newId, oldId) => {
                                 @contextmenu.prevent
                         ></video>
                         <img v-if="!isPurchased(course?.id) && !isInstructor || showPlayIcon"
-                                :src="course ? `${baseUrl}${course.thumbnail}` : ''"
+                                :src="course ? `${baseUrl}/storage/${course.thumbnail}` : ''"
                                 alt="Course Thumbnail"
                                 class="course-thumbnail course-img"
                         />
