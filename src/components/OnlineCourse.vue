@@ -373,7 +373,7 @@ onMounted(async () => {
                                         <div class="course-learn-more-btn-div d-flex justify-content-center align-items-center">
                                             <RouterLink :to="`/single-course/${course.id}`" custom v-slot="{ navigate }">
                                                 <button @click="navigate" class="course-learn-more-btn text-capitalize">
-               ё                                     {{ $t('learn_more') }}
+                                                    {{ $t('learn_more') }}
                                                 </button>
                                             </RouterLink>
                                         </div>
