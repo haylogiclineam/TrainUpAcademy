@@ -367,12 +367,13 @@ onMounted(async () => {
                                     <div class="content">
                                         <h1 class="text-capitalize">{{ getLocalizedField(course, 'title') }}</h1>
                                         <p class="clamped-description">{{ getLocalizedField(course, 'description')?.replace(/<[^>]*>?/gm, '') }}</p>
+                                        <p class="category-badge">{{ getLocalizedField(course.category, 'name') }}</p>
                                     </div>
                                     <div class="d-flex justify-content-between gap-3 all-btn-block">
                                         <div class="course-learn-more-btn-div d-flex justify-content-center align-items-center">
                                             <RouterLink :to="`/single-course/${course.id}`" custom v-slot="{ navigate }">
                                                 <button @click="navigate" class="course-learn-more-btn text-capitalize">
-                                                    {{ $t('learn_more') }}
+               ё                                     {{ $t('learn_more') }}
                                                 </button>
                                             </RouterLink>
                                         </div>
@@ -455,6 +456,7 @@ onMounted(async () => {
                             <div class="content">
                                 <h1 class="text-capitalize">{{ getLocalizedField(course, 'title') }}</h1>
                                 <p class="clamped-description">{{ getLocalizedField(course, 'description')?.replace(/<[^>]*>?/gm, '') }}</p>
+                                <p class="category-badge">{{ getLocalizedField(course.category, 'name') }}</p>
                             </div>
                             <div class="d-flex justify-content-between gap-3 all-btn-block">
                                 <div class="course-learn-more-btn-div d-flex justify-content-center align-items-center">
