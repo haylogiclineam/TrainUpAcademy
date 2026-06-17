@@ -30,7 +30,7 @@ const imageUrl = (path) => `${import.meta.env.VITE_API_BASE_URL || 'https://api.
 </script>
 
 <template>
-    <div class="team-section">
+    <div v-if="false" class="team-section">
         <div class="container">
             <div class="d-flex flex-column justify-content-center align-items-center position-relative team-main">
                 <div class="team-title">

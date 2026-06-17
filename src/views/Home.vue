@@ -7,8 +7,6 @@ import WhyChooseUs from "../components/WhyChooseUs.vue";
 import Testimonial from "../components/Testimonial.vue";
 import BookCall from "../components/BookCall.vue";
 import FAQ from "../components/FAQ.vue";
-import Bootcamp from "../components/Bootcamp.vue";
-import Pricing from "../components/Pricing.vue";
 import BlogArticle from "../components/BlogArticle.vue";
 import Footer from "../components/Footer.vue";
 </script>
@@ -16,8 +14,6 @@ import Footer from "../components/Footer.vue";
 <template>
     <Header></Header>
     <OnlineCourse></OnlineCourse>
-    <Bootcamp></Bootcamp>
-    <Pricing></Pricing>
     <Testimonial></Testimonial>
     <BlogArticle></BlogArticle>
     <BookCall></BookCall>
